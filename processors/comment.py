@@ -4,7 +4,7 @@ from markdown.util import etree
 import re
 
 class CommentPreprocessor(Preprocessor):
-    p = re.compile('{comment [^}]+\}')
+    p = re.compile('{comment ((?!end)|end)[^}]+\}')
 
     def run(self, lines):
         for i, line in enumerate(lines):
@@ -20,5 +20,5 @@ class CommentBlockProcessor(BlockProcessor):
 
     def run(self, parent, blocks):
         block = blocks.pop(0)
-        while self.p_end.match(block) is None and len(blocks) > 0:
+        while self.p_end.search(block) is None and len(blocks) > 0:
             block = blocks.pop(0)
