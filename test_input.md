@@ -239,7 +239,9 @@ If the interactive does not run properly on your computer you can use a set of p
 {interactive name="sorting-algorithms" type="whole-page" text="Scales interactive"}
 
 {comment}
+
 TODO: link back to the unplugged activity
+
 {comment end}
 
 ### Selection Sort

@@ -1,4 +1,12 @@
 import re
+from markdown.util import etree
+
+CENTERED_HTML = """
+<div class='row'>
+  <div content='' class='content col s12 m{width} offset-m{offset_width} center-align'>
+  </div>
+</div>
+"""
 
 def parse_argument(argument_key, arguments):
     """Search for the given argument in a string of all arguments
@@ -15,3 +23,10 @@ def from_kebab_case(text):
     Text is camel case, with dashs replaced with spaces
     """
     return text.replace('-', ' ').title()
+
+def centre_html(node, width):
+    """Wraps the given node with HTML to centre using the given number of columns"""
+    offset_width = (12 - width) // 2
+    root = etree.fromstring(CENTERED_HTML.format(width=width, offset_width=offset_width))
+    root.find(".//div[@content]").append(node)
+    return root
