@@ -1,7 +1,7 @@
 from markdown.preprocessors import Preprocessor
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
-from processors import utils
+import kordac.processors.utils as utils
 import re
 import sys
 
