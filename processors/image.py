@@ -4,18 +4,16 @@ from processors.utils import parse_argument, centre_html
 from markdown.util import etree
 
 IMAGE_TEMPLATE ="""
-<a href="{image_source}" data-featherlight="image" data-featherlight-close-on-click="anywhere">
-  <img src='{image_source}' class='responsive-img'/>
+<a href="{{% static 'main/images/{filename}' %}}" data-featherlight="image" data-featherlight-close-on-click="anywhere">
+  <img src="{{% static 'main/images/{filename}' %}}" class='responsive-img'/>
 </a>"""
-
-IMAGE_ROOT = "images/"
 
 class ImageBlockProcessor(BlockProcessor):
     p = re.compile('^\{image (?P<args>[^\}]*)\}')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.filenames = set()
+        self.required = ext.required_files.setdefault("images", [])
 
     def test(self, parent, block):
         return self.p.match(block) is not None
@@ -25,6 +23,7 @@ class ImageBlockProcessor(BlockProcessor):
         arguments = match.group('args')
         filename = parse_argument('filename', arguments)
         if filename:
-            html = IMAGE_TEMPLATE.format(image_source=IMAGE_ROOT + filename)
+            html = IMAGE_TEMPLATE.format(filename=filename)
+            tree = etree.fromstring(html)
             parent.append(centre_html(etree.fromstring(html), 8))
-            self.filenames.add(filename)
+            self.required.append(filename)

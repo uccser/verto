@@ -2,24 +2,16 @@ from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 import re
 
-
-PAGE_HEADING = """
-<div class='z-depth-0 page-title-header'>
-  <div class='container'>
-  </div>
-</div>
-"""
-
 class NumberedHashHeaderProcessor(BlockProcessor):
     """ Process Hash Headers. """
 
     # Detect a header at start of any line in block
     RE = re.compile(r'(^|\n)(?P<level>#{1,6})(?P<header>.*?)#*(\n|$)')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.number_generator = NumberGenerator()
-        self.page_heading = None
+        self.ext = ext
 
     def test(self, parent, block):
         return bool(self.RE.search(block))
@@ -37,9 +29,9 @@ class NumberedHashHeaderProcessor(BlockProcessor):
                 self.parser.parseBlocks(parent, [before])
             # Create header using named groups from RE
             level = len(m.group('level'))
-
-            if not self.page_heading:
-                self.page_heading = m.group('header').strip()
+            heading = m.group('header').strip()
+            if not self.ext.page_heading:
+                self.ext.page_heading = heading
                 parent = etree.SubElement(parent, 'div', attrib={'class': 'z-depth-0 page-title-header'})
                 parent = etree.SubElement(parent, 'div', attrib={'class': 'container'})
 
@@ -47,7 +39,7 @@ class NumberedHashHeaderProcessor(BlockProcessor):
             h = etree.SubElement(parent, 'h{}'.format(level), attrib={'class':'section-heading anchor-link'})
             span = etree.SubElement(h, 'span', attrib={'class':'section_number'})
             span.text = '{{{{ chapter.number }}}}.{}'.format(number)
-            span.tail = ' ' + m.group('header').strip()
+            span.tail = ' ' + heading
 
             if after:
                 # Insert remaining lines as first block for future parsing.

@@ -24,6 +24,16 @@ def from_kebab_case(text):
     """
     return text.replace('-', ' ').title()
 
+def to_kebab_case(text):
+    """Returns the given text as kebab case.
+    The text is lower case, has spaces replaced as dashes.
+    All punctuation is also removed.
+    """
+    text = ''.join(letter for letter in text if letter in set(string.ascii_letters + string.digits + ' -'))
+    text = text.replace(' ', '-').lower()
+    return text
+
+
 def centre_html(node, width):
     """Wraps the given node with HTML to centre using the given number of columns"""
     offset_width = (12 - width) // 2

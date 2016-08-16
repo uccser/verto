@@ -350,6 +350,8 @@ The algorithms introduced in this chapter aren't even necessarily the best for a
 
 In this chapter we have only talked about the number of comparisons an algorithm makes, and the amount of time a program takes to complete as 'costs' of algorithms. There are actually many other ways of measuring the cost of an algorithm. These include the amount of memory the algorithm uses and its computational complexity. Computer Scientists use 'Big O notation' to more accurately describe the performance or complexity of an algorithm, and you are likely to come across this notation very quickly when investigating the performance of algorithms. It characterises the resources needed by an algorithm and is usually applied to the execution time required, or sometimes the space used by the algorithm.
 
+$n^2$
+
 {panel type="extra-for-experts" summary="Examples of Big O notation"}
 Here are some Big O examples:
 
