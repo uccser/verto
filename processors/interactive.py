@@ -14,7 +14,7 @@ class InteractiveBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.scripts = ext.page_scripts
-        self.required = ext.required_files.setdefault("interactive", [])
+        self.required = ext.required_files["interactives"]
 
     def test(self, parent, block):
         return self.p.match(block) is not None
@@ -31,7 +31,7 @@ class InteractiveBlockProcessor(BlockProcessor):
                 self.generate_iframe_interactive(name, parent)
             elif interactive_type == 'whole-page':
                 self.generate_wholepage_interactive(name, parent)
-        self.required.append(name)
+        self.required.add(name)
 
     def generate_inpage_interactive(self, iname, parent):
         sibling = self.lastChild(parent)

@@ -8,15 +8,17 @@ from processors.interactive import *
 from processors.heading import *
 from processors.django import *
 
+from collections import defaultdict
+
 class CSFGExtension(Extension):
     def __init__(self, *args, **kwargs):
         self.page_scripts = []
-        self.required_files = {}
+        self.required_files = defaultdict(set)
         self.page_heading = None
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-        md.registerExtension(self)
+        # md.registerExtension(self)
 
         # self.imageprocessor = ImageBlockProcessor(md.parser)
         # pagescripts = []

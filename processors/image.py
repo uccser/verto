@@ -13,7 +13,7 @@ class ImageBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.required = ext.required_files.setdefault("images", [])
+        self.required = ext.required_files["images"]
 
     def test(self, parent, block):
         return self.p.match(block) is not None
@@ -26,4 +26,4 @@ class ImageBlockProcessor(BlockProcessor):
             html = IMAGE_TEMPLATE.format(filename=filename)
             tree = etree.fromstring(html)
             parent.append(centre_html(etree.fromstring(html), 8))
-            self.required.append(filename)
+            self.required.add(filename)
