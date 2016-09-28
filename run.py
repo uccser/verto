@@ -15,7 +15,7 @@ def main():
                 mdx_math.MathExtension(enable_dollar_delimiter=True),
                 ext])
 
-        with open("output/{}.html".format(chapter), 'w') as f:
+        with open("output/{}.html".format(chapter), 'w', encoding='utf8') as f:
             f.write(html)
 
 if __name__ == "__main__":
