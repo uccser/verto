@@ -1,6 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 import re
-from kordac.processors.utils import parse_argument, centre_html
+from processors.utils import parse_argument, centre_html
 from markdown.util import etree
 
 YOUTUBE_SRC = "http://www.youtube.com/embed/{0}?rel=0"

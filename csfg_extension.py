@@ -1,13 +1,12 @@
 from markdown.extensions import Extension
 
-import kordac.processors.panel
-from kordac.processors.panel import *
-from kordac.processors.comment import *
-from kordac.processors.video import *
-from kordac.processors.image import *
-from kordac.processors.interactive import *
-from kordac.processors.heading import *
-from kordac.processors.django import *
+from processors.panel import *
+from processors.comment import *
+from processors.video import *
+from processors.image import *
+from processors.interactive import *
+from processors.heading import *
+from processors.django import *
 
 from collections import defaultdict
 
