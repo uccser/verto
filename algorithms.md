@@ -239,7 +239,9 @@ If the interactive does not run properly on your computer you can use a set of p
 {interactive name="sorting-algorithms" type="whole-page" text="Scales interactive"}
 
 {comment}
+
 TODO: link back to the unplugged activity
+
 {comment end}
 
 ### Selection Sort
@@ -254,9 +256,9 @@ If you record how many comparisons you had to make each time to find the next li
 
 {panel type="teacher-note" summary="Answer for box analysis"}
 For a list of 8 objects (like in the interactive) it should take 7 comparisons to find the lightest, 6 to find the next lightest, 5 to find the next, then 4, then 3, then 2, and then 1 to sort the final two boxes. In total this is 7+6+5+4+3+2+1 = 28 comparisons. If there had been 9 boxes it would have taken 8+7+6+5+4+3+2+1 = 36 comparisons. 20 boxes will take 190. Going from 1000 boxes up to 1001 will require 1000 extra comparisons, even though only 1 box has been added. Selection sort will always take
-{math}(n\times(n-1))/2{math end} comparisons to sort *n* items into order.
+$(n\times(n-1))/2$ comparisons to sort *n* items into order.
 
-For example: To calculate the number of comparisons required for 20 boxes, using {math}(n\times(n-1))/2{math end} where *n* = 20:
+For example: To calculate the number of comparisons required for 20 boxes, using $(n\times(n-1))/2$ where *n* = 20:
 
 (20*(20-1))/2
 
@@ -348,12 +350,16 @@ The algorithms introduced in this chapter aren't even necessarily the best for a
 
 In this chapter we have only talked about the number of comparisons an algorithm makes, and the amount of time a program takes to complete as 'costs' of algorithms. There are actually many other ways of measuring the cost of an algorithm. These include the amount of memory the algorithm uses and its computational complexity. Computer Scientists use 'Big O notation' to more accurately describe the performance or complexity of an algorithm, and you are likely to come across this notation very quickly when investigating the performance of algorithms. It characterises the resources needed by an algorithm and is usually applied to the execution time required, or sometimes the space used by the algorithm.
 
+$n^2$
+
 {panel type="extra-for-experts" summary="Examples of Big O notation"}
 Here are some Big O examples:
-- {math}O(1){math end} - An algorithm with {math}O(1){math end} complexity will always execute in the same amount of time regardless of how much data you give it to process. For example, finding the smallest value in a sorted list is always easy.
-- {math}O(n){math end} - The amount of time an algorithm with {math}O(n){math end} complexity will take to execute will increase roughly linearly with (i.e. in direct proportion to) the amount of data you give it to process. The high-score algorithm was {math}O(n){math end}, and so was the linear search.
-- {math}O(n^{2}){math end} - The performance of an algorithm with this complexity is roughly proportional to the square of the size of the input data set. Selection sort and insertion sort take {math}O(n^{2}){math end} time. That's not very good value - 10 times the amount of input will take 100 times as long!
-- {math}O(2^{n}){math end} - The amount of time an algorithm with this complexity will take to complete will double with each additional element added to the data set! We haven't seen these kinds of situations in this chapter, but they are common, and are a theme of the Complexity and Tractability chapter. Algorithms that are this slow can be almost impossible to use!
+
+- $O(1)$ - An algorithm with $O(1)$ complexity will always execute in the same amount of time regardless of how much data you give it to process. For example, finding the smallest value in a sorted list is always easy.
+- $O(n)$ - The amount of time an algorithm with $O(n)$ complexity will take to execute will increase roughly linearly with (i.e. in direct proportion to) the amount of data you give it to process. The high-score algorithm was $O(n)$, and so was the linear search.
+- $O(n^{2})$ - The performance of an algorithm with this complexity is roughly proportional to the square of the size of the input data set. Selection sort and insertion sort take $O(n^{2})$ time. That's not very good value - 10 times the amount of input will take 100 times as long!
+- $O(2^{n})$ - The amount of time an algorithm with this complexity will take to complete will double with each additional element added to the data set! We haven't seen these kinds of situations in this chapter, but they are common, and are a theme of the Complexity and Tractability chapter. Algorithms that are this slow can be almost impossible to use!
+
 {panel end}
 
 Big O Notation however requires some advanced mathematics to explore thoroughly so has been intentionally left out of this main chapter, but if you want to learn more check out the Useful Links section. These topics are looked at in more depth in the Complexity and Tractability chapter.
