@@ -1,6 +1,6 @@
 import markdown
 import mdx_math
-from csfg_extension import CSFGExtension
+from test import CSFGExtension
 
 def main():
     html = None

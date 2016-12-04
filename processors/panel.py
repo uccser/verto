@@ -44,6 +44,7 @@ class PanelBlockProcessor(BlockProcessor):
     def run(self, parent, blocks):
         block = blocks.pop(0)
         m_start = re.match("^\{panel ?(?P<args>[^\}]*)\}", block)
+        # print(block[m_start.end():])
         blocks.insert(0, block[m_start.end():])
         internal = []
         while len(blocks) > 0:
