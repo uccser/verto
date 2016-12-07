@@ -3,6 +3,7 @@ from markdown.util import etree
 import re
 import sys
 
+
 GLOSSARY_TEMPLATE = """
 <a href='../further-information/glossary.html#{word}' id='glossary-{occurance}' class='glossary-anchor-link glossary-link-back-reference'>{term}</a>
 """
@@ -13,6 +14,7 @@ GLOSSARY_TEMPLATE = """
 class GlossaryLinkBlockProcessor(BlockProcessor):
     p_start = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
     p_end = re.compile('\{glossary-link end\}')
+    occurance_counter = {'test': 1}
 
     def test(self, parent, block):
         return self.p_start.search(block) is not None
@@ -35,15 +37,27 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
         term = re.search(r'term="((\w+)| )*"', whole_glossary_string).group(1)
         term = term.lower()
 
+        # check if term has appeared previously
+        if term in self.occurance_counter:
+            # increment count
+            self.occurance_counter[term] += 1
+        else:
+            # add term to dictionary
+            self.occurance_counter[term] = 1
+
+        id_count = term + '-' + str(self.occurance_counter[term])
+
         # build whole sentence including glossary link
         html_string = '<p>'
         html_string += text_before_link
-        html_string += GLOSSARY_TEMPLATE.format(word=term, occurance=term+'-1', term=term) # hard coded occurance count
+        html_string += GLOSSARY_TEMPLATE.format(word=term, occurance=id_count, term=term)
         html_string += text_after_link
         html_string += '</p>'
 
         # adds the sentence to the DOM - I think?...
         node = etree.fromstring(html_string)
         parent.append(node)
+
+
 
 
