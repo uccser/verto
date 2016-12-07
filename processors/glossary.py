@@ -33,8 +33,8 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
         # get the string for the glossary link only
         whole_glossary_string = match.group()
 
-        # NTS only matches one word (i.e. binary search -> search)
-        term = re.search(r'term="((\w+)| )*"', whole_glossary_string).group(1)
+        term = re.search(r'term="(.*?)"', whole_glossary_string).group(1)
+        term = term.lower().replace(' ', '-')
         term = term.lower()
 
         # check if term has appeared previously
