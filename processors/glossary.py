@@ -4,30 +4,46 @@ import re
 import sys
 
 GLOSSARY_TEMPLATE = """
-<h{heading_level} class='section-heading anchor-link glossary-anchor-link{extra_classes}'><a href='{back_permalink}'>{term}</a></h{heading_level}>
+<a href='../further-information/glossary.html#{word}' id='glossary-{occurance}' class='glossary-anchor-link glossary-link-back-reference'>{term}</a>
 """
 # P_START = '^\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}'
 # P_START = '\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}'
 # P_END = '\{glossary-link end\}'
 
 class GlossaryLinkBlockProcessor(BlockProcessor):
-    p_start = re.compile('^\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
+    p_start = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
     p_end = re.compile('\{glossary-link end\}')
 
-
     def test(self, parent, block):
-        return self.p_start.match(block) is not None
+        return self.p_start.search(block) is not None
 
     def run(self, parent, blocks):
-        # f = open('blocks.txt', 'w')
-        # for line in blocks:
-            # f.write(line)
+
+        # block is a string containing the matched string as a substring
         block = blocks.pop(0)
-        print(block)
+        match = self.p_start.search(block) # match object
 
-        test_string = GLOSSARY_TEMPLATE.format(heading_level="1", extra_classes="", back_permalink="", term="test")
-        # print(test_string)
+        # get text before and after link
+        pattern_pos = match.span()
+        text_before_link = block[:pattern_pos[0]]
+        text_after_link = block[pattern_pos[1]:]
 
-        node = etree.fromstring(test_string)
+        # get the string for the glossary link only
+        whole_glossary_string = match.group()
+
+        # NTS only matches one word (i.e. binary search -> search)
+        term = re.search(r'term="((\w+)| )*"', whole_glossary_string).group(1)
+        term = term.lower()
+
+        # build whole sentence including glossary link
+        html_string = '<p>'
+        html_string += text_before_link
+        html_string += GLOSSARY_TEMPLATE.format(word=term, occurance=term+'-1', term=term) # hard coded occurance count
+        html_string += text_after_link
+        html_string += '</p>'
+
+        # adds the sentence to the DOM - I think?...
+        node = etree.fromstring(html_string)
         parent.append(node)
+
 
