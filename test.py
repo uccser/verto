@@ -15,6 +15,7 @@ class CSFGExtension(Extension):
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
+        print(md)
         # same as blpr['glossary'] = GLBP(md.parser)
         md.parser.blockprocessors.add('glossary', GlossaryLinkBlockProcessor(md.parser), "_begin")
         md.parser.blockprocessors.add('panel', PanelBlockProcessor(md.parser), ">ulist")
