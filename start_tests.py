@@ -1,25 +1,43 @@
 
 import unittest
 import markdown
+# import mdx_math
+
+# from processors.panel import *
+# from processors.comment import *
+# from processors.video import *
+# from processors.image import *
+# from processors.interactive import *
+# from processors.heading import *
+# from processors.django import *
+# from processors.glossary import *
+
+# from tests.glossary_tests import *
+# from glossary_tests import *
+
+from glossary_tests import *
 from markdown.extensions import Extension
+from csfg_extension import CSFGExtension
 
-from test import CSFGExtension
-
-from processors.glossary import *
-from processors.thing import *
-# from tests import glossary
-
-# {glossary-link term="binary search"}binary search{glossary-link end}
-
-class GlossaryLinkTest(unittest.TestCase):
-
-    def test_not_none(self):
-        md = markdown.Markdown()
-        # test_string = "this is a test string"
-        test_string = '{glossary-link term="binary search"}binary search{glossary-link end}'
-        print(GlossaryLinkBlockProcessor(md.parser).test(None, test_string))
-        assert GlossaryLinkBlockProcessor(md.parser).test(None, test_string) is not False
+from collections import defaultdict
 
 
-if __name__=='__main__':
-    unittest.main()
+TEST_FILES = ['algorithms']
+
+
+def suite():
+    # add all GlossayTests
+    suite = unittest.makeSuite(GlossaryLinkTest, 'test') # order of tests by cmp()
+    # suite.addTest(GlossaryLinkTest('test_match_true'))
+    # suite.addTest(GlossaryLinkTest('test_match_false'))
+    return suite
+
+
+
+if __name__ == '__main__':
+    runner = unittest.TextTestRunner()
+    test_suite = suite()
+    runner.run(test_suite)
+
+
+

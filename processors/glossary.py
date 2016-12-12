@@ -17,11 +17,10 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
     occurance_counter = {'test': 1}
 
     def test(self, parent, block):
-        print(parent)
         return self.p_start.search(block) is not None
 
     def run(self, parent, blocks):
-        print('parent:', parent)
+        # print('parent:', parent)
 
         # block is a string containing the matched string as a substring
         block = blocks.pop(0)
