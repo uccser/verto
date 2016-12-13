@@ -27,7 +27,7 @@ class CSFGExtension(Extension):
         # pagescripts = []
         # self.interactiveBlockProcessor = InteractiveBlockProcessor(pagescripts, md.parser)
 
-        # NTS have not thought too hard about what order these should be inserted in
+        # TODO compare to regex list in existing CSFG Generator for order
         md.parser.blockprocessors.add('panel', PanelBlockProcessor(md.parser), ">ulist")
         md.parser.blockprocessors['hashheader'] = NumberedHashHeaderProcessor(self, md.parser) # format of this one doesn't match the others?
         md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")

@@ -1,28 +1,18 @@
 
 import unittest
 import markdown
-# import mdx_math
-
-# from processors.panel import *
-# from processors.comment import *
-# from processors.video import *
-# from processors.image import *
-# from processors.interactive import *
-# from processors.heading import *
-# from processors.django import *
-# from processors.glossary import *
-
-# from tests.glossary_tests import *
-# from glossary_tests import *
-
-from glossary_tests import *
 from markdown.extensions import Extension
-from csfg_extension import CSFGExtension
-
 from collections import defaultdict
 
+from tests.glossary_tests import *
 
-TEST_FILES = ['algorithms']
+
+class BaseTestCase(unittest.TestCase):
+    """
+    Base test
+    """
+    # could create the md instance here?
+    pass
 
 
 def suite():
