@@ -1,4 +1,3 @@
-
 import unittest
 import markdown
 from markdown.extensions import Extension
