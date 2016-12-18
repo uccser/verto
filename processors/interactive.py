@@ -9,7 +9,7 @@ import re
 import os
 
 class InteractiveBlockProcessor(BlockProcessor):
-    p = re.compile('^\{interactive ?(?P<args>[^\}]*)\}$')
+    RE = re.compile('^\{interactive ?(?P<args>[^\}]*)\}$')
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,10 +17,10 @@ class InteractiveBlockProcessor(BlockProcessor):
         self.required = ext.required_files["interactives"]
 
     def test(self, parent, block):
-        return self.p.match(block) is not None
+        return self.RE.match(block) is not None
 
     def run(self, parent, blocks):
-        match = self.p.match(blocks.pop(0))
+        match = self.RE.match(blocks.pop(0))
         arguments = match.group('args')
         name = parse_argument('name', arguments)
         interactive_type = parse_argument('type', arguments)
