@@ -1,3 +1,7 @@
+{% extends "main/index.html" %}
+{% load static %}
+
+{% block content %}
 <div class="clearfix">
 <ul class="collapsible panel" data-collapsible="accordion">
 <li class="panel-selector panel-extra-for-experts">
@@ -17,3 +21,8 @@ in the <a href="chapters/algorithms.html#the-whole-story">"The whole story!"</a>
 </li>
 </ul>
 </div>
+{% endblock %}
+
+{% block page-scripts %}
+
+{% endblock %}

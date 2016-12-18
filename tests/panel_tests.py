@@ -24,7 +24,19 @@ class PanelTest(unittest.TestCase):
         pass
 
     def test_match_true(self):
+        test_string = open(self.test_file_path.format('test1')).read()
+        self.assertTrue(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
         pass
+
+    def testCorrectlyParsed(self):
+        pass
+        test_string = open(self.test_file_path.format('test1')).read()
+        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
+        # save to file - NTS is this a bit redundant?
+        open(self.generated_file_path.format('test1_generated'), 'w').write(converted_test_string)
+        generated_file_string = open(self.generated_file_path.format('test1_generated')).read()
+        expected_file_string = open(self.expected_file_path.format('test1_expected')).read()
+        self.assertEqual(generated_file_string, expected_file_string)
 
     def tearDown(self):
         self.md = None
