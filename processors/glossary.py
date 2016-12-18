@@ -13,14 +13,12 @@ GLOSSARY_TEMPLATE = """
 
 class GlossaryLinkBlockProcessor(BlockProcessor):
     p_start = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
-    p_end = re.compile('\{glossary-link end\}')
     occurance_counter = {'test': 1}
 
     def test(self, parent, block):
         return self.p_start.search(block) is not None
 
     def run(self, parent, blocks):
-        # print('parent:', parent)
 
         # block is a string containing the matched string as a substring
         block = blocks.pop(0)
@@ -33,17 +31,13 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
 
         # get the string for the glossary link only
         whole_glossary_string = match.group()
-
         term = re.search(r'term="(.*?)"', whole_glossary_string).group(1)
         term = term.lower().replace(' ', '-')
-        term = term.lower()
 
         # check if term has appeared previously
         if term in self.occurance_counter:
-            # increment count
             self.occurance_counter[term] += 1
         else:
-            # add term to dictionary
             self.occurance_counter[term] = 1
 
         id_count = term + '-' + str(self.occurance_counter[term])

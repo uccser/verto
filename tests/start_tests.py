@@ -15,8 +15,12 @@ class BaseTestCase(unittest.TestCase):
 
 
 def suite():
-    # add all GlossayTests
+    # add all glossay link tests
     suite = unittest.makeSuite(GlossaryLinkTest, 'test') # order of tests by cmp()
+    # add all panel tests
+    suite = unittest.makeSuite(PanelTest, 'test')
+
+    # NTS to add each test individually
     # suite.addTest(GlossaryLinkTest('test_match_true'))
     # suite.addTest(GlossaryLinkTest('test_match_false'))
     return suite
