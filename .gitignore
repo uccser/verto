@@ -1,6 +1,3 @@
-# Project specific
-output/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -90,6 +87,3 @@ ENV/
 
 # Rope project settings
 .ropeproject
-
-# vim swap files
-*.swp
