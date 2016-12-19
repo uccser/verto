@@ -25,18 +25,45 @@ class PanelTest(unittest.TestCase):
         pass
 
     def test_match_true(self):
-        test_string = open(self.test_file_path.format('test1')).read()
+        test_string = open(self.test_file_path.format('basic')).read()
         self.assertTrue(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
         pass
 
-    def testCorrectlyParsed(self):
-        test_string = open(self.test_file_path.format('test1')).read()
+    def test_parses_no_blank_lines_single_paragraph(self):
+        test_string = open(self.test_file_path.format('external_links')).read()
         converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
         # save to file - NTS is this a bit redundant?
-        open(self.generated_file_path.format('test1_generated'), 'w').write(converted_test_string + '\n')
-        generated_file_string = open(self.generated_file_path.format('test1_generated')).read()
-        expected_file_string = open(self.expected_file_path.format('test1_expected')).read()
+        open(self.generated_file_path.format('external_links_generated'), 'w').write(converted_test_string + '\n')
+        generated_file_string = open(self.generated_file_path.format('external_links_generated')).read()
+        expected_file_string = open(self.expected_file_path.format('external_links_expected')).read()
         self.assertEqual(generated_file_string, expected_file_string)
+
+    def test_parses_blank_lines_multiple_paragraphs(self):
+        pass
+
+    def test_parses_no_blank_self(self):
+        pass
+
+    def test_parses_external_link(self):
+        pass
+
+    def test_parses_glossary_link(self):
+        pass
+
+    def test_parses_video_link(self):
+        pass
+
+    def test_parses_codeblock(self):
+        pass
+
+    def test_parses_pictures(self):
+        pass
+
+    def test_parses_mathblocks(self):
+        pass
+
+    def test_parses_comments(self):
+        pass
 
     def tearDown(self):
         self.md = None
