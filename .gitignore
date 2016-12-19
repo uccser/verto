@@ -93,3 +93,4 @@ ENV/
 
 # vim swap files
 *.swp
+*.swo

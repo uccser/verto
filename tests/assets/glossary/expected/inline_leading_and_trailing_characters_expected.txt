@@ -1,12 +1,3 @@
-{% extends "main/index.html" %}
-{% load static %}
-
-{% block content %}
 <p>here's some leading characters 
 <a class="glossary-anchor-link glossary-link-back-reference" href="../further-information/glossary.html#binary-search" id="glossary-binary-search-3">binary-search</a>
  and here's a few trailing characters</p>
-{% endblock %}
-
-{% block page-scripts %}
-
-{% endblock %}

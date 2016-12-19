@@ -4,6 +4,7 @@ from markdown.extensions import Extension
 from collections import defaultdict
 
 from tests.glossary_tests import *
+from tests.panel_tests import *
 
 
 class BaseTestCase(unittest.TestCase):
@@ -15,11 +16,20 @@ class BaseTestCase(unittest.TestCase):
 
 
 def suite():
-    # add all GlossayTests
-    suite = unittest.makeSuite(GlossaryLinkTest, 'test') # order of tests by cmp()
+    # NTS what order should these go in?
+
+    # add all glossay link tests
+    glossarySuite = unittest.makeSuite(GlossaryLinkTest, 'test') # order of tests by cmp()
+    # add all panel tests
+    panelSuite = unittest.makeSuite(PanelTest, 'test')
+    # allSuites = unittest.TestSuite((panelSuite))
+
+    allSuites = unittest.TestSuite((glossarySuite, panelSuite))
+
+    # NTS to add each tag's tests individually
     # suite.addTest(GlossaryLinkTest('test_match_true'))
     # suite.addTest(GlossaryLinkTest('test_match_false'))
-    return suite
+    return allSuites
 
 
 
