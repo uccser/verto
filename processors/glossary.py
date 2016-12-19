@@ -1,28 +1,24 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 import re
-import sys
 
 
 GLOSSARY_TEMPLATE = """
 <a href='../further-information/glossary.html#{word}' id='glossary-{occurance}' class='glossary-anchor-link glossary-link-back-reference'>{term}</a>
 """
-# P_START = '^\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}'
-# P_START = '\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}'
-# P_END = '\{glossary-link end\}'
 
 class GlossaryLinkBlockProcessor(BlockProcessor):
-    p_start = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
-    occurance_counter = {'test': 1}
+    pattern = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
+    occurance_counter = {}
 
     def test(self, parent, block):
-        return self.p_start.search(block) is not None
+        return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
 
         # block is a string containing the matched string as a substring
         block = blocks.pop(0)
-        match = self.p_start.search(block) # match object
+        match = self.pattern.search(block) # match object
 
         # get text before and after link
         pattern_pos = match.span()

@@ -7,6 +7,7 @@ from processors.glossary import *
 
 
 class GlossaryLinkTest(unittest.TestCase):
+    # maxDiff = None
 
     def setUp(self):
         self.md = markdown.Markdown(extensions=[CSFGExtension()])
@@ -50,21 +51,21 @@ class GlossaryLinkTest(unittest.TestCase):
         test_string = open(self.test_file_path.format('inline_leading_characters')).read()
         converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
         # save to file - NTS is this a bit redundant?
-        open(self.generated_file_path.format('inline_leading_characters_generated'), 'w').write(converted_test_string)
+        open(self.generated_file_path.format('inline_leading_characters_generated'), 'w').write(converted_test_string + '\n')
         generated_file_string = open(self.generated_file_path.format('inline_leading_characters_generated')).read()
         expected_file_string = open(self.expected_file_path.format('inline_leading_characters_expected')).read()
         self.assertEqual(generated_file_string, expected_file_string)
 
         test_string = open(self.test_file_path.format('inline_trailing_characters')).read()
         converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
-        open(self.generated_file_path.format('inline_trailing_characters_generated'), 'w').write(converted_test_string)
+        open(self.generated_file_path.format('inline_trailing_characters_generated'), 'w').write(converted_test_string + '\n')
         generated_file_string = open(self.generated_file_path.format('inline_trailing_characters_generated')).read()
         expected_file_string = open(self.expected_file_path.format('inline_trailing_characters_expected')).read()
         self.assertEqual(generated_file_string, expected_file_string)
 
         test_string = open(self.test_file_path.format('inline_leading_and_trailing_characters')).read()
         converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
-        open(self.generated_file_path.format('inline_leading_and_trailing_characters_generated'), 'w').write(converted_test_string)
+        open(self.generated_file_path.format('inline_leading_and_trailing_characters_generated'), 'w').write(converted_test_string + '\n')
         generated_file_string = open(self.generated_file_path.format('inline_leading_and_trailing_characters_generated')).read()
         expected_file_string = open(self.expected_file_path.format('inline_leading_and_trailing_characters_expected')).read()
         self.assertEqual(generated_file_string, expected_file_string)
