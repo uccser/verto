@@ -22,6 +22,7 @@ def suite():
     glossarySuite = unittest.makeSuite(GlossaryLinkTest, 'test') # order of tests by cmp()
     # add all panel tests
     panelSuite = unittest.makeSuite(PanelTest, 'test')
+    # allSuites = unittest.TestSuite((panelSuite))
 
     allSuites = unittest.TestSuite((glossarySuite, panelSuite))
 

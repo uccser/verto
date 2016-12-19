@@ -6,6 +6,7 @@ from csfg_extension import CSFGExtension
 from processors.panel import *
 
 class PanelTest(unittest.TestCase):
+    # maxDiff = None
 
     def setUp(self):
         self.md = markdown.Markdown(extensions=[CSFGExtension()])
@@ -29,11 +30,10 @@ class PanelTest(unittest.TestCase):
         pass
 
     def testCorrectlyParsed(self):
-        pass
         test_string = open(self.test_file_path.format('test1')).read()
         converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
         # save to file - NTS is this a bit redundant?
-        open(self.generated_file_path.format('test1_generated'), 'w').write(converted_test_string)
+        open(self.generated_file_path.format('test1_generated'), 'w').write(converted_test_string + '\n')
         generated_file_string = open(self.generated_file_path.format('test1_generated')).read()
         expected_file_string = open(self.expected_file_path.format('test1_expected')).read()
         self.assertEqual(generated_file_string, expected_file_string)
