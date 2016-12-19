@@ -5,6 +5,11 @@ from collections import defaultdict
 
 from tests.glossary_tests import *
 from tests.panel_tests import *
+from tests.comment_tests import *
+from tests.heading_tests import *
+from tests.image_tests import *
+from tests.video_tests import *
+from tests.interactive_tests import *
 
 
 class BaseTestCase(unittest.TestCase):
@@ -17,18 +22,16 @@ class BaseTestCase(unittest.TestCase):
 
 def suite():
     # NTS what order should these go in?
+    allSuites = unittest.TestSuite((
+        unittest.makeSuite(GlossaryLinkTest, 'test'), # order of tests by cmp()
+        unittest.makeSuite(PanelTest, 'test'),
+        unittest.makeSuite(CommentTest, 'test'),
+        unittest.makeSuite(HeadingTest, 'test'),
+        unittest.makeSuite(ImageTest, 'test'),
+        unittest.makeSuite(VideoTest, 'test'),
+        unittest.makeSuite(InteractiveTest, 'test')
+        ))
 
-    # add all glossay link tests
-    glossarySuite = unittest.makeSuite(GlossaryLinkTest, 'test') # order of tests by cmp()
-    # add all panel tests
-    panelSuite = unittest.makeSuite(PanelTest, 'test')
-    # allSuites = unittest.TestSuite((panelSuite))
-
-    allSuites = unittest.TestSuite((glossarySuite, panelSuite))
-
-    # NTS to add each tag's tests individually
-    # suite.addTest(GlossaryLinkTest('test_match_true'))
-    # suite.addTest(GlossaryLinkTest('test_match_false'))
     return allSuites
 
 
