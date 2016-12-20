@@ -16,12 +16,10 @@ class PanelTest(unittest.TestCase):
     def test_match_false(self):
         test_string = open(self.test_file_path.format('fail_string')).read()
         self.assertFalse(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-        pass
 
     def test_match_true(self):
         test_string = open(self.test_file_path.format('basic')).read()
         self.assertTrue(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-        pass
 
     def test_parses_no_blank_lines_single_paragraph(self):
         test_string = open(self.test_file_path.format('external_links')).read()
