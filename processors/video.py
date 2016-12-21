@@ -26,16 +26,15 @@ class VideoBlockProcessor(BlockProcessor):
         # NTS should panel use this method to get attributes too?
         arguments = match.group('args') # NTS what other arguments will there be?
         url = parse_argument('url', arguments)
-        print(url)
         (video_type, video_identifier) = extract_video_identifier(url, match)
-        if url: # NTS what is this check for?
+        if url:
             if video_type:
                 if video_type == 'youtube':
                     source_link = YOUTUBE_SRC.format(video_identifier)
                 elif video_type == 'vimeo':
                     source_link = VIMEO_SRC.format(video_identifier)
-                print(source_link)
                 node = etree.fromstring(VIDEO_TEMPLATE.format(source=source_link))
+                # add video to dom, centres using 10 columns
                 parent.append(centre_html(node, 10))
 
 
@@ -57,5 +56,5 @@ def extract_video_identifier(video_url, match):
         video_query = video_url.split('/')[-1]
         return ('vimeo', video_query)
     else:
-        identifier = (None, '')
-    return identifier
+        return (None, '')
+
