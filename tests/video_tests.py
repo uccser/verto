@@ -5,6 +5,14 @@ from csfg_extension import CSFGExtension
 from processors.video import *
 
 
+# NTS videos have different links
+# need to test:
+#   - vimeo
+#   - youtu.be
+#   - /embed/
+#   - /watch/
+# etc
+
 class VideoTest(unittest.TestCase):
 
     def setUp(self):
@@ -15,7 +23,6 @@ class VideoTest(unittest.TestCase):
     def test_match_false(self):
         test_string = open(self.test_file_path.format('fail_string')).read()
         self.assertFalse(VideoBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-        # TODO test longer strings
 
     def test_match_true(self):
         test_string = open(self.test_file_path.format('basic')).read()
