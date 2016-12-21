@@ -26,5 +26,16 @@ class CommentTest(unittest.TestCase):
         expected_file_string = open(self.expected_file_path.format('basic_expected')).read()
         self.assertEqual(converted_test_string, expected_file_string)
 
+    # NTS should preprocessor tests be separate?
+    def test_preprocessor_match(self):
+        test_string = open(self.test_file_path.format('singleline')).read()
+        self.assertTrue(CommentPreprocessor(self.md.parser).test(test_string), msg='"{}"'.format(test_string))
+
+    def test_preprocessor_parsing(self):
+        test_string = open(self.test_file_path.format('singleline')).read()
+        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
+        expected_file_string = open(self.expected_file_path.format('singleline_expected')).read()
+        self.assertEqual(converted_test_string, expected_file_string)
+
     def tearDown(self):
         self.md = None

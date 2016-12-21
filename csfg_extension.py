@@ -22,6 +22,8 @@ class CSFGExtension(Extension):
     def extendMarkdown(self, md, md_globals):
 
 
+        # print(md.parser)
+        # print('hello, you\'ve called extendMarkdown')
         # NTS not quite in right order with existing md tags
         # TODO compare to regex list in existing CSFG Generator for order
         md.parser.blockprocessors.add('panel', PanelBlockProcessor(md.parser), ">ulist")
