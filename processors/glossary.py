@@ -27,6 +27,7 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
 
         # get the string for the glossary link only
         whole_glossary_string = match.group()
+        # should really be doing this with parse_argument() (for example) (i.e. not regex)
         term = re.search(r'term="(.*?)"', whole_glossary_string).group(1)
         term = term.lower().replace(' ', '-')
 

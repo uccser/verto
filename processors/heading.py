@@ -6,7 +6,7 @@ class NumberedHashHeaderProcessor(BlockProcessor):
     """ Process Hash Headers. """
 
     # Detect a header at start of any line in block
-    RE = re.compile(r'(^|\n)(?P<level>#{1,6})(?P<header>.*?)#*(\n|$)')
+    pattern = re.compile(r'(^|\n)(?P<level>#{1,6})(?P<header>.*?)#*(\n|$)')
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -14,22 +14,22 @@ class NumberedHashHeaderProcessor(BlockProcessor):
         self.ext = ext
 
     def test(self, parent, block):
-        return bool(self.RE.search(block))
+        return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
         block = blocks.pop(0)
-        m = self.RE.search(block)
-        if m:
-            before = block[:m.start()]  # All lines before header
-            after = block[m.end():]     # All lines after header
+        match = self.pattern.search(block)
+        if match:
+            before = block[:match.start()]  # All lines before header
+            after = block[match.end():]     # All lines after header
             if before:
                 # As the header was not the first line of the block and the
                 # lines before the header must be parsed first,
                 # recursively parse this lines as a block.
                 self.parser.parseBlocks(parent, [before])
             # Create header using named groups from RE
-            level = len(m.group('level'))
-            heading = m.group('header').strip()
+            level = len(match.group('level'))
+            heading = match.group('header').strip()
             if not self.ext.page_heading:
                 self.ext.page_heading = heading
                 parent = etree.SubElement(parent, 'div', attrib={'class': 'z-depth-0 page-title-header'})
@@ -50,7 +50,6 @@ class NumberGenerator:
     def __init__(self):
         self.number_list = [None, 0]
         self.cur_level = 1
-
 
     def __str__(self):
         """Return formatted number eg. "1.5.6.2"

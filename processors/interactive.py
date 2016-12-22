@@ -9,7 +9,7 @@ import re
 import os
 
 class InteractiveBlockProcessor(BlockProcessor):
-    RE = re.compile('^\{interactive ?(?P<args>[^\}]*)\}$')
+    pattern = re.compile('^\{interactive ?(?P<args>[^\}]*)\}$')
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,13 +17,16 @@ class InteractiveBlockProcessor(BlockProcessor):
         self.required = ext.required_files["interactives"]
 
     def test(self, parent, block):
-        return self.RE.match(block) is not None
+        return self.pattern.match(block) is not None
 
     def run(self, parent, blocks):
-        match = self.RE.match(blocks.pop(0))
+        block = blocks.pop(0)
+        match = self.pattern.match(block)
+
         arguments = match.group('args')
         name = parse_argument('name', arguments)
         interactive_type = parse_argument('type', arguments)
+
         if name:
             if interactive_type == 'in-page':
                 self.generate_inpage_interactive(name, parent)
@@ -31,7 +34,7 @@ class InteractiveBlockProcessor(BlockProcessor):
                 self.generate_iframe_interactive(name, parent)
             elif interactive_type == 'whole-page':
                 self.generate_wholepage_interactive(name, parent)
-        self.required.add(name)
+            self.required.add(name)
 
     def generate_inpage_interactive(self, iname, parent):
         sibling = self.lastChild(parent)
