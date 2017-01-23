@@ -3,14 +3,11 @@ import markdown
 
 from csfg_extension import CSFGExtension
 from processors.heading import *
+from tests.BaseTestCase import BaseTestCase
 
+class HeadingTest(BaseTestCase):
 
-class HeadingTest(unittest.TestCase):
-
-    def setUp(self):
-        self.md = markdown.Markdown(extensions=[CSFGExtension()])
-        self.test_file_path = 'tests/assets/heading/{}.txt'
-        self.expected_file_path = 'tests/assets/heading/expected/{}.txt'
-
-    def tearDown(self):
-        self.md = None
+    def __init__(self, *args, **kwargs):
+        """Set tag name in class for file names"""
+        BaseTestCase.__init__(self, *args, **kwargs)
+        self.tag_name = 'heading'

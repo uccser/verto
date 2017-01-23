@@ -3,28 +3,27 @@ import markdown
 
 from csfg_extension import CSFGExtension
 from processors.panel import *
+from tests.BaseTestCase import BaseTestCase
 
+class PanelTest(BaseTestCase):
 
-class PanelTest(unittest.TestCase):
-    # maxDiff = None
-
-    def setUp(self):
-        self.md = markdown.Markdown(extensions=[CSFGExtension()])
-        self.test_file_path = 'tests/assets/panel/{}.txt'
-        self.expected_file_path = 'tests/assets/panel/expected/{}.txt'
+    def __init__(self, *args, **kwargs):
+        """Set tag name in class for file names"""
+        BaseTestCase.__init__(self, *args, **kwargs)
+        self.tag_name = 'panel'
 
     def test_match_false(self):
-        test_string = open(self.test_file_path.format('fail_string')).read()
+        test_string = self.read_test_file('fail_string')
         self.assertFalse(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
     def test_match_true(self):
-        test_string = open(self.test_file_path.format('basic')).read()
+        test_string = self.read_test_file('basic')
         self.assertTrue(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
     def test_parses_no_blank_lines_single_paragraph(self):
-        test_string = open(self.test_file_path.format('external_links')).read()
+        test_string = self.read_test_file('external_links')
         converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()]) + '\n'
-        expected_file_string = open(self.expected_file_path.format('external_links_expected')).read()
+        expected_file_string = self.read_test_file('external_links_expected')
         self.assertEqual(converted_test_string, expected_file_string)
 
     def test_parses_blank_lines_multiple_paragraphs(self):
@@ -53,8 +52,3 @@ class PanelTest(unittest.TestCase):
 
     def test_parses_comments(self):
         pass
-
-    def tearDown(self):
-        self.md = None
-
-
