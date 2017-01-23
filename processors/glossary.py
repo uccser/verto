@@ -3,18 +3,23 @@ from markdown.util import etree
 import re
 
 
-GLOSSARY_TEMPLATE = """
-<a href='../further-information/glossary.html#{word}' id='glossary-{occurance}' class='glossary-anchor-link glossary-link-back-reference'>{term}</a>
-"""
+# GLOSSARY_TEMPLATE = """
+# <a href='../further-information/glossary.html#{word}' id='glossary-{occurance}' class='glossary-anchor-link glossary-link-back-reference'>{term}</a>
+# """
 
 class GlossaryLinkBlockProcessor(BlockProcessor):
     pattern = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
     occurance_counter = {}
 
+    def __init__(self, ext, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.GLOSSARY_TEMPLATE = ext.html_templates['glossary-link']
+
     def test(self, parent, block):
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
+        print(type(BlockProcessor))
 
         # block is a string containing the matched string as a substring
         block = blocks.pop(0)
@@ -42,7 +47,7 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
         # build whole sentence including glossary link
         html_string = '<p>'
         html_string += text_before_link
-        html_string += GLOSSARY_TEMPLATE.format(word=term, occurance=id_count, term=term)
+        html_string += self.GLOSSARY_TEMPLATE.format(word=term, occurance=id_count, term=term)
         html_string += text_after_link
         html_string += '</p>'
 
