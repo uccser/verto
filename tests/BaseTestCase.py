@@ -26,6 +26,9 @@ class BaseTestCase(unittest.TestCase):
         file_object = open(file_path, encoding="utf-8")
         return file_object.read()
 
+    def loadHTMLTemplate(self, template):
+        return open('html-templates/' + template + '.html').read()
+
     def setUp(self):
         self.md = markdown.Markdown(extensions=[CSFGExtension()])
 

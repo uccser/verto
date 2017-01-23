@@ -13,13 +13,12 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.GLOSSARY_TEMPLATE = ext.html_templates['glossary-link']
+        self.GLOSSARY_TEMPLATE = ext.html_templates['glossary']
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
-        print(type(BlockProcessor))
 
         # block is a string containing the matched string as a substring
         block = blocks.pop(0)
