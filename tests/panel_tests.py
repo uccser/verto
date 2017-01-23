@@ -3,15 +3,15 @@ import markdown
 
 from csfg_extension import CSFGExtension
 from processors.panel import *
-from tests.start_tests import BaseTestCase
+from tests.BaseTestCase import BaseTestCase
 
 class PanelTest(BaseTestCase):
-    
+
     def __init__(self, *args, **kwargs):
         """Set tag name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
         self.tag_name = 'panel'
-    
+
     def test_match_false(self):
         test_string = self.read_test_file('fail_string')
         self.assertFalse(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))

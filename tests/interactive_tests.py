@@ -3,14 +3,11 @@ import markdown
 
 from csfg_extension import CSFGExtension
 from processors.interactive import *
+from tests.BaseTestCase import BaseTestCase
 
+class InteractiveTest(BaseTestCase):
 
-class InteractiveTest(unittest.TestCase):
-
-    def setUp(self):
-        self.md = markdown.Markdown(extensions=[CSFGExtension()])
-        self.test_file_path = 'tests/assets/interactive/{}.txt'
-        self.expected_file_path = 'tests/assets/interactive/expected/{}.txt'
-
-    def tearDown(self):
-        self.md = None
+    def __init__(self, *args, **kwargs):
+        """Set tag name in class for file names"""
+        BaseTestCase.__init__(self, *args, **kwargs)
+        self.tag_name = 'interactive'

@@ -3,14 +3,11 @@ import markdown
 
 from csfg_extension import CSFGExtension
 from processors.image import *
+from tests.BaseTestCase import BaseTestCase
 
+class ImageTest(BaseTestCase):
 
-class ImageTest(unittest.TestCase):
-
-    def setUp(self):
-        self.md = markdown.Markdown(extensions=[CSFGExtension()])
-        self.test_file_path = 'tests/assets/image/{}.txt'
-        self.expected_file_path = 'tests/assets/image/expected/{}.txt'
-
-    def tearDown(self):
-        self.md = None
+    def __init__(self, *args, **kwargs):
+        """Set tag name in class for file names"""
+        BaseTestCase.__init__(self, *args, **kwargs)
+        self.tag_name = 'image'
