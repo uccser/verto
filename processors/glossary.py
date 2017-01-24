@@ -3,10 +3,6 @@ from markdown.util import etree
 import re
 
 
-# GLOSSARY_TEMPLATE = """
-# <a href='../further-information/glossary.html#{word}' id='glossary-{occurance}' class='glossary-anchor-link glossary-link-back-reference'>{term}</a>
-# """
-
 class GlossaryLinkBlockProcessor(BlockProcessor):
     pattern = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
     occurance_counter = {}

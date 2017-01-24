@@ -2,7 +2,7 @@
 <ul class="collapsible panel" data-collapsible="accordion">
 <li class="panel-selector panel-extra-for-experts">
 <div class="collapsible-header">
-<div class="panel-heading"><strong>Extra For Experts</strong></div>
+<div class="panel-heading">Extra For Experts</div>
 <div class="dropdown-menu-arrow">▼</div>
 </div>
 <div class="collapsible-body">

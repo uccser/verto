@@ -1,5 +1,5 @@
-import unittest
 import markdown
+from unittest.mock import Mock
 
 from csfg_extension import CSFGExtension
 from processors.panel import *
@@ -11,14 +11,16 @@ class PanelTest(BaseTestCase):
         """Set tag name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
         self.tag_name = 'panel'
+        self.ext = Mock()
+        self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
 
     def test_match_false(self):
         test_string = self.read_test_file('fail_string')
-        self.assertFalse(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+        self.assertFalse(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
     def test_match_true(self):
         test_string = self.read_test_file('basic')
-        self.assertTrue(PanelBlockProcessor(self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+        self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
     def test_parses_no_blank_lines_single_paragraph(self):
         test_string = self.read_test_file('external_links')

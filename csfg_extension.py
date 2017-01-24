@@ -23,18 +23,15 @@ class CSFGExtension(Extension):
 
     # md = instance of Markdown class we are modifying
     def extendMarkdown(self, md, md_globals):
-        print(self)
 
         self.loadHTMLTemplates()
-        print(self.html_templates)
-        # print(md.parser)
         # print('hello, you\'ve called extendMarkdown')
         # NTS not quite in right order with existing md tags
         # TODO compare to regex list in existing CSFG Generator for order
-        md.parser.blockprocessors.add('panel', PanelBlockProcessor(md.parser), ">ulist")
+        md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
         md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
         md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
-        md.parser.blockprocessors.add('video', VideoBlockProcessor(md.parser), "_begin")
+        md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
         md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
 
         md.parser.blockprocessors['hashheader'] = NumberedHashHeaderProcessor(self, md.parser) # format of this one doesn't match the others?
