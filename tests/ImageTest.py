@@ -1,8 +1,8 @@
 import unittest
 import markdown
 
-from csfg_extension import CSFGExtension
-from processors.image import *
+from Kordac import Kordac
+from processors.ImageBlockProcessor import ImageBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 class ImageTest(BaseTestCase):

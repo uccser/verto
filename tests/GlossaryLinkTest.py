@@ -1,10 +1,9 @@
 import markdown
 from unittest.mock import Mock
 
-from csfg_extension import CSFGExtension
-from processors.glossary import *
+from Kordac import Kordac
+from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from tests.BaseTestCase import BaseTestCase
-
 
 
 class GlossaryLinkTest(BaseTestCase):
@@ -45,17 +44,17 @@ class GlossaryLinkTest(BaseTestCase):
     # should parsing tests be in their own class?
     def test_correctly_parsed_inline(self):
         test_string = self.read_test_file('inline_leading_characters')
-        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()]) + '\n'
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
         expected_file_string = self.read_test_file('inline_leading_characters_expected')
         self.assertEqual(converted_test_string, expected_file_string)
 
         test_string = self.read_test_file('inline_trailing_characters')
-        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()]) + '\n'
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
         expected_file_string = self.read_test_file('inline_trailing_characters_expected')
         self.assertEqual(converted_test_string, expected_file_string)
 
         test_string = self.read_test_file('inline_leading_and_trailing_characters')
-        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()]) + '\n'
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
         expected_file_string = self.read_test_file('inline_leading_and_trailing_characters_expected')
         self.assertEqual(converted_test_string, expected_file_string)
 

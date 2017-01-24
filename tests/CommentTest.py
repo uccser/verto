@@ -1,8 +1,9 @@
 import unittest
 import markdown
 
-from csfg_extension import CSFGExtension
-from processors.comment import *
+from Kordac import Kordac
+from processors.CommentPreprocessor import CommentPreprocessor
+from processors.CommentBlockProcessor import CommentBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 class CommentTest(BaseTestCase):
@@ -22,7 +23,7 @@ class CommentTest(BaseTestCase):
 
     def test_parses_basic(self):
         test_string = self.read_test_file('basic')
-        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
         expected_file_string = self.read_test_file('basic_expected')
         self.assertEqual(converted_test_string, expected_file_string)
 
@@ -33,6 +34,6 @@ class CommentTest(BaseTestCase):
 
     def test_preprocessor_parsing(self):
         test_string = self.read_test_file('singleline')
-        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
         expected_file_string = self.read_test_file('singleline_expected')
         self.assertEqual(converted_test_string, expected_file_string)

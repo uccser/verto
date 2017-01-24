@@ -1,19 +1,20 @@
 from markdown.extensions import Extension
 
-from processors.panel import *
-from processors.comment import *
-from processors.video import *
-from processors.image import *
-from processors.interactive import *
-from processors.heading import *
-from processors.django import *
-from processors.glossary import *
+from processors.PanelBlockProcessor import PanelBlockProcessor
+from processors.CommentPreprocessor import CommentPreprocessor
+from processors.CommentBlockProcessor import CommentBlockProcessor
+from processors.VideoBlockProcessor import VideoBlockProcessor
+from processors.ImageBlockProcessor import ImageBlockProcessor
+from processors.InteractiveBlockProcessor import InteractiveBlockProcessor
+from processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
+from processors.DjangoPostProcessor import DjangoPostProcessor
+from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 
 from collections import defaultdict
 from os import listdir
 import re
 
-class CSFGExtension(Extension):
+class Kordac(Extension):
     def __init__(self, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)

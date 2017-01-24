@@ -1,8 +1,8 @@
 import markdown
 from unittest.mock import Mock
 
-from csfg_extension import CSFGExtension
-from processors.video import *
+from Kordac import Kordac
+from processors.VideoBlockProcessor import VideoBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 # NTS videos have different links
@@ -32,6 +32,6 @@ class VideoTest(BaseTestCase):
 
     def test_parses(self):
         test_string = self.read_test_file('basic')
-        converted_test_string = markdown.markdown(test_string, extensions=[CSFGExtension()]) + '\n'
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
         expected_file_string = self.read_test_file('basic_expected')
         self.assertEqual(converted_test_string, expected_file_string)

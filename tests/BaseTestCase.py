@@ -1,6 +1,6 @@
 import unittest
 import markdown
-from csfg_extension import CSFGExtension
+from Kordac import Kordac
 from markdown.extensions import Extension
 
 class BaseTestCase(unittest.TestCase):
@@ -31,7 +31,7 @@ class BaseTestCase(unittest.TestCase):
         return open('html-templates/' + template + '.html').read()
 
     def setUp(self):
-        self.md = markdown.Markdown(extensions=[CSFGExtension()])
+        self.md = markdown.Markdown(extensions=[Kordac()])
 
     def tearDown(self):
         self.md = None
