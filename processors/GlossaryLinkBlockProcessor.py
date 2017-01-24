@@ -4,17 +4,20 @@ import re
 
 
 class GlossaryLinkBlockProcessor(BlockProcessor):
-    pattern = re.compile('\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
+    pattern = re.compile(r'\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
     occurance_counter = {}
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.GLOSSARY_TEMPLATE = ext.html_templates['glossary']
+        self.test = re.compile(ext.tag_patterns['glossary']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
+        # print(self.pattern)
+        print(self.test)
 
         # block is a string containing the matched string as a substring
         block = blocks.pop(0)

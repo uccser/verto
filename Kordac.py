@@ -13,6 +13,7 @@ from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from collections import defaultdict
 from os import listdir
 import re
+import json
 
 class Kordac(Extension):
     def __init__(self, *args, **kwargs):
@@ -20,12 +21,14 @@ class Kordac(Extension):
         self.required_files = defaultdict(set)
         self.page_heading = None
         self.html_templates = {}
+        self.tag_patterns = {}
         super().__init__(*args, **kwargs)
 
     # md = instance of Markdown class we are modifying
     def extendMarkdown(self, md, md_globals):
 
         self.loadHTMLTemplates()
+        self.loadTagPatterns()
         # print('hello, you\'ve called extendMarkdown')
         # NTS not quite in right order with existing md tags
         # TODO compare to regex list in existing CSFG Generator for order
@@ -60,6 +63,12 @@ class Kordac(Extension):
             if 'swp' not in file: # HACK have vim files open atm, so they are getting in the way...
                 tag_name = re.search(r'(.*?).html', file).groups()[0]
                 self.html_templates[tag_name] = open('html-templates/' + file).read()
+
+    def loadTagPatterns(self):
+        pattern_data = open('regex-list.json').read()
+        self.tag_patterns = json.loads(pattern_data)
+        # print(self.tag_patterns)
+        # print(self.tag_patterns['glossary']['pattern'])
 
 
 

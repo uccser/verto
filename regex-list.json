@@ -1,0 +1,23 @@
+{
+    "panel": {
+        "pattern": ""
+    },
+    "glossary": {
+        "pattern": "r'\\{glossary-link term=\\([a-zA-Z]| )*\\( reference-text=\\([a-zA-Z]| )*\\){0,1}\\}.*\\{glossary-link end\\}'"
+    },
+    "comment": {
+        "pattern": ""
+    },
+    "video": {
+        "pattern": ""
+    },
+    "image": {
+        "pattern": ""
+    },
+    "interactive": {
+        "pattern": ""
+    },
+    "heading": {
+        "pattern": ""
+    }
+}
