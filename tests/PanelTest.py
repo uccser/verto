@@ -13,6 +13,7 @@ class PanelTest(BaseTestCase):
         self.tag_name = 'panel'
         self.ext = Mock()
         self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
+        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
 
     def test_match_false(self):
         test_string = self.read_test_file('fail_string')

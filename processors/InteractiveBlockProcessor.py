@@ -9,12 +9,12 @@ import re
 import os
 
 class InteractiveBlockProcessor(BlockProcessor):
-    pattern = re.compile('^\{interactive ?(?P<args>[^\}]*)\}$')
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.scripts = ext.page_scripts
         self.required = ext.required_files["interactives"]
+        self.pattern = re.compile(ext.tag_patterns['interactive']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.match(block) is not None

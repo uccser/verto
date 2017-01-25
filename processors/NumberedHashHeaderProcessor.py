@@ -5,13 +5,11 @@ import re
 class NumberedHashHeaderProcessor(BlockProcessor):
     """ Process Hash Headers. """
 
-    # Detect a header at start of any line in block
-    pattern = re.compile(r'(^|\n)(?P<level>#{1,6})(?P<header>.*?)#*(\n|$)')
-
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.number_generator = NumberGenerator()
         self.ext = ext
+        self.pattern = re.compile(ext.tag_patterns['heading']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None

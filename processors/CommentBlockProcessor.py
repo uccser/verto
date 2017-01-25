@@ -3,8 +3,11 @@ import re
 
 class CommentBlockProcessor(BlockProcessor):
     # comments spread across multiple lines
-    p_start = re.compile('^\{comment\}')
-    p_end = re.compile('\{comment end\}')
+
+    def __init__(self, ext, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.p_start = re.compile(ext.tag_patterns['comment_block']['pattern_start'])
+        self.p_end = re.compile(ext.tag_patterns['comment_block']['pattern_end'])
 
     def test(self, parent, block):
         return self.p_start.match(block) is not None

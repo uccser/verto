@@ -4,7 +4,10 @@ import re
 
 class CommentPreprocessor(Preprocessor):
     # comments contained in one line
-    pattern = re.compile('{comment ((?!end)|end)[^}]+\}')
+
+    def __init__(self, ext, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.pattern = re.compile(ext.tag_patterns['comment_pre']['pattern'])
 
     def test(self, lines):
         return self.pattern.match(lines) is not None

@@ -5,20 +5,18 @@ from markdown.util import etree
 
 
 class ImageBlockProcessor(BlockProcessor):
-    p = re.compile('^\{image (?P<args>[^\}]*)\}')
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.required = ext.required_files["images"]
         self.IMAGE_TEMPLATE = ext.html_templates['image']
-
+        self.pattern = re.compile(ext.tag_patterns['image']['pattern'])
 
     def test(self, parent, block):
-        return self.p.match(block) is not None
-
+        return self.pattern.match(block) is not None
 
     def run(self, parent, blocks):
-        match = self.p.match(blocks.pop(0))
+        match = self.pattern.match(blocks.pop(0))
         arguments = match.group('args')
         filename = parse_argument('filename', arguments)
 

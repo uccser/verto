@@ -42,8 +42,8 @@ class Kordac(Extension):
         # NTS test this
         # md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(md.parser), "_begin")
 
-        md.parser.blockprocessors.add('comment', CommentBlockProcessor(md.parser), "_begin")
-        md.preprocessors.add('commentpre', CommentPreprocessor(md), '_begin')
+        md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
+        md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
 
         # NTS have not looked into what this does
         # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')

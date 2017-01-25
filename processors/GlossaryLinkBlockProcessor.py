@@ -4,7 +4,6 @@ import re
 
 
 class GlossaryLinkBlockProcessor(BlockProcessor):
-    # pattern = re.compile(r'\{glossary-link term="([a-zA-Z]| )*"( reference-text="([a-zA-Z]| )*"){0,1}\}.*\{glossary-link end\}')
     occurance_counter = {}
 
     def __init__(self, ext, *args, **kwargs):

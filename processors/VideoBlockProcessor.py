@@ -3,10 +3,8 @@ from processors.utils import parse_argument, centre_html
 from markdown.util import etree
 import re
 
-
 YOUTUBE_SRC = 'http://www.youtube.com/embed/{0}?rel=0'
 VIMEO_SRC = 'http://player.vimeo.com/video/{0}'
-
 
 class VideoBlockProcessor(BlockProcessor):
     pattern = re.compile('^\{video (?P<args>[^\}]*)\}')
@@ -14,6 +12,7 @@ class VideoBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.VIDEO_TEMPLATE = ext.html_templates['video']
+        self.pattern = re.compile(ext.tag_patterns['video']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.match(block) is not None

@@ -13,3 +13,4 @@ class ImageTest(BaseTestCase):
         self.tag_name = 'image'
         self.ext = Mock()
         self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
+        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)

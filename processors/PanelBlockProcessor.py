@@ -5,15 +5,18 @@ import re
 
 
 class PanelBlockProcessor(BlockProcessor):
-    p_start = re.compile('^\{panel ?(?P<args>[^\}]*)\}')
-    p_end = re.compile('\{panel end\}')
+    # p_start = re.compile('^\{panel ?(?P<args>[^\}]*)\}')
+    # p_end = re.compile('\{panel end\}')
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.PANEL_TEMPLATE = ext.html_templates['panel']
+        self.p_start = re.compile(ext.tag_patterns['panel']['pattern_start'])
+        self.p_end = re.compile(ext.tag_patterns['panel']['pattern_end'])
 
     def test(self, parent, block):
-        return re.search('\{panel ?(?P<args>[^\}]*)\}', block) is not None
+        # return re.search('\{panel ?(?P<args>[^\}]*)\}', block) is not None
+        return self.p_start.search(block) is not None
 
     def run(self, parent, blocks):
         # block contains the match as a substring
