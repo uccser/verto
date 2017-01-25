@@ -67,8 +67,4 @@ class Kordac(Extension):
     def loadTagPatterns(self):
         pattern_data = open('regex-list.json').read()
         self.tag_patterns = json.loads(pattern_data)
-        # print(self.tag_patterns)
-        # print(self.tag_patterns['glossary']['pattern'])
-
-
 
