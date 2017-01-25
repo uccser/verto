@@ -1,8 +1,8 @@
 import unittest
 import markdown
 
-from csfg_extension import CSFGExtension
-from processors.image import *
+from Kordac import Kordac
+from processors.ImageBlockProcessor import ImageBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 class ImageTest(BaseTestCase):
@@ -11,3 +11,6 @@ class ImageTest(BaseTestCase):
         """Set tag name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
         self.tag_name = 'image'
+        self.ext = Mock()
+        self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
+        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)

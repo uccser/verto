@@ -1,13 +1,13 @@
 import markdown
 import mdx_math
-from csfg_extension import CSFGExtension
+from Kordac import Kordac
 
 def main():
     html = None
     for chapter in ['algorithms', 'introduction']:
         with open("{}.md".format(chapter), 'r') as f:
             s = f.read()
-            ext = CSFGExtension()
+            ext = Kordac()
             html = markdown.markdown(s, extensions=[
                 'markdown.extensions.fenced_code',
                 'markdown.extensions.codehilite',

@@ -1,13 +1,13 @@
 import unittest
 from collections import defaultdict
 
-from tests.glossary_tests import *
-from tests.panel_tests import PanelTest
-from tests.comment_tests import CommentTest
-from tests.heading_tests import *
-from tests.image_tests import *
-from tests.video_tests import *
-from tests.interactive_tests import *
+from tests.GlossaryLinkTest import GlossaryLinkTest
+from tests.PanelTest import PanelTest
+from tests.CommentTest import CommentTest
+from tests.HeadingTest import HeadingTest
+from tests.ImageTest import ImageTest
+from tests.VideoTest import VideoTest
+from tests.InteractiveTest import InteractiveTest
 
 
 def suite():

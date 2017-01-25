@@ -1,6 +1,7 @@
 import unittest
+import json
 import markdown
-from csfg_extension import CSFGExtension
+from Kordac import Kordac
 from markdown.extensions import Extension
 
 class BaseTestCase(unittest.TestCase):
@@ -15,7 +16,8 @@ class BaseTestCase(unittest.TestCase):
         """
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.test_file_path = 'tests/assets/{tag_name}/{filename}.txt'
-        self.maxDiff = 640  # Set to None for full output of all test failures
+        # self.maxDiff = 640  # Set to None for full output of all test failures
+        self.maxDiff = None
 
     def read_test_file(self, filename):
         """Returns a string for a given file
@@ -26,8 +28,15 @@ class BaseTestCase(unittest.TestCase):
         file_object = open(file_path, encoding="utf-8")
         return file_object.read()
 
+    def loadHTMLTemplate(self, template):
+        return open('html-templates/' + template + '.html').read()
+
+    def loadTagPatterns(self):
+        pattern_data = open('regex-list.json').read()
+        return json.loads(pattern_data)
+
     def setUp(self):
-        self.md = markdown.Markdown(extensions=[CSFGExtension()])
+        self.md = markdown.Markdown(extensions=[Kordac()])
 
     def tearDown(self):
         self.md = None
