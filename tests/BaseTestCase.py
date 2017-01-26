@@ -15,7 +15,7 @@ class BaseTestCase(unittest.TestCase):
         test failures.
         """
         unittest.TestCase.__init__(self, *args, **kwargs)
-        self.test_file_path = 'tests/assets/{tag_name}/{filename}.txt'
+        self.test_file_path = 'tests/assets/{tag_name}/{filename}.md'
         # self.maxDiff = 640  # Set to None for full output of all test failures
         self.maxDiff = None
 

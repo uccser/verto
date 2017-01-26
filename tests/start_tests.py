@@ -13,13 +13,13 @@ from tests.InteractiveTest import InteractiveTest
 def suite():
     # NTS what order should these go in?
     allSuites = unittest.TestSuite((
-        unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
-        unittest.makeSuite(PanelTest),
+        # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
+        # unittest.makeSuite(PanelTest),
         unittest.makeSuite(CommentTest),
-        unittest.makeSuite(HeadingTest),
-        unittest.makeSuite(ImageTest),
-        unittest.makeSuite(VideoTest),
-        unittest.makeSuite(InteractiveTest)
+        # unittest.makeSuite(HeadingTest),
+        # unittest.makeSuite(ImageTest),
+        # unittest.makeSuite(VideoTest),
+        # unittest.makeSuite(InteractiveTest)
     ))
 
     return allSuites

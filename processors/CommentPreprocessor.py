@@ -10,7 +10,7 @@ class CommentPreprocessor(Preprocessor):
         self.pattern = re.compile(ext.tag_patterns['comment_pre']['pattern'])
 
     def test(self, lines):
-        return self.pattern.match(lines) is not None
+        return self.pattern.search(lines) is not None
 
     def run(self, lines):
         # if the comment is contained in the one block, removes the comment from the string
