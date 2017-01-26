@@ -76,12 +76,12 @@ class CommentPreTest(BaseTestCase):
 
         test_string = self.read_test_file('contains_block_comment_on_single_line')
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_block_comment_on_single_line_expected')
+        expected_string = self.read_test_file('contains_block_comment_on_single_line_expected_pre')
         self.assertEqual(expected_string, converted_test_string)
 
         test_string = self.read_test_file('contains_block_comment')
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_block_comment_expected')
+        expected_string = self.read_test_file('contains_block_comment_expected_pre')
         self.assertEqual(expected_string, converted_test_string)
 
 
@@ -91,22 +91,22 @@ class CommentPreTest(BaseTestCase):
         """
         test_string = self.read_test_file('contains_inline_comment')
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_inline_comment_expected')
+        expected_string = self.read_test_file('contains_inline_comment_expected_pre')
         self.assertEqual(expected_string, converted_test_string)
 
         test_string = self.read_test_file('contains_inline_then_block_comment')
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_inline_then_block_comment_expected')
+        expected_string = self.read_test_file('contains_inline_then_block_comment_expected_pre')
         self.assertEqual(expected_string, converted_test_string)
 
         test_string = self.read_test_file('contains_block_then_inline_comment')
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_block_then_inline_comment_expected')
+        expected_string = self.read_test_file('contains_block_then_inline_comment_expected_pre')
         self.assertEqual(expected_string, converted_test_string)
 
         test_string = self.read_test_file('contains_inline_then_block_then_inline_comment')
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_inline_then_block_then_inline_comment_expected')
+        expected_string = self.read_test_file('contains_inline_then_block_then_inline_comment_expected_pre')
         self.assertEqual(expected_string, converted_test_string)
 
         test_string = self.read_test_file('contains_multiple_inline_comments')
