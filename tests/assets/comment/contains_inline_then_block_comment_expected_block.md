@@ -1,0 +1,1 @@
+<p>{comment We could include a cartoon kangaroo in this curiosity box}</p>
