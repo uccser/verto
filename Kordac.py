@@ -32,25 +32,24 @@ class Kordac(Extension):
         # print('hello, you\'ve called extendMarkdown')
         # NTS not quite in right order with existing md tags
         # TODO compare to regex list in existing CSFG Generator for order
-        md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
-        md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
-        md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
-        md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
-        md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
 
-        md.parser.blockprocessors['hashheader'] = NumberedHashHeaderProcessor(self, md.parser) # format of this one doesn't match the others?
+        # md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
+        # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
+        # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
+        # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
+        # md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+
+        # md.parser.blockprocessors['hashheader'] = NumberedHashHeaderProcessor(self, md.parser) # format of this one doesn't match the others?
+
         # NTS test this
         # md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(md.parser), "_begin")
 
-        md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
+        # md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
         md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
 
         # NTS have not looked into what this does
         # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')
 
-        # print(md.parser.blockprocessors)
-        # for i in md.parser.blockprocessors:
-            # print(i)
 
 
     def reset(self):
