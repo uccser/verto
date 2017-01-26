@@ -3,10 +3,9 @@ from unittest.mock import Mock
 
 from Kordac import Kordac
 from processors.CommentPreprocessor import CommentPreprocessor
-from processors.CommentBlockProcessor import CommentBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
-class CommentTest(BaseTestCase):
+class CommentPreTest(BaseTestCase):
     """
     Inline = single line comment .e.g. {comment hello you look lovely today}
     Block = multi line comment e.g.
@@ -58,6 +57,7 @@ class CommentTest(BaseTestCase):
 
         test_string = self.read_test_file('contains_multiple_inline_comments')
         self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
+        #NTS not counting number of matches?
 
 
     def test_unchanged(self):

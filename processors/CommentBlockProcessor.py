@@ -10,7 +10,7 @@ class CommentBlockProcessor(BlockProcessor):
         self.p_end = re.compile(ext.tag_patterns['comment_block']['pattern_end'])
 
     def test(self, parent, block):
-        return self.p_start.match(block) is not None
+        return self.p_start.search(block) is not None
 
     def run(self, parent, blocks):
         block = blocks.pop(0)

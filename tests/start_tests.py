@@ -3,7 +3,8 @@ from collections import defaultdict
 
 from tests.GlossaryLinkTest import GlossaryLinkTest
 from tests.PanelTest import PanelTest
-from tests.CommentTest import CommentTest
+from tests.CommentPreTest import CommentPreTest
+from tests.CommentBlockTest import CommentBlockTest
 from tests.HeadingTest import HeadingTest
 from tests.ImageTest import ImageTest
 from tests.VideoTest import VideoTest
@@ -15,7 +16,8 @@ def suite():
     allSuites = unittest.TestSuite((
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
         # unittest.makeSuite(PanelTest),
-        unittest.makeSuite(CommentTest),
+        # unittest.makeSuite(CommentPreTest),
+        unittest.makeSuite(CommentBlockTest),
         # unittest.makeSuite(HeadingTest),
         # unittest.makeSuite(ImageTest),
         # unittest.makeSuite(VideoTest),
