@@ -37,14 +37,14 @@ class Kordac(Extension):
         # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+        md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
 
         # md.parser.blockprocessors['hashheader'] = NumberedHashHeaderProcessor(self, md.parser) # format of this one doesn't match the others?
 
         # NTS test this
         # md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(md.parser), "_begin")
 
-        md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
+        # md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
         # md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
 
         # NTS have not looked into what this does
