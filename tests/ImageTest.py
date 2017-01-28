@@ -1,5 +1,6 @@
-import unittest
 import markdown
+from unittest.mock import Mock
+from collections import defaultdict
 
 from Kordac import Kordac
 from processors.ImageBlockProcessor import ImageBlockProcessor
@@ -14,6 +15,7 @@ class ImageTest(BaseTestCase):
         self.ext = Mock()
         self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
+        self.ext.required_files = defaultdict(set)
 
 
     def test_match_false(self):
@@ -21,25 +23,63 @@ class ImageTest(BaseTestCase):
         hey look! I'm a docstring!
         """
         test_string = self.read_test_file('no_image')
-        self.assertFalse(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg=''.format(test_string))
+        self.assertFalse(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
         test_string = self.read_test_file('text_contains_the_word_image')
-        self.assertFalse(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg=''.format(test_string))
-
+        self.assertFalse(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
     def test_match_true(self):
         """
         this needs  a good docstring
         """
         test_string = self.read_test_file('contains_image')
-        self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg=''.format(test_string))
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
         test_string = self.read_test_file('contains_multiple_images')
-        self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg=''.format(test_string))
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
         test_string = self.read_test_file('contains_image_and_text_contains_word_image')
-        self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg=''.format(test_string))
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
         test_string = self.read_test_file('image_in_panel')
-        self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg=''.format(test_string))
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+    def test_unchanged(self):
+        """
+        """
+        test_string = self.read_test_file('no_image')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        expected_string = self.read_test_file('no_image_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+        test_string = self.read_test_file('text_contains_the_word_image')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        expected_string = self.read_test_file('text_contains_the_word_image_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_image_link_converted_to_django_tag(self):
+        """
+        """
+        test_string = self.read_test_file('contains_image')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        expected_string = self.read_test_file('contains_image_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+        test_string = self.read_test_file('contains_multiple_images')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        expected_string = self.read_test_file('contains_multiple_images_expected')
+        # print(converted_test_string)
+        # print()
+        # print(expected_string)
+        self.assertEqual(expected_string, converted_test_string)
+
+        # test_string = self.read_test_file('contains_image_and_text_contains_word_image')
+        # converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        # expected_string = self.read_test_file('contains_image_and_text_contains_word_image_expected')
+        # self.assertEqual(expected_string, converted_test_string)
+
+        # test_string = self.read_test_file('image_in_panel')
+        # converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        # expected_string = self.read_test_file('image_in_panel_expected')
+        # self.assertEqual(expected_string, converted_test_string)
 
