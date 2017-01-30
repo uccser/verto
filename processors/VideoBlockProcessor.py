@@ -7,7 +7,7 @@ YOUTUBE_SRC = 'http://www.youtube.com/embed/{0}?rel=0'
 VIMEO_SRC = 'http://player.vimeo.com/video/{0}'
 
 class VideoBlockProcessor(BlockProcessor):
-    pattern = re.compile('^\{video (?P<args>[^\}]*)\}')
+    # pattern = re.compile('^\{video (?P<args>[^\}]*)\}')
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)

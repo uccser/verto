@@ -24,15 +24,53 @@ class VideoTest(BaseTestCase):
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
 
     def test_match_false(self):
-        test_string = self.read_test_file('fail_string')
+        """
+        """
+        test_string = self.read_test_file('contains_no_video')
         self.assertFalse(VideoBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
+        # test_string = self.read_test_file('contains_incorrect_link') # TODO not sure what this looks like?
+        # self.assertFalse(VideoBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+
     def test_match_true(self):
-        test_string = self.read_test_file('basic')
+        """
+        """
+        test_string = self.read_test_file('contains_youtube_video')
         self.assertTrue(VideoBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
-    def test_parses(self):
-        test_string = self.read_test_file('basic')
+        test_string = self.read_test_file('contains_vimeo_video')
+        self.assertTrue(VideoBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+
+        test_string = self.read_test_file('contains_multiple_videos')
+        self.assertTrue(VideoBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+
+    def test_unchanged(self):
+        """
+        """
+        test_string = self.read_test_file('contains_no_video')
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
-        expected_file_string = self.read_test_file('basic_expected')
+        expected_file_string = self.read_test_file('contains_no_video_expected')
+        self.assertEqual(converted_test_string, expected_file_string)
+
+        test_string = self.read_test_file('contains_incorrect_link')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
+        expected_file_string = self.read_test_file('contains_incorrect_link_expected')
+        self.assertEqual(converted_test_string, expected_file_string)
+
+    def test_video_link_parsed(self):
+        """
+        """
+        test_string = self.read_test_file('contains_youtube_video')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
+        expected_file_string = self.read_test_file('contains_youtube_video_expected')
+        self.assertEqual(converted_test_string, expected_file_string)
+
+        test_string = self.read_test_file('contains_vimeo_video')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
+        expected_file_string = self.read_test_file('contains_vimeo_video_expected')
+        self.assertEqual(converted_test_string, expected_file_string)
+
+        test_string = self.read_test_file('contains_multiple_videos')
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
+        expected_file_string = self.read_test_file('contains_multiple_videos')
         self.assertEqual(converted_test_string, expected_file_string)

@@ -19,8 +19,8 @@ def suite():
         # unittest.makeSuite(CommentPreTest),
         # unittest.makeSuite(CommentBlockTest),
         # unittest.makeSuite(HeadingTest),
-        unittest.makeSuite(ImageTest),
-        # unittest.makeSuite(VideoTest),
+        # unittest.makeSuite(ImageTest),
+        unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest)
     ))
 
