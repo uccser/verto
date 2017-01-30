@@ -3,7 +3,7 @@ import re
 from processors.utils import parse_argument, centre_html
 from markdown.util import etree
 
-
+# NTS needs to include alt tags
 class ImageBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
@@ -13,16 +13,23 @@ class ImageBlockProcessor(BlockProcessor):
         self.pattern = re.compile(ext.tag_patterns['image']['pattern'])
 
     def test(self, parent, block):
-        return self.pattern.match(block) is not None
+        return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
-        match = self.pattern.match(blocks.pop(0))
+        block = blocks.pop(0)
+        match = self.pattern.match(block)
+
+        pattern_pos = match.span()
+        text_before_image = block[:pattern_pos[0]]
+
         arguments = match.group('args')
         filename = parse_argument('filename', arguments)
 
+        html_string = ''
         if filename:
-            html_string = self.IMAGE_TEMPLATE.format(filename=filename)
+            html_string += self.IMAGE_TEMPLATE.format(filename=filename)
             node = etree.fromstring(html_string)
-            parent.append(centre_html(etree.fromstring(html_string), 8))
+            parent.append(node)
 
             self.required.add(filename)
+
