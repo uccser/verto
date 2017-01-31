@@ -27,7 +27,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertFalse(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('no_block_comment_expected')
+        expected_string = self.read_expected_output_file('no_block_comment_expected')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_text_contains_the_word_comment(self):
@@ -35,7 +35,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertFalse(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('text_contains_the_word_comment_expected')
+        expected_string = self.read_expected_output_file('text_contains_the_word_comment_expected')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_inline_comment(self):
@@ -43,7 +43,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertFalse(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_inline_comment_expected_block')
+        expected_string = self.read_expected_output_file('contains_inline_comment_expected_block')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_block_comment(self):
@@ -51,7 +51,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertTrue(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_block_comment_expected_block')
+        expected_string = self.read_expected_output_file('contains_block_comment_expected_block')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_inline_then_block_comment(self):
@@ -59,7 +59,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertTrue(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_inline_then_block_comment_expected_block')
+        expected_string = self.read_expected_output_file('contains_inline_then_block_comment_expected_block')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_block_then_inline_comment(self):
@@ -67,7 +67,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertTrue(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_block_then_inline_comment_expected_block')
+        expected_string = self.read_expected_output_file('contains_block_then_inline_comment_expected_block')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_inline_then_block_then_inline_comment(self):
@@ -75,7 +75,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertTrue(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_inline_then_block_then_inline_comment_expected_block')
+        expected_string = self.read_expected_output_file('contains_inline_then_block_then_inline_comment_expected_block')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_multiple_block_comemnts(self):
@@ -83,7 +83,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertTrue(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_multiple_block_comments_expected')
+        expected_string = self.read_expected_output_file('contains_multiple_block_comments_expected')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_block_comment_on_single_line(self):
@@ -91,7 +91,7 @@ class CommentBlockTest(BaseTestCase):
         self.assertTrue(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
-        expected_string = self.read_test_file('contains_block_comment_on_single_line_expected_block')
+        expected_string = self.read_expected_output_file('contains_block_comment_on_single_line_expected_block')
         self.assertEqual(expected_string, converted_test_string)
 
     def test_block_comment_contains_another_block_comment(self):
