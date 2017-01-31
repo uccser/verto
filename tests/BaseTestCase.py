@@ -16,6 +16,7 @@ class BaseTestCase(unittest.TestCase):
         """
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.test_file_path = 'tests/assets/{tag_name}/{filename}.md'
+        self.expected_output_file_path = 'tests/assets/{tag_name}/{filename}.html'
         # self.maxDiff = 640  # Set to None for full output of all test failures
         self.maxDiff = None
 
@@ -25,6 +26,15 @@ class BaseTestCase(unittest.TestCase):
         This function reads a file from a given filename in UTF-8 encoding.
         """
         file_path = self.test_file_path.format(tag_name=self.tag_name, filename=filename)
+        file_object = open(file_path, encoding="utf-8")
+        return file_object.read()
+
+    def read_expected_output_file(self, filename):
+        """Returns a string for a given file
+
+        This function reads a file from a given filename in UTF-8 encoding.
+        """
+        file_path = self.expected_output_file_path.format(tag_name=self.tag_name, filename=filename)
         file_object = open(file_path, encoding="utf-8")
         return file_object.read()
 
