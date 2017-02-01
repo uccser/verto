@@ -10,4 +10,3 @@ using a widely agreed on convention called 'Big-O Notation',
 in the ["The whole story!"](chapters/algorithms.html#the-whole-story) section at the end of this chapter.
 
 {panel end}
-

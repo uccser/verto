@@ -15,19 +15,8 @@ class PanelTest(BaseTestCase):
         self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
 
-    def test_match_false(self):
-        test_string = self.read_test_file('fail_string')
-        self.assertFalse(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-
-    def test_match_true(self):
-        test_string = self.read_test_file('basic')
-        self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-
     def test_parses_no_blank_lines_single_paragraph(self):
-        test_string = self.read_test_file('external_links')
-        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
-        expected_file_string = self.read_test_file('external_links_expected')
-        self.assertEqual(converted_test_string, expected_file_string)
+        pass
 
     def test_parses_blank_lines_multiple_paragraphs(self):
         pass
@@ -36,7 +25,12 @@ class PanelTest(BaseTestCase):
         pass
 
     def test_parses_external_link(self):
-        pass
+        test_string = self.read_test_file('parses_external_link')
+        self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        expected_string = self.read_expected_output_file('parses_external_link')
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_parses_glossary_link(self):
         pass
