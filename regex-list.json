@@ -24,5 +24,8 @@
     },
     "heading": {
         "pattern": "r'(^|\n)(?P<level>#{1,6})(?P<header>.*?)#*(\n|$)'"
+    },
+    "button": {
+        "pattern": "\\{button (?P<args>[^\\}]*)\\}"
     }
 }

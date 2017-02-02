@@ -9,6 +9,7 @@ from processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
 from processors.DjangoPostProcessor import DjangoPostProcessor
 from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
+from processors.ButtonPreprocessor import ButtonPreprocessor
 
 from collections import defaultdict
 from os import listdir
@@ -37,7 +38,9 @@ class Kordac(Extension):
         # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
-        md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+        # md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+
+        md.preprocessors.add('button', ButtonPreprocessor(self, md), "_begin")
 
         # md.parser.blockprocessors['hashheader'] = NumberedHashHeaderProcessor(self, md.parser) # format of this one doesn't match the others?
 
