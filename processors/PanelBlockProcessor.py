@@ -52,7 +52,7 @@ class PanelBlockProcessor(BlockProcessor):
         if panel_attributes['summary']:
             heading += ': {}'.format(panel_attributes['summary'])
 
-        self.PANEL_TEMPLATE = self.PANEL_TEMPLATE.format(
+        formatted_template = self.PANEL_TEMPLATE.format(
                 type_class='panel-'+panel_attributes['panel_type'],
                 expanded=panel_attributes['expanded'],
                 panel_heading=heading,
@@ -60,7 +60,7 @@ class PanelBlockProcessor(BlockProcessor):
                 )
 
         # create panel node and add it to parent element
-        node = etree.fromstring(self.PANEL_TEMPLATE)
+        node = etree.fromstring(formatted_template)
         parent.append(node)
 
     def get_attributes(self, args):
@@ -72,4 +72,3 @@ class PanelBlockProcessor(BlockProcessor):
             'expanded': expanded,
             'summary': summary
         }
-

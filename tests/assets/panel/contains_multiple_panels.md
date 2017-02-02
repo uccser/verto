@@ -9,7 +9,6 @@ using a widely agreed on convention called 'Big-O Notation',
 in the ["The whole story!"](chapters/algorithms.html#the-whole-story) section at the end of this chapter.
 {panel end}
 
-
 {panel type="teacher-note" summary="Presenting searching in the classroom"}
 
 The present searching game in this section is split into two parts, the first corresponds to the Linear Search algorithm (also known as Sequential Search) and the second corresponds to {glossary-link term="Binary Search"}Binary Search{glossary-link end}. We recommend you play through the levels yourself for a while, or after reading this description. It is based on the [CS Unplugged Battleships game](http://csunplugged.com/searching-algorithms) which can be used as a classroom activity to enforce the lessons in this chapter (the hashing activity is not used for the present searching game). The
@@ -24,7 +23,6 @@ When students have finished ask them questions like "Where you able to find the 
 {panel type="curiosity" summary="How is Bozo search different from Linear search?"}
 If you watched the video at the beginning of the chapter you might be thinking that what you did in the present searching game sounds more like Bozo Search than Linear Search, but actually Bozo Search is even sillier than this! If you were doing a Bozo Search then after unwrapping a present and finding a monster inside, you would wrap the present back up and try another one at random! This means you might end up checking the same present again and again and again and you might never find the pet, even with a small number of presents!
 {panel end}
-
 
 {panel type="teacher-note" summary="Teaching binary search with a phone book"}
 The binary search algorithm can be demonstrated with a phone book or dictionary: choose a name, then open it at the *middle* page of the book (students might point out that you could guess how far through to open it, but insist on starting in the middle).
@@ -70,7 +68,6 @@ For example: To calculate the number of comparisons required for 20 boxes, using
 Some students may recognise this formula as Gauss' trick (see [the anecdotes about Gauss on Wikipedia](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss#Anecdotes). One way of expressing this trick for the above example is that 20 boxes would require summing the numbers 1+2+3+...+17+18+19. If we write the numbers backwards (19+18+17+...3+2+1) then it would be the same sum. Now if we add these two lists together, pairing up the corresponding numbers, we get (1+19)+(2+18)+(3+17)+...+(17+3)+(18+2)+(19+1). Each pair in this sum adds up to 20, and there are 19 pairs, so adding the two lists together is just 20x19. Since both lists add up to the same amount, the original sum is a half of that, or 20x19/2, which is 190 comparisons, which is what we got from the formula above. If students can follow this reasoning then they can easily work out the comparisons needed for a large number of boxes, and the don't have to use the "magic" formula given above. There's a visual explanation in [this video](http://www.numberphile.com/videos/one_to_million.html) and more examples on [this page](http://nzmaths.co.nz/gauss-trick-staff-seminar).
 {panel end}
 
-
 {panel type="teacher-note" summary="This section could be skipped"}
 This algorithm is useful and commonly taught, although for the purpose of teaching the principles of algorithms, it's doesn't add a lot to what we've just covered with selection sort, so could be skipped.
 However, if you have time, it's worth looking at for extra examples.
@@ -91,7 +88,6 @@ Programming languages are often created or adapted to express algorithms clearly
 For example, it is easier to read mathematical algorithms in Python than Scratch.
 Similarly, data flow algorithms are clearer in visual programming languages like LabVIEW than Python.
 {panel end}
-
 
 {panel type="extra-for-experts" summary="Examples of Big O notation"}
 Here are some Big O examples:
