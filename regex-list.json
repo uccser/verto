@@ -14,7 +14,7 @@
         "pattern" : "\\{comment ((?!end)|end)[^\\}]+\\}"
     },
     "video": {
-        "pattern": "^\\{video (?P<args>[^\\}]*)\\}"
+        "pattern": "\\{video (?P<args>[^\\}]*)\\}"
     },
     "image": {
         "pattern": "(\\{image (?P<args>[^\\}]*)\\})"
