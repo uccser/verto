@@ -1,7 +1,7 @@
 import markdown
 from unittest.mock import Mock
 
-from Kordac import Kordac
+from KordacExtension import KordacExtension
 from processors.PanelBlockProcessor import PanelBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
@@ -25,7 +25,7 @@ class PanelTest(BaseTestCase):
 
     def test_parses_no_blank_lines_single_paragraph(self):
         test_string = self.read_test_file('external_links')
-        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()]) + '\n'
+        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()]) + '\n'
         expected_file_string = self.read_test_file('external_links_expected')
         self.assertEqual(converted_test_string, expected_file_string)
 
