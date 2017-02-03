@@ -1,7 +1,7 @@
 import unittest
 import markdown
 
-from Kordac import Kordac
+from KordacExtension import KordacExtension
 from processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
 from tests.BaseTestCase import BaseTestCase
 

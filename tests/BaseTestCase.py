@@ -1,7 +1,7 @@
 import unittest
 import json
 import markdown
-from Kordac import Kordac
+from KordacExtension import KordacExtension
 from markdown.extensions import Extension
 
 class BaseTestCase(unittest.TestCase):
@@ -46,7 +46,7 @@ class BaseTestCase(unittest.TestCase):
         return json.loads(pattern_data)
 
     def setUp(self):
-        self.md = markdown.Markdown(extensions=[Kordac()])
+        self.md = markdown.Markdown(extensions=[KordacExtension()])
 
     def tearDown(self):
         self.md = None

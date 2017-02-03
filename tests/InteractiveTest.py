@@ -1,7 +1,7 @@
 import unittest
 import markdown
 
-from Kordac import Kordac
+from KordacExtension import KordacExtension
 from processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
