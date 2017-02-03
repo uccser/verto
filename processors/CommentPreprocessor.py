@@ -1,7 +1,6 @@
 from markdown.preprocessors import Preprocessor
 import re
 
-
 class CommentPreprocessor(Preprocessor):
     # comments contained in one line
 
