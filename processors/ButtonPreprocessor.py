@@ -15,15 +15,15 @@ class ButtonPreprocessor(Preprocessor):
         return self.pattern.search(lines) is not None
 
     def run(self, lines):
-        new_lines = []
+        test = ''
         for i,line in enumerate(lines):
             match = self.pattern.search(line)
             if match is not None:
                 arguments = match.group('args')
                 link = parse_argument('link', arguments)
                 text = parse_argument('text', arguments)
-                new_lines.append(self.BUTTON_TEMPLATE.format(text=text,link=link))
+                lines[i] = self.BUTTON_TEMPLATE.format(text=text,link=link)
             elif len(line) > 0:
-                new_lines.append(markdown.markdown(line))
-        return new_lines
+                lines[i] = markdown.markdown(line)
+        return lines
 

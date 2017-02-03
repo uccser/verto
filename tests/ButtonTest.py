@@ -17,8 +17,13 @@ class ButtonTest(BaseTestCase):
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
         self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
 
-    def test_on_button(self):
-        pass
+    def test_no_button(self):
+        test_string = self.read_test_file('no_button')
+        self.assertFalse(ButtonPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        expected_string = self.read_expected_output_file('no_button_expected')
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_button(self):
         test_string = self.read_test_file('contains_button')
@@ -26,10 +31,14 @@ class ButtonTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
         expected_string = self.read_expected_output_file('contains_button_expected')
-        print('CONVERTED')
-        print(converted_test_string)
-        # print('EXPECTED')
-        # print(expected_string)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_multiple_buttons_expected(self):
+        test_string = self.read_test_file('contains_multiple_buttons')
+        self.assertTrue(ButtonPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[Kordac()])
+        expected_string = self.read_expected_output_file('contains_multiple_buttons_expected')
         self.assertEqual(expected_string, converted_test_string)
 
 
