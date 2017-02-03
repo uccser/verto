@@ -7,6 +7,7 @@ from processors.VideoBlockProcessor import VideoBlockProcessor
 from processors.ImageBlockProcessor import ImageBlockProcessor
 from processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
+from processors.HeadingPreprocessor import HeadingPreprocessor
 from processors.DjangoPostProcessor import DjangoPostProcessor
 from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from processors.ButtonPreprocessor import ButtonPreprocessor
@@ -25,35 +26,26 @@ class KordacExtension(Extension):
         self.tag_patterns = {}
         super().__init__(*args, **kwargs)
 
-    # md = instance of Markdown class we are modifying
     def extendMarkdown(self, md, md_globals):
 
         self.loadHTMLTemplates()
         self.loadTagPatterns()
-        # print('hello, you\'ve called extendMarkdown')
-        # NTS not quite in right order with existing md tags
-        # TODO compare to regex list in existing CSFG Generator for order
 
+        md.preprocessors.add('headingpre', HeadingPreprocessor(self, md), '_begin')
         # md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
         # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
-        md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+        # md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
 
-        # md.parser.blockprocessors['hashheader'] = NumberedHashHeaderProcessor(self, md.parser) # format of this one doesn't match the others?
-
-        # NTS test this
-        # md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(md.parser), "_begin")
+        md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(self, md.parser), "_begin")
 
         # md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
         # md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
-        md.preprocessors.add('button', ButtonPreprocessor(self, md), '_begin')
+        # md.preprocessors.add('button', ButtonPreprocessor(self, md), '_begin')
 
         # NTS have not looked into what this does
         # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')
-
-        self.page_heading = 'hello'
-
 
 
     def reset(self):
