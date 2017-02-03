@@ -1,0 +1,7 @@
+In 1996, The ARIANE 5 rocket of the European Space Agency was launched for its first test flight: Countdown, ignition, flame and smoke, soaring rocket... then BANG! Lots of little pieces scattered through the South American rainforest. Investigators had to piece together what happened and finally tracked down this tiny, irrelevant bug. A piece of software on board the rocket which was not even needed had reported an error and started a self-destruct sequence. Thankfully, no one was on board but the failure still caused about US$370m damage.
+
+{video url="https://www.youtube.com/embed/gp_D8r-2hwk?rel=0"}
+
+{image filename="ariane-rocket-cartoon.png" alt="Ariane Cartoon"}
+
+In extreme cases, software bugs can endanger lives. This happened in the 1980s, for example, when a [radiation therapy machine](https://en.wikipedia.org/wiki/Therac) caused the deaths of 3 patients by giving 100 times the intended dose of radiation. And in 1979, a US army computer almost started a nuclear war, when it misinterpreted a simulation of the Soviet Union launching a missile as the real thing! (If you are interested in other software failures, [CS4FN](http://www.cs4fn.org/softwareengineering/backtodrawingboard.php) lists the most spectacular ones!)
