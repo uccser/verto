@@ -9,6 +9,7 @@ from processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
 from processors.DjangoPostProcessor import DjangoPostProcessor
 from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
+from processors.ButtonPreprocessor import ButtonPreprocessor
 
 from collections import defaultdict
 from os import listdir
@@ -46,6 +47,7 @@ class KordacExtension(Extension):
 
         # md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
         # md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
+        md.preprocessors.add('button', ButtonPreprocessor(self, md), '_begin')
 
         # NTS have not looked into what this does
         # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')
