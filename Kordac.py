@@ -15,7 +15,7 @@ from os import listdir
 import re
 import json
 
-class Kordac(Extension):
+class KordacExtension(Extension):
     def __init__(self, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
@@ -49,6 +49,8 @@ class Kordac(Extension):
 
         # NTS have not looked into what this does
         # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')
+
+        self.page_heading = 'hello'
 
 
 
