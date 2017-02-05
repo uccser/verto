@@ -2,7 +2,7 @@ import markdown
 from unittest.mock import Mock
 
 from KordacExtension import KordacExtension
-from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
+from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 

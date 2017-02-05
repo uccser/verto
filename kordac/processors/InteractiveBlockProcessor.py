@@ -1,10 +1,9 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.postprocessors import Postprocessor
 from markdown.treeprocessors import Treeprocessor
-from processors.utils import parse_argument
+from kordac.processors.utils import parse_argument
 from markdown.util import etree
 
-import bs4
 import re
 import os
 

@@ -2,7 +2,7 @@ import markdown
 from unittest.mock import Mock
 
 from KordacExtension import KordacExtension
-from processors.CommentBlockProcessor import CommentBlockProcessor
+from kordac.processors.CommentBlockProcessor import CommentBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 class CommentBlockTest(BaseTestCase):

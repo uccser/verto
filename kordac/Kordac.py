@@ -1,6 +1,6 @@
 import markdown
 import mdx_math
-from KordacExtension import KordacExtension
+from kordac.KordacExtension import KordacExtension
 
 class Kordac():
 
@@ -21,4 +21,3 @@ class Kordac():
         self.heading = ext.page_heading
 
         return self
-
