@@ -23,7 +23,10 @@
         "pattern": "^\\{interactive ?(?P<args>[^\\}]*)\\}$"
     },
     "heading": {
-        "pattern": "r'(^|\n)(?P<level>#{1,6})(?P<header>.*?)#*(\n|$)'"
+        "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
+    },
+    "heading_pre": {
+    	"pattern": "# (.*)"
     },
     "button": {
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"
