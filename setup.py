@@ -15,7 +15,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
     ],
-    packages=['kordac'],
+    packages=find_packages(),
+    include_package_data=True,
     install_requires=[
         'markdown>=2.6.8',
         'python-markdown-math>=0.2'
