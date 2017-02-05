@@ -9,13 +9,13 @@ Therefore features may not be implemented yet, may change, be buggy, or complete
 
 1. `$ git clone https://github.com/uccser/kordac.git`
 2. `$ cd kordac`
-3. `kordac$ pip install .`
+3. `$ pip3 install .`
 
 ## Quick usage
 
 ```python
 >>> import kordac
->>> convertor = kordac.Kocdac()
+>>> convertor = kordac.Kordac()
 >>> result = convertor.run('Hi')
 >>> result.html_string
 '<p>Hi</p>'
