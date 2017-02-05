@@ -2,7 +2,7 @@ import markdown
 from unittest.mock import Mock
 
 from KordacExtension import KordacExtension
-from processors.ButtonPreprocessor import ButtonPreprocessor
+from kordac.processors.ButtonPreprocessor import ButtonPreprocessor
 from tests.BaseTestCase import BaseTestCase
 
 

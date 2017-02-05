@@ -3,7 +3,7 @@ from unittest.mock import Mock
 from collections import defaultdict
 
 from KordacExtension import KordacExtension
-from processors.ImageBlockProcessor import ImageBlockProcessor
+from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 class ImageTest(BaseTestCase):

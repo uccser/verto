@@ -1,16 +1,16 @@
 from markdown.extensions import Extension
 
-from processors.PanelBlockProcessor import PanelBlockProcessor
-from processors.CommentPreprocessor import CommentPreprocessor
-from processors.CommentBlockProcessor import CommentBlockProcessor
-from processors.VideoBlockProcessor import VideoBlockProcessor
-from processors.ImageBlockProcessor import ImageBlockProcessor
-from processors.InteractiveBlockProcessor import InteractiveBlockProcessor
-from processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
-from processors.HeadingPreprocessor import HeadingPreprocessor
-from processors.DjangoPostProcessor import DjangoPostProcessor
-from processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
-from processors.ButtonPreprocessor import ButtonPreprocessor
+from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
+from kordac.processors.CommentPreprocessor import CommentPreprocessor
+from kordac.processors.CommentBlockProcessor import CommentBlockProcessor
+from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
+from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
+from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
+from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
+from kordac.processors.HeadingPreprocessor import HeadingPreprocessor
+from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
+from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
+from kordac.processors.ButtonPreprocessor import ButtonPreprocessor
 
 from collections import defaultdict
 from os import listdir
@@ -54,12 +54,11 @@ class KordacExtension(Extension):
 
 
     def loadHTMLTemplates(self):
-        for file in listdir('html-templates'): # TODO there has got to be a better way to do this
+        for file in listdir('kordac/html-templates'): # TODO there has got to be a better way to do this
             if 'swp' not in file: # HACK have vim files open atm, so they are getting in the way...
                 tag_name = re.search(r'(.*?).html', file).groups()[0]
-                self.html_templates[tag_name] = open('html-templates/' + file).read()
+                self.html_templates[tag_name] = open('kordac/html-templates/' + file).read()
 
     def loadTagPatterns(self):
-        pattern_data = open('regex-list.json').read()
+        pattern_data = open('kordac/regex-list.json').read()
         self.tag_patterns = json.loads(pattern_data)
-

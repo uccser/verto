@@ -1,6 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
-import processors.utils as utils
+import kordac.processors.utils as utils
 import re
 
 
@@ -72,4 +72,3 @@ class PanelBlockProcessor(BlockProcessor):
             'expanded': expanded,
             'summary': summary
         }
-

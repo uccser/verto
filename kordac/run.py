@@ -6,4 +6,3 @@ for chapter in ['algorithms', 'introduction']:
         converted = Kordac().run(s)
     with open("output/{}.html".format(chapter), 'w', encoding='utf8') as f:
         f.write(converted.html_string)
-
