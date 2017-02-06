@@ -17,6 +17,8 @@ from os import listdir
 import os.path
 import re
 import json
+import yaml
+
 
 class KordacExtension(Extension):
     def __init__(self, *args, **kwargs):
@@ -28,25 +30,37 @@ class KordacExtension(Extension):
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-
         self.loadHTMLTemplates()
         self.loadTagPatterns()
 
-        md.preprocessors.add('headingpre', HeadingPreprocessor(self, md), '_begin')
-        # md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
-        # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+        processors = {
+            'preprocessors': {
+                'heading': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
+                'comment': ['commentpre', CommentPreprocessor(self, md), '_begin'],
+                'button': ['button', ButtonPreprocessor(self, md), '_begin']
+                },
+            'blockprocessors': {
+                'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
+                'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+                'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
+                'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+                'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+                'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+                'comment': ['comment', CommentBlockProcessor(self, md.parser), '_begin']
+                },
+            }
 
-        md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(self, md.parser), "_begin")
 
-        # md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
-        # md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
-        # md.preprocessors.add('button', ButtonPreprocessor(self, md), '_begin')
-
-        # NTS have not looked into what this does
-        # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')
+        with open('kordac/tags.yaml', 'r') as f:
+            tags = yaml.load(f)
+            tag_processor = None
+            for tag in tags['enabled-tags']:
+                if tag in processors['preprocessors']:
+                    tag_processor = processors['preprocessors'].get(tag)
+                    md.preprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
+                if tag in processors['blockprocessors']:
+                    tag_processor = processors['blockprocessors'].get(tag)
+                    md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
 
     def reset(self):

@@ -8,7 +8,6 @@ class Kordac():
         self.heading = 'I am a heading'
         self.required_files = {}
         self.html_string = ''
-        html = None
         ext = KordacExtension()
         converter = markdown.Markdown(extensions=[
             'markdown.extensions.fenced_code',
