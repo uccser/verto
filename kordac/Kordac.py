@@ -2,22 +2,51 @@ import markdown
 import mdx_math
 from kordac.KordacExtension import KordacExtension
 
-class Kordac():
+class Kordac(object):
+    """A converter object for converting markdown
+    with complex tags to HTML.
+    """
 
-    def run(self, md_string):
-        self.heading = 'I am a heading'
-        self.required_files = {}
-        self.html_string = ''
-        html = None
-        ext = KordacExtension()
-        converter = markdown.Markdown(extensions=[
+    def __init__(self):
+        """Creates a Kordac object."""
+        self.kordac_extension = KordacExtension()
+        self.converter = markdown.Markdown(extensions=[
             'markdown.extensions.fenced_code',
             'markdown.extensions.codehilite',
             'markdown.extensions.sane_lists',
             mdx_math.MathExtension(enable_dollar_delimiter=True),
-            ext])
+            self.kordac_extension])
 
-        self.html_string = converter.convert(md_string)
-        self.heading = ext.page_heading
+    def run(self, text):
+        """Return a KordacResult object after converting
+        the given markdown string.
 
-        return self
+        Args:
+            text: A string of Markdown text to be converted.
+
+        Returns:
+            A KordacResult object.
+        """
+        self.kordac_extension.heading = None
+        html = self.converter.convert(text)
+        result = KordacResult(
+            html=html,
+            heading=self.kordac_extension.page_heading
+        )
+        return result
+
+
+class KordacResult(object):
+    """Object created by Kordac containing the result data
+    after a conversion by run.
+    """
+
+    def __init__(self, html=None, heading=None):
+        """Create a KordacResult object.
+
+        Args:
+            html: A string of HTML text.
+            heading: The first heading encountered when converting.
+        """
+        self.html = html
+        self.heading = heading
