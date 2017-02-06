@@ -1,4 +1,3 @@
 {panel type="extra-for-experts" summary="Mathblocks"}
-It's hard to write that down (although you could use “”), so we have a symbol especially for it, which is the Greek letter epsilon: {math}\epsilon{math end}.
-You'll come across {math}\epsilon{math end} quite often with formal languages.
+Here is a random equation about the Greek epsilon symbol: {math}\epsilon = \frac{\Delta w}{\vec{d}}{math end}. More stuff about the equation and what the letters mean.
 {panel end}

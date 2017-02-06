@@ -33,7 +33,7 @@ class KordacExtension(Extension):
         self.loadTagPatterns()
 
         md.preprocessors.add('headingpre', HeadingPreprocessor(self, md), '_begin')
-        # md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
+        md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
         # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
         # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
