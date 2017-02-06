@@ -34,18 +34,15 @@ class KordacExtension(Extension):
         self.page_scripts = []
         self.required_files = defaultdict(set)
         self.page_heading = None
-        if html_templates != {}:
-            self.html_templates = html_templates
-        else :
-            self.loadHTMLTemplates()
-        self.tag_patterns = {}
+        self.html_templates = self.loadHTMLTemplates(html_templates)
+        self.tag_patterns = self.loadTagPatterns()
         self.tags = tags if tags != [] else ALL_TAGS
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-        # self.loadHTMLTemplates()
-        print(self.html_templates)
-        self.loadTagPatterns()
+
+        for i in self.html_templates:
+            print(self.html_templates[i])
 
         processors = {
             'preprocessors': {
@@ -78,12 +75,17 @@ class KordacExtension(Extension):
         self.required_files = {}
 
 
-    def loadHTMLTemplates(self):
+    def loadHTMLTemplates(self, custom_templates):
+        templates = {}
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
             tag_name = re.search(r'(.*?).html', file).groups()[0]
-            self.html_templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+            if tag_name in custom_templates:
+                templates[tag_name] = custom_templates[tag_name]
+            else:
+                templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+        return templates
 
     def loadTagPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
-        self.tag_patterns = json.loads(pattern_data)
+        return json.loads(pattern_data)
 
