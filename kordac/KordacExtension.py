@@ -30,17 +30,21 @@ ALL_TAGS = [
         ]
 
 class KordacExtension(Extension):
-    def __init__(self, tags=[], *args, **kwargs):
+    def __init__(self, tags=[], html_templates={}, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
         self.page_heading = None
-        self.html_templates = {}
+        if html_templates != {}:
+            self.html_templates = html_templates
+        else :
+            self.loadHTMLTemplates()
         self.tag_patterns = {}
         self.tags = tags if tags != [] else ALL_TAGS
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-        self.loadHTMLTemplates()
+        # self.loadHTMLTemplates()
+        print(self.html_templates)
         self.loadTagPatterns()
 
         processors = {
@@ -75,11 +79,11 @@ class KordacExtension(Extension):
 
 
     def loadHTMLTemplates(self):
-        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')): # TODO there has got to be a better way to do this
-            if 'swp' not in file: # HACK have vim files open atm, so they are getting in the way...
-                tag_name = re.search(r'(.*?).html', file).groups()[0]
-                self.html_templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
+            tag_name = re.search(r'(.*?).html', file).groups()[0]
+            self.html_templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
 
     def loadTagPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
         self.tag_patterns = json.loads(pattern_data)
+

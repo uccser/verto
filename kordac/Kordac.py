@@ -4,11 +4,11 @@ from kordac.KordacExtension import KordacExtension
 
 class Kordac():
 
-    def run(self, md_string, tags=[]):
+    def run(self, md_string, tags, html_templates):
         self.heading = 'I am a heading'
         self.required_files = {}
         self.html_string = ''
-        ext = KordacExtension(tags)
+        ext = KordacExtension(tags, html_templates)
         converter = markdown.Markdown(extensions=[
             'markdown.extensions.fenced_code',
             'markdown.extensions.codehilite',
