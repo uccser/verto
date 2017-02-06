@@ -17,18 +17,18 @@ class Kordac(object):
         mdx_math.MathExtension(enable_dollar_delimiter=True),
         kordac_extension])
 
-    def run(self, markdown_string):
+    def run(self, text):
         """Return a KordacResult object after converting
         the given markdown string.
 
         Args:
-            markdown_string: A string of markdown text to be converted.
+            text: A string of Markdown text to be converted.
 
         Returns:
             A KordacResult object.
         """
         kordac_extension.heading = None
-        html = self.converter.convert(markdown_string)
+        html = self.converter.convert(text)
         result = KordacResult(
             html=html,
             heading=kordac_extension.page_heading
