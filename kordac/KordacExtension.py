@@ -17,16 +17,26 @@ from os import listdir
 import os.path
 import re
 import json
-import yaml
 
+ALL_TAGS = [
+        'heading',
+        'comment',
+        'button',
+        'panel',
+        'video',
+        'image',
+        'interactive',
+        'glossary-link'
+        ]
 
 class KordacExtension(Extension):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, tags=[], *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
         self.page_heading = None
         self.html_templates = {}
         self.tag_patterns = {}
+        self.tags = tags if tags != [] else ALL_TAGS
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
@@ -50,17 +60,13 @@ class KordacExtension(Extension):
                 },
             }
 
-
-        with open('kordac/tags.yaml', 'r') as f:
-            tags = yaml.load(f)
-            tag_processor = None
-            for tag in tags['enabled-tags']:
-                if tag in processors['preprocessors']:
-                    tag_processor = processors['preprocessors'].get(tag)
-                    md.preprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
-                if tag in processors['blockprocessors']:
-                    tag_processor = processors['blockprocessors'].get(tag)
-                    md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
+        for tag in self.tags:
+            if tag in processors['preprocessors']:
+                tag_processor = processors['preprocessors'].get(tag)
+                md.preprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
+            if tag in processors['blockprocessors']:
+                tag_processor = processors['blockprocessors'].get(tag)
+                md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
 
     def reset(self):
