@@ -18,35 +18,56 @@ import os.path
 import re
 import json
 
+ALL_TAGS = [
+        'heading',
+        'comment',
+        'button',
+        'panel',
+        'video',
+        'image',
+        'interactive',
+        'glossary-link'
+        ]
+
 class KordacExtension(Extension):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, tags=[], html_templates={}, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
         self.page_heading = None
-        self.html_templates = {}
-        self.tag_patterns = {}
+        self.html_templates = self.loadHTMLTemplates(html_templates)
+        self.tag_patterns = self.loadTagPatterns()
+        self.tags = tags if tags != [] else ALL_TAGS
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
 
-        self.loadHTMLTemplates()
-        self.loadTagPatterns()
+        for i in self.html_templates:
+            print(self.html_templates[i])
 
-        md.preprocessors.add('headingpre', HeadingPreprocessor(self, md), '_begin')
-        # md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
-        # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+        processors = {
+            'preprocessors': {
+                'heading': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
+                'comment': ['commentpre', CommentPreprocessor(self, md), '_begin'],
+                'button': ['button', ButtonPreprocessor(self, md), '_begin']
+                },
+            'blockprocessors': {
+                'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
+                'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+                'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
+                'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+                'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+                'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+                'comment': ['comment', CommentBlockProcessor(self, md.parser), '_begin']
+                },
+            }
 
-        md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(self, md.parser), "_begin")
-
-        # md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
-        # md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
-        # md.preprocessors.add('button', ButtonPreprocessor(self, md), '_begin')
-
-        # NTS have not looked into what this does
-        # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')
+        for tag in self.tags:
+            if tag in processors['preprocessors']:
+                tag_processor = processors['preprocessors'].get(tag)
+                md.preprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
+            if tag in processors['blockprocessors']:
+                tag_processor = processors['blockprocessors'].get(tag)
+                md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
 
     def reset(self):
@@ -54,12 +75,17 @@ class KordacExtension(Extension):
         self.required_files = {}
 
 
-    def loadHTMLTemplates(self):
-        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')): # TODO there has got to be a better way to do this
-            if 'swp' not in file: # HACK have vim files open atm, so they are getting in the way...
-                tag_name = re.search(r'(.*?).html', file).groups()[0]
-                self.html_templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+    def loadHTMLTemplates(self, custom_templates):
+        templates = {}
+        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
+            tag_name = re.search(r'(.*?).html', file).groups()[0]
+            if tag_name in custom_templates:
+                templates[tag_name] = custom_templates[tag_name]
+            else:
+                templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+        return templates
 
     def loadTagPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
-        self.tag_patterns = json.loads(pattern_data)
+        return json.loads(pattern_data)
+

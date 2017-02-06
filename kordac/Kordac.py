@@ -7,17 +7,7 @@ class Kordac(object):
     with complex tags to HTML.
     """
 
-    def __init__(self):
-        """Creates a Kordac object."""
-        self.kordac_extension = KordacExtension()
-        self.converter = markdown.Markdown(extensions=[
-            'markdown.extensions.fenced_code',
-            'markdown.extensions.codehilite',
-            'markdown.extensions.sane_lists',
-            mdx_math.MathExtension(enable_dollar_delimiter=True),
-            self.kordac_extension])
-
-    def run(self, text):
+    def run(self, text, tags, html_templates):
         """Return a KordacResult object after converting
         the given markdown string.
 
@@ -27,11 +17,18 @@ class Kordac(object):
         Returns:
             A KordacResult object.
         """
-        self.kordac_extension.heading = None
-        html = self.converter.convert(text)
+        kordac_extension = KordacExtension(tags, html_templates)
+        converter = markdown.Markdown(extensions=[
+            'markdown.extensions.fenced_code',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.sane_lists',
+            mdx_math.MathExtension(enable_dollar_delimiter=True),
+            kordac_extension])
+        kordac_extension.heading = None
+        html = converter.convert(text)
         result = KordacResult(
             html=html,
-            heading=self.kordac_extension.page_heading
+            heading=kordac_extension.page_heading
         )
         return result
 
