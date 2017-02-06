@@ -9,13 +9,13 @@ class Kordac(object):
 
     def __init__(self):
         """Creates a Kordac object."""
-        kordac_extension = KordacExtension()
+        self.kordac_extension = KordacExtension()
         self.converter = markdown.Markdown(extensions=[
-        'markdown.extensions.fenced_code',
-        'markdown.extensions.codehilite',
-        'markdown.extensions.sane_lists',
-        mdx_math.MathExtension(enable_dollar_delimiter=True),
-        kordac_extension])
+            'markdown.extensions.fenced_code',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.sane_lists',
+            mdx_math.MathExtension(enable_dollar_delimiter=True),
+            self.kordac_extension])
 
     def run(self, text):
         """Return a KordacResult object after converting
@@ -27,11 +27,11 @@ class Kordac(object):
         Returns:
             A KordacResult object.
         """
-        kordac_extension.heading = None
+        self.kordac_extension.heading = None
         html = self.converter.convert(text)
         result = KordacResult(
             html=html,
-            heading=kordac_extension.page_heading
+            heading=self.kordac_extension.page_heading
         )
         return result
 
