@@ -4,12 +4,24 @@ from kordac.KordacExtension import KordacExtension
 
 class Kordac(object):
     """A converter object for converting markdown
-    to HTML"""
+    with complex tags to HTML.
+    """
+
+    def __init__(self):
+        """Creates a Kordac object."""
+        kordac_extension = KordacExtension()
 
     def run(self, markdown_string):
-        kordac_extension = KordacExtension()
+        """Return a KordacResult object after converting
+        the given markdown string.
+
+        Args:
+            markdown_string: A string of markdown text to be converted.
+
+        Returns:
+            A KordacResult object.
+        """
         kordac_extension.heading = None
-        self.required_files = {}
 
         converter = markdown.Markdown(extensions=[
             'markdown.extensions.fenced_code',
@@ -27,10 +39,16 @@ class Kordac(object):
 
 
 class KordacResult(object):
-    """Object created by Kordac containing result of
-    a conversion by run
+    """Object created by Kordac containing the result data
+    after a conversion by run.
     """
 
     def __init__(self, html=None, heading=None):
+        """Create a KordacResult object.
+
+        Args:
+            html: A string of HTML text.
+            heading: The first heading encountered when converting.
+        """
         self.html = html
         self.heading = heading
