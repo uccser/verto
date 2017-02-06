@@ -2,13 +2,14 @@ import unittest
 import markdown
 
 from KordacExtension import KordacExtension
-from processors.InteractiveBlockProcessor import InteractiveBlockProcessor
+from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
 from tests.BaseTestCase import BaseTestCase
 
-class InteractiveTest(BaseTestCase):
+class HeadingTest(BaseTestCase):
 
     def __init__(self, *args, **kwargs):
         """Set tag name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'interactive'
+        self.tag_name = 'heading'
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
+

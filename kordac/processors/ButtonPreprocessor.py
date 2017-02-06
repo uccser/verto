@@ -1,6 +1,6 @@
 import markdown
 from markdown.preprocessors import Preprocessor
-from processors.utils import parse_argument
+from kordac.processors.utils import parse_argument
 import re
 from markdown.util import etree
 

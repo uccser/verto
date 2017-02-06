@@ -2,7 +2,7 @@ import markdown
 from unittest.mock import Mock
 
 from KordacExtension import KordacExtension
-from processors.VideoBlockProcessor import VideoBlockProcessor
+from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
 # NTS videos have different links

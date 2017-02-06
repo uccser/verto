@@ -1,5 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
-from processors.utils import parse_argument, centre_html
+from kordac.processors.utils import parse_argument, centre_html
 from markdown.util import etree
 import re
 
