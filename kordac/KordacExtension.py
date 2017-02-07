@@ -19,7 +19,9 @@ import re
 import json
 
 ALL_TAGS = [
+        'headingpre',
         'heading',
+        'commentpre',
         'comment',
         'button',
         'panel',
@@ -40,14 +42,12 @@ class KordacExtension(Extension):
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-
-        for i in self.html_templates:
-            print(self.html_templates[i])
+        # print(self.tags)
 
         processors = {
             'preprocessors': {
-                'heading': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
-                'comment': ['commentpre', CommentPreprocessor(self, md), '_begin'],
+                'headingpre': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
+                'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
                 'button': ['button', ButtonPreprocessor(self, md), '_begin']
                 },
             'blockprocessors': {
@@ -57,7 +57,7 @@ class KordacExtension(Extension):
                 'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
                 'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
                 'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-                'comment': ['comment', CommentBlockProcessor(self, md.parser), '_begin']
+                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist']
                 },
             }
 
@@ -68,7 +68,6 @@ class KordacExtension(Extension):
             if tag in processors['blockprocessors']:
                 tag_processor = processors['blockprocessors'].get(tag)
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
-
 
     def reset(self):
         self.page_scripts = []

@@ -1,7 +1,7 @@
 import markdown
 from unittest.mock import Mock
 
-from KordacExtension import KordacExtension
+from kordac.KordacExtension import KordacExtension
 from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
