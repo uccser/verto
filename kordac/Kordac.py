@@ -25,9 +25,9 @@ class Kordac(object):
             mdx_math.MathExtension(enable_dollar_delimiter=True),
             kordac_extension])
         kordac_extension.heading = None
-        html = converter.convert(text)
+        html_string = converter.convert(text)
         result = KordacResult(
-            html=html,
+            html_string=html_string,
             heading=kordac_extension.page_heading
         )
         return result
@@ -38,12 +38,12 @@ class KordacResult(object):
     after a conversion by run.
     """
 
-    def __init__(self, html=None, heading=None):
+    def __init__(self, html_string=None, heading=None):
         """Create a KordacResult object.
 
         Args:
-            html: A string of HTML text.
+            html_string: A string of HTML text.
             heading: The first heading encountered when converting.
         """
-        self.html = html
+        self.html_string = html_string
         self.heading = heading
