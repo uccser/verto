@@ -26,24 +26,8 @@ Optional Tag Parameters
 
 The default HTML for button links is:
 
-.. code-block:: css+jinja
-
-    <div>
-      <img src="{{ filename }}"
-        {% if alt %} alt="{{ alt }}"{% endif %}
-        {% if hover_text %} title="{{ hover_text }}"{% endif %}
-        class="{% if alignment == 'left' %}left-align{% elif alignment =='center' %}center-align{% elif alignment =='right' %}right-align{% endif %}"
-      />
-      {% if caption and caption_link %}
-      <p><a href="{{ caption_link }}">{{ caption }}</a></p>
-      {% elif caption %}
-      <p>{{ caption }}</p>
-      {% endif %}
-      {% if source_link %}
-      <p><a href="{{ source_link }}">Source</a></p>
-      {% endif %}
-    </div>
-
+.. literalinclude:: ../../../kordac/html-templates/image.html
+   :language: css+jinja
 
 Using the following example tag:
 

@@ -7,7 +7,7 @@ You can create a link on a button using the following syntax:
 
     {button-link link="http://www.google.com" text="Visit Google"}
 
-Tag Parameters
+Required Tag Parameters
 ***************************************
 
 - ``link`` - The URL to link to. *Note: If the given link is a relative, a placeholder for Django to prepend the root is outputted.*
@@ -15,9 +15,8 @@ Tag Parameters
 
 The default HTML for button links is:
 
-.. code-block:: html
-
-    <a class='button' href='{{ link }}'>{{ text }}</a>
+.. literalinclude:: ../../../kordac/html-templates/button-link.html
+   :language: css+jinja
 
 Using the example tag above, the resulting HTML would be:
 
