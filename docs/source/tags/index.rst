@@ -12,3 +12,5 @@ Using Tags
 .. toctree::
    :maxdepth: 1
    :caption: List of Available Tags
+
+   button-link
