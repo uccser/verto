@@ -46,7 +46,8 @@ class BaseTestCase(unittest.TestCase):
         return json.loads(pattern_data)
 
     def setUp(self):
-        self.md = markdown.Markdown(extensions=[KordacExtension([], {})])
+        self.kordac_extension = KordacExtension([self.tag_name], {})
+        self.md = markdown.Markdown(extensions=[self.kordac_extension])
 
     def tearDown(self):
         self.md = None

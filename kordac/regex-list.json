@@ -3,7 +3,7 @@
         "pattern_start": "^\\{panel ?(?P<args>[^\\}]*)\\}",
         "pattern_end": "\\{panel end\\}"
     },
-    "glossary": {
+    "glossary-link": {
         "pattern": "\\{glossary-link term=\"([a-zA-Z]| )*\"( reference-text=\"([a-zA-Z]| )*\"){0,1}\\}.*\\{glossary-link end\\}"
     },
     "comment_block": {
@@ -26,7 +26,7 @@
         "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
     },
     "heading_pre": {
-    	"pattern": "# (.*)"
+        "pattern": "# (.*)"
     },
     "button": {
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"
