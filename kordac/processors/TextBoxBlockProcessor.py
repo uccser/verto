@@ -6,9 +6,9 @@ class TextBoxBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.p_start = re.compile(ext.tag_patterns['text_box']['pattern_start'])
-        self.p_end = re.compile(ext.tag_patterns['text_box']['pattern_end'])
-        self.html_template = ext.html_templates['text-box']
+        self.p_start = re.compile(ext.tag_patterns['text-box']['pattern_start'])
+        self.p_end = re.compile(ext.tag_patterns['text-box']['pattern_end'])
+        self.template = ext.jinja_templates['text-box']
 
     def test(self, parent, block):
         return self.p_start.search(block) is not None
