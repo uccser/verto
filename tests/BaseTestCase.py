@@ -1,7 +1,7 @@
 import unittest
 import json
 import markdown
-from KordacExtension import KordacExtension
+from kordac.KordacExtension import KordacExtension
 from markdown.extensions import Extension
 
 class BaseTestCase(unittest.TestCase):
@@ -39,14 +39,14 @@ class BaseTestCase(unittest.TestCase):
         return file_object.read()
 
     def loadHTMLTemplate(self, template):
-        return open('html-templates/' + template + '.html').read()
+        return open('kordac/html-templates/' + template + '.html').read()
 
     def loadTagPatterns(self):
-        pattern_data = open('regex-list.json').read()
+        pattern_data = open('kordac/regex-list.json').read()
         return json.loads(pattern_data)
 
     def setUp(self):
-        self.md = markdown.Markdown(extensions=[KordacExtension()])
+        self.md = markdown.Markdown(extensions=[KordacExtension([], {})])
 
     def tearDown(self):
         self.md = None

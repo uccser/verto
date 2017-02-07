@@ -2,7 +2,7 @@ import markdown
 from unittest.mock import Mock
 from collections import defaultdict
 
-from KordacExtension import KordacExtension
+from kordac.KordacExtension import KordacExtension
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 

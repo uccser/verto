@@ -41,9 +41,6 @@ class KordacExtension(Extension):
 
     def extendMarkdown(self, md, md_globals):
 
-        for i in self.html_templates:
-            print(self.html_templates[i])
-
         processors = {
             'preprocessors': {
                 'heading': ['headingpre', HeadingPreprocessor(self, md), '_begin'],

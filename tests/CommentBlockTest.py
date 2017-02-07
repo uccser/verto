@@ -1,7 +1,7 @@
 import markdown
 from unittest.mock import Mock
 
-from KordacExtension import KordacExtension
+from kordac.KordacExtension import KordacExtension
 from kordac.processors.CommentBlockProcessor import CommentBlockProcessor
 from tests.BaseTestCase import BaseTestCase
 
@@ -78,7 +78,7 @@ class CommentBlockTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_inline_then_block_then_inline_comment_expected_block')
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_contains_multiple_block_comemnts(self):
+    def test_contains_multiple_block_comments(self):
         test_string = self.read_test_file('contains_multiple_block_comments')
         self.assertTrue(CommentBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
 
