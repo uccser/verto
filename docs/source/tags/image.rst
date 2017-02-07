@@ -32,7 +32,7 @@ The default HTML for button links is:
       <img src="{{ filename }}"
         {% if alt %} alt="{{ alt }}"{% endif %}
         {% if hover_text %} title="{{ hover_text }}"{% endif %}
-        class="{% if alignment == 'left' %}float-left{% elif alignment =='center' %}mx-auto d-block{% elif alignment =='right' %}float-right{% endif %}"
+        class="{% if alignment == 'left' %}left-align{% elif alignment =='center' %}center-align{% elif alignment =='right' %}right-align{% endif %}"
       />
       {% if caption and caption_link %}
       <p><a href="{{ caption_link }}">{{ caption }}</a></p>
