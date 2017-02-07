@@ -13,3 +13,4 @@ The following pages covers how to use the available tags within Markdown text, a
     :maxdepth: 1
 
     button-link
+    image

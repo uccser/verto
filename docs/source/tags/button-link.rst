@@ -10,8 +10,8 @@ You can create a link on a button using the following syntax:
 Tag Parameters
 ***************************************
 
-- **link** - The URL to link to. *Note: If the given link is a relative, a placeholder for Django to prepend the root is outputted.*
-- **text** - Text to display on the button.
+- ``link`` - The URL to link to. *Note: If the given link is a relative, a placeholder for Django to prepend the root is outputted.*
+- ``text`` - Text to display on the button.
 
 The default HTML for button links is:
 
@@ -28,7 +28,7 @@ Using the example tag above, the resulting HTML would be:
 Overriding HTML for Button Link
 ***************************************
 
-When overriding the HTML for button links, the following Jinja2 placeholders are required:
+When overriding the HTML for button links, the following Jinja2 placeholders are available:
 
 - ``{{ link }}`` - The URL.
 - ``{{ text }}`` - Text to display on the button.
