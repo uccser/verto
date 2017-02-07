@@ -3,24 +3,27 @@ Welcome to Kordac
 
 .. warning::
 
-  Kordac is currently in development! Therefore features may not be implemented yet, may change, or be buggy.
+  This repository is currently in development!
+  Therefore features may not be implemented yet, may change, be buggy, or completely broken.
 
-Kordac is an extension for the Python `Markdown <https://pypi.python.org/pypi/Markdown>`_ package, which allows authors to include complex HTML elements with simple text tags in their Markdown files.
+Kordac is an extension of the Python `Markdown <https://pypi.python.org/pypi/Markdown>`_ package, which allows authors to include complex HTML elements with simple text tags in their Markdown files.
 
 For example:
 
 .. code-block:: python
 
-    text = '{video url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}'
-    kordac = Kordac()
-    markdown.markdown(text, extensions=[kordac]))
+    >>> import kordac
+    >>> converter = kordac.Kordac()
+    >>> result = converter.run('{video url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}')
+    >>> result.html_string
+    "<iframe src='http://www.youtube.com/embed/dQw4w9WgXcQ?rel=0' frameborder='0' allowfullscreen></iframe>"
 
-Returns:
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
-.. code-block:: html
-
-    <iframe src='http://www.youtube.com/embed/dQw4w9WgXcQ?rel=0'
-    frameborder='0' allowfullscreen></iframe>
+   install
+   tags
 
 Available Tags
 ==============
@@ -48,11 +51,8 @@ Kordac also includes the following tags
 Other Features
 ==============
 
-- HTML for any given tag can replaced (To be implemented)
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+- HTML for any given tag can replaced
+- Specific tags can be enabled while ignoring all other tags
 
 Indices and tables
 ==================
