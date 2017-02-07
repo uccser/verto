@@ -47,8 +47,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Kordac'
-copyright = '2017, Hayley vas Waas, Jack Morgan'
-author = 'Hayley vas Waas, Jack Morgan'
+copyright = '2017 University of Canterbury Computer Science Education Research Group'
+author = 'Hayley vas Waas, Jack Morgan, Hayden Jackson, Jordan Griffiths'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
