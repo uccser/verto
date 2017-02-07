@@ -21,7 +21,7 @@ class ImageTest(BaseTestCase):
         test_string = self.read_test_file('no_image')
         self.assertFalse(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('no_image_expected')
         self.assertEqual(expected_string, converted_test_string)
 
@@ -29,7 +29,7 @@ class ImageTest(BaseTestCase):
         test_string = self.read_test_file('text_contains_the_word_image')
         self.assertFalse(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('text_contains_the_word_image_expected')
         self.assertEqual(expected_string, converted_test_string)
 
@@ -37,7 +37,7 @@ class ImageTest(BaseTestCase):
         test_string = self.read_test_file('contains_image')
         self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('contains_image_expected')
         self.assertEqual(expected_string, converted_test_string)
 
@@ -45,7 +45,7 @@ class ImageTest(BaseTestCase):
         test_string = self.read_test_file('contains_multiple_images')
         self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('contains_multiple_images_expected')
         self.assertEqual(expected_string, converted_test_string)
 
@@ -53,7 +53,7 @@ class ImageTest(BaseTestCase):
         test_string = self.read_test_file('contains_image_and_text_contains_word_image')
         self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('contains_image_and_text_contains_word_image_expected')
         self.assertEqual(expected_string, converted_test_string)
 
@@ -61,7 +61,7 @@ class ImageTest(BaseTestCase):
         test_string = self.read_test_file('image_in_panel')
         self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('image_in_panel_expected')
         self.assertEqual(expected_string, converted_test_string)
 

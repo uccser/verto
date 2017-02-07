@@ -17,8 +17,8 @@ class BaseTestCase(unittest.TestCase):
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.test_file_path = 'tests/assets/{tag_name}/{filename}.md'
         self.expected_output_file_path = 'tests/assets/{tag_name}/{filename}.html'
-        # self.maxDiff = 640  # Set to None for full output of all test failures
-        self.maxDiff = None
+        self.maxDiff = 640  # Set to None for full output of all test failures
+        # self.maxDiff = None
 
     def read_test_file(self, filename):
         """Returns a string for a given file

@@ -15,5 +15,8 @@ class CommentBlockProcessor(BlockProcessor):
     def run(self, parent, blocks):
         block = blocks.pop(0)
         # removes comment blocks from text
+        print('block', block)
+        print(self.p_end.search(block))
         while self.p_end.search(block) is None and len(blocks) > 0:
+            print('here')
             block = blocks.pop(0)

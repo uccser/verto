@@ -42,7 +42,7 @@ class KordacExtension(Extension):
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-        print(self.tags)
+        # print(self.tags)
 
         processors = {
             'preprocessors': {
@@ -57,7 +57,7 @@ class KordacExtension(Extension):
                 'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
                 'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
                 'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-                'comment': ['comment', CommentBlockProcessor(self, md.parser), '_begin']
+                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist']
                 },
             }
 
@@ -68,7 +68,6 @@ class KordacExtension(Extension):
             if tag in processors['blockprocessors']:
                 tag_processor = processors['blockprocessors'].get(tag)
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
-
 
     def reset(self):
         self.page_scripts = []
