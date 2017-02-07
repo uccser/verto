@@ -19,11 +19,12 @@ For example:
     "<iframe src='http://www.youtube.com/embed/dQw4w9WgXcQ?rel=0' frameborder='0' allowfullscreen></iframe>"
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents
+    :maxdepth: 2
+    :caption: Contents
 
-   install
-   tags/index
+    install
+    tags/index
+    useful-extensions
 
 Available Tags
 ==============
