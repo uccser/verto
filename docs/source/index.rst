@@ -20,10 +20,10 @@ For example:
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
    install
-   tags
+   tags/index
 
 Available Tags
 ==============
