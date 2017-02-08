@@ -42,6 +42,6 @@ class TextBoxBlockProcessor(BlockProcessor):
         context.update('indented', True if attributes['indented'] else False)
         context.update('content', content)
 
-        html_string = self.template.format(context)
+        html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
