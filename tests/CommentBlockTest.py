@@ -52,9 +52,6 @@ class CommentBlockTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('contains_block_comment_expected')
-        print(converted_test_string)
-        print()
-        print(expected_string)
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_inline_then_block_comment(self):
