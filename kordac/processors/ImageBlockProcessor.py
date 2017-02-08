@@ -21,13 +21,16 @@ class ImageBlockProcessor(BlockProcessor):
         block = blocks.pop(0)
         match = self.pattern.match(block)
 
-        pattern_pos = match.span()
-        text_before_image = block[:pattern_pos[0]]
-
         arguments = match.group('args')
 
+        # check if internal or external image
+        file_path = parse_argument('file_path', arguments)
+        external_path_match = re.search(r'^http', file_path)
+        if external_path_match is None: # internal image
+            file_path = '{% static \'' + file_path + '\' %}'
+
         context = dict()
-        context['file_path'] = parse_argument('file_path', arguments)
+        context['file_path'] = file_path
         context['alt'] = parse_argument('alt', arguments)
         context['title'] =  parse_argument('title', arguments)
         context['caption'] = parse_argument('caption', arguments)
