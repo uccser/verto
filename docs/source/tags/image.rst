@@ -1,6 +1,8 @@
 Image
 #######################################
 
+**Tag name:** ``image``
+
 You can include an image using the following syntax:
 
 .. code-block:: none

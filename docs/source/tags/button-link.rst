@@ -1,6 +1,8 @@
 Button Link
 #######################################
 
+**Tag name:** ``button-link``
+
 You can create a link on a button using the following syntax:
 
 .. code-block:: none
