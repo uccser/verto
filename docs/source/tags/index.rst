@@ -12,5 +12,6 @@ The following pages covers how to use the available tags within Markdown text, a
 .. toctree::
     :maxdepth: 1
 
+    boxed-text
     button-link
     image
