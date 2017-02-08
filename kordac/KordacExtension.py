@@ -11,6 +11,7 @@ from kordac.processors.HeadingPreprocessor import HeadingPreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from kordac.processors.ButtonPreprocessor import ButtonPreprocessor
+from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
 
 from collections import defaultdict
 from os import listdir
@@ -57,7 +58,8 @@ class KordacExtension(Extension):
                 'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
                 'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
                 'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist']
+                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist'],
+                'boxed-text': ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
                 },
             }
 
@@ -87,4 +89,3 @@ class KordacExtension(Extension):
     def loadTagPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
         return json.loads(pattern_data)
-

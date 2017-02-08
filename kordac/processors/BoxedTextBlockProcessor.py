@@ -1,6 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 import kordac.processors.utils as utils
-import kordac.processors.errors.TagNotMatched as TagNotMatched
+import kordac.processors.errors.TagNotMatchedError as TagNotMatchedError
 import re
 
 class BoxedTextBlockProcessor(BlockProcessor):
@@ -21,7 +21,7 @@ class BoxedTextBlockProcessor(BlockProcessor):
         end_tag = self.p_end.search(block)
 
         if start_tag is None and end_tag is not None:
-            raise TagNotMatched(self.tag, block, "end tag found before start tag")
+            raise TagNotMatchedError(self.tag, block, "end tag found before start tag")
 
         blocks.insert(0, block[start_tag.end():])
 
@@ -40,7 +40,7 @@ class BoxedTextBlockProcessor(BlockProcessor):
         if the_rest:
             blocks.insert(0, the_rest)
         if end_tag is None:
-            raise TagNotMatched(self.tag, block, "no end tag found to close start tag")
+            raise TagNotMatchedError(self.tag, block, "no end tag found to close start tag")
 
         attributes = self.get_attributes(start_tag.group('args'))
 
