@@ -31,7 +31,7 @@
     "button": {
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"
     },
-    "text-box": {
+    "boxed-text": {
         "pattern_start": "\\{text-box ?(?P<args>[^\\}]*)\\}",
         "pattern_end": "\\{text-box end\\}"
     }
