@@ -32,19 +32,13 @@ The default HTML for button links is:
 
 Using the following example tag:
 
-.. code-block:: none
-
-    {image file_path="http://placehold.it/350x150" caption="Placeholder image" source="https://placehold.it/" title="This is hover text" alignment="left"}
+.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage.md
+   :language: none
 
 The resulting HTML would be:
 
-.. code-block:: html
-
-    <div>
-      <img src="http://placehold.it/350x150" title="This is hover text" class="float-left"/>
-      <p>Placeholder image</p>
-      <p><a href="https://placehold.it/">Source</a></p>
-    </div>
+.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage_expected.html
+   :language: html
 
 Overriding HTML for Images
 ***************************************
@@ -63,22 +57,15 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 
 For example, providing the following HTML:
 
-.. code-block:: html
-
-    <div class="text-center">
-      <img src="{{ file_path }}" class="rounded img-thumbnail">
-    </div>
+.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html_template.html
+   :language: css+jinja
 
 with the following tag:
 
-.. code-block:: none
-
-    {image file_path="http://placehold.it/350x150" caption="Placeholder image" source="https://placehold.it/"}
+.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html.md
+   :language: none
 
 would result in:
 
-.. code-block:: html
-
-    <div class="text-center">
-      <img src="http://placehold.it/350x150" class="rounded img-thumbnail">
-    </div>
+.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html_expected.html
+   :language: html
