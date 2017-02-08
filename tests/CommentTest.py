@@ -5,7 +5,7 @@ from kordac.KordacExtension import KordacExtension
 from kordac.processors.CommentPreprocessor import CommentPreprocessor
 from tests.BaseTestCase import BaseTestCase
 
-class CommentPreTest(BaseTestCase):
+class CommentTest(BaseTestCase):
     """
     Inline = single line comment .e.g. {comment hello you look lovely today}
     Block = multi line comment e.g.
