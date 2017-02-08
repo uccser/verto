@@ -5,9 +5,8 @@ Button Link
 
 You can create a link on a button using the following syntax:
 
-.. code-block:: none
-
-    {button-link link="http://www.google.com" text="Visit Google"}
+.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_basic_usage.md
+   :language: none
 
 Required Tag Parameters
 ***************************************
@@ -22,9 +21,8 @@ The default HTML for button links is:
 
 Using the example tag above, the resulting HTML would be:
 
-.. code-block:: html
-
-    <a class='button' href='http://www.google.com'>Visit Google</a>
+.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_basic_usage_expected.html
+   :language: html
 
 Overriding HTML for Button Link
 ***************************************
@@ -38,18 +36,15 @@ When overriding the HTML for button links, the following Jinja2 placeholders are
 
 For example, providing the following HTML:
 
-.. code-block:: html
-
-    <a class="btn btn-primary" href="{{ link }}">{{ text }}</a>
+.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_override_html_template.html
+   :language: css+jinja
 
 with the following tag:
 
-.. code-block:: none
-
-    {button-link link="https://github.com/uccser/kordac" text="Kordac on GitHub"}
+.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_override_html.md
+   :language: none
 
 would result in:
 
-.. code-block:: html
-
-    <a class="btn btn-primary" href="https://github.com/uccser/kordac">Kordac on GitHub</a>
+.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_override_html_expected.html
+   :language: html
