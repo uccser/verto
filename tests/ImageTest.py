@@ -13,7 +13,6 @@ class ImageTest(BaseTestCase):
         BaseTestCase.__init__(self, *args, **kwargs)
         self.tag_name = 'image'
         self.ext = Mock()
-        self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
         self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
         self.ext.required_files = defaultdict(set)
@@ -24,9 +23,6 @@ class ImageTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('default_image_expected')
-        print(converted_test_string)
-        print('EXPECTED')
-        print(expected_string)
         self.assertEqual(expected_string, converted_test_string)
 
     """

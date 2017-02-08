@@ -26,34 +26,19 @@ class ImageBlockProcessor(BlockProcessor):
 
         arguments = match.group('args')
 
-        file_path = parse_argument('file_path', arguments)
-        alt = parse_argument('alt', arguments)
-        title = parse_argument('title', arguments)
-        caption = parse_argument('caption', arguments)
-        caption_link = parse_argument('caption_link', arguments)
-        source = parse_argument('source', arguments)
-        alignment = parse_argument('alignment', arguments)
-        hover_text = parse_argument('hover_text', arguments)
-
         context = dict()
-        context['file_path'] = file_path
-        context['alt'] = alt
-        context['title'] = title
-        context['caption'] = caption
-        context['caption_link'] = caption_link
-        context['source'] = source
-        context['alignment'] = alignment
-        context['hover_text'] = hover_text
-
-        print(context)
-
+        context['file_path'] = parse_argument('file_path', arguments)
+        context['alt'] = parse_argument('alt', arguments)
+        context['title'] =  parse_argument('title', arguments)
+        context['caption'] = parse_argument('caption', arguments)
+        context['caption_link'] = parse_argument('caption_link', arguments)
+        context['source_link'] = parse_argument('source_link', arguments)
+        context['alignment'] = parse_argument('alignment', arguments)
+        context['hover_text'] =  parse_argument('hover_text', arguments)
 
         html_string = self.template.render(context)
-        print(html_string)
-        print()
-        # html_string += self.IMAGE_TEMPLATE.format(filename=filename)
         node = etree.fromstring(html_string)
         parent.append(node)
 
-        self.required.add(file_path)
+        self.required.add(context['file_path'])
 
