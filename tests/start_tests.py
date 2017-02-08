@@ -15,10 +15,10 @@ from tests.ButtonTest import ButtonTest
 def suite():
     # NTS what order should these go in?
     allSuites = unittest.TestSuite((
-        unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
+        # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
         # unittest.makeSuite(PanelTest),
         unittest.makeSuite(CommentPreTest),
-        # unittest.makeSuite(CommentBlockTest),
+        unittest.makeSuite(CommentBlockTest),
         unittest.makeSuite(HeadingTest),
         unittest.makeSuite(ImageTest),
         unittest.makeSuite(VideoTest),
