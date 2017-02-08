@@ -7,7 +7,7 @@ class Kordac(object):
     with complex tags to HTML.
     """
 
-    def run(self, text, tags, html_templates):
+    def run(self, text, tags=[], html_templates={}):
         """Return a KordacResult object after converting
         the given markdown string.
 
