@@ -23,7 +23,5 @@ class ButtonPreprocessor(Preprocessor):
                 link = parse_argument('link', arguments)
                 text = parse_argument('text', arguments)
                 lines[i] = self.BUTTON_TEMPLATE.format(text=text,link=link)
-            elif len(line) > 0:
-                lines[i] = markdown.markdown(line)
-        return lines
 
+        return lines
