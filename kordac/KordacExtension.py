@@ -18,6 +18,9 @@ import os.path
 import re
 import json
 
+from jinja2 import Environment, PackageLoader, select_autoescape
+
+
 ALL_TAGS = [
         'headingpre',
         'heading',
@@ -37,12 +40,12 @@ class KordacExtension(Extension):
         self.required_files = defaultdict(set)
         self.page_heading = None
         self.html_templates = self.loadHTMLTemplates(html_templates)
+        self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.tag_patterns = self.loadTagPatterns()
         self.tags = tags if tags != [] else ALL_TAGS
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-        # print(self.tags)
 
         processors = {
             'preprocessors': {
@@ -82,6 +85,20 @@ class KordacExtension(Extension):
                 templates[tag_name] = custom_templates[tag_name]
             else:
                 templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+        return templates
+
+    def loadJinjaTemplates(self, custom_templates):
+        templates = {}
+        env = Environment(
+                loader=PackageLoader('kordac', 'html-templates'),
+                autoescape=select_autoescape(['html'])
+                )
+        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
+            tag_name = re.search(r'(.*?).html', file).groups()[0]
+            if tag_name in custom_templates:
+                templates[tag_name] = custom_templates[tag_name]
+            else:
+                templates[tag_name] = env.get_template(file)
         return templates
 
     def loadTagPatterns(self):

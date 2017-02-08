@@ -3,6 +3,7 @@ import json
 import markdown
 from kordac.KordacExtension import KordacExtension
 from markdown.extensions import Extension
+from jinja2 import Environment, PackageLoader, select_autoescape
 
 class BaseTestCase(unittest.TestCase):
     """A base test class for individual test classes"""
@@ -40,6 +41,14 @@ class BaseTestCase(unittest.TestCase):
 
     def loadHTMLTemplate(self, template):
         return open('kordac/html-templates/' + template + '.html').read()
+
+    def loadJinjaTemplate(self, template):
+        env = Environment(
+                loader=PackageLoader('kordac', 'html-templates'),
+                autoescape=select_autoescape(['html'])
+                )
+        jinja_template = env.get_template('image.html')
+        return jinja_template
 
     def loadTagPatterns(self):
         pattern_data = open('kordac/regex-list.json').read()
