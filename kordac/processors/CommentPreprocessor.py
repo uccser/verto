@@ -6,7 +6,7 @@ class CommentPreprocessor(Preprocessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.pattern = re.compile(ext.tag_patterns['comment_pre']['pattern'])
+        self.pattern = re.compile(ext.tag_patterns['comment']['pattern'])
 
     def test(self, lines):
         return self.pattern.search(lines) is not None
@@ -16,4 +16,3 @@ class CommentPreprocessor(Preprocessor):
         for i, line in enumerate(lines):
             lines[i] = re.sub(self.pattern, '', line)
         return lines
-
