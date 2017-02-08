@@ -5,13 +5,14 @@ You can include an image using the following syntax:
 
 .. code-block:: none
 
-    {image filename="http://placehold.it/350x150"}
+    {image file_path="http://placehold.it/350x150"}
 
 Required Tag Parameters
 ***************************************
 
-- ``filename`` - The path to the image.
+- ``file_path`` - The path to the image.
 
+    - Each file_path provided is added to the set of 'required files' stored by Kordac. The list of filepaths can be accessed after conversion.
     - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered within a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}``.
 
 Optional Tag Parameters
@@ -33,7 +34,7 @@ Using the following example tag:
 
 .. code-block:: none
 
-    {image filename="http://placehold.it/350x150" caption="Placeholder image" source="https://placehold.it/" title="This is hover text" alignment="left"}
+    {image file_path="http://placehold.it/350x150" caption="Placeholder image" source="https://placehold.it/" title="This is hover text" alignment="left"}
 
 The resulting HTML would be:
 
@@ -50,7 +51,7 @@ Overriding HTML for Images
 
 When overriding the HTML for images, the following Jinja2 placeholders are available:
 
-- ``{{ filename }}`` - The location for the path to the URL.
+- ``{{ file_path }}`` - The location for the path to the URL.
 - ``{{ alt }}`` - The alternative text for the image.
 - ``{{ hover_text }}`` - The text to display when the user hovers over the image (see `image title attribute <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title>`_).
 - ``{{ alignment }}`` - The location to add extra CSS classes for alignment.
@@ -65,14 +66,14 @@ For example, providing the following HTML:
 .. code-block:: html
 
     <div class="text-center">
-      <img src="{{ filename }}" class="rounded img-thumbnail">
+      <img src="{{ file_path }}" class="rounded img-thumbnail">
     </div>
 
 with the following tag:
 
 .. code-block:: none
 
-    {image filename="http://placehold.it/350x150" caption="Placeholder image" source="https://placehold.it/"}
+    {image file_path="http://placehold.it/350x150" caption="Placeholder image" source="https://placehold.it/"}
 
 would result in:
 
