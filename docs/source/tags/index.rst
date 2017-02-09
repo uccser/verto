@@ -14,4 +14,5 @@ The following pages covers how to use the available tags within Markdown text, a
 
     boxed-text
     button-link
+    comment
     image
