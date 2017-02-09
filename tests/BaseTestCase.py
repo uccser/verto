@@ -47,7 +47,7 @@ class BaseTestCase(unittest.TestCase):
                 loader=PackageLoader('kordac', 'html-templates'),
                 autoescape=select_autoescape(['html'])
                 )
-        jinja_template = env.get_template('image.html')
+        jinja_template = env.get_template(template + '.html')
         return jinja_template
 
     def loadTagPatterns(self):
