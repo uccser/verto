@@ -28,7 +28,7 @@
     "heading_pre": {
         "pattern": "# (.*)"
     },
-    "button": {
+    "button-link": {
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"
     }
 }
