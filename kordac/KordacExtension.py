@@ -2,7 +2,6 @@ from markdown.extensions import Extension
 
 from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
 from kordac.processors.CommentPreprocessor import CommentPreprocessor
-from kordac.processors.CommentBlockProcessor import CommentBlockProcessor
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
@@ -49,17 +48,16 @@ class KordacExtension(Extension):
         processors = {
             'preprocessors': {
                 'headingpre': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
-                'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
-                'button': ['button', ButtonPreprocessor(self, md), '_begin']
+                'comment': ['comment', CommentPreprocessor(self, md), '_begin'],
+                #'button': ['button', ButtonPreprocessor(self, md), '_begin']
                 },
             'blockprocessors': {
                 'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
                 'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
-                'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
-                'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-                'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+                #'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
+                #'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+                #'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
                 'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist']
                 },
             }
 
