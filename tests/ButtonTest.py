@@ -15,7 +15,7 @@ class ButtonTest(BaseTestCase):
         self.tag_name = 'button'
         self.ext = Mock()
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
-        self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
+        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
 
     def test_no_button(self):
         test_string = self.read_test_file('no_button')
@@ -40,5 +40,3 @@ class ButtonTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('contains_multiple_buttons_expected')
         self.assertEqual(expected_string, converted_test_string)
-
-

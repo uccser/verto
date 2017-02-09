@@ -12,7 +12,7 @@ class PanelTest(BaseTestCase):
         BaseTestCase.__init__(self, *args, **kwargs)
         self.tag_name = 'panel'
         self.ext = Mock()
-        self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
+        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
 
     def test_match_false(self):
