@@ -20,7 +20,6 @@ import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-
 ALL_TAGS = [
         'headingpre',
         'heading',
@@ -76,7 +75,6 @@ class KordacExtension(Extension):
         self.page_scripts = []
         self.required_files = {}
 
-
     def loadHTMLTemplates(self, custom_templates):
         templates = {}
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
@@ -104,4 +102,3 @@ class KordacExtension(Extension):
     def loadTagPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
         return json.loads(pattern_data)
-

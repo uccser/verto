@@ -97,4 +97,3 @@ class ImageTest(BaseTestCase):
         expected_string = self.read_expected_output_file('image_in_panel_expected')
         self.assertEqual(expected_string, converted_test_string)
     """
-
