@@ -55,5 +55,10 @@ class CommentTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_multiple_inline_comments_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_inline_comment_contains_another_inline_comment(self):
-        pass
+    def test_comment_contains_comment(self):
+        test_string = self.read_test_file('comment_contains_comment')
+        self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('comment_contains_comment_expected')
+        self.assertEqual(expected_string, converted_test_string)
