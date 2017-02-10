@@ -10,7 +10,7 @@ from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProc
 from kordac.processors.HeadingPreprocessor import HeadingPreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
-from kordac.processors.ButtonPreprocessor import ButtonPreprocessor
+from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
 
 from collections import defaultdict
 from os import listdir
@@ -25,7 +25,7 @@ ALL_TAGS = [
         'heading',
         'commentpre',
         'comment',
-        'button',
+        'button-link',
         'panel',
         'video',
         'image',
@@ -50,7 +50,6 @@ class KordacExtension(Extension):
             'preprocessors': {
                 'headingpre': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
                 'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
-                'button': ['button', ButtonPreprocessor(self, md), '_begin']
                 },
             'blockprocessors': {
                 'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
@@ -59,7 +58,8 @@ class KordacExtension(Extension):
                 'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
                 'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
                 'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist']
+                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist'],
+                'button-link': ['button-link', ButtonLinkBlockProcessor(self, md), '_begin']
                 },
             }
 
