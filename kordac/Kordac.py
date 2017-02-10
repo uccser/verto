@@ -7,7 +7,7 @@ class Kordac(object):
     with complex tags to HTML.
     """
 
-    def run(self, text, tags=[], html_templates={}):
+    def run(self, text, tags=[], html_templates={}, extensions=[]):
         """Return a KordacResult object after converting
         the given markdown string.
 
@@ -21,17 +21,15 @@ class Kordac(object):
                 tag names given as a string as keys mapping HTML strings
                 as values.
                 eg: {'image': '<img src={{ source }}>'}
+            extensions: A list of extra extensions to run on the
+                markdown package.
 
         Returns:
             A KordacResult object.
         """
         kordac_extension = KordacExtension(tags, html_templates)
-        converter = markdown.Markdown(extensions=[
-            'markdown.extensions.fenced_code',
-            'markdown.extensions.codehilite',
-            'markdown.extensions.sane_lists',
-            mdx_math.MathExtension(enable_dollar_delimiter=True),
-            kordac_extension])
+        all_extensions = extensions + [kordac_extension]
+        converter = markdown.Markdown(extensions=all_extensions)
         kordac_extension.heading = None
         html_string = converter.convert(text)
         result = KordacResult(
