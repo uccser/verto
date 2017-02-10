@@ -2,7 +2,7 @@ import markdown
 import mdx_math
 from kordac.KordacExtension import KordacExtension
 
-DEFAULT_TAGS = [
+DEFAULT_TAGS = {
     'headingpre',
     'heading',
     'commentpre',
@@ -13,18 +13,18 @@ DEFAULT_TAGS = [
     'image',
     'interactive',
     'glossary-link'
-]
+}
 
 class Kordac(object):
     """A converter object for converting markdown
     with complex tags to HTML.
     """
 
-    def __init__(self, tags=[], html_templates={}, extensions=[]):
+    def __init__(self, tags=DEFAULT_TAGS, html_templates={}, extensions=[]):
         """Creates a Kordac object.
 
         Args:
-            tags: A list of tag names given as strings for which
+            tags: A set of tag names given as strings for which
                 their processors are enabled. If given, all other
                 processors are skipped.
             html_templates: A dictionary of HTML templates to override
@@ -35,7 +35,7 @@ class Kordac(object):
             extensions: A list of extra extensions to run on the
                 markdown package.
         """
-        self.tags = tags if tags != [] else DEFAULT_TAGS
+        self.tags = tags
         self.html_templates = html_templates
         self.extensions = extensions
         self.create_converter()
@@ -84,24 +84,24 @@ class Kordac(object):
         self.create_converter()
 
     def default_tags(self):
-        """Returns a copy of the default tag list.
+        """Returns a copy of the default tag set.
 
         Returns:
-            A list of default tag names as strings.
+            A set of default tag names as strings.
         """
-        return list(DEFAULT_TAGS)
+        return DEFAULT_TAGS.copy()
 
-    def update_tags(self, tags):
-        """Update the tags used for conversion from the given list.
-        The updated list will be used for converting from this point
-        onwards.
+    def update_tags(self, tags=DEFAULT_TAGS):
+        """Update the tags used for conversion with the given set.
+        The updated set will be used for converting from this point
+        onwards. If parameter is empty, default tags will be used.
 
         Args:
-            tags: A list of tag names given as strings for which
+            tags: A set of tag names given as strings for which
                 their processors are enabled. If given, all other
                 processors are skipped.
         """
-        self.tags = tags if tags != [] else DEFAULT_TAGS
+        self.tags = tags
         self.create_converter()
 
 class KordacResult(object):
