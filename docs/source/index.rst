@@ -24,7 +24,7 @@ For example:
 
     install
     tags/index
-    useful-extensions
+    extensions
 
 Available Tags
 ==============
