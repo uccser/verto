@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='kordac',
-    version='0.0.2',
+    version='0.0.3',
     description='Kordac is an extension of the Python Markdown package, which allows authors to include complex HTML elements with simple text tags in their Markdown files.',
     url='https://github.com/uccser/kordac',
     author='UCCSER',

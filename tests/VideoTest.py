@@ -20,7 +20,7 @@ class VideoTest(BaseTestCase):
         BaseTestCase.__init__(self, *args, **kwargs)
         self.tag_name = 'video'
         self.ext = Mock()
-        self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
+        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
 
     def test_contains_no_video(self):
