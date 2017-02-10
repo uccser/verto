@@ -9,7 +9,7 @@ from tests.HeadingTest import HeadingTest
 from tests.ImageTest import ImageTest
 from tests.VideoTest import VideoTest
 from tests.InteractiveTest import InteractiveTest
-from tests.ButtonTest import ButtonTest
+from tests.ButtonLinkTest import ButtonLinkTest
 
 
 def suite():
@@ -23,7 +23,7 @@ def suite():
         unittest.makeSuite(ImageTest),
         unittest.makeSuite(VideoTest),
         unittest.makeSuite(InteractiveTest),
-        unittest.makeSuite(ButtonTest)
+        unittest.makeSuite(ButtonLinkTest)
     ))
 
     return allSuites
