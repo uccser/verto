@@ -91,6 +91,19 @@ class Kordac(object):
         """
         return list(DEFAULT_TAGS)
 
+    def update_tags(self, tags):
+        """Update the tags used for conversion from the given list.
+        The updated list will be used for converting from this point
+        onwards.
+
+        Args:
+            tags: A list of tag names given as strings for which
+                their processors are enabled. If given, all other
+                processors are skipped.
+        """
+        self.tags = tags if tags != [] else DEFAULT_TAGS
+        self.create_converter()
+
 class KordacResult(object):
     """Object created by Kordac containing the result data
     after a conversion by run.
