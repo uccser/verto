@@ -49,17 +49,17 @@ class KordacExtension(Extension):
         processors = {
             'preprocessors': {
                 'headingpre': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
-                'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
+                #'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
                 },
             'blockprocessors': {
-                'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
-                'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
-                'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
-                'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-                'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-                'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-                'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist'],
-                'button-link': ['button-link', ButtonLinkBlockProcessor(self, md), '_begin']
+                #'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
+                #'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+                #'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
+                #'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+                #'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+                #'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+                #'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist'],
+                #'button-link': ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin']
                 },
             }
 

@@ -11,19 +11,23 @@ class ButtonLinkBlockProcessor(BlockProcessor):
         self.BUTTON_TEMPLATE = ext.jinja_templates[self.tag]
         self.pattern = re.compile(ext.tag_patterns[self.tag]['pattern'])
 
-    def test(self, lines):
-        return self.pattern.search(lines) is not None
+    def test(self, parent, block):
+        return self.pattern.search(block) is not None
 
-    def run(self, lines):
-        test = ''
-        for i,line in enumerate(lines):
-            match = self.pattern.search(line)
-            if match is not None:
-                arguments = match.group('args')
+    def run(self, parent, blocks):
+        block = blocks.pop(0)
+        match = self.pattern.search(block)
 
-                context = dict()
-                context['link'] = parse_argument('link', arguments)
-                context['text'] = parse_argument('text', arguments)
+        if match is None:
+            print("oh no")
+            raise Error("Block tested true but did not match.")
 
-                lines[i] = self.BUTTON_TEMPLATE.render(context)
-        return lines
+        arguments = match.group('args')
+
+        context = dict()
+        context['link'] = parse_argument('link', arguments)
+        context['text'] = parse_argument('text', arguments)
+
+        html_string = self.BUTTON_TEMPLATE.render(context)
+        node = etree.fromstring(html_string)
+        parent.append(node)

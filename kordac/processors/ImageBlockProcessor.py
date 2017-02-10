@@ -20,7 +20,7 @@ class ImageBlockProcessor(BlockProcessor):
     def run(self, parent, blocks):
         block = blocks.pop(0)
         match = self.pattern.match(block)
-
+        print(match)
         arguments = match.group('args')
 
         # check if internal or external image
@@ -44,4 +44,3 @@ class ImageBlockProcessor(BlockProcessor):
         parent.append(node)
 
         self.required.add(context['file_path'])
-
