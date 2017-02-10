@@ -2,6 +2,19 @@ import markdown
 import mdx_math
 from kordac.KordacExtension import KordacExtension
 
+DEFAULT_TAGS = [
+    'headingpre',
+    'heading',
+    'commentpre',
+    'comment',
+    'button-link',
+    'panel',
+    'video',
+    'image',
+    'interactive',
+    'glossary-link'
+]
+
 class Kordac(object):
     """A converter object for converting markdown
     with complex tags to HTML.
@@ -22,7 +35,7 @@ class Kordac(object):
             extensions: A list of extra extensions to run on the
                 markdown package.
         """
-        self.tags = tags
+        self.tags = tags if tags != [] else DEFAULT_TAGS
         self.html_templates = html_templates
         self.extensions = extensions
         self.create_converter()
@@ -70,6 +83,13 @@ class Kordac(object):
         self.html_templates.update(html_templates)
         self.create_converter()
 
+    def default_tags(self):
+        """Returns a copy of the default tag list.
+
+        Returns:
+            A list of default tag names as strings.
+        """
+        return list(DEFAULT_TAGS)
 
 class KordacResult(object):
     """Object created by Kordac containing the result data
