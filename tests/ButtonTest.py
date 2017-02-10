@@ -12,7 +12,7 @@ class ButtonTest(BaseTestCase):
 
     def __init__(self, *args, **kwargs):
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'button'
+        self.tag_name = 'button-link'
         self.ext = Mock()
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
         self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
