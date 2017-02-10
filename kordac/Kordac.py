@@ -7,12 +7,10 @@ class Kordac(object):
     with complex tags to HTML.
     """
 
-    def run(self, text, tags=[], html_templates={}, extensions=[]):
-        """Return a KordacResult object after converting
-        the given markdown string.
+    def __init__(self, tags=[], html_templates={}, extensions=[]):
+        """Creates a Kordac object.
 
         Args:
-            text: A string of Markdown text to be converted.
             tags: A list of tag names given as strings for which
                 their processors are enabled. If given, all other
                 processors are skipped.
@@ -23,18 +21,36 @@ class Kordac(object):
                 eg: {'image': '<img src={{ source }}>'}
             extensions: A list of extra extensions to run on the
                 markdown package.
+        """
+        self.tags = tags
+        self.html_templates = html_templates
+        self.extensions = extensions
+        self.create_converter()
+
+    def create_converter(self):
+        """Create the Kordac extension and converter for future use."""
+        self.kordac_extension = KordacExtension(
+            tags=self.tags,
+            html_templates=self.html_templates
+        )
+        all_extensions = self.extensions + [self.kordac_extension]
+        self.converter = markdown.Markdown(extensions=all_extensions)
+
+    def run(self, text):
+        """Return a KordacResult object after converting
+        the given markdown string.
+
+        Args:
+            text: A string of Markdown text to be converted.
 
         Returns:
             A KordacResult object.
         """
-        kordac_extension = KordacExtension(tags, html_templates)
-        all_extensions = extensions + [kordac_extension]
-        converter = markdown.Markdown(extensions=all_extensions)
-        kordac_extension.heading = None
-        html_string = converter.convert(text)
+        self.kordac_extension.reset()
+        html_string = self.converter.convert(text)
         result = KordacResult(
             html_string=html_string,
-            heading=kordac_extension.page_heading
+            heading=self.kordac_extension.page_heading
         )
         return result
 

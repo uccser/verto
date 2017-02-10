@@ -72,6 +72,7 @@ class KordacExtension(Extension):
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
     def reset(self):
+        self.heading = None
         self.page_scripts = []
         self.required_files = {}
 
