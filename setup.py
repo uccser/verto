@@ -1,4 +1,8 @@
 from setuptools import setup, find_packages
+import sys
+
+if not sys.version_info[0] == 3:
+    sys.exit("Sorry, currently only Python 3 is supported.")
 
 setup(
     name='kordac',
