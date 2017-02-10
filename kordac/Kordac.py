@@ -54,6 +54,22 @@ class Kordac(object):
         )
         return result
 
+    def update_templates(self, html_templates):
+        """Update the template dictionary with the given dictionary
+        of templates, while leaving all other HTML templates (including
+        any custom set templates) untouched. The updated dictionary
+        will be used for converting from this point onwards.
+
+        Args:
+            html_templates: A dictionary of HTML templates to override
+                existing HTML templates for tags. Dictionary contains
+                tag names given as a string as keys mapping HTML strings
+                as values.
+                eg: {'image': '<img src={{ source }}>'}
+        """
+        self.html_templates.update(html_templates)
+        self.create_converter()
+
 
 class KordacResult(object):
     """Object created by Kordac containing the result data
