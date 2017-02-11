@@ -83,6 +83,11 @@ class Kordac(object):
         self.html_templates.update(html_templates)
         self.create_converter()
 
+    def default_templates(self):
+        """Set the template dictionary to it's original values."""
+        self.html_templates = {}
+        self.create_converter()
+
     def tag_defaults(self):
         """Returns a copy of the default tag set.
 
