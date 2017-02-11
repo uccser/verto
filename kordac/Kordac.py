@@ -59,7 +59,7 @@ class Kordac(object):
         Returns:
             A KordacResult object.
         """
-        self.kordac_extension.reset()
+        self.kordac_extension.clear_saved_data()
         html_string = self.converter.convert(text)
         result = KordacResult(
             html_string=html_string,
