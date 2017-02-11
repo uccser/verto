@@ -23,6 +23,7 @@ For example:
     :caption: Contents
 
     install
+    usage
     tags/index
     extensions
 
