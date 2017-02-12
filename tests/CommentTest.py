@@ -8,11 +8,6 @@ from tests.BaseTestCase import BaseTestCase
 class CommentTest(BaseTestCase):
     """
     Inline = single line comment .e.g. {comment hello you look lovely today}
-    Block = multi line comment e.g.
-        {comment}
-        hello,
-        you look lovely today.
-        {comment end}
     """
 
     def __init__(self, *args, **kwargs):
@@ -56,6 +51,7 @@ class CommentTest(BaseTestCase):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_comment_contains_comment(self):
+        # We expect to match the first closing '}' to enforce simple comments
         test_string = self.read_test_file('comment_contains_comment')
         self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
 

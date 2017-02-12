@@ -37,7 +37,7 @@ class BaseTestCase(unittest.TestCase):
         """
         file_path = self.expected_output_file_path.format(tag_name=self.tag_name, filename=filename)
         file_object = open(file_path, encoding="utf-8")
-        return file_object.read()
+        return file_object.read().rstrip('\r\n')
 
     def loadHTMLTemplate(self, template):
         return open('kordac/html-templates/' + template + '.html').read()

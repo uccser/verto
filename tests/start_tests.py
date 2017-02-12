@@ -16,12 +16,12 @@ def suite():
     allSuites = unittest.TestSuite((
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
         # unittest.makeSuite(PanelTest),
-        #unittest.makeSuite(CommentTest),
-        #unittest.makeSuite(HeadingTest),
-        #unittest.makeSuite(ImageTest),
-        #unittest.makeSuite(VideoTest),
-        #unittest.makeSuite(InteractiveTest),
-        #unittest.makeSuite(ButtonLinkTest)
+        unittest.makeSuite(CommentTest),
+        unittest.makeSuite(HeadingTest),
+        # unittest.makeSuite(ImageTest),
+        # unittest.makeSuite(VideoTest),
+        # unittest.makeSuite(InteractiveTest),
+        # unittest.makeSuite(ButtonLinkTest)
     ))
 
     return allSuites
