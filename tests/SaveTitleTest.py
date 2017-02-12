@@ -44,3 +44,10 @@ class SaveTitleTest(BaseTestCase):
         result = self.converter.run(test_string)
         converted_test_title = result.title
         self.assertIsNone(converted_test_title)
+
+    def test_level_two_heading(self):
+        test_string = self.read_test_file('level_two_heading')
+        result = self.converter.run(test_string)
+        converted_test_title = result.title
+        expected_string = self.read_expected_output_file('level_two_heading_expected').strip()
+        self.assertEqual(expected_string, converted_test_title)
