@@ -9,22 +9,22 @@ from tests.HeadingTest import HeadingTest
 from tests.ImageTest import ImageTest
 from tests.VideoTest import VideoTest
 from tests.InteractiveTest import InteractiveTest
-from tests.ButtonTest import ButtonTest
+from tests.ButtonLinkTest import ButtonLinkTest
 from tests.BoxedTextTest import BoxedTextTest
 
 
 def suite():
     # NTS what order should these go in?
     allSuites = unittest.TestSuite((
-        unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
+        # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
         # unittest.makeSuite(PanelTest),
-        unittest.makeSuite(CommentPreTest),
-        # unittest.makeSuite(CommentBlockTest),
-        unittest.makeSuite(HeadingTest),
-        unittest.makeSuite(ImageTest),
-        unittest.makeSuite(VideoTest),
-        unittest.makeSuite(InteractiveTest),
-        unittest.makeSuite(ButtonTest),
+        #unittest.makeSuite(CommentPreTest),
+        #unittest.makeSuite(CommentBlockTest),
+        #unittest.makeSuite(HeadingTest),
+        #unittest.makeSuite(ImageTest),
+        #unittest.makeSuite(VideoTest),
+        #unittest.makeSuite(InteractiveTest),
+        #unittest.makeSuite(ButtonLinkTest)
         unittest.makeSuite(BoxedTextTest)
     ))
 

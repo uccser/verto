@@ -13,5 +13,4 @@ class InteractiveTest(BaseTestCase):
         self.tag_name = 'interactive'
         self.ext = Mock()
         self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
-        self.ext.html_templates = {self.tag_name: BaseTestCase.loadHTMLTemplate(self, self.tag_name)}
-
+        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
