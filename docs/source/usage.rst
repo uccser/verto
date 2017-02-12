@@ -79,7 +79,7 @@ The ``KordacResult`` object contains several attributes which can be accessed us
 The following attributes are available:
 
 - ``html_string`` - A resulting string of HTML after conversion by Kordac.
-- ``heading`` - The text of the first heading saved by the ``headingpre`` processor.
+- ``title`` - The text of the first heading saved by the ``save-title`` processor.
 
 Configuring Kordac converter after creation
 ===============================================

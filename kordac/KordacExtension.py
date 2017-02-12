@@ -7,7 +7,7 @@ from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
-from kordac.processors.HeadingPreprocessor import HeadingPreprocessor
+from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
@@ -25,7 +25,7 @@ class KordacExtension(Extension):
     def __init__(self, tags=[], html_templates={}, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
-        self.page_heading = None
+        self.title = None
         self.html_templates = self.loadHTMLTemplates(html_templates)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.tag_patterns = self.loadTagPatterns()
@@ -35,7 +35,7 @@ class KordacExtension(Extension):
     def extendMarkdown(self, md, md_globals):
         processors = {
             'preprocessors': {
-                'headingpre': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
+                'save-title': ['save-title', SaveTitlePreprocessor(self, md), '_begin'],
                 #'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
                 },
             'blockprocessors': {
@@ -59,7 +59,7 @@ class KordacExtension(Extension):
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
     def clear_saved_data(self):
-        self.heading = None
+        self.title = None
         self.page_scripts = []
         self.required_files = {}
 
