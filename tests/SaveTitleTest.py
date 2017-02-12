@@ -51,3 +51,9 @@ class SaveTitleTest(BaseTestCase):
         converted_test_title = result.title
         expected_string = self.read_expected_output_file('level_two_heading_expected').strip()
         self.assertEqual(expected_string, converted_test_title)
+
+    def test_no_heading_permalink(self):
+        test_string = self.read_test_file('no_heading_permalink')
+        result = self.converter.run(test_string)
+        converted_test_title = result.title
+        self.assertIsNone(converted_test_title)
