@@ -1,4 +1,4 @@
-Install Kordac
+Installing Kordac
 #######################################
 
 Currently Kordac is only able to be installed locally.

@@ -20,18 +20,6 @@ import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-ALL_TAGS = [
-        'headingpre',
-        'heading',
-        'commentpre',
-        'comment',
-        'button-link',
-        'panel',
-        'video',
-        'image',
-        'interactive',
-        'glossary-link'
-        ]
 
 class KordacExtension(Extension):
     def __init__(self, tags=[], html_templates={}, *args, **kwargs):
@@ -41,11 +29,10 @@ class KordacExtension(Extension):
         self.html_templates = self.loadHTMLTemplates(html_templates)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.tag_patterns = self.loadTagPatterns()
-        self.tags = tags if tags != [] else ALL_TAGS
+        self.tags = tags
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-
         processors = {
             'preprocessors': {
                 'headingpre': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
@@ -71,7 +58,8 @@ class KordacExtension(Extension):
                 tag_processor = processors['blockprocessors'].get(tag)
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
-    def reset(self):
+    def clear_saved_data(self):
+        self.heading = None
         self.page_scripts = []
         self.required_files = {}
 

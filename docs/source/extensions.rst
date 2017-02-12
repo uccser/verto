@@ -28,16 +28,16 @@ Fenced Code
 =======================================
 
 The Fenced Code Blocks extension adds a secondary way to define code blocks, which overcomes a few limitations of the indented code blocks.
-More details on the Fenced Code extension can be found `in their official documentation <http://pythonhosted.org/Markdown/extensions/fenced_code_blocks.html>`_.
+More details on the Fenced Code extension can be found `in the Fenced Code documentation <http://pythonhosted.org/Markdown/extensions/fenced_code_blocks.html>`_.
 
 Code Highlighting
 =======================================
 
 The CodeHilite extension adds code/syntax highlighting to standard Python-Markdown code blocks using Pygments.
-More details on the CodeHilite extension can be found `in their official documentation <http://pythonhosted.org/Markdown/extensions/code_hilite.html>`_.
+More details on the CodeHilite extension can be found `in the CodeHilite documentation <http://pythonhosted.org/Markdown/extensions/code_hilite.html>`_.
 
 Sane Lists
 =======================================
 
 The Sane Lists extension alters the behavior of the Markdown List syntax to be less surprising.
-More details on the Sane Lists extension can be found `in their official documentation <http://pythonhosted.org/Markdown/extensions/sane_lists.html>`_.
+More details on the Sane Lists extension can be found `in the Sane Lists documentation <http://pythonhosted.org/Markdown/extensions/sane_lists.html>`_.
