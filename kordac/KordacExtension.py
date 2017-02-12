@@ -7,6 +7,7 @@ from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
+from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
@@ -36,6 +37,7 @@ class KordacExtension(Extension):
         processors = {
             'preprocessors': {
                 'save-title': ['save-title', SaveTitlePreprocessor(self, md), '_begin'],
+                'remove-title': ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
                 #'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
                 },
             'blockprocessors': {

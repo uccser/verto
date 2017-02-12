@@ -1,7 +1,7 @@
 from markdown.preprocessors import Preprocessor
 import re
 
-class SaveTitlePreprocessor(Preprocessor):
+class RemoveTitlePreprocessor(Preprocessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -12,9 +12,9 @@ class SaveTitlePreprocessor(Preprocessor):
         return self.pattern.search(lines) is not None
 
     def run(self, lines):
-        for line in lines:
-            match = self.pattern.search(line)
-            if match is not None:
-                self.ext.title = match.group(1)
-                break
+        """If the title is found on a line, remove the line."""
+        title_found = False
+        for i, line in enumerate(lines):
+            if not title_found and self.pattern.search(line) is not None:
+                lines[i] = ''
         return lines
