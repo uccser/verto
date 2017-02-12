@@ -24,3 +24,10 @@ class SaveTitleTest(BaseTestCase):
         converted_test_title = result.title
         expected_string = self.read_expected_output_file('doc_example_basic_usage_expected').strip()
         self.assertEqual(expected_string, converted_test_title)
+
+    def test_multiple_headings(self):
+        test_string = self.read_test_file('multiple_headings')
+        result = self.converter.run(test_string)
+        converted_test_title = result.title
+        expected_string = self.read_expected_output_file('multiple_headings_expected').strip()
+        self.assertEqual(expected_string, converted_test_title)
