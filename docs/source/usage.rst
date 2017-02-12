@@ -89,9 +89,9 @@ The following functions allow you to change the tags or HTML templates used in c
 Changing tags
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automethod:: Kordac.update_tags(tags)
+.. automethod:: kordac.Kordac.update_tags(tags)
 
-.. automethod:: Kordac.tag_defaults(tags)
+.. automethod:: kordac.Kordac.tag_defaults(tags)
 
   This function is useful if you want to make minor changes to the default used tags. For example: with an existing Kordac converter ``converter``, you wish to still use all default tags but now skip video tags:
 
@@ -104,9 +104,9 @@ Changing tags
 Changing HTML templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automethod:: Kordac.update_templates(html_templates)
+.. automethod:: kordac.Kordac.update_templates(html_templates)
 
-.. automethod:: Kordac.default_templates(tags)
+.. automethod:: kordac.Kordac.default_templates(tags)
 
 
 Full list of package methods
@@ -114,7 +114,7 @@ Full list of package methods
 
 
 
-.. autoclass:: Kordac()
+.. autoclass:: kordac.Kordac()
   :members: __init__, run, update_tags, tag_defaults, update_templates, default_templates
 
-.. autoclass:: KordacResult()
+.. autoclass:: kordac.Kordac.KordacResult()
