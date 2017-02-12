@@ -1,0 +1,26 @@
+from kordac import Kordac
+from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
+from tests.BaseTestCase import BaseTestCase
+
+class SaveTitleTest(BaseTestCase):
+    """
+    Inline = single line comment .e.g. {comment hello you look lovely today}
+    Block = multi line comment e.g.
+        {comment}
+        hello,
+        you look lovely today.
+        {comment end}
+    """
+
+    def __init__(self, *args, **kwargs):
+        """Set tag name in class for file names"""
+        BaseTestCase.__init__(self, *args, **kwargs)
+        self.tag_name = 'save-title'
+        self.converter = Kordac()
+
+    def test_basic_usage(self):
+        test_string = self.read_test_file('doc_example_basic_usage')
+        result = self.converter.run(test_string)
+        converted_test_title = result.title
+        expected_string = self.read_expected_output_file('doc_example_basic_usage_expected').strip()
+        self.assertEqual(expected_string, converted_test_title)
