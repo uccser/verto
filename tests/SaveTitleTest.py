@@ -45,6 +45,15 @@ class SaveTitleTest(BaseTestCase):
         converted_test_title = result.title
         self.assertIsNone(converted_test_title)
 
+    def test_no_result_processor_off(self):
+        test_string = self.read_test_file('doc_example_basic_usage')
+        new_tags = self.converter.tag_defaults()
+        new_tags.remove(self.tag_name)
+        self.converter.update_tags(new_tags)
+        result = self.converter.run(test_string)
+        converted_test_title = result.title
+        self.assertIsNone(converted_test_title)
+
     def test_level_two_heading(self):
         test_string = self.read_test_file('level_two_heading')
         result = self.converter.run(test_string)
