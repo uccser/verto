@@ -25,7 +25,7 @@
     "heading": {
         "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
     },
-    "heading_pre": {
+    "save-title": {
         "pattern": "# (.*)"
     },
     "button-link": {

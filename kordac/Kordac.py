@@ -3,7 +3,7 @@ import mdx_math
 from kordac.KordacExtension import KordacExtension
 
 DEFAULT_TAGS = {
-    'headingpre',
+    'save-title',
     'heading',
     'commentpre',
     'comment',
@@ -63,7 +63,7 @@ class Kordac(object):
         html_string = self.converter.convert(text)
         result = KordacResult(
             html_string=html_string,
-            heading=self.kordac_extension.page_heading
+            title=self.kordac_extension.title
         )
         return result
 
@@ -114,12 +114,12 @@ class KordacResult(object):
     after a conversion by run.
     """
 
-    def __init__(self, html_string=None, heading=None):
+    def __init__(self, html_string=None, title=None):
         """Create a KordacResult object.
 
         Args:
             html_string: A string of HTML text.
-            heading: The first heading encountered when converting.
+            title: The first heading encountered when converting.
         """
         self.html_string = html_string
-        self.heading = heading
+        self.title = title
