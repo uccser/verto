@@ -3,14 +3,7 @@ from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from tests.BaseTestCase import BaseTestCase
 
 class SaveTitleTest(BaseTestCase):
-    """
-    Inline = single line comment .e.g. {comment hello you look lovely today}
-    Block = multi line comment e.g.
-        {comment}
-        hello,
-        you look lovely today.
-        {comment end}
-    """
+    """Tests to check the 'save-title' preprocesser works as intended."""
 
     def __init__(self, *args, **kwargs):
         """Set tag name in class for file names"""
