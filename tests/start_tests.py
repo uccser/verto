@@ -8,7 +8,7 @@ from tests.HeadingTest import HeadingTest
 from tests.ImageTest import ImageTest
 from tests.VideoTest import VideoTest
 from tests.InteractiveTest import InteractiveTest
-from tests.ButtonTest import ButtonTest
+from tests.ButtonLinkTest import ButtonLinkTest
 
 
 def suite():
@@ -16,12 +16,12 @@ def suite():
     allSuites = unittest.TestSuite((
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
         # unittest.makeSuite(PanelTest),
-        unittest.makeSuite(CommentTest),
-        # unittest.makeSuite(HeadingTest),
-        # unittest.makeSuite(ImageTest),
-        # unittest.makeSuite(VideoTest),
-        # unittest.makeSuite(InteractiveTest),
-        # unittest.makeSuite(ButtonTest)
+        #unittest.makeSuite(CommentTest),
+        #unittest.makeSuite(HeadingTest),
+        #unittest.makeSuite(ImageTest),
+        #unittest.makeSuite(VideoTest),
+        #unittest.makeSuite(InteractiveTest),
+        #unittest.makeSuite(ButtonLinkTest)
     ))
 
     return allSuites

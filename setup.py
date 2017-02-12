@@ -1,8 +1,13 @@
 from setuptools import setup, find_packages
+import sys
+from kordac import __version__
+
+if not sys.version_info[0] == 3:
+    sys.exit("Sorry, currently only Python 3 is supported.")
 
 setup(
     name='kordac',
-    version='0.0.3',
+    version=__version__,
     description='Kordac is an extension of the Python Markdown package, which allows authors to include complex HTML elements with simple text tags in their Markdown files.',
     url='https://github.com/uccser/kordac',
     author='UCCSER',

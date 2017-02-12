@@ -15,7 +15,7 @@ Required Tag Parameters
 - ``file_path`` - The path to the image.
 
     - Each file_path provided is added to the set of 'required files' stored by Kordac. The list of filepaths can be accessed after conversion.
-    - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered within a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}``.
+    - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered within a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}`` This can be overriden, see the override section below.
 
 Optional Tag Parameters
 ***************************************
@@ -34,12 +34,12 @@ The default HTML for button links is:
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage.md
+.. literalinclude:: ../../../tests/assets/image/doc_example_basic_usage.md
    :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../tests/assets/image/doc_example_basic_usage_expected.html
    :language: html
 
 Overriding HTML for Images
@@ -55,19 +55,49 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 - ``{{ caption_link }}`` - The URL for the caption link .
 - ``{{ source_link }}`` - The URL for the source .
 
-**Example**
+If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
+The default HTML for relative images is:
+
+.. literalinclude:: ../../../kordac/html-templates/relative-image-link.html
+  :language: css+jinja
+
+**Example 1**
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html_template.html
+.. literalinclude:: ../../../tests/assets/image/doc_example_override_html_template.html
    :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html.md
+.. literalinclude:: ../../../tests/assets/image/doc_example_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html_expected.html
+.. literalinclude:: ../../../tests/assets/image/doc_example_override_html_expected.html
+   :language: html
+
+**Example 2**
+
+If you know all relative images are located within a specific folder, you could change the ``relative-image-link.html`` template.
+
+For example, providing the following HTML for ``image.html``:
+
+.. literalinclude:: ../../../tests/assets/image/doc_example_2_override_html_template.html
+   :language: css+jinja
+
+and providing the following HTML for ``relative-image-link.html``:
+
+.. literalinclude:: ../../../tests/assets/image/doc_example_2_override_link_html_template.html
+   :language: css+jinja
+
+with the following tag:
+
+.. literalinclude:: ../../../tests/assets/image/doc_example_2_override_html.md
+   :language: none
+
+would result in:
+
+.. literalinclude:: ../../../tests/assets/image/doc_example_2_override_html_expected.html
    :language: html

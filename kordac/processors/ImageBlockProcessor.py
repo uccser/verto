@@ -44,4 +44,3 @@ class ImageBlockProcessor(BlockProcessor):
         parent.append(node)
 
         self.required.add(context['file_path'])
-

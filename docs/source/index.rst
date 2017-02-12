@@ -23,8 +23,9 @@ For example:
     :caption: Contents
 
     install
+    usage
     tags/index
-    useful-extensions
+    extensions
 
 Available Tags
 ==============

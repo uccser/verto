@@ -6,10 +6,11 @@ from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
-from kordac.processors.HeadingPreprocessor import HeadingPreprocessor
+from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
+from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
-from kordac.processors.ButtonPreprocessor import ButtonPreprocessor
+from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
 
 from collections import defaultdict
 from os import listdir
@@ -19,45 +20,34 @@ import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-ALL_TAGS = [
-        'headingpre',
-        'heading',
-        'commentpre',
-        'comment',
-        'button',
-        'panel',
-        'video',
-        'image',
-        'interactive',
-        'glossary-link'
-        ]
 
 class KordacExtension(Extension):
     def __init__(self, tags=[], html_templates={}, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
-        self.page_heading = None
+        self.title = None
         self.html_templates = self.loadHTMLTemplates(html_templates)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.tag_patterns = self.loadTagPatterns()
-        self.tags = tags if tags != [] else ALL_TAGS
+        self.tags = tags
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-
         processors = {
             'preprocessors': {
-                'headingpre': ['headingpre', HeadingPreprocessor(self, md), '_begin'],
+                'save-title': ['save-title', SaveTitlePreprocessor(self, md), '_begin'],
+                'remove-title': ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
                 'comment': ['comment', CommentPreprocessor(self, md), '_begin'],
                 #'button': ['button', ButtonPreprocessor(self, md), '_begin']
                 },
             'blockprocessors': {
-                'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
-                'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+                #'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
+                #'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
                 #'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
                 #'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
                 #'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-                'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+                #'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+                #'button-link': ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin']
                 },
             }
 
@@ -69,7 +59,8 @@ class KordacExtension(Extension):
                 tag_processor = processors['blockprocessors'].get(tag)
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
-    def reset(self):
+    def clear_saved_data(self):
+        self.title = None
         self.page_scripts = []
         self.required_files = {}
 
