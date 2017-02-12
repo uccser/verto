@@ -57,3 +57,10 @@ class SaveTitleTest(BaseTestCase):
         result = self.converter.run(test_string)
         converted_test_title = result.title
         self.assertIsNone(converted_test_title)
+
+    def test_no_space_title(self):
+        test_string = self.read_test_file('no_space_title')
+        result = self.converter.run(test_string)
+        converted_test_title = result.title
+        expected_string = self.read_expected_output_file('no_space_title_expected').strip()
+        self.assertEqual(expected_string, converted_test_title)
