@@ -16,3 +16,4 @@ The following pages covers how to use the available tags within Markdown text, a
     button-link
     comment
     image
+    internal-text-links
