@@ -36,8 +36,6 @@ class BoxedTextTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('single_boxed_text_expected')
-        print(converted_test_string)
-        print(expected_string)
         self.assertEqual(expected_string, converted_test_string)
 
     # def test_multiple_boxed_text(self):

@@ -63,7 +63,6 @@ class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         self.kordac_extension = KordacExtension([self.tag_name], {})
-        self.kordac_extension.
         self.md = markdown.Markdown(extensions=[self.kordac_extension])
 
     def tearDown(self):
