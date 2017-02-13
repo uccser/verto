@@ -1,11 +1,8 @@
-<div class='clearfix'>
-  <ul class='collapsible panel' data-collapsible='accordion'>
-    <li class='panel-selector {type_class}'>
-      <div class='collapsible-header{expanded}'>
-        <div class='panel-heading'>{panel_heading}</div>
-        <div class='dropdown-menu-arrow'>&#9660;</div>
-      </div>
-      <div class='collapsible-body'>{content}</div>
-    </li>
-  </ul>
+<div class='panel panel-{{ type }}{% if expanded == 'always'%} panel-expanded-always{% elif expanded %} panel-expanded{% endif %}'>
+  <div class='panel-header'>
+    <strong>{{ title }}{% if subtitle %}:{% endif %}</strong> {{ subtitle }}
+  </div>
+  <div class='panel-body'>
+    {{ content }}
+  </div>
 </div>
