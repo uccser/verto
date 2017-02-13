@@ -38,22 +38,22 @@ class BoxedTextTest(BaseTestCase):
         expected_string = self.read_expected_output_file('single_boxed_text_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-    # def test_multiple_boxed_text(self):
-    #     test_string = self.read_test_file('multiple_boxed_text')
-    #     blocks = self.to_blocks(test_string)
-    #
-    #     self.assertTrue(True in (BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
-    #
-    #     converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-    #     expected_string = self.read_expected_output_file('multiple_boxed_text_expected')
-    #     self.assertEqual(expected_string, converted_test_string)
-    #
-    # def test_indented_boxed_text(self):
-    #     test_string = self.read_test_file('indented_boxed_text')
-    #     blocks = self.to_blocks(test_string)
-    #
-    #     self.assertTrue(True in (BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
-    #
-    #     converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-    #     expected_string = self.read_expected_output_file('indented_boxed_text_expected')
-    #     self.assertEqual(expected_string, converted_test_string)
+    def test_indented_boxed_text(self):
+        test_string = self.read_test_file('indented_boxed_text')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('indented_boxed_text_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_multiple_boxed_text(self):
+        test_string = self.read_test_file('multiple_boxed_text')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('multiple_boxed_text_expected')
+        self.assertEqual(expected_string, converted_test_string)
