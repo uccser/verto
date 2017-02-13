@@ -1,4 +1,6 @@
 markdown>=2.6.8
+python.markdown.math>=0.2
+beautifulsoup4>=4.5.3
 Jinja2>=2.9.5
 sphinx>=1.5.2
 sphinx_rtd_theme>=0.1.9
