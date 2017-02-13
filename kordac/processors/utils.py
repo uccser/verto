@@ -8,14 +8,14 @@ CENTERED_HTML = """
 </div>
 """
 
-def parse_argument(argument_key, arguments):
+def parse_argument(argument_key, arguments, default=None):
     """Search for the given argument in a string of all arguments
     Returns: Value of an argument as a string if found, otherwise None"""
     result = re.search('{}="([^"]*)"'.format(argument_key), arguments)
     if result:
         argument_value = result.group(1)
     else:
-        argument_value = None
+        argument_value = default
     return argument_value
 
 def from_kebab_case(text):

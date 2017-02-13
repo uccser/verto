@@ -32,7 +32,7 @@
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"
     },
     "boxed-text": {
-        "pattern_start": "\\{text-box ?(?P<args>[^\\}]*)\\}",
-        "pattern_end": "\\{text-box end\\}"
+        "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)\\}",
+        "pattern_end": "\\{boxed-text end\\}"
     }
 }

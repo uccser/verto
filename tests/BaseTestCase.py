@@ -37,7 +37,7 @@ class BaseTestCase(unittest.TestCase):
         """
         file_path = self.expected_output_file_path.format(tag_name=self.tag_name, filename=filename)
         file_object = open(file_path, encoding="utf-8")
-        return file_object.read()
+        return file_object.read().rstrip('\r\n')
 
     def loadHTMLTemplate(self, template):
         return open('kordac/html-templates/' + template + '.html').read()
@@ -54,8 +54,16 @@ class BaseTestCase(unittest.TestCase):
         pattern_data = open('kordac/regex-list.json').read()
         return json.loads(pattern_data)
 
+    def to_blocks(self, string):
+        ''' Returns a list of strings as markdown blocks.
+
+        See ParseChunk of markdown.blockparser.BlockParser for how text in chunked.
+        '''
+        return string.split('\n\n')
+
     def setUp(self):
         self.kordac_extension = KordacExtension([self.tag_name], {})
+        self.kordac_extension.
         self.md = markdown.Markdown(extensions=[self.kordac_extension])
 
     def tearDown(self):

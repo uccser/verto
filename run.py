@@ -5,6 +5,6 @@ for chapter in ['algorithms', 'introduction']:
         s = f.read()
         converter = kordac.Kordac()
         # result = converter.run(s, tags=['heading'])
-        result = converter.run(s, [], {})
+        result = converter.run(s)
     with open('kordac/output/{}.html'.format(chapter), 'w', encoding='utf8') as f:
         f.write(result.html_string)
