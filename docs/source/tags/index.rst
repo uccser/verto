@@ -17,5 +17,6 @@ The following pages covers how to use the available tags within Markdown text, a
     comment
     image
     internal-text-links
+    panel
     remove-title
     save-title

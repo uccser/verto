@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="mb-0">
+      <strong>{{ title }}{% if subtitle %}:</strong> {{ subtitle }}{% else %}</strong>{% endif %}
+    </h5>
+  </div>
+  <div class="collapse{% if expanded == 'always'%} show-always{% elif expanded == 'true' %} show{% endif %}">
+    <div class="card-block">
+      {{ content }}
+    </div>
+  </div>
+</div>
