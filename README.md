@@ -1,5 +1,7 @@
 ![Kordac Logo](kordac/images/kordac-logo.png)
 
+[![Build Status](https://travis-ci.org/uccser/kordac.svg?branch=master)](https://travis-ci.org/uccser/kordac)
+
 Kordac is an extension of the Python Markdown package, which allows authors to include complex HTML elements with simple text tags in their Markdown files.
 
 **Warning:** *This repository is currently in development!
