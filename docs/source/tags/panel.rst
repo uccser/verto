@@ -25,7 +25,7 @@ Optional Tag Parameters
 
     - If given as 'true', the panel contains the CSS class ``panel-expanded`` to state it should be expanded on load.
     - If set to 'always', the panel contains the CSS class ``panel-expanded-always`` to state it should be expanded at load and cannot be closed.
-    - When ``expanded`` is not given, the panel contains no extra CSS classes and be closed on load.
+    - When ``expanded`` is not given or not a value above, the panel contains no extra CSS classes and be closed on load.
 
 The default HTML for a panel is:
 
@@ -41,3 +41,31 @@ The resulting HTML would be:
 
 .. literalinclude:: ../../../tests/assets/panel/doc_example_basic_usage_expected.html
    :language: html
+
+Overriding HTML for Panels
+***************************************
+
+When overriding the HTML for images, the following Jinja2 placeholders are available:
+
+- ``{{ type }}`` - The type of panel to be created.
+- ``{{ expanded }}`` - Text either set to 'true' or 'always' to state if the panel should be expanded. See parameter description above.
+- ``{{ title }}`` - The provided title text.
+- ``{{ subtitle }}`` - The provided subtitle text.
+- ``{{ content }}`` - The text enclosed by the panel tags.
+
+**Example**
+
+For example, providing the following HTML:
+
+.. literalinclude:: ../../../tests/assets/panel/doc_example_override_html_template.html
+  :language: css+jinja
+
+with the following tag:
+
+.. literalinclude:: ../../../tests/assets/panel/doc_example_override_html.md
+  :language: none
+
+would result in:
+
+.. literalinclude:: ../../../tests/assets/panel/doc_example_override_html_expected.html
+  :language: html
