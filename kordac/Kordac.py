@@ -1,5 +1,4 @@
 import markdown
-import mdx_math
 from kordac.KordacExtension import KordacExtension
 
 DEFAULT_TAGS = {
