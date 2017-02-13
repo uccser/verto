@@ -22,7 +22,7 @@
         "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
     },
     "title": {
-        "pattern": "# (.*)"
+        "pattern": "^#+ ?(.*)"
     },
     "button-link": {
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"

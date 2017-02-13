@@ -9,11 +9,13 @@ from tests.ImageTest import ImageTest
 from tests.VideoTest import VideoTest
 from tests.InteractiveTest import InteractiveTest
 from tests.ButtonLinkTest import ButtonLinkTest
+from tests.SaveTitleTest import SaveTitleTest
 
 
 def suite():
     # NTS what order should these go in?
     allSuites = unittest.TestSuite((
+        unittest.makeSuite(SaveTitleTest),
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
         # unittest.makeSuite(PanelTest),
         unittest.makeSuite(CommentTest),

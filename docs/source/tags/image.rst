@@ -15,7 +15,7 @@ Required Tag Parameters
 - ``file_path`` - The path to the image.
 
     - Each file_path provided is added to the set of 'required files' stored by Kordac. The list of filepaths can be accessed after conversion.
-    - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered within a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}`` This can be overriden, see the override section below.
+    - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered with a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}`` This can be overriden, see the override section below.
 
 Optional Tag Parameters
 ***************************************

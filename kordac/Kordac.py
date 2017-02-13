@@ -1,11 +1,9 @@
 import markdown
-import mdx_math
 from kordac.KordacExtension import KordacExtension
 
 DEFAULT_TAGS = {
     'save-title',
     'heading',
-    'commentpre',
     'comment',
     'button-link',
     'panel',

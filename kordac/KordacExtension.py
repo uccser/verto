@@ -1,4 +1,5 @@
 from markdown.extensions import Extension
+import markdown.util as utils
 
 from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
 from kordac.processors.CommentPreprocessor import CommentPreprocessor
@@ -11,6 +12,7 @@ from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
+from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
 
 from collections import defaultdict
 from os import listdir
@@ -19,7 +21,6 @@ import re
 import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
-
 
 class KordacExtension(Extension):
     def __init__(self, tags=[], html_templates={}, *args, **kwargs):
@@ -35,7 +36,7 @@ class KordacExtension(Extension):
     def extendMarkdown(self, md, md_globals):
         preprocessors = [
             ['comment', CommentPreprocessor(self, md), '_begin'],
-            ['save-title', SaveTitlePreprocessor(self, md), '>comment'],
+            ['save-title', SaveTitlePreprocessor(self, md), '_end'],
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
         ]
         blockprocessors = [
@@ -54,6 +55,8 @@ class KordacExtension(Extension):
         for tag_processor in blockprocessors:
             if tag_processor[0] in self.tags:
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
+
+        md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
 
     def clear_saved_data(self):
         self.title = None
