@@ -99,4 +99,3 @@ class CommentBlockTest(BaseTestCase):
 
     def test_comment_contains_inline_comment(self):
         pass
-
