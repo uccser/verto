@@ -35,9 +35,9 @@ class KordacExtension(Extension):
 
     def extendMarkdown(self, md, md_globals):
         preprocessors = [
-            ['comment', CommentPreprocessor(self, md), '_begin'],
             ['save-title', SaveTitlePreprocessor(self, md), '_end'],
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
+            ['comment', CommentPreprocessor(self, md), '_begin'],
         ]
         blockprocessors = [
             #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
