@@ -8,15 +8,27 @@ CENTERED_HTML = """
 </div>
 """
 
-def parse_argument(argument_key, arguments):
+def parse_argument(argument_key, arguments, default=None):
     """Search for the given argument in a string of all arguments
     Returns: Value of an argument as a string if found, otherwise None"""
-    result = re.search('{}="([^"]*)"'.format(argument_key), arguments)
+    result = re.search('\s*{}=("([^"]*)"|[^\s]+)'.format(argument_key), arguments)
     if result:
-        argument_value = result.group(1)
+        argument_value = string_to_type(result.group(1))
     else:
-        argument_value = None
+        argument_value = default
     return argument_value
+
+def string_to_type(string):
+    try:
+        if re.match("^(-)?\d+?$", string):
+            return int(string)
+        elif re.match("^(-)?\d+?\.\d+?$", string) is not None:
+            return float(string)
+        elif string.lower() == 'true' or string.lower() == 'false':
+            return bool(string)
+    except ValueError:
+        pass
+    return string
 
 def from_kebab_case(text):
     """Returns given kebab case text to plain text.
@@ -33,6 +45,9 @@ def to_kebab_case(text):
     text = text.replace(' ', '-').lower()
     return text
 
+def blocks_to_string(blocks):
+    """Returns a string after the blocks have been joined back together."""
+    return '\n\n'.join(blocks)
 
 def centre_html(node, width):
     """Wraps the given node with HTML to centre using the given number of columns"""
