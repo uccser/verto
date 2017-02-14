@@ -3,7 +3,7 @@ import markdown
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
-from tests.BaseTestCase import BaseTestCase
+from kordac.tests.BaseTestCase import BaseTestCase
 
 class HeadingTest(BaseTestCase):
 

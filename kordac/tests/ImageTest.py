@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
-from tests.BaseTestCase import BaseTestCase
+from kordac.tests.BaseTestCase import BaseTestCase
 
 class ImageTest(BaseTestCase):
 

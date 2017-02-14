@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
-from tests.BaseTestCase import BaseTestCase
+from kordac.tests.BaseTestCase import BaseTestCase
 
 
 class BoxedTextTest(BaseTestCase):
