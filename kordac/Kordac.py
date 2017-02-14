@@ -47,7 +47,7 @@ class Kordac(object):
         all_extensions = self.extensions + [self.kordac_extension]
         self.converter = markdown.Markdown(extensions=all_extensions)
 
-    def run(self, text):
+    def convert(self, text):
         """Return a KordacResult object after converting
         the given markdown string.
 
