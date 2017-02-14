@@ -1,11 +1,6 @@
 Welcome to Kordac
 #################
 
-.. warning::
-
-  This repository is currently in development!
-  Therefore features may not be implemented yet, may change, be buggy, or completely broken.
-
 Kordac is an extension of the Python `Markdown <https://pypi.python.org/pypi/Markdown>`_ package, which allows authors to include complex HTML elements with simple text tags in their Markdown files.
 
 For example:
