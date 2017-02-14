@@ -1,8 +1,6 @@
 .. figure:: kordac/images/kordac-logo.png
    :alt: Kordac Logo
 
-   Kordac Logo
-
 |Build Status|
 
 Kordac is an extension of the Python Markdown package, which allows
