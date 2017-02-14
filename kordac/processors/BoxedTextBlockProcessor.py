@@ -28,19 +28,29 @@ class BoxedTextBlockProcessor(BlockProcessor):
 
         content = ''
         the_rest = None
+        inner_start_tags = 0
+        inner_end_tags = 0
 
         while len(blocks) > 0:
             block = blocks.pop(0)
+
+            inner_tag = self.p_start.search(block)
             end_tag = self.p_end.search(block)
-            if end_tag:
-                content += block[:end_tag.start()] + '\n'
+            if inner_tag:
+                inner_start_tags += 1
+
+            if end_tag and inner_start_tags == inner_end_tags:
+                content += block[:end_tag.start()] + '\n\n'
                 the_rest = block[end_tag.end():]
                 break
-            content += block  + '\n'
+            elif end_tag:
+                inner_end_tags += 1
+                end_tag = None
+            content += block + '\n\n'
 
         if the_rest:
             blocks.insert(0, the_rest)
-        if end_tag is None:
+        if end_tag is None or inner_start_tags != inner_end_tags:
             raise TagNotMatchedError(self.tag, block, 'no end tag found to close start tag')
 
         content_tree = etree.Element('content')
