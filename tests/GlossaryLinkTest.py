@@ -9,12 +9,12 @@ from tests.BaseTestCase import BaseTestCase
 class GlossaryLinkTest(BaseTestCase):
 
     def __init__(self, *args, **kwargs):
-        """Set tag name in class for file names"""
+        """Set processor name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'glossary-link'
+        self.processor_name = 'glossary-link'
         self.ext = Mock()
-        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
-        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
+        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
+        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
 
     def test_match_false(self):
         test_string = self.read_test_file('fail_string')

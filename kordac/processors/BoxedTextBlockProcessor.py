@@ -7,10 +7,10 @@ import re
 class BoxedTextBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tag = 'boxed-text'
-        self.p_start = re.compile(ext.tag_patterns[self.tag]['pattern_start'])
-        self.p_end = re.compile(ext.tag_patterns[self.tag]['pattern_end'])
-        self.template = ext.jinja_templates[self.tag]
+        self.processor = 'boxed-text'
+        self.p_start = re.compile(ext.processor_patterns[self.processor]['pattern_start'])
+        self.p_end = re.compile(ext.processor_patterns[self.processor]['pattern_end'])
+        self.template = ext.jinja_templates[self.processor]
 
     def test(self, parent, block):
         return self.p_start.search(block) is not None or self.p_end.search(block) is not None
@@ -23,7 +23,7 @@ class BoxedTextBlockProcessor(BlockProcessor):
 
         # Found an end tag without processing a start tag first
         if start_tag is None and end_tag is not None:
-            raise TagNotMatchedError(self.tag, block, 'end tag found before start tag')
+            raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
 
         # Put left overs back on blocks, should be empty though
         blocks.insert(0, block[start_tag.end():])
@@ -61,7 +61,7 @@ class BoxedTextBlockProcessor(BlockProcessor):
         # Error if we reached the end without closing the start tag
         # or not all inner boxed-text tags were closed
         if end_tag is None or inner_start_tags != inner_end_tags:
-            raise TagNotMatchedError(self.tag, block, 'no end tag found to close start tag')
+            raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
 
         # Parse all the inner content of the boxed-text tags
         content_tree = etree.Element('content')

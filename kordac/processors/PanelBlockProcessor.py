@@ -11,8 +11,8 @@ class PanelBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.PANEL_TEMPLATE = ext.html_templates['panel']
-        self.p_start = re.compile(ext.tag_patterns['panel']['pattern_start'])
-        self.p_end = re.compile(ext.tag_patterns['panel']['pattern_end'])
+        self.p_start = re.compile(ext.processor_patterns['panel']['pattern_start'])
+        self.p_end = re.compile(ext.processor_patterns['panel']['pattern_end'])
 
     def test(self, parent, block):
         # return re.search('\{panel ?(?P<args>[^\}]*)\}', block) is not None

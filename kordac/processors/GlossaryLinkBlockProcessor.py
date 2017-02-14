@@ -9,7 +9,7 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.GLOSSARY_TEMPLATE = ext.html_templates['glossary-link']
-        self.pattern = re.compile(ext.tag_patterns['glossary-link']['pattern'])
+        self.pattern = re.compile(ext.processor_patterns['glossary-link']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
@@ -49,7 +49,3 @@ class GlossaryLinkBlockProcessor(BlockProcessor):
         # adds the sentence to the DOM - I think?...
         node = etree.fromstring(html_string)
         parent.append(node)
-
-
-
-

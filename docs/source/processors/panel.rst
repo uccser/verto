@@ -1,9 +1,9 @@
 Panel
 #######################################
 
-**Tag name:** ``panel``
+**Processor name:** ``panel``
 
-You can include an panel using the following syntax:
+You can include an panel using the following text tag:
 
 .. literalinclude:: ../../../tests/assets/panel/doc_example_basic_usage.md
     :language: none

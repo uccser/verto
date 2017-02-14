@@ -31,17 +31,17 @@ Once the module is imported, you can create a Kordac converter creating an Korda
 
 ``Kordac()`` has optional parameters to customise the converter. These are:
 
-- ``tags`` - A set of tag names given as strings for the converter to use. If this parameter is not given, the default tags are used. If ``tags`` is provided, all processors not listed are skipped.
+- ``processors`` - A set of processor names given as strings for the converter to use. If this parameter is not given, the default processors are used. If ``processors`` is provided, all processors not listed are skipped.
 
   - *For example:* Creating a Kordac converter that only deletes comment tags would be done by the following command:
 
     .. code-block:: python
 
-      converter = kordac.Kordac(tags={"comment"})
+      converter = kordac.Kordac(processors={"comment"})
 
-- ``html_templates`` - A dictionary of HTML templates to override existing HTML templates for tags. The dictionary contains tag names given as a string as keys mapping HTML strings as values.
+- ``html_templates`` - A dictionary of HTML templates to override existing HTML templates for processors. The dictionary contains processor names given as a string as keys mapping HTML strings as values.
 
-  The documentation page for each tag specificies how to create custom HTML for that tag.
+  The documentation page for each processor specificies how to create custom HTML for that processor.
 
   - *For example:* Creating a Kordac converter that uses  ``<img src={{ source }}>`` as custom HTML for ``image`` tags would be done by the following command:
 
@@ -84,35 +84,35 @@ The following attributes are available:
 Configuring Kordac converter after creation
 ===============================================
 
-The following functions allow you to change the tags or HTML templates used in conversion by the Kordac converter after its creation.
+The following functions allow you to change the processors or HTML templates used in conversion by the Kordac converter after its creation.
 
-Changing tags
+Changing processors
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automethod:: kordac.Kordac.update_tags(tags)
+.. automethod:: kordac.Kordac.update_processors(processors)
 
-.. automethod:: kordac.Kordac.tag_defaults(tags)
+.. automethod:: kordac.Kordac.processor_defaults(processors)
 
-  This function is useful if you want to make minor changes to the default used tags. For example: with an existing Kordac converter ``converter``, you wish to still use all default tags but now skip video tags:
+  This function is useful if you want to make minor changes to the default used processors. For example: with an existing Kordac converter ``converter``, you wish to still use all default processors but now skip video tags:
 
   .. code-block:: python
 
-    tags = converter.tag_defaults()
-    tags.remove('video')
-    converter.update_tags(tags)
+    processors = converter.processor_defaults()
+    processors.remove('video')
+    converter.update_processors(processors)
 
 Changing HTML templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automethod:: kordac.Kordac.update_templates(html_templates)
 
-.. automethod:: kordac.Kordac.default_templates(tags)
+.. automethod:: kordac.Kordac.default_templates()
 
 Full list of package methods
 =======================================
 
 .. autoclass:: kordac.Kordac()
-  :members: __init__, convert, update_tags, tag_defaults, update_templates, default_templates
+  :members: __init__, convert, update_processors, processor_defaults, update_templates, default_templates
 
 .. autoclass:: kordac.Kordac.KordacResult()
 
@@ -122,4 +122,4 @@ Full list of package methods
 
   .. attribute:: title
 
-    The text of the first heading found by the :doc:`tags/save-title` processor.
+    The text of the first heading found by the :doc:`processors/save-title` processor.

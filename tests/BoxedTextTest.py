@@ -12,10 +12,10 @@ class BoxedTextTest(BaseTestCase):
 
     def __init__(self, *args, **kwargs):
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'boxed-text'
+        self.processor_name = 'boxed-text'
         self.ext = Mock()
-        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
-        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
+        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
 
     def test_no_boxed_text(self):
         test_string = self.read_test_file('no_boxed_text')
