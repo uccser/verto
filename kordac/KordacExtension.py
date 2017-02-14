@@ -1,16 +1,18 @@
 from markdown.extensions import Extension
+import markdown.util as utils
 
 from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
 from kordac.processors.CommentPreprocessor import CommentPreprocessor
-from kordac.processors.CommentBlockProcessor import CommentBlockProcessor
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
-from kordac.processors.HeadingPreprocessor import HeadingPreprocessor
+from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
+from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
-from kordac.processors.ButtonPreprocessor import ButtonPreprocessor
+from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
+from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
 
 from collections import defaultdict
 from os import listdir
@@ -18,48 +20,73 @@ import os.path
 import re
 import json
 
+from jinja2 import Environment, PackageLoader, select_autoescape
+
 class KordacExtension(Extension):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, tags=[], html_templates={}, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
-        self.page_heading = None
-        self.html_templates = {}
-        self.tag_patterns = {}
+        self.title = None
+        self.html_templates = self.loadHTMLTemplates(html_templates)
+        self.jinja_templates = self.loadJinjaTemplates(html_templates)
+        self.tag_patterns = self.loadTagPatterns()
+        self.tags = tags
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
+        preprocessors = [
+            ['save-title', SaveTitlePreprocessor(self, md), '_end'],
+            ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
+            ['comment', CommentPreprocessor(self, md), '_begin'],
+        ]
+        blockprocessors = [
+            #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
+            ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+            #['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
+            #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+            #['video', VideoBlockProcessor(self, md.parser), '_begin'],
+            #['image', ImageBlockProcessor(self, md.parser), '_begin'],
+            #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin']
+        ]
 
-        self.loadHTMLTemplates()
-        self.loadTagPatterns()
+        for tag_processor in preprocessors:
+            if tag_processor[0] in self.tags:
+                md.preprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
+        for tag_processor in blockprocessors:
+            if tag_processor[0] in self.tags:
+                md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
-        md.preprocessors.add('headingpre', HeadingPreprocessor(self, md), '_begin')
-        md.parser.blockprocessors.add('panel', PanelBlockProcessor(self, md.parser), ">ulist")
-        # md.parser.blockprocessors.add('glossary-link', GlossaryLinkBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('interactive', InteractiveBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('video', VideoBlockProcessor(self, md.parser), "_begin")
-        # md.parser.blockprocessors.add('image', ImageBlockProcessor(self, md.parser), "_begin")
+        md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
 
-        md.parser.blockprocessors.add('hashheader', NumberedHashHeaderProcessor(self, md.parser), "_begin")
-
-        # md.parser.blockprocessors.add('comment', CommentBlockProcessor(self, md.parser), "_begin")
-        # md.preprocessors.add('commentpre', CommentPreprocessor(self, md), '_begin')
-        # md.preprocessors.add('button', ButtonPreprocessor(self, md), '_begin')
-
-        # NTS have not looked into what this does
-        # md.postprocessors.add('interactivepost', DjangoPostProcessor(self, md.parser), '_end')
-
-
-    def reset(self):
+    def clear_saved_data(self):
+        self.title = None
         self.page_scripts = []
         self.required_files = {}
 
+    def loadHTMLTemplates(self, custom_templates):
+        templates = {}
+        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
+            tag_name = re.search(r'(.*?).html', file).groups()[0]
+            if tag_name in custom_templates:
+                templates[tag_name] = custom_templates[tag_name]
+            else:
+                templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+        return templates
 
-    def loadHTMLTemplates(self):
-        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')): # TODO there has got to be a better way to do this
-            if 'swp' not in file: # HACK have vim files open atm, so they are getting in the way...
-                tag_name = re.search(r'(.*?).html', file).groups()[0]
-                self.html_templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+    def loadJinjaTemplates(self, custom_templates):
+        templates = {}
+        env = Environment(
+                loader=PackageLoader('kordac', 'html-templates'),
+                autoescape=select_autoescape(['html'])
+                )
+        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
+            tag_name = re.search(r'(.*?).html', file).groups()[0]
+            if tag_name in custom_templates:
+                templates[tag_name] = custom_templates[tag_name]
+            else:
+                templates[tag_name] = env.get_template(file)
+        return templates
 
     def loadTagPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
-        self.tag_patterns = json.loads(pattern_data)
+        return json.loads(pattern_data)
