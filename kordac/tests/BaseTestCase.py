@@ -16,8 +16,8 @@ class BaseTestCase(unittest.TestCase):
         test failures.
         """
         unittest.TestCase.__init__(self, *args, **kwargs)
-        self.test_file_path = 'tests/assets/{processor_name}/{filename}.md'
-        self.expected_output_file_path = 'tests/assets/{processor_name}/{filename}.html'
+        self.test_file_path = 'kordac/tests/assets/{processor_name}/{filename}.md'
+        self.expected_output_file_path = 'kordac/tests/assets/{processor_name}/{filename}.html'
         # self.maxDiff = 640  # Set to None for full output of all test failures
         self.maxDiff = None
 

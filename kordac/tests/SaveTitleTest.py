@@ -1,6 +1,6 @@
 from kordac import Kordac
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
-from tests.BaseTestCase import BaseTestCase
+from kordac.tests.BaseTestCase import BaseTestCase
 
 class SaveTitleTest(BaseTestCase):
     """Tests to check the 'save-title' preprocesser works as intended."""

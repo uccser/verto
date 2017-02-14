@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
-from tests.BaseTestCase import BaseTestCase
+from kordac.tests.BaseTestCase import BaseTestCase
 
 # NTS videos have different links
 # need to test:
