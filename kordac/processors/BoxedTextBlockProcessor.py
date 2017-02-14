@@ -1,5 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
-from kordac.processors.utils import parse_argument, etree
+from kordac.processors.utils import blocks_to_string, parse_argument, etree
 
 import kordac.processors.errors.TagNotMatchedError as TagNotMatchedError
 import re
@@ -21,49 +21,65 @@ class BoxedTextBlockProcessor(BlockProcessor):
         start_tag = self.p_start.search(block)
         end_tag = self.p_end.search(block)
 
+        # Found an end tag without processing a start tag first
         if start_tag is None and end_tag is not None:
             raise TagNotMatchedError(self.tag, block, 'end tag found before start tag')
 
+        # Put left overs back on blocks, should be empty though
         blocks.insert(0, block[start_tag.end():])
 
-        content = ''
+        content_blocks = []
         the_rest = None
         inner_start_tags = 0
         inner_end_tags = 0
 
+        # While there is still some work todo
         while len(blocks) > 0:
             block = blocks.pop(0)
 
+            # Do we have either a start or end tag
             inner_tag = self.p_start.search(block)
             end_tag = self.p_end.search(block)
+
+            # Keep track of how many inner boxed-text start tags we have seen
             if inner_tag:
                 inner_start_tags += 1
 
+            # If we have an end tag and all inner boxed-text tags have been closed - ~FIN
             if end_tag and inner_start_tags == inner_end_tags:
-                content += block[:end_tag.start()] + '\n\n'
+                content_blocks.append(block[:end_tag.start()])
                 the_rest = block[end_tag.end():]
                 break
             elif end_tag:
                 inner_end_tags += 1
                 end_tag = None
-            content += block + '\n\n'
+            content_blocks.append(block)
 
         if the_rest:
-            blocks.insert(0, the_rest)
+            blocks.insert(0, the_rest) # Keep anything off the end, should be empty though
+
+        # Error if we reached the end without closing the start tag
+        # or not all inner boxed-text tags were closed
         if end_tag is None or inner_start_tags != inner_end_tags:
             raise TagNotMatchedError(self.tag, block, 'no end tag found to close start tag')
 
+        # Parse all the inner content of the boxed-text tags
         content_tree = etree.Element('content')
-        self.parser.parseChunk(content_tree, content)
+        self.parser.parseChunk(content_tree, blocks_to_string(content_blocks))
 
+        # Convert parsed element tree back into html text for rendering
         content = ''
         for child in content_tree:
             content += etree.tostring(child, encoding="unicode", method="html") + '\n'
 
+        # Collect all information for rendering the html template
         context = dict()
         context['indented'] = parse_argument('indented', start_tag.group('args'), False)
         context['text'] = content
 
+        # Render template and compile into an element
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
+
+        # Update parent with the boxed-text element
         parent.append(node)

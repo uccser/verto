@@ -45,6 +45,9 @@ def to_kebab_case(text):
     text = text.replace(' ', '-').lower()
     return text
 
+def blocks_to_string(blocks):
+    """Returns a string after the blocks have been joined back together."""
+    return '\n\n'.join(blocks)
 
 def centre_html(node, width):
     """Wraps the given node with HTML to centre using the given number of columns"""
