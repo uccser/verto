@@ -1,9 +1,9 @@
 Boxed Text
 #######################################
 
-**Tag name:** ``boxed-text``
+**Processor name:** ``boxed-text``
 
-You can enclose text inside of a box using the following syntax:
+You can enclose text inside of a box using the following text tag:
 
 .. literalinclude:: ../../../tests/assets/boxed-text/doc_example_basic_usage.md
    :language: none

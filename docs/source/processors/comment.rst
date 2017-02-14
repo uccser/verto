@@ -1,7 +1,7 @@
 Comment
 #######################################
 
-**Tag name:** ``comment``
+**Processor name:** ``comment``
 
 You can include comments in the source text that are deleted before conversion:
 

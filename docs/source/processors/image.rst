@@ -1,9 +1,9 @@
 Image
 #######################################
 
-**Tag name:** ``image``
+**Processor name:** ``image``
 
-You can include an image using the following syntax:
+You can include an image using the following text tag:
 
 .. code-block:: none
 
