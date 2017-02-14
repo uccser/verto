@@ -14,7 +14,7 @@ For example:
 
     >>> import kordac
     >>> converter = kordac.Kordac()
-    >>> result = converter.run('{video url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}')
+    >>> result = converter.convert('{video url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}')
     >>> result.html_string
     "<iframe src='http://www.youtube.com/embed/dQw4w9WgXcQ?rel=0' frameborder='0' allowfullscreen></iframe>"
 

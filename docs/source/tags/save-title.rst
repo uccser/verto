@@ -17,7 +17,7 @@ With the following text saved in ``example_string``:
 
     import kordac
     converter = kordac.Kordac()
-    result = converter.run(example_string)
+    result = converter.convert(example_string)
     print(result.title)
 
 would result in:
