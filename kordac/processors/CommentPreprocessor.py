@@ -11,7 +11,7 @@ class CommentPreprocessor(Preprocessor):
             ext: An instance of the Markdown parser class.
         '''
         super().__init__(*args, **kwargs)
-        self.pattern = re.compile(ext.tag_patterns['comment']['pattern'])
+        self.pattern = re.compile(ext.processor_patterns['comment']['pattern'])
 
     def test(self, lines):
         '''Return whether the provided document contains comments needing removal.

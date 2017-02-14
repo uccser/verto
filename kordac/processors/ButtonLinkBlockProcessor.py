@@ -7,9 +7,9 @@ class ButtonLinkBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tag = 'button-link'
-        self.BUTTON_TEMPLATE = ext.jinja_templates[self.tag]
-        self.pattern = re.compile(ext.tag_patterns[self.tag]['pattern'])
+        self.processor = 'button-link'
+        self.BUTTON_TEMPLATE = ext.jinja_templates[self.processor]
+        self.pattern = re.compile(ext.processor_patterns[self.processor]['pattern'])
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None

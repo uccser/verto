@@ -1,7 +1,7 @@
 import markdown
 from kordac.KordacExtension import KordacExtension
 
-DEFAULT_TAGS = {
+DEFAULT_PROCESSORS = {
     'save-title',
     'heading',
     'comment',
@@ -15,25 +15,25 @@ DEFAULT_TAGS = {
 
 class Kordac(object):
     """A converter object for converting markdown
-    with complex tags to HTML.
+    with complex elements to HTML.
     """
 
-    def __init__(self, tags=DEFAULT_TAGS, html_templates={}, extensions=[]):
+    def __init__(self, processors=DEFAULT_PROCESSORS, html_templates={}, extensions=[]):
         """Creates a Kordac object.
 
         Args:
-            tags: A set of tag names given as strings for which
+            processors: A set of processor names given as strings for which
                 their processors are enabled. If given, all other
                 processors are skipped.
             html_templates: A dictionary of HTML templates to override
-                existing HTML templates for tags. Dictionary contains
-                tag names given as a string as keys mapping HTML strings
+                existing HTML templates for processors. Dictionary contains
+                processor names given as a string as keys mapping HTML strings
                 as values.
                 eg: {'image': '<img src={{ source }}>'}
             extensions: A list of extra extensions to run on the
                 markdown package.
         """
-        self.tags = tags
+        self.processors = processors
         self.html_templates = html_templates
         self.extensions = extensions
         self.create_converter()
@@ -41,7 +41,7 @@ class Kordac(object):
     def create_converter(self):
         """Create the Kordac extension and converter for future use."""
         self.kordac_extension = KordacExtension(
-            tags=self.tags,
+            processors=self.processors,
             html_templates=self.html_templates
         )
         all_extensions = self.extensions + [self.kordac_extension]
@@ -73,8 +73,8 @@ class Kordac(object):
 
         Args:
             html_templates: A dictionary of HTML templates to override
-                existing HTML templates for tags. Dictionary contains
-                tag names given as a string as keys mapping HTML strings
+                existing HTML templates for processors. Dictionary contains
+                processor names given as a string as keys mapping HTML strings
                 as values.
                 eg: {'image': '<img src={{ source }}>'}
         """
@@ -86,25 +86,25 @@ class Kordac(object):
         self.html_templates = {}
         self.create_converter()
 
-    def tag_defaults(self):
-        """Returns a copy of the default tag set.
+    def processor_defaults(self):
+        """Returns a copy of the default processor set.
 
         Returns:
-            A set of default tag names as strings.
+            A set of default processor names as strings.
         """
-        return DEFAULT_TAGS.copy()
+        return DEFAULT_PROCESSORS.copy()
 
-    def update_tags(self, tags=DEFAULT_TAGS):
-        """Update the tags used for conversion with the given set.
+    def update_processors(self, processors=DEFAULT_PROCESSORS):
+        """Update the processors used for conversion with the given set.
         The updated set will be used for converting from this point
-        onwards. If parameter is empty, default tags will be used.
+        onwards. If parameter is empty, default processors will be used.
 
         Args:
-            tags: A set of tag names given as strings for which
+            processors: A set of processor names given as strings for which
                 their processors are enabled. If given, all other
                 processors are skipped.
         """
-        self.tags = tags
+        self.processors = processors
         self.create_converter()
 
 class KordacResult(object):
