@@ -6,9 +6,9 @@ class SaveTitleTest(BaseTestCase):
     """Tests to check the 'save-title' preprocesser works as intended."""
 
     def __init__(self, *args, **kwargs):
-        """Set tag name in class for file names"""
+        """Set processor name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'save-title'
+        self.processor_name = 'save-title'
         self.converter = Kordac()
 
     def test_basic_usage(self):
@@ -40,9 +40,9 @@ class SaveTitleTest(BaseTestCase):
 
     def test_no_result_processor_off(self):
         test_string = self.read_test_file('doc_example_basic_usage')
-        new_tags = self.converter.tag_defaults()
-        new_tags.remove(self.tag_name)
-        self.converter.update_tags(new_tags)
+        new_processors = self.converter.processor_defaults()
+        new_processors.remove(self.processor_name)
+        self.converter.update_processors(new_processors)
         result = self.converter.convert(test_string)
         converted_test_title = result.title
         self.assertIsNone(converted_test_title)

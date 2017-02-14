@@ -12,10 +12,10 @@ class ButtonLinkTest(BaseTestCase):
 
     def __init__(self, *args, **kwargs):
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'button-link'
+        self.processor_name = 'button-link'
         self.ext = Mock()
-        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
-        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
+        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
 
     def test_no_button(self):
         test_string = self.read_test_file('no_button')
