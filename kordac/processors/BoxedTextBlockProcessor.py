@@ -26,28 +26,33 @@ class BoxedTextBlockProcessor(BlockProcessor):
 
         blocks.insert(0, block[start_tag.end():])
 
-        content = ""
+        content = ''
         the_rest = None
 
-        content_indentation = 0
-        paragraphify = lambda block: '<p>' + block + '</p>' if len(block) > 0 else ''
         while len(blocks) > 0:
             block = blocks.pop(0)
             end_tag = self.p_end.search(block)
             if end_tag:
-                content += paragraphify(block[:end_tag.start()])
+                content += block[:end_tag.start()] + '\n'
                 the_rest = block[end_tag.end():]
                 break
-            content += paragraphify(block) + '\n'
+            content += block  + '\n'
 
         if the_rest:
             blocks.insert(0, the_rest)
         if end_tag is None:
             raise TagNotMatchedError(self.tag, block, 'no end tag found to close start tag')
 
+        content_tree = etree.Element('content')
+        self.parser.parseChunk(content_tree, content)
+
+        content = ''
+        for child in content_tree:
+            content += etree.tostring(child, encoding="unicode", method="html") + '\n'
+
         context = dict()
         context['indented'] = parse_argument('indented', start_tag.group('args'), False)
-        context['text'] = content.strip('\n')
+        context['text'] = content
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
