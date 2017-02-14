@@ -1,16 +1,16 @@
 import unittest
 from collections import defaultdict
 
-from tests.GlossaryLinkTest import GlossaryLinkTest
-from tests.PanelTest import PanelTest
-from tests.CommentTest import CommentTest
-from tests.HeadingTest import HeadingTest
-from tests.ImageTest import ImageTest
-from tests.VideoTest import VideoTest
-from tests.InteractiveTest import InteractiveTest
-from tests.ButtonLinkTest import ButtonLinkTest
-from tests.BoxedTextTest import BoxedTextTest
-from tests.SaveTitleTest import SaveTitleTest
+from kordac.tests.GlossaryLinkTest import GlossaryLinkTest
+from kordac.tests.PanelTest import PanelTest
+from kordac.tests.CommentTest import CommentTest
+from kordac.tests.HeadingTest import HeadingTest
+from kordac.tests.ImageTest import ImageTest
+from kordac.tests.VideoTest import VideoTest
+from kordac.tests.InteractiveTest import InteractiveTest
+from kordac.tests.ButtonLinkTest import ButtonLinkTest
+from kordac.tests.BoxedTextTest import BoxedTextTest
+from kordac.tests.SaveTitleTest import SaveTitleTest
 
 
 def suite():

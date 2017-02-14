@@ -3,7 +3,7 @@ import markdown
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
-from tests.BaseTestCase import BaseTestCase
+from kordac.tests.BaseTestCase import BaseTestCase
 
 class InteractiveTest(BaseTestCase):
 
