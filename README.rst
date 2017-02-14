@@ -9,10 +9,6 @@ Kordac is an extension of the Python Markdown package, which allows
 authors to include complex HTML elements with simple text tags in their
 Markdown files.
 
-**Warning:** *This repository is currently in development! Therefore
-features may not be implemented yet, may change, be buggy, or completely
-broken.*
-
 Documentation
 -------------
 
