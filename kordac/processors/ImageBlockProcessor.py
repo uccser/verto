@@ -11,7 +11,7 @@ class ImageBlockProcessor(BlockProcessor):
         super().__init__(*args, **kwargs)
         self.required = ext.required_files["images"]
         # self.IMAGE_TEMPLATE = ext.html_templates['image']
-        self.pattern = re.compile(ext.tag_patterns['image']['pattern'])
+        self.pattern = re.compile(ext.processor_patterns['image']['pattern'])
         self.template = ext.jinja_templates['image']
 
     def test(self, parent, block):

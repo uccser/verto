@@ -12,6 +12,7 @@ from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
+from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
 from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
 
 from collections import defaultdict
@@ -23,14 +24,14 @@ import json
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
-    def __init__(self, tags=[], html_templates={}, *args, **kwargs):
+    def __init__(self, processors=[], html_templates={}, *args, **kwargs):
         self.page_scripts = []
         self.required_files = defaultdict(set)
         self.title = None
         self.html_templates = self.loadHTMLTemplates(html_templates)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
-        self.tag_patterns = self.loadTagPatterns()
-        self.tags = tags
+        self.processor_patterns = self.loadProcessorPatterns()
+        self.processors = processors
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
@@ -46,15 +47,16 @@ class KordacExtension(Extension):
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             #['video', VideoBlockProcessor(self, md.parser), '_begin'],
             #['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin']
+            #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
+             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
         ]
 
-        for tag_processor in preprocessors:
-            if tag_processor[0] in self.tags:
-                md.preprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
-        for tag_processor in blockprocessors:
-            if tag_processor[0] in self.tags:
-                md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
+        for processor_data in preprocessors:
+            if processor_data[0] in self.processors:
+                md.preprocessors.add(processor_data[0], processor_data[1], processor_data[2])
+        for processor_data in blockprocessors:
+            if processor_data[0] in self.processors:
+                md.parser.blockprocessors.add(processor_data[0], processor_data[1], processor_data[2])
 
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
 
@@ -66,11 +68,11 @@ class KordacExtension(Extension):
     def loadHTMLTemplates(self, custom_templates):
         templates = {}
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
-            tag_name = re.search(r'(.*?).html', file).groups()[0]
-            if tag_name in custom_templates:
-                templates[tag_name] = custom_templates[tag_name]
+            processor_name = re.search(r'(.*?).html', file).groups()[0]
+            if processor_name in custom_templates:
+                templates[processor_name] = custom_templates[processor_name]
             else:
-                templates[tag_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
+                templates[processor_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
         return templates
 
     def loadJinjaTemplates(self, custom_templates):
@@ -80,13 +82,13 @@ class KordacExtension(Extension):
                 autoescape=select_autoescape(['html'])
                 )
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
-            tag_name = re.search(r'(.*?).html', file).groups()[0]
-            if tag_name in custom_templates:
-                templates[tag_name] = custom_templates[tag_name]
+            processor_name = re.search(r'(.*?).html', file).groups()[0]
+            if processor_name in custom_templates:
+                templates[processor_name] = custom_templates[processor_name]
             else:
-                templates[tag_name] = env.get_template(file)
+                templates[processor_name] = env.get_template(file)
         return templates
 
-    def loadTagPatterns(self):
+    def loadProcessorPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
         return json.loads(pattern_data)

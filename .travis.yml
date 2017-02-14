@@ -11,7 +11,7 @@ python:
 install: pip install -r requirements.txt
 
 # Runs test suite
-script: python -m tests.start_tests
+script: python -m kordac.tests.start_tests
 
 # Stop email notifications but post to organisation Slack channel
 notifications:

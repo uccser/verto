@@ -14,7 +14,7 @@ For example:
 
     >>> import kordac
     >>> converter = kordac.Kordac()
-    >>> result = converter.run('{video url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}')
+    >>> result = converter.convert('{video url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}')
     >>> result.html_string
     "<iframe src='http://www.youtube.com/embed/dQw4w9WgXcQ?rel=0' frameborder='0' allowfullscreen></iframe>"
 
@@ -24,41 +24,11 @@ For example:
 
     install
     usage
-    tags/index
+    processors/index
     extensions
-
-Available Tags
-==============
-
-The following tags are directly converted to HTML:
-
-- **Images:** Includes an image, with additional parameters for alternative text, wrapping, captions, and source links. Kordac also remembers all images that have found within image tags, which is useful for later checking if all files exist.
-- **Videos:** Embeds a YouTube or Vimeo video from a given URL.
-- **Text boxes:** Wraps the given content within a block that can be styled by CSS.
-- **Panels:** Wraps the given content in a container with an optional header. Panels can be collapsed by JS, and a parameter allows the panel to be collapsed or expanded on page load.
-
-The following tags convert to placeholders to be used by the Django template engine:
-
-- **Static file links:** When linking to a specific static file, this tag will prepend a placeholder for the Django static files path.
-- **Numbered Headings:**
-- **Interactives:**
-- **Table of contents:**
-- **Conditional content:**
-
-Kordac also includes the following tags
-
-- **Glossary Entries:**
-- **Comments:**
 
 Other Features
 ==============
 
-- HTML for any given tag can replaced
-- Specific tags can be enabled while ignoring all other tags
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+- HTML for any given processor can replaced
+- Specific processors can be enabled while ignoring all other processors

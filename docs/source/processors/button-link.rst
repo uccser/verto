@@ -1,9 +1,9 @@
 Button Link
 #######################################
 
-**Tag name:** ``button-link``
+**Processor name:** ``button-link``
 
-You can create a link on a button using the following syntax:
+You can create a link on a button using the following text tag:
 
 .. literalinclude:: ../../../tests/assets/button-link/doc_example_basic_usage.md
    :language: none

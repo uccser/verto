@@ -16,12 +16,12 @@ from kordac.tests.BaseTestCase import BaseTestCase
 class VideoTest(BaseTestCase):
 
     def __init__(self, *args, **kwargs):
-        """Set tag name in class for file names"""
+        """Set processor name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'video'
+        self.processor_name = 'video'
         self.ext = Mock()
-        self.ext.jinja_templates = {self.tag_name: BaseTestCase.loadJinjaTemplate(self, self.tag_name)}
-        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
+        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
+        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
 
     def test_contains_no_video(self):
         test_string = self.read_test_file('contains_no_video')
@@ -55,5 +55,5 @@ class VideoTest(BaseTestCase):
         expected_file_string = self.read_expected_output_file('contains_multiple_videos_expected')
         self.assertEqual(converted_test_string, expected_file_string)
 
-    def test_contains_another_tag(self):
+    def test_contains_another_processor(self):
         pass

@@ -16,8 +16,8 @@ class BaseTestCase(unittest.TestCase):
         test failures.
         """
         unittest.TestCase.__init__(self, *args, **kwargs)
-        self.test_file_path = 'kordac/tests/assets/{tag_name}/{filename}.md'
-        self.expected_output_file_path = 'kordac/tests/assets/{tag_name}/{filename}.html'
+        self.test_file_path = 'kordac/tests/assets/{processor_name}/{filename}.md'
+        self.expected_output_file_path = 'kordac/tests/assets/{processor_name}/{filename}.html'
         # self.maxDiff = 640  # Set to None for full output of all test failures
         self.maxDiff = None
 
@@ -26,7 +26,7 @@ class BaseTestCase(unittest.TestCase):
 
         This function reads a file from a given filename in UTF-8 encoding.
         """
-        file_path = self.test_file_path.format(tag_name=self.tag_name, filename=filename)
+        file_path = self.test_file_path.format(processor_name=self.processor_name, filename=filename)
         file_object = open(file_path, encoding="utf-8")
         return file_object.read()
 
@@ -35,7 +35,7 @@ class BaseTestCase(unittest.TestCase):
 
         This function reads a file from a given filename in UTF-8 encoding.
         """
-        file_path = self.expected_output_file_path.format(tag_name=self.tag_name, filename=filename)
+        file_path = self.expected_output_file_path.format(processor_name=self.processor_name, filename=filename)
         file_object = open(file_path, encoding="utf-8")
         return file_object.read().rstrip('\r\n')
 
@@ -50,12 +50,19 @@ class BaseTestCase(unittest.TestCase):
         jinja_template = env.get_template(template + '.html')
         return jinja_template
 
-    def loadTagPatterns(self):
+    def loadProcessorPatterns(self):
         pattern_data = open('kordac/regex-list.json').read()
         return json.loads(pattern_data)
 
+    def to_blocks(self, string):
+        ''' Returns a list of strings as markdown blocks.
+
+        See ParseChunk of markdown.blockparser.BlockParser for how text in chunked.
+        '''
+        return string.split('\n\n')
+
     def setUp(self):
-        self.kordac_extension = KordacExtension([self.tag_name], {})
+        self.kordac_extension = KordacExtension([self.processor_name], {})
         self.md = markdown.Markdown(extensions=[self.kordac_extension])
 
     def tearDown(self):

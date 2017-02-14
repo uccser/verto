@@ -11,7 +11,7 @@ class VideoBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.VIDEO_TEMPLATE = ext.html_templates['video']
-        self.pattern = re.compile(ext.tag_patterns['video']['pattern'])
+        self.pattern = re.compile(ext.processor_patterns['video']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
@@ -57,4 +57,3 @@ class VideoBlockProcessor(BlockProcessor):
             return ('vimeo', video_query)
         else:
             return (None, '')
-

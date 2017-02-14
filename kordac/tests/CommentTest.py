@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.CommentPreprocessor import CommentPreprocessor
-from tests.BaseTestCase import BaseTestCase
+from kordac.tests.BaseTestCase import BaseTestCase
 
 class CommentTest(BaseTestCase):
     """
@@ -11,11 +11,11 @@ class CommentTest(BaseTestCase):
     """
 
     def __init__(self, *args, **kwargs):
-        """Set tag name in class for file names"""
+        """Set processor name in class for file names"""
         BaseTestCase.__init__(self, *args, **kwargs)
-        self.tag_name = 'comment'
+        self.processor_name = 'comment'
         self.ext = Mock()
-        self.ext.tag_patterns = BaseTestCase.loadTagPatterns(self)
+        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
 
     def test_no_inline_comment(self):
         test_string = self.read_test_file('no_inline_comment')

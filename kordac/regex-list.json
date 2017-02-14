@@ -26,5 +26,9 @@
     },
     "button-link": {
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"
+    },
+    "boxed-text": {
+        "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<!end)\\}",
+        "pattern_end": "\\{boxed-text end\\}"
     }
 }
