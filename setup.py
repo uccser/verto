@@ -29,7 +29,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'markdown>=2.6.8',
-        'python-markdown-math>=0.2'
+        'bs4>=0.0.1',
+        'Jinja2>=2.9.5'
     ],
     zip_safe=False
 )
