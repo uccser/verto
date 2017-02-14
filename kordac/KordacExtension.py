@@ -3,7 +3,6 @@ import markdown.util as utils
 
 from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
 from kordac.processors.CommentPreprocessor import CommentPreprocessor
-from kordac.processors.CommentBlockProcessor import CommentBlockProcessor
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
@@ -35,30 +34,26 @@ class KordacExtension(Extension):
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
-        processors = {
-            'preprocessors': {
-                'save-title': ['save-title', SaveTitlePreprocessor(self, md), '_begin'],
-                'remove-title': ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
-                #'commentpre': ['commentpre', CommentPreprocessor(self, md), '_begin'],
-                },
-            'blockprocessors': {
-                #'heading': ['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
-                #'panel': ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
-                #'glossary-link': ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
-                #'interactive': ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-                #'video': ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-                #'image': ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-                #'comment': ['comment', CommentBlockProcessor(self, md.parser), '>ulist'],
-                #'button-link': ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin']
-                },
-            }
+        preprocessors = [
+            ['save-title', SaveTitlePreprocessor(self, md), '_end'],
+            ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
+            ['comment', CommentPreprocessor(self, md), '_begin'],
+        ]
+        blockprocessors = [
+            #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
+            #['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+            #['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
+            #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+            #['video', VideoBlockProcessor(self, md.parser), '_begin'],
+            #['image', ImageBlockProcessor(self, md.parser), '_begin'],
+            #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin']
+        ]
 
-        for tag in self.tags:
-            if tag in processors['preprocessors']:
-                tag_processor = processors['preprocessors'].get(tag)
+        for tag_processor in preprocessors:
+            if tag_processor[0] in self.tags:
                 md.preprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
-            if tag in processors['blockprocessors']:
-                tag_processor = processors['blockprocessors'].get(tag)
+        for tag_processor in blockprocessors:
+            if tag_processor[0] in self.tags:
                 md.parser.blockprocessors.add(tag_processor[0], tag_processor[1], tag_processor[2])
 
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
