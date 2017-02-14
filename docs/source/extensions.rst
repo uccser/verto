@@ -21,7 +21,7 @@ A list of extensions for the Markdown package can be found `in their official do
 Math
 =======================================
 
-Math can be rendered by including the `Python Markdown Math <https://pypi.python.org/pypi/python-markdown-math>`_ package, and passing it through to Kordac as an extension to run.
+Math can be rendered by including the `Python Markdown Math <https://pypi.python.org/pypi/python-markdown-math>`_ package, and passing it through to Kordac as an extension to use.
 A guide on how to install and use the extension can be found in the package's `README file <https://github.com/mitya57/python-markdown-math/blob/master/README.md>`_.
 
 Fenced Code

@@ -7,7 +7,7 @@ Using Kordac to convert Markdown is a process of:
 
 1. Importing the installed Kordac package.
 2. Creating a Kordac converter.
-3. Passing Markdown text through the Kordac ``run`` method and saving the result object.
+3. Passing Markdown text through the Kordac ``convert`` method and saving the result object.
 4. Accessing data from the result object.
 
 Step 1: Importing Kordac
@@ -54,7 +54,7 @@ Once the module is imported, you can create a Kordac converter creating an Korda
 Step 3: Convert Markdown with converter
 =======================================
 
-To convert Markdown to HTML with a Kordac converter, we call the ``run()`` method. The method returns a ``KordacResult`` object.
+To convert Markdown to HTML with a Kordac converter, we call the ``convert()`` method. The method returns a ``KordacResult`` object.
 
 .. code-block:: python
 
@@ -65,7 +65,7 @@ To convert Markdown to HTML with a Kordac converter, we call the ``run()`` metho
 
   This is a *different* line of Markdown.
   """
-  result = converter.run(text)
+  result = converter.convert(text)
 
 Step 4: Accessing KordacResult data
 =======================================
@@ -108,13 +108,18 @@ Changing HTML templates
 
 .. automethod:: kordac.Kordac.default_templates(tags)
 
-
 Full list of package methods
 =======================================
 
-
-
 .. autoclass:: kordac.Kordac()
-  :members: __init__, run, update_tags, tag_defaults, update_templates, default_templates
+  :members: __init__, convert, update_tags, tag_defaults, update_templates, default_templates
 
 .. autoclass:: kordac.Kordac.KordacResult()
+
+  .. attribute:: html_string
+
+    The converted HTML as a string.
+
+  .. attribute:: title
+
+    The text of the first heading found by the :doc:`tags/save-title` processor.

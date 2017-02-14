@@ -24,9 +24,9 @@ With the following text saved in ``example_string``:
     tags = kordac.tag_defaults()
     tags.add('remove-title')
     converter.update_tags(tags)
-    result = converter.run(example_string)
+    result = converter.convert(example_string)
 
-would result in:
+The ``html_string`` value in ``result`` would be:
 
 .. literalinclude:: ../../../tests/assets/remove-title/doc_example_basic_usage_expected.html
     :language: none
