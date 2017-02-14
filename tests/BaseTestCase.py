@@ -54,6 +54,13 @@ class BaseTestCase(unittest.TestCase):
         pattern_data = open('kordac/regex-list.json').read()
         return json.loads(pattern_data)
 
+    def to_blocks(self, string):
+        ''' Returns a list of strings as markdown blocks.
+
+        See ParseChunk of markdown.blockparser.BlockParser for how text in chunked.
+        '''
+        return string.split('\n\n')
+
     def setUp(self):
         self.kordac_extension = KordacExtension([self.tag_name], {})
         self.md = markdown.Markdown(extensions=[self.kordac_extension])

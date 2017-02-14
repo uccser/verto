@@ -12,6 +12,7 @@ from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
+from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
 from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
 
 from collections import defaultdict
@@ -46,7 +47,8 @@ class KordacExtension(Extension):
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             #['video', VideoBlockProcessor(self, md.parser), '_begin'],
             #['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin']
+            #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
+             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
         ]
 
         for tag_processor in preprocessors:
