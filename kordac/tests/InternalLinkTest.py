@@ -45,3 +45,39 @@ class InternalLinkTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('multiple_links_expected').strip()
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_ignore_http_schema(self):
+        pass
+
+    def test_http_text(self):
+        pass
+
+    def test_ignore_https_schema(self):
+        pass
+
+    def test_https_text(self):
+        pass
+
+    def test_ignore_ftp_schema(self):
+        pass
+
+    def test_ftp_text(self):
+        pass
+
+    def test_ignore_ftps_schema(self):
+        pass
+
+    def test_ftps_text(self):
+        pass
+
+    def test_ignore_mailto_schema(self):
+        pass
+
+    def test_mailto_text(self):
+        pass
+
+    def test_ignore_news_schema(self):
+        pass
+
+    def test_news_text(self):
+        pass
