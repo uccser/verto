@@ -11,7 +11,7 @@ You can enclose text inside of a box using the following text tag:
 Optional Tag Parameters
 ***************************************
 
-- ``indented`` - If ``True``, the box will have indentation on the left to match indentation of the first level of a list.
+- ``indented`` - If ``yes``, the box will have indentation on the left to match indentation of the first level of a list.
 
 The default HTML for button links is:
 
@@ -29,7 +29,7 @@ Overriding HTML for Boxed Text
 When overriding the HTML for boxed text, the following Jinja2 placeholders are available:
 
 - ``{{ text }}`` - The text enclosed by the boxed text tags.
-- ``indented`` - Set to ``True`` if the indentation parameter was set to ``True``.
+- ``indented`` - Set to ``yes`` if the indentation parameter was set to ``True``.
 
 **Example**
 

@@ -8,12 +8,12 @@ CENTERED_HTML = """
 </div>
 """
 
-def parse_argument(argument_key, arguments, default=None):
+def parse_argument(argument_key, arguments, default=None, convert_type=True):
     """Search for the given argument in a string of all arguments
     Returns: Value of an argument as a string if found, otherwise None"""
-    result = re.search('\s*{}=("([^"]*)"|[^\s]+)'.format(argument_key), arguments)
+    result = re.search(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments)
     if result:
-        argument_value = string_to_type(result.group(1))
+        argument_value = string_to_type(result.group(2)) if convert_type else result.group(2)
     else:
         argument_value = default
     return argument_value
@@ -24,8 +24,10 @@ def string_to_type(string):
             return int(string)
         elif re.match("^(-)?\d+?\.\d+?$", string) is not None:
             return float(string)
-        elif string.lower() == 'true' or string.lower() == 'false':
-            return bool(string)
+        elif string.lower() == 'true' or string.lower() == 'yes':
+            return True
+        elif string.lower() == 'false' or string.lower() == 'no':
+            return False
     except ValueError:
         pass
     return string
