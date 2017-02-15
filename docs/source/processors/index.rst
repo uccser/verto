@@ -3,6 +3,7 @@ Using Processors
 
 - Tags should always be separated with newlines before and after each tag.
 - If a processor requires both a start and end tag (for example: panels) and one tag is missing then a ``TagNotMatchedError`` Exception will be thrown.
+- You can escape a double quote in a parameter with a slash ``\"`` though this also means you can never end a parameter with a ``\``.
 
 Available Processors
 #######################################

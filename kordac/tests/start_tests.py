@@ -13,14 +13,13 @@ from kordac.tests.BoxedTextTest import BoxedTextTest
 from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
 
-
 def suite():
     # NTS what order should these go in?
     allSuites = unittest.TestSuite((
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
-        # unittest.makeSuite(PanelTest),
+        unittest.makeSuite(PanelTest),
         unittest.makeSuite(CommentTest),
         unittest.makeSuite(HeadingTest),
         # unittest.makeSuite(ImageTest),

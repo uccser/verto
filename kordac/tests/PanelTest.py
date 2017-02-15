@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
+from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
 from kordac.tests.BaseTestCase import BaseTestCase
 
 class PanelTest(BaseTestCase):
@@ -15,43 +16,96 @@ class PanelTest(BaseTestCase):
         self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
         self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
 
-    def test_match_false(self):
-        test_string = self.read_test_file('fail_string')
-        self.assertFalse(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+    def test_parses_blank(self):
+        test_string = self.read_test_file('parses_blank')
+        blocks = self.to_blocks(test_string)
 
-    def test_match_true(self):
-        test_string = self.read_test_file('basic')
-        self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
+        self.assertTrue(all(PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('parses_blank_expected')
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_parses_no_blank_lines_single_paragraph(self):
-        test_string = self.read_test_file('external_links')
-        converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()]) + '\n'
-        expected_file_string = self.read_test_file('external_links_expected')
-        self.assertEqual(converted_test_string, expected_file_string)
+        test_string = self.read_test_file('parses_no_blank_lines_single_paragraph')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('parses_no_blank_lines_single_paragraph_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_parses_expanded_panel(self):
+        test_string = self.read_test_file('parses_expanded_panel')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('parses_expanded_panel_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_parses_always_expanded_panel(self):
+        test_string = self.read_test_file('parses_always_expanded_panel')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('parses_always_expanded_panel_expected')
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_parses_blank_lines_multiple_paragraphs(self):
-        pass
+        test_string = self.read_test_file('parses_blank_lines_multiple_paragraphs')
+        blocks = self.to_blocks(test_string)
 
-    def test_parses_no_blank_self(self):
-        pass
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
 
-    def test_parses_external_link(self):
-        pass
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('parses_blank_lines_multiple_paragraphs_expected')
+        self.assertEqual(expected_string, converted_test_string)
 
-    def test_parses_glossary_link(self):
-        pass
+    def test_contains_multiple_panels(self):
+        test_string = self.read_test_file('contains_multiple_panels')
+        blocks = self.to_blocks(test_string)
 
-    def test_parses_video_link(self):
-        pass
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
 
-    def test_parses_codeblock(self):
-        pass
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_multiple_panels_expected')
+        self.assertEqual(expected_string, converted_test_string)
 
-    def test_parses_pictures(self):
-        pass
+    def test_contains_inner_panel(self):
+        test_string = self.read_test_file('contains_inner_panel')
+        blocks = self.to_blocks(test_string)
 
-    def test_parses_mathblocks(self):
-        pass
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
 
-    def test_parses_comments(self):
-        pass
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_inner_panel_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_missing_start_tag(self):
+        test_string = self.read_test_file('missing_start_tag')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_missing_end_tag(self):
+        test_string = self.read_test_file('missing_end_tag')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_missing_tag_inner(self):
+        test_string = self.read_test_file('missing_tag_inner')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)

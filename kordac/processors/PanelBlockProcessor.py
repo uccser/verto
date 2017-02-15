@@ -1,74 +1,93 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
-import kordac.processors.utils as utils
+from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
+from kordac.processors.utils import blocks_to_string, parse_argument
 import re
 
 
 class PanelBlockProcessor(BlockProcessor):
-    # p_start = re.compile('^\{panel ?(?P<args>[^\}]*)\}')
-    # p_end = re.compile('\{panel end\}')
-
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.PANEL_TEMPLATE = ext.html_templates['panel']
-        self.p_start = re.compile(ext.processor_patterns['panel']['pattern_start'])
-        self.p_end = re.compile(ext.processor_patterns['panel']['pattern_end'])
+        self.processor = 'panel'
+        self.p_start = re.compile(ext.processor_patterns[self.processor]['pattern_start'])
+        self.p_end = re.compile(ext.processor_patterns[self.processor]['pattern_end'])
+        self.template = ext.jinja_templates[self.processor]
 
     def test(self, parent, block):
-        # return re.search('\{panel ?(?P<args>[^\}]*)\}', block) is not None
-        return self.p_start.search(block) is not None
+        return self.p_start.search(block) is not None or self.p_end.search(block) is not None
 
     def run(self, parent, blocks):
-        # block contains the match as a substring
         block = blocks.pop(0)
 
         # find start of match and place back in blocks list up to end of match
-        m_start = self.p_start.match(block)
-        blocks.insert(0, block[m_start.end():])
+        start_tag = self.p_start.search(block)
+        end_tag = self.p_end.search(block)
+
+        if start_tag is None and end_tag is not None:
+            raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
+
+        blocks.insert(0, block[start_tag.end():])
 
         # iterate over blocks until find {panel end} block
-        panel_content = ''
+        content_blocks = []
+        the_rest = None
+        inner_start_tags = 0
+        inner_end_tags = 0
+
         while len(blocks) > 0:
             block = blocks.pop(0)
-            m_end = self.p_end.search(block)
-            if m_end is not None:
-                text = block[:m_end.start()]
-                if len(text)  > 0:
-                    panel_content += '<p>' + text + '</p>'
+
+            # Do we have either a start or end tag        print("Here")
+            inner_tag = self.p_start.search(block)
+            end_tag = self.p_end.search(block)
+
+            # Keep track of how many inner boxed-text start tags we have seen
+            if inner_tag:
+                inner_start_tags += 1
+
+            # If we have an end tag and all inner boxed-text tags have been closed - ~FIN
+            if end_tag and inner_start_tags == inner_end_tags:
+                content_blocks.append(block[:end_tag.start()])
+                the_rest = block[end_tag.end():]
                 break
-            else:
-                # have not found end of panel, so add entire block
-                if len(block) > 0:
-                    panel_content += '<p>' + block + '</p>'
+            elif end_tag:
+                inner_end_tags += 1
+                end_tag = None
+            content_blocks.append(block)
 
-        panel_attributes = self.get_attributes(m_start.group('args'))
+        if the_rest:
+            blocks.insert(0, the_rest) # Keep anything off the end, should be empty though
 
-        if panel_attributes['expanded']:
-            panel_attributes['expanded'] = ' active'
-        else:
-            panel_attributes['expanded'] = ''
+        # Error if we reached the end without closing the start tag
+        # or not all inner boxed-text tags were closed
+        if end_tag is None or inner_start_tags != inner_end_tags:
+            raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
 
-        heading = utils.from_kebab_case(panel_attributes['panel_type'])
-        if panel_attributes['summary']:
-            heading += ': {}'.format(panel_attributes['summary'])
+        # Parse all the inner content of the boxed-text tags
+        content_tree = etree.Element('content')
+        self.parser.parseChunk(content_tree, blocks_to_string(content_blocks))
 
-        self.PANEL_TEMPLATE = self.PANEL_TEMPLATE.format(
-                type_class='panel-'+panel_attributes['panel_type'],
-                expanded=panel_attributes['expanded'],
-                panel_heading=heading,
-                content=panel_content
-                )
+        # Convert parsed element tree back into html text for rendering
+        content = ''
+        for child in content_tree:
+            content += etree.tostring(child, encoding="unicode", method="html") + '\n'
+
+        context = self.get_attributes(start_tag.group('args'))
+        context['content'] = content
 
         # create panel node and add it to parent element
-        node = etree.fromstring(self.PANEL_TEMPLATE)
+        html_string = self.template.render(context)
+        node = etree.fromstring(html_string)
         parent.append(node)
 
     def get_attributes(self, args):
-        panel_type = utils.parse_argument('type', args)
-        summary = utils.parse_argument('summary', args)
-        expanded = utils.parse_argument('expanded', args)
+        panel_type = parse_argument('type', args)
+        title = parse_argument('title', args)
+        subtitle = parse_argument('subtitle', args)
+        expanded = parse_argument('expanded', args, default='no', convert_type=False)
         return {
-            'panel_type': panel_type,
-            'expanded': expanded,
-            'summary': summary
+            'type': panel_type,
+            'title': title,
+            'subtitle': subtitle,
+            'expanded': expanded
         }
