@@ -27,13 +27,13 @@ class InternalLinkTest(BaseTestCase):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_long_path(self):
-        test_string = self.read_test_file('doc_example_basic_usage')
+        test_string = self.read_test_file('long_path')
 
         processor = InternalLinkPattern(self.ext, self.md.parser)
         self.assertIsNotNone(re.search(processor.compiled_re, test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_string = self.read_expected_output_file('doc_example_basic_usage_expected').strip()
+        expected_string = self.read_expected_output_file('long_path_expected').strip()
         self.assertEqual(expected_string, converted_test_string)
 
     def test_multiple_links(self):
