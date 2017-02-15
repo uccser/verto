@@ -23,9 +23,7 @@ class ImageTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('internal_image_expected')
-        # print(converted_test_string)
-        # print()
-        # print(expected_string)
+
         self.assertEqual(expected_string, converted_test_string)
 
     def test_external_image(self):
@@ -34,9 +32,7 @@ class ImageTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('external_image_expected')
-        # print(converted_test_string)
-        # print()
-        # print(expected_string)
+
         self.assertEqual(expected_string, converted_test_string)
 
     def test_default_image(self):
@@ -55,7 +51,6 @@ class ImageTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_multiple_images_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-    """
     def test_no_image(self):
         test_string = self.read_test_file('no_image')
         self.assertFalse(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
@@ -80,7 +75,6 @@ class ImageTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_image_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-
     def test_contains_image_and_text_contains_word_image(self):
         test_string = self.read_test_file('contains_image_and_text_contains_word_image')
         self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
@@ -88,12 +82,3 @@ class ImageTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('contains_image_and_text_contains_word_image_expected')
         self.assertEqual(expected_string, converted_test_string)
-
-    def test_image_in_panel(self):
-        test_string = self.read_test_file('image_in_panel')
-        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
-
-        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_string = self.read_expected_output_file('image_in_panel_expected')
-        self.assertEqual(expected_string, converted_test_string)
-    """
