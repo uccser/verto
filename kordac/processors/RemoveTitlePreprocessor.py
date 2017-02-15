@@ -17,4 +17,5 @@ class RemoveTitlePreprocessor(Preprocessor):
         for i, line in enumerate(lines):
             if not title_found and self.pattern.search(line) is not None:
                 lines[i] = ''
+                title_found = True
         return lines
