@@ -33,3 +33,13 @@ class RemoveTitleTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('multiple_headings_expected').strip()
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_multiple_level_one_headings(self):
+        test_string = self.read_test_file('multiple_level_one_headings')
+
+        processor = RemoveTitlePreprocessor(self.ext, self.md.parser)
+        self.assertTrue(processor.test(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('multiple_level_one_headings_expected').strip()
+        self.assertEqual(expected_string, converted_test_string)
