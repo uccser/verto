@@ -73,3 +73,13 @@ class RemoveTitleTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('no_heading_permalink_expected')
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_no_space_title(self):
+        test_string = self.read_test_file('no_space_title')
+
+        processor = RemoveTitlePreprocessor(self.ext, self.md.parser)
+        self.assertTrue(processor.test(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('no_space_title_expected').strip()
+        self.assertEqual(expected_string, converted_test_string)
