@@ -83,3 +83,15 @@ class RemoveTitleTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('no_space_title_expected').strip()
         self.assertEqual(expected_string, converted_test_string)
+
+
+    # SYSTEM TESTS
+
+    def test_processor_off(self):
+        # Create Kordac extension without processor enabled (off by default)
+        kordac_extension = KordacExtension()
+        test_string = self.read_test_file('processor_off')
+
+        converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
+        expected_string = self.read_expected_output_file('processor_off_expected')
+        self.assertEqual(expected_string, converted_test_string)
