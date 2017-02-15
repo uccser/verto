@@ -1,5 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
+from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
 from kordac.processors.utils import blocks_to_string, parse_argument
 import re
 

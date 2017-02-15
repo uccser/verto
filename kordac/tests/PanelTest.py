@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
+from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
 from kordac.tests.BaseTestCase import BaseTestCase
 
 class PanelTest(BaseTestCase):
@@ -85,23 +86,26 @@ class PanelTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_inner_panel_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-    # def test_missing_start_tag(self):
-    #     # TODO: should error
-    #     test_string = self.read_test_file('missing_start_tag')
-    #     self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-    #
-    #     converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
-    #     f = open("test", "w")
-    #     f.write(converted_test_string)
-    #
-    #     expected_string = self.read_expected_output_file('missing_start_tag_expected')
-    #     self.assertEqual(expected_string, converted_test_string)
-    #
-    # def test_missing_end_tag(self):
-    #     # TODO: check functionality
-    #     test_string = self.read_test_file('missing_end_tag')
-    #     self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-    #
-    #     converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
-    #     expected_string = self.read_expected_output_file('missing_end_tag_expected')
-    #     self.assertEqual(expected_string, converted_test_string)
+    def test_missing_start_tag(self):
+        test_string = self.read_test_file('missing_start_tag')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_missing_end_tag(self):
+        test_string = self.read_test_file('missing_end_tag')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_missing_tag_inner(self):
+        test_string = self.read_test_file('missing_tag_inner')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
