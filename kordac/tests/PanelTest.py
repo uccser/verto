@@ -25,14 +25,16 @@ class PanelTest(BaseTestCase):
         expected_string = self.read_expected_output_file('parses_blank_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-    # def test_parses_no_blank_lines_single_paragraph(self):
-    #     test_string = self.read_test_file('parses_no_blank_lines_single_paragraph')
-    #     self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
-    #
-    #     converted_test_string = markdown.markdown(test_string, extensions=[KordacExtension()])
-    #     expected_string = self.read_expected_output_file('parses_no_blank_lines_single_paragraph_expected')
-    #     self.assertEqual(expected_string, converted_test_string)
-    #
+    def test_parses_no_blank_lines_single_paragraph(self):
+        test_string = self.read_test_file('parses_no_blank_lines_single_paragraph')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('parses_no_blank_lines_single_paragraph_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
     # def test_parses_expanded_panel(self):
     #     test_string = self.read_test_file('parses_expanded_panel')
     #     self.assertTrue(PanelBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg='"{}"'.format(test_string))
