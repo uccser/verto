@@ -5,7 +5,7 @@ Boxed Text
 
 You can enclose text inside of a box using the following text tag:
 
-.. literalinclude:: ../../../tests/assets/boxed-text/doc_example_basic_usage.md
+.. literalinclude:: ../../../kordac/tests/assets/boxed-text/doc_example_basic_usage.md
    :language: none
 
 Optional Tag Parameters
@@ -20,7 +20,7 @@ The default HTML for button links is:
 
 Using the example tag above, the resulting HTML would be:
 
-.. literalinclude:: ../../../tests/assets/boxed-text/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../kordac/tests/assets/boxed-text/doc_example_basic_usage_expected.html
    :language: html
 
 Overriding HTML for Boxed Text
@@ -35,15 +35,15 @@ When overriding the HTML for boxed text, the following Jinja2 placeholders are a
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../tests/assets/boxed-text/doc_example_override_html_template.html
+.. literalinclude:: ../../../kordac/tests/assets/boxed-text/doc_example_override_html_template.html
    :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../tests/assets/boxed-text/doc_example_override_html.md
+.. literalinclude:: ../../../kordac/tests/assets/boxed-text/doc_example_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../tests/assets/boxed-text/doc_example_override_html_expected.html
+.. literalinclude:: ../../../kordac/tests/assets/boxed-text/doc_example_override_html_expected.html
    :language: html

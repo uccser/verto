@@ -16,7 +16,7 @@ The following pages covers how to use the available processors within Markdown t
     button-link
     comment
     image
-    internal-text-links
+    internal-link
     panel
     remove-title
     save-title

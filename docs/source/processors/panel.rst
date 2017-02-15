@@ -5,7 +5,7 @@ Panel
 
 You can include an panel using the following text tag:
 
-.. literalinclude:: ../../../tests/assets/panel/doc_example_basic_usage.md
+.. literalinclude:: ../../../kordac/tests/assets/panel/doc_example_basic_usage.md
     :language: none
 
 Required Tag Parameters
@@ -34,12 +34,12 @@ The default HTML for a panel is:
 
 Using the following example tag:
 
-.. literalinclude:: ../../../tests/assets/panel/doc_example_basic_usage.md
+.. literalinclude:: ../../../kordac/tests/assets/panel/doc_example_basic_usage.md
    :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../tests/assets/panel/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../kordac/tests/assets/panel/doc_example_basic_usage_expected.html
    :language: html
 
 Overriding HTML for Panels
@@ -57,15 +57,15 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../tests/assets/panel/doc_example_override_html_template.html
+.. literalinclude:: ../../../kordac/tests/assets/panel/doc_example_override_html_template.html
   :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../tests/assets/panel/doc_example_override_html.md
+.. literalinclude:: ../../../kordac/tests/assets/panel/doc_example_override_html.md
   :language: none
 
 would result in:
 
-.. literalinclude:: ../../../tests/assets/panel/doc_example_override_html_expected.html
+.. literalinclude:: ../../../kordac/tests/assets/panel/doc_example_override_html_expected.html
   :language: html
