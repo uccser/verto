@@ -67,7 +67,14 @@ class InternalLinkTest(BaseTestCase):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_ignore_https_schema(self):
-        pass
+        test_string = self.read_test_file('https_schema')
+
+        processor = InternalLinkPattern(self.ext, self.md.parser)
+        self.assertIsNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('https_schema_expected').strip()
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_https_text(self):
         pass
