@@ -3,6 +3,8 @@
     <strong>{{ title }}{% if subtitle %}:</strong> {{ subtitle }}{% else %}</strong>{% endif %}
   </div>
   <div class='panel-body'>
+    {% autoescape false -%}
     {{ content }}
+    {%- endautoescape %}
   </div>
 </div>

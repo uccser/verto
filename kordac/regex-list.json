@@ -1,6 +1,6 @@
 {
     "panel": {
-        "pattern_start": "^\\{panel ?(?P<args>[^\\}]*)\\}",
+        "pattern_start": "^\\{panel ?(?P<args>[^\\}]*)(?<! end)\\}",
         "pattern_end": "\\{panel end\\}"
     },
     "glossary-link": {
@@ -28,7 +28,7 @@
         "pattern": "\\{button (?P<args>[^\\}]*)\\}"
     },
     "boxed-text": {
-        "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<!end)\\}",
+        "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<! end)\\}",
         "pattern_end": "\\{boxed-text end\\}"
     }
 }

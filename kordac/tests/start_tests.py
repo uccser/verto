@@ -12,7 +12,6 @@ from kordac.tests.ButtonLinkTest import ButtonLinkTest
 from kordac.tests.BoxedTextTest import BoxedTextTest
 from kordac.tests.SaveTitleTest import SaveTitleTest
 
-
 def suite():
     # NTS what order should these go in?
     allSuites = unittest.TestSuite((
