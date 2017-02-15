@@ -1,8 +1,6 @@
-from kordac.processors.utils import etree
 import markdown.util as util
 import markdown.inlinepatterns
 import re
-from urllib.parse import urlparse, urlunparse
 
 class InternalLinkPattern(markdown.inlinepatterns.Pattern):
     """Return a link element from the given match.
