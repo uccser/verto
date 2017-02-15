@@ -35,3 +35,13 @@ class InternalLinkTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('doc_example_basic_usage_expected').strip()
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_multiple_links(self):
+        test_string = self.read_test_file('multiple_links')
+
+        processor = InternalLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('multiple_links_expected').strip()
+        self.assertEqual(expected_string, converted_test_string)
