@@ -2,7 +2,7 @@ import markdown.util as util
 import markdown.inlinepatterns
 import re
 
-class InternalLinkPattern(markdown.inlinepatterns.Pattern):
+class RelativeLinkPattern(markdown.inlinepatterns.Pattern):
     """Return a link element from the given match.
 
     Only matches:
@@ -18,7 +18,7 @@ class InternalLinkPattern(markdown.inlinepatterns.Pattern):
 
     def __init__(self, ext, *args, **kwargs):
         self.ext = ext
-        self.processor = 'internal-link'
+        self.processor = 'relative-link'
         self.pattern = self.ext.processor_patterns[self.processor]['pattern']
         self.compiled_re = re.compile("^(.*?){}(.*)$".format(self.pattern),
             re.DOTALL | re.UNICODE)

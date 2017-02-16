@@ -6,7 +6,7 @@ from kordac.processors.CommentPreprocessor import CommentPreprocessor
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
-from kordac.processors.InternalLinkPattern import InternalLinkPattern
+from kordac.processors.RelativeLinkPattern import RelativeLinkPattern
 from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
 from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
@@ -42,7 +42,7 @@ class KordacExtension(Extension):
             ['comment', CommentPreprocessor(self, md), '_begin'],
         ]
         inlinepatterns = [
-            ['internal-link', InternalLinkPattern(self, md), '_begin']
+            ['relative-link', RelativeLinkPattern(self, md), '_begin']
         ]
         blockprocessors = [
             #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
