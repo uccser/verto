@@ -61,7 +61,8 @@ class Kordac(object):
         html_string = self.converter.convert(text)
         result = KordacResult(
             html_string=html_string,
-            title=self.kordac_extension.title
+            title=self.kordac_extension.title,
+            required_files=self.kordac_extension.required_files
         )
         return result
 
@@ -112,12 +113,14 @@ class KordacResult(object):
     after a conversion by run.
     """
 
-    def __init__(self, html_string=None, title=None):
+    def __init__(self, html_string, title, required_files):
         """Create a KordacResult object.
 
         Args:
             html_string: A string of HTML text.
             title: The first heading encountered when converting.
+            required_files: Dictionary of required file types to sets of paths.
         """
         self.html_string = html_string
         self.title = title
+        self.required_files = required_files

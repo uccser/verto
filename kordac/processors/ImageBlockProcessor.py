@@ -9,10 +9,10 @@ class ImageBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.required = ext.required_files["images"]
-        # self.IMAGE_TEMPLATE = ext.html_templates['image']
-        self.pattern = re.compile(ext.processor_patterns['image']['pattern'])
-        self.template = ext.jinja_templates['image']
+        self.processor = 'image'
+        self.pattern = re.compile(ext.processor_patterns[self.processor]['pattern'])
+        self.template = ext.jinja_templates[self.processor]
+        self.required = ext.required_files['images']
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
@@ -27,6 +27,7 @@ class ImageBlockProcessor(BlockProcessor):
         file_path = parse_argument('file_path', arguments)
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None: # internal image
+            self.required.add(file_path)
             file_path = '{% static \'' + file_path + '\' %}'
 
         context = dict()
@@ -42,5 +43,3 @@ class ImageBlockProcessor(BlockProcessor):
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
-
-        self.required.add(context['file_path'])

@@ -146,3 +146,15 @@ class ImageTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('align_center_expected')
         self.assertEqual(expected_string, converted_test_string)
+
+    # ~
+    # System Tests
+    # ~
+
+    def test_internal_image_required(self):
+        test_string = self.read_test_file('internal_image')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+
+        self.assertTrue('pixel-diamond.png' in self.kordac_extension.required_files['images'])
