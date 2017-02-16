@@ -1,6 +1,7 @@
-import unittest
+import sys, unittest, optparse
 from collections import defaultdict
 
+from kordac.tests.SmokeTests import SmokeFileTest
 from kordac.tests.GlossaryLinkTest import GlossaryLinkTest
 from kordac.tests.PanelTest import PanelTest
 from kordac.tests.CommentTest import CommentTest
@@ -14,9 +15,23 @@ from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
 from kordac.tests.RelativeLinkTest import RelativeLinkTest
 
-def suite():
+def parse_args():
+    opts = optparse.OptionParser(
+        usage='Run the command `python -m kordac.tests.start_tests` from the level above the kordac directory.', description="Verifies that Kordac is functional compared to the testing suite.")
+    opts.add_option('--travis',
+        action='store_true', help='Enables skipping suites on failure. To be used by continuous integration system.', default=False)
+    options, arguments = opts.parse_args()
+
+    return options, arguments
+
+def smoke_suite():
+    return unittest.TestSuite((
+        unittest.makeSuite(SmokeFileTest)
+    ))
+
+def unit_suite():
     # NTS what order should these go in?
-    allSuites = unittest.TestSuite((
+    return unittest.TestSuite((
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
@@ -31,10 +46,19 @@ def suite():
         unittest.makeSuite(BoxedTextTest)
     ))
 
-    return allSuites
-
 
 if __name__ == '__main__':
+    options, arguments = parse_args()
+
     runner = unittest.TextTestRunner()
-    test_suite = suite()
-    runner.run(test_suite)
+    print("Running Smoke Tests")
+    result = runner.run(smoke_suite())
+    print()
+
+    if options.travis and not result.wasSuccessful():
+        print("Skipping other test-suites.")
+        sys.exit(1)
+    print()
+
+    print("Running Unit Tests")
+    runner.run(unit_suite())
