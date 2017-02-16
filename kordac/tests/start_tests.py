@@ -23,7 +23,7 @@ def suite():
         unittest.makeSuite(CommentTest),
         unittest.makeSuite(HeadingTest),
         # unittest.makeSuite(ImageTest),
-        # unittest.makeSuite(VideoTest),
+        unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest),
         # unittest.makeSuite(ButtonLinkTest)
         unittest.makeSuite(BoxedTextTest)

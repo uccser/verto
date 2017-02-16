@@ -10,12 +10,14 @@ class VideoBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.VIDEO_TEMPLATE = ext.html_templates['video']
-        self.pattern = re.compile(ext.processor_patterns['video']['pattern'])
+        self.processor = 'video'
+        self.pattern = re.compile(ext.processor_patterns[self.processor]['pattern'])
+        self.template = ext.jinja_templates['video']
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
 
+    """
     def run(self, parent, blocks):
         block = blocks.pop(0)
         match = self.pattern.search(block) # NTS why not search?
@@ -57,3 +59,5 @@ class VideoBlockProcessor(BlockProcessor):
             return ('vimeo', video_query)
         else:
             return (None, '')
+    """
+

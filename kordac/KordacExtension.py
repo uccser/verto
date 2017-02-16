@@ -28,7 +28,6 @@ class KordacExtension(Extension):
         self.page_scripts = []
         self.required_files = defaultdict(set)
         self.title = None
-        self.html_templates = self.loadHTMLTemplates(html_templates)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.processor_patterns = self.loadProcessorPatterns()
         self.processors = processors
@@ -45,7 +44,7 @@ class KordacExtension(Extension):
             ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
             #['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-            #['video', VideoBlockProcessor(self, md.parser), '_begin'],
+            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
             #['image', ImageBlockProcessor(self, md.parser), '_begin'],
             #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
              ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
@@ -65,16 +64,6 @@ class KordacExtension(Extension):
         self.page_scripts = []
         self.required_files = {}
 
-    def loadHTMLTemplates(self, custom_templates):
-        templates = {}
-        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
-            processor_name = re.search(r'(.*?).html', file).groups()[0]
-            if processor_name in custom_templates:
-                templates[processor_name] = custom_templates[processor_name]
-            else:
-                templates[processor_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
-        return templates
-
     def loadJinjaTemplates(self, custom_templates):
         templates = {}
         env = Environment(
@@ -92,3 +81,4 @@ class KordacExtension(Extension):
     def loadProcessorPatterns(self):
         pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
         return json.loads(pattern_data)
+
