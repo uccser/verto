@@ -34,10 +34,10 @@ class ImageBlockProcessor(BlockProcessor):
         context['alt'] = parse_argument('alt', arguments)
         context['title'] =  parse_argument('title', arguments)
         context['caption'] = parse_argument('caption', arguments)
-        context['caption_link'] = parse_argument('caption_link', arguments)
-        context['source_link'] = parse_argument('source_link', arguments)
+        context['caption_link'] = parse_argument('caption-link', arguments)
+        context['source_link'] = parse_argument('source', arguments)
         context['alignment'] = parse_argument('alignment', arguments)
-        context['hover_text'] =  parse_argument('hover_text', arguments)
+        context['hover_text'] =  parse_argument('hover-text', arguments)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)

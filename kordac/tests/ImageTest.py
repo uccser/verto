@@ -82,3 +82,67 @@ class ImageTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('contains_image_and_text_contains_word_image_expected')
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_hover_text(self):
+        test_string = self.read_test_file('contains_hover_text')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_hover_text_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_caption_link(self):
+        test_string = self.read_test_file('contains_caption_link')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_caption_link_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_alt(self):
+        test_string = self.read_test_file('contains_alt')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_alt_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_caption(self):
+        test_string = self.read_test_file('contains_caption')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_caption_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_source(self):
+        test_string = self.read_test_file('contains_source')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_source_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_align_left(self):
+        test_string = self.read_test_file('align_left')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('align_left_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_align_right(self):
+        test_string = self.read_test_file('align_right')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('align_right_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_align_center(self):
+        test_string = self.read_test_file('align_center')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('align_center_expected')
+        self.assertEqual(expected_string, converted_test_string)
