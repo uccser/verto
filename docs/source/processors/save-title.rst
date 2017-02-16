@@ -10,7 +10,7 @@ Once it finds a heading, it saves the text for that heading in the ``title`` att
 
 With the following text saved in ``example_string``:
 
-.. literalinclude:: ../../../tests/assets/save-title/doc_example_basic_usage.md
+.. literalinclude:: ../../../kordac/tests/assets/save-title/doc_example_basic_usage.md
     :language: none
 
 .. code-block:: python
@@ -22,5 +22,5 @@ With the following text saved in ``example_string``:
 
 would result in:
 
-.. literalinclude:: ../../../tests/assets/save-title/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../kordac/tests/assets/save-title/doc_example_basic_usage_expected.html
     :language: none
