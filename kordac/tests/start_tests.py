@@ -2,6 +2,7 @@ import sys, unittest, optparse
 from collections import defaultdict
 
 from kordac.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
+from kordac.tests.ConfigurationTest import ConfigurationTest
 from kordac.tests.GlossaryLinkTest import GlossaryLinkTest
 from kordac.tests.PanelTest import PanelTest
 from kordac.tests.CommentTest import CommentTest
@@ -28,6 +29,11 @@ def smoke_suite():
     return unittest.TestSuite((
         unittest.makeSuite(SmokeDocsTest),
         unittest.makeSuite(SmokeFileTest),
+    ))
+
+def configuration_suite():
+    return unittest.TestSuite((
+        unittest.makeSuite(ConfigurationTest)
     ))
 
 def unit_suite():
@@ -60,6 +66,9 @@ if __name__ == '__main__':
         print("Skipping other test-suites.")
         sys.exit(1)
     print()
+
+    print("Running Configuration Tests")
+    runner.run(configuration_suite())
 
     print("Running Unit Tests")
     runner.run(unit_suite())
