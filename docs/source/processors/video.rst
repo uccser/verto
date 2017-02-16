@@ -50,3 +50,35 @@ The resulting HTML would be:
 
 .. literalinclude:: ../../../kordac/tests/assets/video/doc_example_basic_usage_expected.html
    :language: html
+
+Overriding HTML for Videos
+***************************************
+
+When overriding the HTML for videos, the following Jinja2 placeholders are available:
+
+- ``{{ video_url }}`` - The URL of the video to be embedded.
+
+In the ``video-youtube.html``, the following Jinja2 placeholders are available:
+
+- ``{{ youtube_identifier }}`` - The identifer of the YouTube video to be embedded.
+
+In the ``video-vimeo.html``, the following Jinja2 placeholders are available:
+
+- ``{{ vimeo_identifier }}`` - The identifer of the Vimeo video to be embedded.
+
+**Example**
+
+For example, providing the following HTML for ``video-youtube.html``:
+
+.. literalinclude:: ../../../kordac/tests/assets/video/doc_example_override_html_youtube_template.html
+ :language: css+jinja
+
+with the following tag:
+
+.. literalinclude:: ../../../kordac/tests/assets/video/doc_example_override_html.md
+ :language: none
+
+would result in:
+
+.. literalinclude:: ../../../kordac/tests/assets/video/doc_example_override_html_expected.html
+ :language: html
