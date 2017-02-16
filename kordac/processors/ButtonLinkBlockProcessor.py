@@ -8,7 +8,7 @@ class ButtonLinkBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.processor = 'button-link'
-        self.BUTTON_TEMPLATE = ext.jinja_templates[self.processor]
+        self.template = ext.jinja_templates[self.processor]
         self.pattern = re.compile(ext.processor_patterns[self.processor]['pattern'])
 
     def test(self, parent, block):
@@ -18,16 +18,11 @@ class ButtonLinkBlockProcessor(BlockProcessor):
         block = blocks.pop(0)
         match = self.pattern.search(block)
 
-        if match is None:
-            print("oh no")
-            raise Error("Block tested true but did not match.")
-
         arguments = match.group('args')
-
         context = dict()
         context['link'] = parse_argument('link', arguments)
         context['text'] = parse_argument('text', arguments)
 
-        html_string = self.BUTTON_TEMPLATE.render(context)
+        html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
