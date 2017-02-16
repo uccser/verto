@@ -9,6 +9,7 @@ DEFAULT_PROCESSORS = {
     'panel',
     'video',
     'image',
+    'internal-link',
     'interactive',
     'glossary-link'
 }
