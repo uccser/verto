@@ -1,1 +1,3 @@
-{{ "{% static '{{ file_path }}' %}" }}
+{% autoescape false -%}
+{{ "{% static '" }}{{ file_path }}{{ "' %}" }}
+{%- endautoescape %}

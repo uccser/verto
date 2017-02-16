@@ -13,7 +13,7 @@ class ImageTest(BaseTestCase):
         BaseTestCase.__init__(self, *args, **kwargs)
         self.processor_name = 'image'
         self.ext = Mock()
-        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
+        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name), 'relative-image-link': BaseTestCase.loadJinjaTemplate(self, 'relative-image-link')}
         self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
         self.ext.required_files = defaultdict(set)
 
@@ -23,9 +23,7 @@ class ImageTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('internal_image_expected')
-        # print(converted_test_string)
-        # print()
-        # print(expected_string)
+
         self.assertEqual(expected_string, converted_test_string)
 
     def test_external_image(self):
@@ -34,9 +32,7 @@ class ImageTest(BaseTestCase):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_expected_output_file('external_image_expected')
-        # print(converted_test_string)
-        # print()
-        # print(expected_string)
+
         self.assertEqual(expected_string, converted_test_string)
 
     def test_default_image(self):
@@ -55,7 +51,6 @@ class ImageTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_multiple_images_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-    """
     def test_no_image(self):
         test_string = self.read_test_file('no_image')
         self.assertFalse(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
@@ -80,7 +75,6 @@ class ImageTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_image_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-
     def test_contains_image_and_text_contains_word_image(self):
         test_string = self.read_test_file('contains_image_and_text_contains_word_image')
         self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
@@ -89,11 +83,87 @@ class ImageTest(BaseTestCase):
         expected_string = self.read_expected_output_file('contains_image_and_text_contains_word_image_expected')
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_image_in_panel(self):
-        test_string = self.read_test_file('image_in_panel')
+    def test_contains_hover_text(self):
+        test_string = self.read_test_file('contains_hover_text')
         self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_string = self.read_expected_output_file('image_in_panel_expected')
+        expected_string = self.read_expected_output_file('contains_hover_text_expected')
         self.assertEqual(expected_string, converted_test_string)
-    """
+
+    def test_contains_caption_link(self):
+        test_string = self.read_test_file('contains_caption_link')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_caption_link_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_alt(self):
+        test_string = self.read_test_file('contains_alt')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_alt_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_caption(self):
+        test_string = self.read_test_file('contains_caption')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_caption_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_source(self):
+        test_string = self.read_test_file('contains_source')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('contains_source_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_align_left(self):
+        test_string = self.read_test_file('align_left')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('align_left_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_align_right(self):
+        test_string = self.read_test_file('align_right')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('align_right_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_align_center(self):
+        test_string = self.read_test_file('align_center')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_expected_output_file('align_center_expected')
+        self.assertEqual(expected_string, converted_test_string)
+
+    # ~
+    # System Tests
+    # ~
+
+    def test_internal_image_required(self):
+        test_string = self.read_test_file('internal_image')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+
+        self.assertTrue('pixel-diamond.png' in self.kordac_extension.required_files['images'])
+
+    def test_multiple_internal_image_required(self):
+        test_string = self.read_test_file('multiple_internal_image')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+
+        self.assertTrue('pixel-diamond.png' in self.kordac_extension.required_files['images'])
+        self.assertTrue('Lipsum.png' in self.kordac_extension.required_files['images'])
