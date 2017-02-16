@@ -31,7 +31,7 @@ def smoke_suite():
         unittest.makeSuite(SmokeFileTest),
     ))
 
-def configuration_suite():
+def system_suite():
     return unittest.TestSuite((
         unittest.makeSuite(ConfigurationTest)
     ))
@@ -65,10 +65,12 @@ if __name__ == '__main__':
     if options.travis and not result.wasSuccessful():
         print("Skipping other test-suites.")
         sys.exit(1)
-    print()
+        print()
 
-    print("Running Configuration Tests")
-    runner.run(configuration_suite())
+    print("Running System Tests")
+    runner.run(system_suite())
+    print()
 
     print("Running Unit Tests")
     runner.run(unit_suite())
+    print()
