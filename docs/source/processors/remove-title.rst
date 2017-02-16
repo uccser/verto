@@ -14,7 +14,7 @@ To use ``remove-title``, it needs to be explicity provided in the ``processors``
 
 With the following text saved in ``example_string``:
 
-.. literalinclude:: ../../../tests/assets/remove-title/doc_example_basic_usage.md
+.. literalinclude:: ../../../kordac/tests/assets/remove-title/doc_example_basic_usage.md
     :language: none
 
 .. code-block:: python
@@ -28,5 +28,5 @@ With the following text saved in ``example_string``:
 
 The ``html_string`` value in ``result`` would be:
 
-.. literalinclude:: ../../../tests/assets/remove-title/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../kordac/tests/assets/remove-title/doc_example_basic_usage_expected.html
     :language: none

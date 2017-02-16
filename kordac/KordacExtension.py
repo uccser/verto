@@ -6,6 +6,7 @@ from kordac.processors.CommentPreprocessor import CommentPreprocessor
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
+from kordac.processors.RelativeLinkPattern import RelativeLinkPattern
 from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
 from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
@@ -40,6 +41,9 @@ class KordacExtension(Extension):
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
             ['comment', CommentPreprocessor(self, md), '_begin'],
         ]
+        inlinepatterns = [
+            ['relative-link', RelativeLinkPattern(self, md), '_begin']
+        ]
         blockprocessors = [
             #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
             ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
@@ -54,6 +58,9 @@ class KordacExtension(Extension):
         for processor_data in preprocessors:
             if processor_data[0] in self.processors:
                 md.preprocessors.add(processor_data[0], processor_data[1], processor_data[2])
+        for processor_data in inlinepatterns:
+            if processor_data[0] in self.processors:
+                md.inlinePatterns.add(processor_data[0], processor_data[1], processor_data[2])
         for processor_data in blockprocessors:
             if processor_data[0] in self.processors:
                 md.parser.blockprocessors.add(processor_data[0], processor_data[1], processor_data[2])
