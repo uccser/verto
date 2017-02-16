@@ -42,3 +42,13 @@ class ConfigurationTest(unittest.TestCase):
         processors.append('example_processor')
         kordac.update_processors(processors)
         self.assertTrue(kordac.kordac_extension.processors, processors)
+
+    def test_custom_templates_on_creation(self):
+        custom_templates = {
+            'image': '<img />',
+            'boxed-text': '<div class="box"></div>'
+        }
+        kordac = Kordac(html_templates=custom_templates)
+        for processor_name, template in custom_templates.items():
+            stored_template = kordac.kordac_extension.jinja_templates[processor_name]
+            self.assertEqual(template, stored_template)
