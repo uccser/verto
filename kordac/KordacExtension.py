@@ -91,7 +91,7 @@ class KordacExtension(Extension):
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
             processor_name = re.search(r'(.*?).html', file).groups()[0]
             if processor_name in custom_templates:
-                templates[processor_name] = custom_templates[processor_name]
+                templates[processor_name] = env.from_string(custom_templates[processor_name])
             else:
                 templates[processor_name] = env.get_template(file)
         return templates
