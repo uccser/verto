@@ -1,7 +1,7 @@
 import sys, unittest, optparse
 from collections import defaultdict
 
-from kordac.tests.SmokeTests import SmokeFileTest
+from kordac.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
 from kordac.tests.GlossaryLinkTest import GlossaryLinkTest
 from kordac.tests.PanelTest import PanelTest
 from kordac.tests.CommentTest import CommentTest
@@ -26,7 +26,8 @@ def parse_args():
 
 def smoke_suite():
     return unittest.TestSuite((
-        unittest.makeSuite(SmokeFileTest)
+        unittest.makeSuite(SmokeDocsTest),
+        unittest.makeSuite(SmokeFileTest),
     ))
 
 def unit_suite():
