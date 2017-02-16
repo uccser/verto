@@ -34,7 +34,7 @@ class Kordac(object):
             extensions: A list of extra extensions to run on the
                 markdown package.
         """
-        self.processors = processors
+        self.processors = set(processors)
         self.html_templates = html_templates
         self.extensions = extensions
         self.create_converter()
@@ -106,7 +106,7 @@ class Kordac(object):
                 their processors are enabled. If given, all other
                 processors are skipped.
         """
-        self.processors = processors
+        self.processors = set(processors)
         self.create_converter()
 
 class KordacResult(object):
