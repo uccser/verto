@@ -50,9 +50,9 @@ class KordacExtension(Extension):
             #['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             #['video', VideoBlockProcessor(self, md.parser), '_begin'],
-            #['image', ImageBlockProcessor(self, md.parser), '_begin'],
+            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
-             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
+            ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
         ]
 
         for processor_data in preprocessors:
@@ -70,7 +70,7 @@ class KordacExtension(Extension):
     def clear_saved_data(self):
         self.title = None
         self.page_scripts = []
-        self.required_files = {}
+        self.required_files.clear()
 
     def loadHTMLTemplates(self, custom_templates):
         templates = {}

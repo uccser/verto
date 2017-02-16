@@ -67,6 +67,8 @@ To convert Markdown to HTML with a Kordac converter, we call the ``convert()`` m
   """
   result = converter.convert(text)
 
+.. _accessing_kordac_data:
+
 Step 4: Accessing KordacResult data
 =======================================
 
@@ -80,6 +82,7 @@ The following attributes are available:
 
 - ``html_string`` - A resulting string of HTML after conversion by Kordac.
 - ``title`` - The text of the first heading saved by the ``save-title`` processor.
+- ``required_files`` - A dictionary of files encountered in a Kordac conversion. The dictionary has a string for the file type as the key (for example: ``image``) and a set of all file paths encountered as the value (for example: ``{'image/face.png', 'image/logo.png`}``).
 
 Configuring Kordac converter after creation
 ===============================================
@@ -123,3 +126,7 @@ Full list of package methods
   .. attribute:: title
 
     The text of the first heading found by the :doc:`processors/save-title` processor.
+
+  .. attribute:: required_files
+
+    A dictionary of files encountered in a Kordac conversion. The dictionary has a string for the file type as the key (for example: ``image``) and a set of all file paths encountered as the value (for example: ``{'image/face.png', 'image/logo.png`}``).
