@@ -3,15 +3,12 @@ from kordac.KordacExtension import KordacExtension
 
 DEFAULT_PROCESSORS = {
     'save-title',
-    'heading',
     'comment',
     'button-link',
     'panel',
-    'video',
     'image',
     'relative-link',
-    'interactive',
-    'glossary-link'
+    'boxed-text',
 }
 
 class Kordac(object):
