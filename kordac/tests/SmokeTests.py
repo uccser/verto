@@ -2,7 +2,7 @@ import unittest, os, subprocess
 from kordac import Kordac
 
 class SmokeDocsTest(unittest.TestCase):
-    """Tests opening of files and that kordac generates some output."""
+    """Tests that docs build if they are found."""
 
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
