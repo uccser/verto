@@ -12,7 +12,7 @@ from kordac.tests.ButtonLinkTest import ButtonLinkTest
 from kordac.tests.BoxedTextTest import BoxedTextTest
 from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
-from kordac.tests.InternalLinkTest import InternalLinkTest
+from kordac.tests.RelativeLinkTest import RelativeLinkTest
 
 def suite():
     # NTS what order should these go in?
@@ -23,7 +23,7 @@ def suite():
         unittest.makeSuite(PanelTest),
         unittest.makeSuite(CommentTest),
         unittest.makeSuite(HeadingTest),
-        unittest.makeSuite(InternalLinkTest),
+        unittest.makeSuite(RelativeLinkTest),
         # unittest.makeSuite(ImageTest),
         # unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest),

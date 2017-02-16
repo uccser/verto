@@ -31,7 +31,7 @@
         "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<! end)\\}",
         "pattern_end": "\\{boxed-text end\\}"
     },
-    "internal-link": {
+    "relative-link": {
         "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
     }
 }
