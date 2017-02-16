@@ -16,6 +16,11 @@ class ConfigurationTest(unittest.TestCase):
         self.maxDiff = None
 
     def test_custom_processors_on_creation(self):
-        processors = ['comment', 'image']
+        processors = {'comment', 'image'}
         kordac = Kordac(processors=processors)
         self.assertTrue(kordac.kordac_extension.processors, processors)
+
+    def test_default_processors_on_creation(self):
+        kordac = Kordac()
+        default_processors = kordac.processor_defaults()
+        self.assertTrue(kordac.kordac_extension.processors, default_processors)
