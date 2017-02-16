@@ -13,7 +13,7 @@ class ImageTest(BaseTestCase):
         BaseTestCase.__init__(self, *args, **kwargs)
         self.processor_name = 'image'
         self.ext = Mock()
-        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
+        self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name), 'relative-image-link': BaseTestCase.loadJinjaTemplate(self, 'relative-image-link')}
         self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
         self.ext.required_files = defaultdict(set)
 
@@ -158,3 +158,12 @@ class ImageTest(BaseTestCase):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
 
         self.assertTrue('pixel-diamond.png' in self.kordac_extension.required_files['images'])
+
+    def test_multiple_internal_image_required(self):
+        test_string = self.read_test_file('multiple_internal_image')
+        self.assertTrue(ImageBlockProcessor(self.ext, self.md.parser).test(None, test_string), msg=''.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+
+        self.assertTrue('pixel-diamond.png' in self.kordac_extension.required_files['images'])
+        self.assertTrue('Lipsum.png' in self.kordac_extension.required_files['images'])

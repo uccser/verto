@@ -12,6 +12,7 @@ class ImageBlockProcessor(BlockProcessor):
         self.processor = 'image'
         self.pattern = re.compile(ext.processor_patterns[self.processor]['pattern'])
         self.template = ext.jinja_templates[self.processor]
+        self.relative_image_template = ext.jinja_templates['relative-image-link']
         self.required = ext.required_files['images']
 
     def test(self, parent, block):
@@ -28,7 +29,7 @@ class ImageBlockProcessor(BlockProcessor):
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None: # internal image
             self.required.add(file_path)
-            file_path = '{% static \'' + file_path + '\' %}'
+            file_path = self.relative_image_template.render({'file_path': file_path})
 
         context = dict()
         context['file_path'] = file_path
