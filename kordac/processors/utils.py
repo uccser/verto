@@ -29,7 +29,7 @@ def string_to_type(string):
 def check_required_parameters(tag, required_parameters, context):
     """Raises an error if the context is missing any required parameters"""
     if not all(parameter in context.keys() for parameter in required_parameters):
-        parameter = next(parameter not in context.keys() for parameter in required_parameters)
+        parameter = next(parameter for parameter in required_parameters if parameter not in context.keys())
         raise ParameterMissingError(tag, parameter, "{} is a required parameter.".format(parameter))
 
 def check_optional_parameters(tag, optional_parameters, context):
@@ -37,7 +37,7 @@ def check_optional_parameters(tag, optional_parameters, context):
     """
     for option, dependencies in optional_parameters.items():
         if not all(parameter in context.keys() for parameter in dependencies):
-            parameter = next(parameter not in context.keys() for parameter in optional_parameters)
+            parameter = next(parameter for parameter in dependencies if parameter not in context.keys())
             raise ParameterMissingError(tag, parameter, "{} is a required parameter because {} exists.".format(parameter, option))
 
 def blocks_to_string(blocks):
