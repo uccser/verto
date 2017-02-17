@@ -21,9 +21,9 @@ class VideoBlockProcessor(BlockProcessor):
     def run(self, parent, blocks):
 
         block = blocks.pop(0)
-        match = self.pattern.search(block) # NTS why not search?
+        match = self.pattern.search(block)
 
-        arguments = match.group('args') # NTS what other arguments will there be?
+        arguments = match.group('args')
         url = parse_argument('url', arguments)
 
         (video_type, video_identifier) = self.extract_video_identifier(url, match)
@@ -31,7 +31,6 @@ class VideoBlockProcessor(BlockProcessor):
         context = dict()
         context['video_identifier'] = video_identifier
 
-        source_link = ''
         if url and video_type:
             if video_type == 'youtube':
                 context['source_link'] = self.youtube_template.render(context)

@@ -17,18 +17,18 @@ from kordac.tests.RelativeLinkTest import RelativeLinkTest
 def suite():
     # NTS what order should these go in?
     allSuites = unittest.TestSuite((
-        unittest.makeSuite(SaveTitleTest),
-        unittest.makeSuite(RemoveTitleTest),
+        # unittest.makeSuite(SaveTitleTest),
+        # unittest.makeSuite(RemoveTitleTest),
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
-        unittest.makeSuite(PanelTest),
-        unittest.makeSuite(CommentTest),
-        unittest.makeSuite(HeadingTest),
-        unittest.makeSuite(RelativeLinkTest),
+        # unittest.makeSuite(PanelTest),
+        # unittest.makeSuite(CommentTest),
+        # unittest.makeSuite(HeadingTest),
+        # unittest.makeSuite(RelativeLinkTest),
         # unittest.makeSuite(ImageTest),
         unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest),
         # unittest.makeSuite(ButtonLinkTest)
-        unittest.makeSuite(BoxedTextTest)
+        # unittest.makeSuite(BoxedTextTest)
     ))
 
     return allSuites
