@@ -3,15 +3,12 @@ from kordac.KordacExtension import KordacExtension
 
 DEFAULT_PROCESSORS = {
     'save-title',
-    'heading',
     'comment',
     'button-link',
     'panel',
-    'video',
     'image',
     'relative-link',
-    'interactive',
-    'glossary-link'
+    'boxed-text',
 }
 
 class Kordac(object):
@@ -34,9 +31,9 @@ class Kordac(object):
             extensions: A list of extra extensions to run on the
                 markdown package.
         """
-        self.processors = processors
-        self.html_templates = html_templates
-        self.extensions = extensions
+        self.processors = set(processors)
+        self.html_templates = dict(html_templates)
+        self.extensions = list(extensions)
         self.create_converter()
 
     def create_converter(self):
@@ -106,7 +103,7 @@ class Kordac(object):
                 their processors are enabled. If given, all other
                 processors are skipped.
         """
-        self.processors = processors
+        self.processors = set(processors)
         self.create_converter()
 
 class KordacResult(object):
