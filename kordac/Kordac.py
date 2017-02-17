@@ -32,8 +32,8 @@ class Kordac(object):
                 markdown package.
         """
         self.processors = set(processors)
-        self.html_templates = html_templates
-        self.extensions = extensions
+        self.html_templates = dict(html_templates)
+        self.extensions = list(extensions)
         self.create_converter()
 
     def create_converter(self):
