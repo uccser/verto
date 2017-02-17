@@ -43,7 +43,7 @@ def unit_suite():
         unittest.makeSuite(RelativeLinkTest),
         # unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest),
-        # unittest.makeSuite(ButtonLinkTest)
+        unittest.makeSuite(ButtonLinkTest),
         unittest.makeSuite(BoxedTextTest)
     ))
 
