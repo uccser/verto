@@ -31,7 +31,7 @@ class KordacExtension(Extension):
         self.title = None
         self.html_templates = self.loadHTMLTemplates(html_templates)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
-        self.processor_patterns = self.loadProcessorPatterns()
+        self.processor_info = self.loadProcessorInfo()
         self.processors = processors
         super().__init__(*args, **kwargs)
 
@@ -96,6 +96,6 @@ class KordacExtension(Extension):
                 templates[processor_name] = env.get_template(file)
         return templates
 
-    def loadProcessorPatterns(self):
-        pattern_data = open(os.path.join(os.path.dirname(__file__), 'regex-list.json')).read()
-        return json.loads(pattern_data)
+    def loadProcessorInfo(self):
+        json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()
+        return json.loads(json_data)

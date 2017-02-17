@@ -26,8 +26,8 @@ class ProcessorTest(BaseTest):
         jinja_template = env.get_template(template + '.html')
         return jinja_template
 
-    def loadProcessorPatterns(self):
-        pattern_data = open('kordac/regex-list.json').read()
+    def loadProcessorInfo(self):
+        pattern_data = open('kordac/processor-info.json').read()
         return json.loads(pattern_data)
 
     def to_blocks(self, string):

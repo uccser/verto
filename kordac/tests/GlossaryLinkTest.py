@@ -14,7 +14,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.processor_name = 'glossary-link'
         self.ext = Mock()
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
-        self.ext.processor_patterns = ProcessorTest.loadProcessorPatterns(self)
+        self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
 
     def test_match_false(self):
         test_string = self.read_test_file(self.processor_name, 'fail_string.md')

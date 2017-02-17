@@ -11,5 +11,5 @@ class HeadingTest(ProcessorTest):
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'heading'
         self.ext = Mock()
-        self.ext.processor_patterns = ProcessorTest.loadProcessorPatterns(self)
+        self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}

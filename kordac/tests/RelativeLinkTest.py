@@ -13,7 +13,7 @@ class RelativeLinkTest(ProcessorTest):
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'relative-link'
         self.ext = Mock()
-        self.ext.processor_patterns = ProcessorTest.loadProcessorPatterns(self)
+        self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
 
     def test_basic_usage(self):

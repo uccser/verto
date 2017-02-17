@@ -1,1 +1,1 @@
-{image file_path="apple.png"}
+{image file-path="apple.png"}

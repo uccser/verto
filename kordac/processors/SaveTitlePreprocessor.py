@@ -6,7 +6,7 @@ class SaveTitlePreprocessor(Preprocessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ext = ext
-        self.pattern = re.compile(ext.processor_patterns['title']['pattern'])
+        self.pattern = re.compile(ext.processor_info['title']['pattern'])
 
     def test(self, lines):
         return self.pattern.search(lines) is not None
