@@ -1,5 +1,6 @@
 import re
 from markdown.util import etree
+from kordac.processors.errors.ParameterMissingError import ParameterMissingError
 
 def parse_argument(argument_key, arguments, default=None, convert_type=True):
     """Search for the given argument in a string of all arguments
@@ -24,6 +25,20 @@ def string_to_type(string):
     except ValueError:
         pass
     return string
+
+def check_required_parameters(tag, required_parameters, context):
+    """Raises an error if the context is missing any required parameters"""
+    if not all(parameter in context.keys() for parameter in required_parameters):
+        parameter = next(parameter not in context.keys() for parameter in required_parameters)
+        raise ParameterMissingError(tag, parameter, "{} is a required parameter.".format(parameter))
+
+def check_optional_parameters(tag, optional_parameters, context):
+    """ Raises an error if the context is missing any parameters that an optional parameter is dependent on.
+    """
+    for option, dependencies in optional_parameters.items():
+        if not all(parameter in context.keys() for parameter in dependencies):
+            parameter = next(parameter not in context.keys() for parameter in optional_parameters)
+            raise ParameterMissingError(tag, parameter, "{} is a required parameter because {} exists.".format(parameter, option))
 
 def blocks_to_string(blocks):
     """Returns a string after the blocks have been joined back together."""

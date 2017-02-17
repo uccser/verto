@@ -1,6 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
-from kordac.processors.utils import blocks_to_string, parse_argument, etree
-
+from kordac.processors.utils import blocks_to_string, parse_argument, etree, check_required_parameters, check_optional_parameters
 import kordac.processors.errors.TagNotMatchedError as TagNotMatchedError
 import re
 
@@ -11,6 +10,8 @@ class BoxedTextBlockProcessor(BlockProcessor):
         self.p_start = re.compile(ext.processor_patterns[self.processor]['pattern_start'])
         self.p_end = re.compile(ext.processor_patterns[self.processor]['pattern_end'])
         self.template = ext.jinja_templates[self.processor]
+        self.required_parameters = {}
+        self.optional_parameters = {'indented': set()}
 
     def test(self, parent, block):
         return self.p_start.search(block) is not None or self.p_end.search(block) is not None
@@ -76,6 +77,9 @@ class BoxedTextBlockProcessor(BlockProcessor):
         context = dict()
         context['indented'] = parse_argument('indented', start_tag.group('args'), False)
         context['text'] = content
+
+        check_required_parameters(self.processor, self.required_parameters, context)
+        check_optional_parameters(self.processor, self.optional_parameters, context)
 
         # Render template and compile into an element
         html_string = self.template.render(context)

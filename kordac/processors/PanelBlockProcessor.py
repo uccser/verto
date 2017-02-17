@@ -1,7 +1,7 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
-from kordac.processors.utils import blocks_to_string, parse_argument
+from kordac.processors.utils import blocks_to_string, parse_argument, check_required_parameters, check_optional_parameters
 import re
 
 
@@ -12,6 +12,8 @@ class PanelBlockProcessor(BlockProcessor):
         self.p_start = re.compile(ext.processor_patterns[self.processor]['pattern_start'])
         self.p_end = re.compile(ext.processor_patterns[self.processor]['pattern_end'])
         self.template = ext.jinja_templates[self.processor]
+        self.required_parameters = {'type', 'title'}
+        self.optional_parameters = {'subtitle': set(), 'expanded': set()}
 
     def test(self, parent, block):
         return self.p_start.search(block) is not None or self.p_end.search(block) is not None
@@ -74,6 +76,9 @@ class PanelBlockProcessor(BlockProcessor):
 
         context = self.get_attributes(start_tag.group('args'))
         context['content'] = content
+
+        check_required_parameters(self.processor, self.required_parameters, context)
+        check_optional_parameters(self.processor, self.optional_parameters, context)
 
         # create panel node and add it to parent element
         html_string = self.template.render(context)
