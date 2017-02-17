@@ -15,8 +15,8 @@ class ImageBlockProcessor(BlockProcessor):
         self.template = ext.jinja_templates[self.processor]
         self.relative_image_template = ext.jinja_templates['relative-image-link']
         self.required = ext.required_files['images']
-        self.required_parameters = {'file_path'}
-        self.optional_parameters = {'alt': set(), 'caption': set(), 'caption_link': {'caption'}, 'source': set(), 'alignment': set(), 'hover_text':{}}
+        self.required_parameters = ext.processor_patterns[self.processor]['required_parameters']
+        self.optional_parameters = ext.processor_patterns[self.processor]['optional_parameter_dependencies']
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None

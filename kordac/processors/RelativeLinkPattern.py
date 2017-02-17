@@ -24,8 +24,8 @@ class RelativeLinkPattern(markdown.inlinepatterns.Pattern):
         self.compiled_re = re.compile("^(.*?){}(.*)$".format(self.pattern),
             re.DOTALL | re.UNICODE)
         self.template = ext.jinja_templates[self.processor]
-        self.required_parameters = {'link_path'}
-        self.optional_parameters = {}
+        self.required_parameters = ext.processor_patterns[self.processor]['required_parameters']
+        self.optional_parameters = ext.processor_patterns[self.processor]['optional_parameter_dependencies']
 
     def handleMatch(self, match):
         element = util.etree.Element("a")
