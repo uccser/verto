@@ -78,10 +78,13 @@ if __name__ == '__main__':
 
     if not options.no_system:
         print("Running System Tests")
-        runner.run(system_suite())
+        system_result = runner.run(system_suite())
         print()
 
     if not options.no_unit:
         print("Running Unit Tests")
-        runner.run(unit_suite())
+        unit_result = runner.run(unit_suite())
         print()
+
+    if not system_result.wasSuccessful() or not unit_result.wasSuccessful():
+        sys.exit(1)
