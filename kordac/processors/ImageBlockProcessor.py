@@ -16,7 +16,7 @@ class ImageBlockProcessor(BlockProcessor):
         self.relative_image_template = ext.jinja_templates['relative-image-link']
         self.required = ext.required_files['images']
         self.required_parameters = {'file_path'}
-        self.optional_parameters = {'alt': set(), 'caption': set(), 'caption-link': {'caption'}, 'source': set(), 'alignment': set(), 'hover-text':{}}
+        self.optional_parameters = {'alt': set(), 'caption': set(), 'caption_link': {'caption'}, 'source': set(), 'alignment': set(), 'hover_text':{}}
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
@@ -28,7 +28,7 @@ class ImageBlockProcessor(BlockProcessor):
         arguments = match.group('args')
 
         # check if internal or external image
-        file_path = parse_argument('file_path', arguments)
+        file_path = parse_argument('file-path', arguments)
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None: # internal image
             self.required.add(file_path)
