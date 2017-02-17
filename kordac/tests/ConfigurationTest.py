@@ -1,9 +1,15 @@
 import unittest
 from kordac import Kordac
 import jinja2
+from kordac.tests.BaseTest import BaseTest
 
-class ConfigurationTest(unittest.TestCase):
-    """Test configuration methods of Kordac"""
+class ConfigurationTest(BaseTest):
+    """Test configuration methods of Kordac
+
+    These are not true unit tests, as they create the complete Kordac system,
+    however we are using the unittest framework for ease of use and simplicity
+    of our testing suite.
+    """
 
     def __init__(self, *args, **kwargs):
         """Creates BaseTest Case class
@@ -12,28 +18,49 @@ class ConfigurationTest(unittest.TestCase):
         the path to test files and the maxiumum difference to display on
         test failures.
         """
-        unittest.TestCase.__init__(self, *args, **kwargs)
-        self.test_file_path = 'kordac/tests/assets/configuration}/{}'
+        BaseTest.__init__(self, *args, **kwargs)
+        self.test_name = 'configuration'
         self.maxDiff = None
+        self.custom_templates = {
+            "image": "<img class='test'/>",
+            "boxed-text": "<div class='box'>{% autoescape false %}{{ text }}{% endautoescape %}</div>"
+        }
 
     def test_default_processors_on_creation(self):
+        """Checks if all expected default processors work on default creation"""
         kordac = Kordac()
-        default_processors = kordac.processor_defaults()
-        self.assertEqual(kordac.kordac_extension.processors, default_processors)
+        # kordac.default_templates()
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_processors_on_creation(self):
-        processors = {'comment', 'image'}
+        """Checks if system only uses specified processsors"""
+        processors = {'panel', 'image'}
         kordac = Kordac(processors=processors)
-        self.assertEqual(kordac.kordac_extension.processors, processors)
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'custom_processors_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_processors_after_creation(self):
+        """Checks if extension correct changes processors"""
         kordac = Kordac()
         processors = kordac.processor_defaults()
         processors.add('example_processor')
+        processors.remove('comment')
         kordac.update_processors(processors)
+        # Check example_processor is now stored in extension processors
         self.assertEqual(kordac.kordac_extension.processors, processors)
+        # Check comments are now skipped
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'all_processors_except_comment_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_unique_custom_processors(self):
+        """Checks if unique processors are stored when duplicates provided"""
         processors = ['comment', 'comment', 'comment']
         kordac = Kordac(processors=processors)
         self.assertEqual(kordac.kordac_extension.processors, set(processors))
@@ -45,68 +72,27 @@ class ConfigurationTest(unittest.TestCase):
         self.assertTrue(kordac.kordac_extension.processors, processors)
 
     def test_custom_templates_on_creation(self):
-        # This test doesn't do a perfect check that both templates are the same
-        # as we cannot access the raw string stored within the loaded template
-        # Instead we check if the rendered version of both is the same, however
-        # this doesn't check context variables are the same.
-        custom_templates = {
-            'image': '<img />',
-            'boxed-text': '<div class="box"></div>'
-        }
-        kordac = Kordac(html_templates=custom_templates)
-        for processor_name, template in custom_templates.items():
-            expected_template = jinja2.Template(template)
-            rendered_expected_template = expected_template.render()
-            stored_template = kordac.kordac_extension.jinja_templates[processor_name]
-            rendered_stored_template = stored_template.render()
-            self.assertEqual(rendered_expected_template, rendered_stored_template)
+        """Checks custom templates are used when given on creation"""
+        kordac = Kordac(html_templates=self.custom_templates)
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'all_processors_custom_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_templates_after_creation(self):
-        # This test doesn't do a perfect check that both templates are the same
-        # as we cannot access the raw string stored within the loaded template
-        # Instead we check if the rendered version of both is the same, however
-        # this doesn't check context variables are the same.
+        """Checks custom templates are used when given after creation"""
         kordac = Kordac()
-        custom_templates = {
-            'image': '<img />',
-            'boxed-text': '<div class="box"></div>'
-        }
-        for processor_name, template in custom_templates.items():
-            expected_template = jinja2.Template(template)
-            rendered_expected_template = expected_template.render()
-            stored_template = kordac.kordac_extension.jinja_templates[processor_name]
-            rendered_stored_template = stored_template.render()
-            self.assertNotEqual(rendered_expected_template, rendered_stored_template)
-        kordac.update_templates(custom_templates)
-        for processor_name, template in custom_templates.items():
-            expected_template = jinja2.Template(template)
-            rendered_expected_template = expected_template.render()
-            stored_template = kordac.kordac_extension.jinja_templates[processor_name]
-            rendered_stored_template = stored_template.render()
-            self.assertEqual(rendered_expected_template, rendered_stored_template)
+        kordac.update_templates(self.custom_templates)
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'all_processors_custom_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_reset_templates_after_custom(self):
-        # This test doesn't do a perfect check that both templates are the same
-        # as we cannot access the raw string stored within the loaded template
-        # Instead we check if the rendered version of both is the same, however
-        # this doesn't check context variables are the same.
-        default_template_path = 'kordac/html-templates/{}.html'
-        custom_templates = {
-            'image': '<img />',
-            'boxed-text': '<div class="box"></div>'
-        }
-        kordac = Kordac(html_templates=custom_templates)
-        for processor_name, template in custom_templates.items():
-            expected_template = jinja2.Template(template)
-            rendered_expected_template = expected_template.render()
-            stored_template = kordac.kordac_extension.jinja_templates[processor_name]
-            rendered_stored_template = stored_template.render()
-            self.assertEqual(rendered_expected_template, rendered_stored_template)
+        """Checks custom templates are reset when given at creation"""
+        kordac = Kordac(html_templates=self.custom_templates)
         kordac.default_templates()
-        for processor_name in custom_templates.keys():
-            default_template = open(default_template_path.format(processor_name), 'r').read()
-            expected_template = jinja2.Template(default_template)
-            rendered_expected_template = expected_template.render()
-            stored_template = kordac.kordac_extension.jinja_templates[processor_name]
-            rendered_stored_template = stored_template.render()
-            self.assertEqual(rendered_expected_template, rendered_stored_template)
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
