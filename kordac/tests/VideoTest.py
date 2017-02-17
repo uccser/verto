@@ -21,7 +21,7 @@ class VideoTest(BaseTestCase):
         self.processor_name = 'video'
         self.ext = Mock()
         self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
-        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.processor_info = BaseTestCase.loadProcessorInfo(self)
 
     def test_contains_no_video(self):
         test_string = self.read_test_file('contains_no_video')

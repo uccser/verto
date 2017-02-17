@@ -14,7 +14,7 @@ class PanelTest(BaseTestCase):
         self.processor_name = 'panel'
         self.ext = Mock()
         self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name)}
-        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.processor_info = BaseTestCase.loadProcessorInfo(self)
 
     def test_parses_blank(self):
         test_string = self.read_test_file('parses_blank')

@@ -14,7 +14,7 @@ class ImageTest(BaseTestCase):
         self.processor_name = 'image'
         self.ext = Mock()
         self.ext.jinja_templates = {self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name), 'relative-image-link': BaseTestCase.loadJinjaTemplate(self, 'relative-image-link')}
-        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.processor_info = BaseTestCase.loadProcessorInfo(self)
         self.ext.required_files = defaultdict(set)
 
     def test_internal_image(self):

@@ -15,7 +15,7 @@ class CommentTest(BaseTestCase):
         BaseTestCase.__init__(self, *args, **kwargs)
         self.processor_name = 'comment'
         self.ext = Mock()
-        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.processor_info = BaseTestCase.loadProcessorInfo(self)
 
     def test_no_inline_comment(self):
         test_string = self.read_test_file('no_inline_comment')

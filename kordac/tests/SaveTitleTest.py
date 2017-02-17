@@ -12,7 +12,7 @@ class SaveTitleTest(BaseTestCase):
         BaseTestCase.__init__(self, *args, **kwargs)
         self.processor_name = 'save-title'
         self.ext = Mock()
-        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.processor_info = BaseTestCase.loadProcessorInfo(self)
 
     def test_basic_usage(self):
         test_string = self.read_test_file('doc_example_basic_usage')
