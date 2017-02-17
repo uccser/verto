@@ -4,8 +4,9 @@ import markdown
 from kordac.KordacExtension import KordacExtension
 from markdown.extensions import Extension
 from jinja2 import Environment, PackageLoader, select_autoescape
+from kordac.tests.BaseTest import BaseTest
 
-class BaseTestCase(unittest.TestCase):
+class ProcessorTest(BaseTest):
     """A base test class for individual test classes"""
 
     def __init__(self, *args, **kwargs):
@@ -15,32 +16,7 @@ class BaseTestCase(unittest.TestCase):
         the path to test files and the maxiumum difference to display on
         test failures.
         """
-        unittest.TestCase.__init__(self, *args, **kwargs)
-        self.test_file_path = 'kordac/tests/assets/{processor_name}/{filename}.md'
-        self.expected_output_file_path = 'kordac/tests/assets/{processor_name}/{filename}.html'
-        # self.maxDiff = 640  # Set to None for full output of all test failures
-        self.maxDiff = None
-
-    def read_test_file(self, filename):
-        """Returns a string for a given file
-
-        This function reads a file from a given filename in UTF-8 encoding.
-        """
-        file_path = self.test_file_path.format(processor_name=self.processor_name, filename=filename)
-        file_object = open(file_path, encoding="utf-8")
-        return file_object.read()
-
-    def read_expected_output_file(self, filename):
-        """Returns a string for a given file
-
-        This function reads a file from a given filename in UTF-8 encoding.
-        """
-        file_path = self.expected_output_file_path.format(processor_name=self.processor_name, filename=filename)
-        file_object = open(file_path, encoding="utf-8")
-        return file_object.read().rstrip('\r\n')
-
-    def loadHTMLTemplate(self, template):
-        return open('kordac/html-templates/' + template + '.html').read()
+        BaseTest.__init__(self, *args, **kwargs)
 
     def loadJinjaTemplate(self, template):
         env = Environment(

@@ -63,3 +63,20 @@ class SmokeFileTest(unittest.TestCase):
                 self.assertIsNot(result.title, None)
                 self.assertIsNot(result.html_string, None)
                 self.assertTrue(len(result.html_string) > 0)
+
+    def test_compile_files_custom(self):
+        custom_templates = {
+            'image': '<img />',
+            'boxed-text': '<div class="box"></div>'
+        }
+
+        kordac = Kordac(html_templates=custom_templates)
+        for chapter in ['algorithms.md', 'introduction.md']:
+            with open(self.assets_template.format(chapter), 'r') as f:
+                text = f.read()
+                result = kordac.convert(text)
+
+                self.assertIsNot(result, None)
+                self.assertIsNot(result.title, None)
+                self.assertIsNot(result.html_string, None)
+                self.assertTrue(len(result.html_string) > 0)
