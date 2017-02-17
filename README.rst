@@ -30,6 +30,10 @@ addressed yet, please `open a new issue`_.
 FAQ
 ---
 
+**Where is the changelog?**
+
+The changelog is available within the `documentation`_.
+
 **How do I install the development version as local package?**
 
 1. ``$ git clone https://github.com/uccser/kordac.git``
@@ -37,6 +41,7 @@ FAQ
 3. ``$ pip3 install .``
 
 .. _ReadTheDocs: http://kordac.readthedocs.io/en/develop/
+.. _documentation: http://kordac.readthedocs.io/en/latest/changelog.html
 .. _license file: LICENSE.md
 .. _existing and closed issues: https://github.com/uccser/kordac/issues
 .. _open a new issue: https://github.com/uccser/kordac/issues/new
