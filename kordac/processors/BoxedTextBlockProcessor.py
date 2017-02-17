@@ -7,11 +7,11 @@ class BoxedTextBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.processor = 'boxed-text'
-        self.p_start = re.compile(ext.processor_patterns[self.processor]['pattern_start'])
-        self.p_end = re.compile(ext.processor_patterns[self.processor]['pattern_end'])
+        self.p_start = re.compile(ext.processor_info[self.processor]['pattern_start'])
+        self.p_end = re.compile(ext.processor_info[self.processor]['pattern_end'])
         self.template = ext.jinja_templates[self.processor]
-        self.required_parameters = ext.processor_patterns[self.processor]['required_parameters']
-        self.optional_parameters = ext.processor_patterns[self.processor]['optional_parameter_dependencies']
+        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
+        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
 
     def test(self, parent, block):
         return self.p_start.search(block) is not None or self.p_end.search(block) is not None

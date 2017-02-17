@@ -51,7 +51,7 @@ class BaseTestCase(unittest.TestCase):
         return jinja_template
 
     def loadProcessorPatterns(self):
-        pattern_data = open('kordac/regex-list.json').read()
+        pattern_data = open('kordac/processor-info.json').read()
         return json.loads(pattern_data)
 
     def to_blocks(self, string):

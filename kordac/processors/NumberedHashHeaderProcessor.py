@@ -9,7 +9,7 @@ class NumberedHashHeaderProcessor(BlockProcessor):
         super().__init__(*args, **kwargs)
         self.number_generator = NumberGenerator()
         self.ext = ext
-        self.pattern = re.compile(ext.processor_patterns['heading']['pattern'])
+        self.pattern = re.compile(ext.processor_info['heading']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None

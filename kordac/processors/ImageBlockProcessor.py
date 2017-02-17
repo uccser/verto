@@ -11,12 +11,12 @@ class ImageBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.processor = 'image'
-        self.pattern = re.compile(ext.processor_patterns[self.processor]['pattern'])
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.template = ext.jinja_templates[self.processor]
         self.relative_image_template = ext.jinja_templates['relative-image-link']
         self.required = ext.required_files['images']
-        self.required_parameters = ext.processor_patterns[self.processor]['required_parameters']
-        self.optional_parameters = ext.processor_patterns[self.processor]['optional_parameter_dependencies']
+        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
+        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None

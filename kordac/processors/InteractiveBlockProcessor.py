@@ -13,7 +13,7 @@ class InteractiveBlockProcessor(BlockProcessor):
         super().__init__(*args, **kwargs)
         self.scripts = ext.page_scripts
         self.required = ext.required_files["interactives"]
-        self.pattern = re.compile(ext.processor_patterns['interactive']['pattern'])
+        self.pattern = re.compile(ext.processor_info['interactive']['pattern'])
 
     def test(self, parent, block):
         return self.pattern.match(block) is not None
