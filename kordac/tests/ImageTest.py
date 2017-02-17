@@ -167,3 +167,44 @@ class ImageTest(ProcessorTest):
 
         self.assertTrue('pixel-diamond.png' in self.kordac_extension.required_files['images'])
         self.assertTrue('Lipsum.png' in self.kordac_extension.required_files['images'])
+
+    #~
+    # Doc Tests
+    #~
+
+    def test_doc_example_basic(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (ImageBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_doc_example_override_html(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (ImageBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
+        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_doc_example_2_override_html(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertTrue(True in (ImageBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
+
+        html_template = self.read_test_file(self.processor_name, 'doc_example_2_override_html_template.html', strip=True)
+        link_template = self.read_test_file(self.processor_name, 'doc_example_2_override_link_html_template.html', strip=True)
+        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template, 'relative-image-link': link_template})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
