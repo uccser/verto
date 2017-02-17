@@ -21,6 +21,12 @@ def parse_args():
         usage='Run the command `python -m kordac.tests.start_tests` from the level above the kordac directory.', description="Verifies that Kordac is functional compared to the testing suite.")
     opts.add_option('--travis',
         action='store_true', help='Enables skipping suites on failure. To be used by continuous integration system.', default=False)
+    opts.add_option('--no_smoke',
+        action='store_true', help='Skips smoke tests, should be used for local development only.', default=False)
+    opts.add_option('--no_system',
+        action='store_true', help='Skips system tests, should be used for local development only.', default=False)
+    opts.add_option('--no_unit',
+        action='store_true', help='Skips unit tests, should be used for local development only.', default=False)
     options, arguments = opts.parse_args()
 
     return options, arguments
@@ -58,19 +64,24 @@ if __name__ == '__main__':
     options, arguments = parse_args()
 
     runner = unittest.TextTestRunner()
-    print("Running Smoke Tests")
-    result = runner.run(smoke_suite())
-    print()
+    result = None
 
-    if options.travis and not result.wasSuccessful():
+    if not options.no_smoke:
+        print("Running Smoke Tests")
+        result = runner.run(smoke_suite())
+        print()
+
+    if options.travis and result and not result.wasSuccessful():
         print("Skipping other test-suites.")
         sys.exit(1)
         print()
 
-    print("Running System Tests")
-    runner.run(system_suite())
-    print()
+    if not options.no_system:
+        print("Running System Tests")
+        runner.run(system_suite())
+        print()
 
-    print("Running Unit Tests")
-    runner.run(unit_suite())
-    print()
+    if not options.no_unit:
+        print("Running Unit Tests")
+        runner.run(unit_suite())
+        print()
