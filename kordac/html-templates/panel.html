@@ -1,0 +1,10 @@
+<div class='panel panel-{{ type }}{% if expanded == 'always'%} panel-expanded-always{% elif expanded == 'true' %} panel-expanded{% endif %}'>
+  <div class='panel-header'>
+    <strong>{{ title }}{% if subtitle %}:</strong> {{ subtitle }}{% else %}</strong>{% endif %}
+  </div>
+  <div class='panel-body'>
+    {% autoescape false -%}
+    {{ content }}
+    {%- endautoescape %}
+  </div>
+</div>
