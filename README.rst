@@ -40,7 +40,7 @@ The changelog is available within the `documentation`_.
 2. ``$ cd kordac``
 3. ``$ pip3 install .``
 
-.. _ReadTheDocs: http://kordac.readthedocs.io/en/develop/
+.. _ReadTheDocs: http://kordac.readthedocs.io/en/latest/
 .. _documentation: http://kordac.readthedocs.io/en/latest/changelog.html
 .. _license file: LICENSE.md
 .. _existing and closed issues: https://github.com/uccser/kordac/issues
