@@ -7,14 +7,14 @@ You can include an image using the following text tag:
 
 .. code-block:: none
 
-    {image file_path="http://placehold.it/350x150"}
+    {image file-path="http://placehold.it/350x150"}
 
 Required Tag Parameters
 ***************************************
 
-- ``file_path`` - The path to the image.
+- ``file-path`` - The path to the image.
 
-    - Each file_path provided is added to the set of 'required files' stored by Kordac. The list of filepaths can be accessed after conversion.
+    - Each file-path provided is added to the ``images`` set in required files stored by Kordac. The set of filepaths can be accessed after conversion, see :ref:`accessing_kordac_data`.
     - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered with a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}`` This can be overriden, see the override section below.
 
 Optional Tag Parameters
@@ -47,7 +47,7 @@ Overriding HTML for Images
 
 When overriding the HTML for images, the following Jinja2 placeholders are available:
 
-- ``{{ file_path }}`` - The location for the path to the URL.
+- ``{{ file-path }}`` - The location for the path to the URL.
 - ``{{ alt }}`` - The alternative text for the image.
 - ``{{ hover_text }}`` - The text to display when the user hovers over the image (see `image title attribute <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title>`_).
 - ``{{ alignment }}`` - The location to add extra CSS classes for alignment.
@@ -55,7 +55,7 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 - ``{{ caption_link }}`` - The URL for the caption link .
 - ``{{ source_link }}`` - The URL for the source .
 
-If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
+If the ``file-path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
 The default HTML for relative images is:
 
 .. literalinclude:: ../../../kordac/html-templates/relative-image-link.html

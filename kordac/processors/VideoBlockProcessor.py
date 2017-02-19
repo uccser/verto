@@ -10,7 +10,7 @@ class VideoBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.processor = 'video'
-        self.pattern = re.compile(ext.processor_patterns[self.processor]['pattern'])
+        self.pattern = re.compile(ext.processor_info['video']['pattern'])
         self.youtube_template = ext.jinja_templates['video-youtube']
         self.vimeo_template = ext.jinja_templates['video-vimeo']
         self.template = ext.jinja_templates[self.processor]

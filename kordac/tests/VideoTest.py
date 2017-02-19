@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
-from kordac.tests.BaseTestCase import BaseTestCase
+from kordac.tests.ProcessorTest import ProcessorTest
 
 # NTS videos have different links
 # need to test:
@@ -13,11 +13,11 @@ from kordac.tests.BaseTestCase import BaseTestCase
 #   - /watch/
 # etc
 
-class VideoTest(BaseTestCase):
+class VideoTest(ProcessorTest):
 
     def __init__(self, *args, **kwargs):
         """Set processor name in class for file names"""
-        BaseTestCase.__init__(self, *args, **kwargs)
+        ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'video'
         self.ext = Mock()
         self.ext.jinja_templates = {
@@ -25,7 +25,7 @@ class VideoTest(BaseTestCase):
                 'video-youtube': BaseTestCase.loadJinjaTemplate(self, 'video-youtube'),
                 'video-vimeo': BaseTestCase.loadJinjaTemplate(self, 'video-vimeo')
                 }
-        self.ext.processor_patterns = BaseTestCase.loadProcessorPatterns(self)
+        self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
 
     def test_contains_no_video(self):
         test_string = self.read_test_file('contains_no_video')
@@ -34,7 +34,7 @@ class VideoTest(BaseTestCase):
         self.assertFalse(all(VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) == False for block in blocks), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_file_string = self.read_expected_output_file('contains_no_video_expected')
+        expected_file_string = self.read_test_file(self.processor_name, 'contains_no_video_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
 
     def test_youtube_embed_link(self):
