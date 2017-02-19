@@ -21,6 +21,7 @@ For example:
     usage
     processors/index
     extensions
+    changelog
 
 Other Features
 ==============

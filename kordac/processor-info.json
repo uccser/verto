@@ -1,0 +1,57 @@
+{
+    "panel": {
+        "pattern_start": "^\\{panel ?(?P<args>[^\\}]*)(?<! end)\\}",
+        "pattern_end": "\\{panel end\\}",
+        "required_parameters": ["type", "title"],
+        "optional_parameter_dependencies": {
+            "subtitle": [],
+            "expanded": []
+        }
+    },
+    "glossary-link": {
+        "pattern": "\\{glossary-link term=\"([a-zA-Z]| )*\"( reference-text=\"([a-zA-Z]| )*\"){0,1}\\}.*\\{glossary-link end\\}"
+    },
+    "comment": {
+        "pattern" : "\\{comment [^\\}]+\\}"
+    },
+    "video": {
+        "pattern": "\\{video (?P<args>[^\\}]*)\\}"
+    },
+    "image": {
+        "pattern": "(\\{image (?P<args>[^\\}]*)\\})",
+        "required_parameters": ["file_path"],
+        "optional_parameter_dependencies": {
+            "alt": [],
+            "caption": [],
+            "caption_link": ["caption"],
+            "source": [],
+            "alignment": [],
+            "hover_text": []
+        }
+    },
+    "interactive": {
+        "pattern": "^\\{interactive ?(?P<args>[^\\}]*)\\}$"
+    },
+    "heading": {
+        "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
+    },
+    "title": {
+        "pattern": "^#+ ?(.*)"
+    },
+    "button-link": {
+        "pattern": "\\{button (?P<args>[^\\}]*)\\}"
+    },
+    "boxed-text": {
+        "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<! end)\\}",
+        "pattern_end": "\\{boxed-text end\\}",
+        "required_parameters": [],
+        "optional_parameter_dependencies": {
+            "indented": []
+        }
+    },
+    "relative-link": {
+        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)",
+        "required_parameters": ["link_path"],
+        "optional_parameter_dependencies": []
+    }
+}

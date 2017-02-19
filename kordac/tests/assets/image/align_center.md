@@ -1,1 +1,1 @@
-{image file_path="computer-studying-turing-test.png" alignment="center"}
+{image file-path="computer-studying-turing-test.png" alignment="center"}

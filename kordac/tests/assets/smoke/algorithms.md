@@ -91,7 +91,7 @@ def find_high_score(scores):
 
 But here's another program that implements exactly the same algorithm, this time in the Scratch language.
 
-{image file_path="highscore-in-scratch.png" alt="High score program in Scratch"}
+{image file-path="highscore-in-scratch.png" alt="High score program in Scratch"}
 
 Both of the above programs are the same algorithm.
 In this chapter we'll look in more detail about what an algorithm is, and why they are such a fundamental idea in computer science.
@@ -318,7 +318,7 @@ A much better sorting algorithm is {glossary-link term="quicksort"}Quicksort!{gl
 
 This algorithm is a little more complicated, but is very powerful. To do this algorithm with the sorting interactive, start by randomly choosing a box and placing it on the scales. Now compare every other box to the one you selected; heavier boxes should be put on the right of the second row and lighter boxes are put on the left. When you are done, place the box you were comparing everything else to between these two groups, but to help you keep track of things, put it in the row below. The following example shows how it might look after this step. Note that the selected block is in the right place for the final sorted order, and everything on either side will remain on the side that it is on.
 
-{image file_path="quicksort-interactive-step-1.png" alt="Quicksort interactive in progress"}
+{image file-path="quicksort-interactive-step-1.png" alt="Quicksort interactive in progress"}
 
 Now apply this process to each of the two groups of boxes (the lighter ones, then the heavier ones). Keep on doing this until they are all sorted. The boxes should then be in sorted order!
 
