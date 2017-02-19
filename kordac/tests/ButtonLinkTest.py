@@ -35,17 +35,17 @@ class ButtonLinkTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'contains_button_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
-    #
-    # def test_contains_button(self):
-    #     test_string = self.read_test_file('missing_end_brace')
-    #     blocks = self.to_blocks(test_string)
-    #
-    #     self.assertTrue(all(ButtonLinkBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
-    #
-    #     converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-    #     expected_string = self.read_expected_output_file('missing_end_brace_expected')
-    #     self.assertEqual(expected_string, converted_test_string)
-    #
+
+    def test_contains_missing_button(self):
+        test_string = self.read_test_file(self.processor_name, 'missing_end_brace.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, False], [ButtonLinkBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'missing_end_brace_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     # def test_contains_multiple_buttons_expected(self):
     #     test_string = self.read_test_file('contains_multiple_buttons')
     #     blocks = self.to_blocks(test_string)
