@@ -9,6 +9,7 @@ DEFAULT_PROCESSORS = {
     'image',
     'relative-link',
     'boxed-text',
+    'button-link'
 }
 
 class Kordac(object):
