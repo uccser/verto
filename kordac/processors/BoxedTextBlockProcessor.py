@@ -75,7 +75,7 @@ class BoxedTextBlockProcessor(BlockProcessor):
 
         # Collect all information for rendering the html template
         context = dict()
-        context['indented'] = parse_argument('indented', start_tag.group('args'), False)
+        context['indented'] = parse_argument('indented', start_tag.group('args'), 'no').lower() == 'yes'
         context['text'] = content
 
         check_required_parameters(self.processor, self.required_parameters, context)
