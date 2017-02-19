@@ -15,7 +15,7 @@ class ButtonLinkTest(ProcessorTest):
         self.processor_name = 'button-link'
         self.ext = Mock()
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
-        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
+        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name), 'relative-file-link': ProcessorTest.loadJinjaTemplate(self, 'relative-file-link')}
 
     def test_no_button(self):
         test_string = self.read_test_file(self.processor_name, 'no_button.md')
