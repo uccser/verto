@@ -9,3 +9,5 @@ Each layer in the system needs to provide an interface so that the layer above i
 One layer knows nothing about the internal workings of the layer below; it only needs to know how to use the layer’s interface. In this way, the complexity of lower layers is completely hidden, or *abstracted*. Each layer represents a higher level of abstraction.
 
 So each layer hides some complexity, so that as we go up the layers things remain manageable. Another advantage of having layers is that we can change one layer without affecting the others, as long as we keep the layer’s interface the same of course. For example, your browser’s code might change but you might never notice as long as the browser still looks and works the same as before. Of course, if the browser stops working or new buttons appear suddenly you know that something has changed.
+
+Something about a button or more explicitly a button-link that you should not match.
