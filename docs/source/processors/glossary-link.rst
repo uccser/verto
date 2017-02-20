@@ -64,4 +64,32 @@ The handler can then display this information via popup/modal/etc once it reciev
 Kordac also provides the back reference text and ID for terms in the required glossary terms which can be accessed after conversion (see :ref:`accessing_kordac_data`).
 This data can be added to the database before the web server is run for displaying to users.
 
+Overriding HTML for Glossary Links
+***************************************
+
+When overriding the HTML for glossary links, the following Jinja2 placeholders are available:
+
+- ``{{ term }}`` - The slug of the term to link to.
+- ``{{ text }}`` - The text inclosed by ``{glossary-link}`` tags that should be the link to the glossary definition.
+- ``{{ id }}`` - The ID of the glossary term's back reference.
+
+**Example**
+
+For example, we wish to create glossary links that link to a static glossary page, where each definition has a header with an ID of the term's slug.
+
+By providing the following HTML:
+
+.. literalinclude:: ../../../kordac/tests/assets/glossary-link/doc_example_override_html_template.html
+   :language: css+jinja
+
+with the following tag:
+
+.. literalinclude:: ../../../kordac/tests/assets/glossary-link/doc_example_override_html.md
+   :language: none
+
+would result in:
+
+.. literalinclude:: ../../../kordac/tests/assets/glossary-link/doc_example_override_html_expected.html
+   :language: html
+
 .. _data attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*
