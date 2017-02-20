@@ -52,4 +52,16 @@ The resulting HTML would be:
 .. literalinclude:: ../../../kordac/tests/assets/glossary-link/doc_example_basic_usage_expected.html
     :language: html
 
+Possible Glossary Usage with Django
+***************************************
+
+While Kordac will generate links for glossary terms from the HTML template, these links will not work by themselves.
+
+The expected usage is to display the links on a webpage and when a user clicks a link, a JavaScript handler will catch the click.
+The handler can view the term in the ``data-glossary-term`` attribute and send a request to a database to retrieve the term's definition and associated data.
+The handler can then display this information via popup/modal/etc once it recieves the data.
+
+Kordac also provides the back reference text and ID for terms in the required glossary terms which can be accessed after conversion (see :ref:`accessing_kordac_data`).
+This data can be added to the database before the web server is run for displaying to users.
+
 .. _data attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*
