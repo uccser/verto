@@ -51,7 +51,7 @@ class KordacExtension(Extension):
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             #['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            #['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
+            ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
         ]
 

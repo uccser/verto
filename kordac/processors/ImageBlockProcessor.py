@@ -13,7 +13,7 @@ class ImageBlockProcessor(BlockProcessor):
         self.processor = 'image'
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.template = ext.jinja_templates[self.processor]
-        self.relative_image_template = ext.jinja_templates['relative-image-link']
+        self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
         self.required_parameters = ext.processor_info[self.processor]['required_parameters']
         self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
