@@ -13,7 +13,7 @@ class ImageTest(ProcessorTest):
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'image'
         self.ext = Mock()
-        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name), 'relative-image-link': ProcessorTest.loadJinjaTemplate(self, 'relative-image-link')}
+        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name), 'relative-file-link': ProcessorTest.loadJinjaTemplate(self, 'relative-file-link')}
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.required_files = defaultdict(set)
 
@@ -203,7 +203,7 @@ class ImageTest(ProcessorTest):
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_2_override_html_template.html', strip=True)
         link_template = self.read_test_file(self.processor_name, 'doc_example_2_override_link_html_template.html', strip=True)
-        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template, 'relative-image-link': link_template})
+        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template, 'relative-file-link': link_template})
 
         converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html_expected.html', strip=True)

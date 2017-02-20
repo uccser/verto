@@ -55,7 +55,7 @@ def unit_suite():
         unittest.makeSuite(RelativeLinkTest),
         # unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest),
-        # unittest.makeSuite(ButtonLinkTest)
+        unittest.makeSuite(ButtonLinkTest),
         unittest.makeSuite(BoxedTextTest)
     ))
 
@@ -76,15 +76,17 @@ if __name__ == '__main__':
         sys.exit(1)
         print()
 
+    system_result = None
     if not options.no_system:
         print("Running System Tests")
         system_result = runner.run(system_suite())
         print()
 
+    unit_result = None
     if not options.no_unit:
         print("Running Unit Tests")
         unit_result = runner.run(unit_suite())
         print()
 
-    if not system_result.wasSuccessful() or not unit_result.wasSuccessful():
+    if (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
         sys.exit(1)

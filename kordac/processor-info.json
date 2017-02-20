@@ -39,7 +39,11 @@
         "pattern": "^#+ ?(.*)"
     },
     "button-link": {
-        "pattern": "\\{button (?P<args>[^\\}]*)\\}"
+        "pattern": "\\{button-link (?P<args>[^\\}]*)\\}",
+        "required_parameters": ["link", "text"],
+        "optional_parameter_dependencies": {
+            "file": []
+        }
     },
     "boxed-text": {
         "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<! end)\\}",
