@@ -89,7 +89,7 @@ class PanelBlockProcessor(BlockProcessor):
         panel_type = parse_argument('type', args)
         title = parse_argument('title', args)
         subtitle = parse_argument('subtitle', args)
-        expanded = parse_argument('expanded', args, default='no', convert_type=False)
+        expanded = parse_argument('expanded', args, default='no')
         return {
             'type': panel_type,
             'title': title,
