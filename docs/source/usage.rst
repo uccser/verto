@@ -83,6 +83,22 @@ The following attributes are available:
 - ``html_string`` - A resulting string of HTML after conversion by Kordac.
 - ``title`` - The text of the first heading saved by the ``save-title`` processor.
 - ``required_files`` - A dictionary of files encountered in a Kordac conversion. The dictionary has a string for the file type as the key (for example: ``image``) and a set of all file paths encountered as the value (for example: ``{'image/face.png', 'image/logo.png`}``).
+- ``required-glossary-terms`` - A dictionary of term slugs to a list of tuples containing reference text and link IDs.
+
+  - Here is an example of the ``required-glossary-terms`` after a conversion of a file:
+
+    .. code-block:: python
+
+      required-glossary-terms = {
+        "algorithm":
+          [("Binary Search", "glossary-algorithm"),
+           ("Quick Sort", "glossary-algorithm-2"),
+           ("Merge Sort", "glossary-algorithm-3")],
+        "alphabet":
+          [("Formal Languages", "glossary-alphabet")],
+        "brooks-law":
+          []
+      }
 
 Configuring Kordac converter after creation
 ===============================================
