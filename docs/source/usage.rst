@@ -109,13 +109,13 @@ Changing HTML templates
 
 .. automethod:: kordac.Kordac.update_templates(html_templates)
 
-.. automethod:: kordac.Kordac.default_templates()
+.. automethod:: kordac.Kordac.clear_templates()
 
 Full list of package methods
 =======================================
 
 .. autoclass:: kordac.Kordac()
-  :members: __init__, convert, update_processors, processor_defaults, update_templates, default_templates
+  :members: __init__, convert, update_processors, processor_defaults, update_templates, clear_templates
 
 .. autoclass:: kordac.Kordac.KordacResult()
 
