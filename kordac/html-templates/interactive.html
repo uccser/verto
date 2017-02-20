@@ -1,0 +1,11 @@
+{% if type == 'in_page' -%}
+{{ "{% include 'interactive/" }}{{ name }}{{ "/index.html' %}" }}
+{% if type == 'iframe' -%}
+<iframe src="{{ "{% url 'interactive' name='" }}{{ name }}{{ "' %}" }}">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+{% if type == 'whole_page' -%}
+<a href="{{ "{% url 'interactive' name='" }}{{ name }}{{ "' %}" }}">
+  Click to load {{ name }}
+</a>
+{%- endif -%}
