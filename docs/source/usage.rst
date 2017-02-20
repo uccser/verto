@@ -104,8 +104,6 @@ Changing processors
     processors.remove('video')
     converter = Kordac(processors=processors)
 
-  .. _changing processors :
-
   Or with an existing Kordac instance ``converter``:
 
   .. code-block:: python
@@ -113,8 +111,6 @@ Changing processors
     processors = Kordac.processor_defaults()
     processors.remove('video')
     converter.update_processors(processors)
-
-  .. _changing processors2 :
 
 Changing HTML templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
