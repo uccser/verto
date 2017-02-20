@@ -10,7 +10,7 @@ class VideoBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.processor = 'video'
-        self.pattern = re.compile(ext.processor_info['video']['pattern'])
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.youtube_template = ext.jinja_templates['video-youtube']
         self.vimeo_template = ext.jinja_templates['video-vimeo']
         self.template = ext.jinja_templates[self.processor]
@@ -26,20 +26,19 @@ class VideoBlockProcessor(BlockProcessor):
         arguments = match.group('args')
         url = parse_argument('url', arguments)
 
-        (video_type, video_identifier) = self.extract_video_identifier(url, match)
+        (video_type, identifier) = self.extract_video_identifier(url, match)
 
         context = dict()
-        context['video_identifier'] = video_identifier
+        context['identifier'] = identifier
 
         if url and video_type:
             if video_type == 'youtube':
-                context['source_link'] = self.youtube_template.render(context)
+                context['video_url'] = self.youtube_template.render(context)
             elif video_type == 'vimeo':
-                context['source_link'] = self.vimeo_template.render(context)
+                context['video_url'] = self.vimeo_template.render(context)
 
-        if not context['source_link']:
+        if not context['video_url']:
             raise NoSourceLinkError(block, url, 'invalid video source link')
-
 
         html_string = self.template.render(context)
 

@@ -21,31 +21,42 @@ class VideoTest(ProcessorTest):
         self.processor_name = 'video'
         self.ext = Mock()
         self.ext.jinja_templates = {
-                self.processor_name: BaseTestCase.loadJinjaTemplate(self, self.processor_name),
-                'video-youtube': BaseTestCase.loadJinjaTemplate(self, 'video-youtube'),
-                'video-vimeo': BaseTestCase.loadJinjaTemplate(self, 'video-vimeo')
+                self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name),
+                'video-youtube': ProcessorTest.loadJinjaTemplate(self, 'video-youtube'),
+                'video-vimeo': ProcessorTest.loadJinjaTemplate(self, 'video-vimeo')
                 }
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
 
     def test_contains_no_video(self):
-        test_string = self.read_test_file('contains_no_video')
+        test_string = self.read_test_file(self.processor_name, 'contains_no_video.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertFalse(all(VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) == False for block in blocks), msg='"{}"'.format(test_string))
+        self.assertFalse(all(VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_file_string = self.read_test_file(self.processor_name, 'contains_no_video_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
 
     def test_youtube_embed_link(self):
-        test_string = self.read_test_file('youtube_embed_link')
+        test_string = self.read_test_file(self.processor_name, 'youtube_embed_link.md')
         blocks = self.to_blocks(test_string)
 
-        # assert equal for two lists of T/F values to make sure only one match found
-        pass
+        self.assertListEqual([False, True, False, False, False, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-    def tests_youtube_watch_link(self):
-        pass
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_file_string = self.read_test_file(self.processor_name, 'youtube_embed_link_expected.html', strip=True)
+
+        self.assertEqual(converted_test_string, expected_file_string)
+
+    def test_youtube_watch_link(self):
+        test_string = self.read_test_file(self.processor_name, 'youtube_watch_link.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, False, False, False, True, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_file_string = self.read_test_file(self.processor_name, 'youtube_watch_link_expected.html', strip=True)
+        self.assertEqual(converted_test_string, expected_file_string)
 
     def test_youtube_be_link(self):
         pass
