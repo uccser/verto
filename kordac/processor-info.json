@@ -15,7 +15,9 @@
         "pattern" : "\\{comment [^\\}]+\\}"
     },
     "video": {
-        "pattern": "\\{video (?P<args>[^\\}]*)\\}"
+        "pattern": "\\{video (?P<args>[^\\}]*)\\}",
+        "required_parameters": ["video_url"],
+        "optional_parameter_dependencies": {}
     },
     "image": {
         "pattern": "(\\{image (?P<args>[^\\}]*)\\})",

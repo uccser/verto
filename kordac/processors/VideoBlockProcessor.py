@@ -1,7 +1,7 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 from kordac.processors.errors.NoSourceLinkError import NoSourceLinkError
-from kordac.processors.utils import parse_argument
+from kordac.processors.utils import parse_argument, check_required_parameters
 import re
 
 
@@ -14,6 +14,7 @@ class VideoBlockProcessor(BlockProcessor):
         self.youtube_template = ext.jinja_templates['video-youtube']
         self.vimeo_template = ext.jinja_templates['video-vimeo']
         self.template = ext.jinja_templates[self.processor]
+        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
@@ -40,8 +41,9 @@ class VideoBlockProcessor(BlockProcessor):
         if not context['video_url']:
             raise NoSourceLinkError(block, url, 'invalid video source link')
 
-        html_string = self.template.render(context)
+        check_required_parameters(self.processor, self.required_parameters, context)
 
+        html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
 
