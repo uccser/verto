@@ -34,7 +34,7 @@ class SmokeDocsTest(unittest.TestCase):
         p.wait(timeout=10) # Will throw exception if times out
         self.assertEqual(p.returncode, 0) # Success returncode
 
-        p = subprocess.Popen([command, 'html'], cwd='docs', stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=None)
+        p = subprocess.Popen([command, 'SPHINXOPTS=\'-W\'', 'html'], cwd='docs', stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=None)
         p.wait(timeout=10) # Will throw exception if times out
         self.assertEqual(p.returncode, 0) # Success returncode
 
