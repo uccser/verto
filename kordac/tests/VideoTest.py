@@ -5,13 +5,6 @@ from kordac.KordacExtension import KordacExtension
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.tests.ProcessorTest import ProcessorTest
 
-# NTS videos have different links
-# need to test:
-#   - vimeo
-#   - youtu.be
-#   - /embed/
-#   - /watch/
-# etc
 
 class VideoTest(ProcessorTest):
 
@@ -68,45 +61,53 @@ class VideoTest(ProcessorTest):
         expected_file_string = self.read_test_file(self.processor_name, 'youtube_be_link_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
 
-    """
     def test_vimeo_link(self):
         test_string = self.read_test_file(self.processor_name, 'vimeo_link.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, True, False, False, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_file_string = self.read_test_file(self.processor_name, 'vimeo_link.html', strip=True)
+        expected_file_string = self.read_test_file(self.processor_name, 'vimeo_link_expected.html', strip=True)
+        self.assertEqual(converted_test_string, expected_file_string)
+
+    def test_vimeo_player_link(self):
+        test_string = self.read_test_file(self.processor_name, 'vimeo_player_link.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, True, False, False, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_file_string = self.read_test_file(self.processor_name, 'vimeo_player_link_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
 
     def test_multiple_youtube_links(self):
         test_string = self.read_test_file(self.processor_name, 'multiple_youtube_links.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, True, False, True, False, True, False, True, False, True], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_file_string = self.read_test_file(self.processor_name, 'multiple_youtube_links_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
 
-    def test_multiple_multiple_vimeo_links(self):
-        test_string = self.read_test_file(self.processor_name, 'multiple_vimeo_link.md')
+    def test_multiple_vimeo_links(self):
+        test_string = self.read_test_file(self.processor_name, 'multiple_vimeo_links.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, True, True], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_file_string = self.read_test_file(self.processor_name, 'multiple_vimeo_link_expected.html', strip=True)
+        expected_file_string = self.read_test_file(self.processor_name, 'multiple_vimeo_links_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
 
     def test_youtube_and_vimeo_links(self):
         test_string = self.read_test_file(self.processor_name, 'youtube_and_vimeo_links.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, True, True, False, True, False, True, False, True, True, False, True, True], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_file_string = self.read_test_file(self.processor_name, 'youtube_and_vimeo_links_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
-    """
 

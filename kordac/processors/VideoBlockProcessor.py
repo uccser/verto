@@ -50,7 +50,6 @@ class VideoBlockProcessor(BlockProcessor):
         '''Returns the indentifier from a given URL'''
 
         if re.match('.*?youtu\.{0,1}be(.com){0,1}', video_url) is not None: # is a youtube url
-            # TODO if ?rel=0rel=0 then delete, if no ?rel=0 then add
             video_url = re.sub(r'(.*?)(\?rel=0)', r'\g<1>', video_url)
             if 'youtu.be' in video_url or 'youtube.com/embed' in video_url:
                 video_query = video_url.split('/')[-1]
