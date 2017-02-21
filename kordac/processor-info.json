@@ -30,7 +30,9 @@
         }
     },
     "interactive": {
-        "pattern": "^\\{interactive ?(?P<args>[^\\}]*)\\}$"
+        "pattern": "^\\{interactive (?P<args>[^\\}]*)\\}$",
+        "required_parameters": ["name", "type"],
+        "optional_parameter_dependencies": {}
     },
     "heading": {
         "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
@@ -56,6 +58,6 @@
     "relative-link": {
         "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)",
         "required_parameters": ["link_path"],
-        "optional_parameter_dependencies": []
+        "optional_parameter_dependencies": {}
     }
 }

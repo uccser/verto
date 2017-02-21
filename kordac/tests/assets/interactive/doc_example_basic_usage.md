@@ -1,1 +1,1 @@
-{interactive name='binary_search' type='inpage'}
+{interactive name="binary_search" type="in-page"}

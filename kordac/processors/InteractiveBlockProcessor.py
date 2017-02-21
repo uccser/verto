@@ -1,7 +1,7 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.postprocessors import Postprocessor
 from markdown.treeprocessors import Treeprocessor
-from kordac.processors.utils import parse_argument
+from kordac.processors.utils import parse_argument, check_required_parameters, check_optional_parameters
 from markdown.util import etree
 
 import re
@@ -11,9 +11,16 @@ class InteractiveBlockProcessor(BlockProcessor):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.processor = 'interactive'
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
+        self.template = ext.jinja_templates[self.processor]
+        self.relative_file_template = ext.jinja_templates['relative-file-link']
+
         self.scripts = ext.page_scripts
         self.required = ext.required_files["interactives"]
-        self.pattern = re.compile(ext.processor_info['interactive']['pattern'])
+
+        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
+        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
 
     def test(self, parent, block):
         return self.pattern.match(block) is not None
@@ -26,45 +33,18 @@ class InteractiveBlockProcessor(BlockProcessor):
         name = parse_argument('name', arguments)
         interactive_type = parse_argument('type', arguments)
 
-        if name:
-            if interactive_type == 'in-page':
-                self.generate_inpage_interactive(name, parent)
-            elif interactive_type == 'iframe':
-                self.generate_iframe_interactive(name, parent)
-            elif interactive_type == 'whole-page':
-                self.generate_wholepage_interactive(name, parent)
-            self.required.add(name)
+        if name is not None and name is '':
+            raise Error("TODO Proper error")
 
-    def generate_inpage_interactive(self, iname, parent):
-        sibling = self.lastChild(parent)
-        dj_tag ='\n{{% include \'interactive/{}/index.html\' %}}\n'.format(iname)
-        if sibling is not None:
-            sibling.tail = sibling.tail or '' +  dj_tag
-        else:
-            parent.text = parent.text or '' + dj_tag
-        self.scripts.append('\n{{% include \'interactive/{}/scripts.html\' %}}\n'.format(iname))
+        if interactive_type == 'in-page':
+            self.scripts.append('\n{{% include \'interactive/{}/scripts.html\' %}}\n'.format(name))
+        self.required.add(name)
 
-    def generate_iframe_interactive(self, iname, parent):
-        div = etree.SubElement(parent, 'div', attrib={'class':'interactive-iframe'})
-        iframe = etree.SubElement(div, 'iframe', attrib={
-            'src': '{{% url \'interactive\' iname=\'{}\' %}}'.format(iname),
-            'class': 'interactive-iframe-resize',
-            'frameborder': '0',
-            'scrolling': 'no',
-        })
+        context = {'name': name, 'type': interactive_type}
 
-    def generate_wholepage_interactive(self, iname, parent, thumbnail=None, arg_text=None):
-        thumbnail = thumbnail or 'thumbnail.png'
-        text = 'Click to load {text}'.format(text=arg_text or iname)
-        atag = etree.SubElement(parent, 'a', attrib={
-            'href': '{{% url \'interactive\' iname=\'{}\' %}}'.format(iname),
-            'class': 'btn btn-expand btn-interactive-whole-page-container',
-        })
-        img = etree.SubElement(atag, 'img', attrib={
-            'class': 'btn-interactive-whole-page-image',
-            'src': '{{% static \'interactive/{}/{}\' %}}'.format(iname, thumbnail)
-        })
-        div = etree.SubElement(atag, 'div', attrib={
-            'class': 'btn-interactive-whole-page-text',
-        })
-        div.text = text
+        check_required_parameters(self.processor, self.required_parameters, context)
+        check_optional_parameters(self.processor, self.optional_parameters, context)
+
+        html_string = self.template.render(context)
+        node = etree.fromstring(html_string)
+        parent.append(node)
