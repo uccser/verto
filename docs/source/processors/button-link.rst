@@ -63,7 +63,7 @@ When overriding the HTML for button links, the following Jinja2 placeholders are
 
 If the ``file`` parameter is set to ``yes``, the link is passed through the ``relative-image-link.html`` template. The default HTML for relative images is:
 
-.. literalinclude:: ../../../kordac/html-templates/relative-image-link.html
+.. literalinclude:: ../../../kordac/html-templates/relative-file-link.html
   :language: css+jinja
 
 **Example**
