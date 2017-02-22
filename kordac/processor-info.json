@@ -1,4 +1,17 @@
 {
+    "style": {
+      "strings": {
+        "inline": ["comment", "glossary-link"],
+        "block": ["panel", "video", "image", "interactive", "button-link", "boxed-text"]
+      },
+      "rules": {
+        "block": "(regex (format \"\\{\\{block\\} ?([^\\}]*)(?<! end)\\}\"))",
+        "block_close": "(regex (format \"\\{\\{block\\} ?([^\\}]*)(?<= end)\\}\"))",
+        "inline": "(regex (format \"\\{\\{inline\\} ?([^\\}]*)\\}\"))",
+        "solitary_block": "(style _newline block _newline)",
+        "whitespace_inline": "(style _whitespace inline _whitespace)"
+      }
+    },
     "panel": {
         "pattern_start": "^\\{panel ?(?P<args>[^\\}]*)(?<! end)\\}",
         "pattern_end": "\\{panel end\\}",
