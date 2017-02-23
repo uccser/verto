@@ -1,15 +1,10 @@
 {
     "style": {
+      "block_pattern": "\\{{{block} ?([^\\}}]*)\\}}",
+      "inline_pattern": "\\{{{inline} ?([^\\}}]*)\\}}",
       "strings": {
-        "inline": ["comment", "glossary-link"],
-        "block": ["panel", "video", "image", "interactive", "button-link", "boxed-text"]
-      },
-      "rules": {
-        "block": "(regex (format \"\\{\\{block\\} ?([^\\}]*)(?<! end)\\}\"))",
-        "block_close": "(regex (format \"\\{\\{block\\} ?([^\\}]*)(?<= end)\\}\"))",
-        "inline": "(regex (format \"\\{\\{inline\\} ?([^\\}]*)\\}\"))",
-        "solitary_block": "(style _newline block _newline)",
-        "whitespace_inline": "(style _whitespace inline _whitespace)"
+        "inline": ["glossary-link"],
+        "block": ["comment", "panel", "video", "image", "interactive", "button-link", "boxed-text"]
       }
     },
     "panel": {

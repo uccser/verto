@@ -15,6 +15,7 @@ from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProces
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
 from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
 from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
+from kordac.processors.StylePreprocessor import StylePreprocessor
 
 from collections import defaultdict
 from os import listdir
@@ -40,6 +41,7 @@ class KordacExtension(Extension):
             ['save-title', SaveTitlePreprocessor(self, md), '_end'],
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
             ['comment', CommentPreprocessor(self, md), '_begin'],
+            ['style', StylePreprocessor(self, md), '_begin']
         ]
         inlinepatterns = [
             ['relative-link', RelativeLinkPattern(self, md), '_begin']
