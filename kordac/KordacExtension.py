@@ -47,7 +47,7 @@ class KordacExtension(Extension):
         blockprocessors = [
             #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
             ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
-            #['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
+            ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             #['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],

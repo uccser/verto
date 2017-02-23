@@ -3,7 +3,7 @@ from markdown.util import etree
 import re
 
 
-class GlossaryLinkBlockProcessor(BlockProcessor):
+class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
     occurance_counter = {}
 
     def __init__(self, ext, *args, **kwargs):

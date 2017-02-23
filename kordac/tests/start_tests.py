@@ -47,7 +47,7 @@ def unit_suite():
     return unittest.TestSuite((
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
-        # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
+        unittest.makeSuite(GlossaryLinkTest),
         unittest.makeSuite(PanelTest),
         unittest.makeSuite(CommentTest),
         unittest.makeSuite(HeadingTest),
