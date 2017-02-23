@@ -1,3 +1,11 @@
 {{ "{% if " }}{{ condition }}{{ " %}" }}
 {{ content }}
+{% for elif_condition, elif_content in elifs.iteritems() %}
+{{ "{% elif " }}{{ elif_condition }}{{ " %}" }}
+{{ elif_content }}
+{% endfor %}
+{% if has_else %}
+{{ "{% else %}" }}
+{{ else_content }}
+{% endif %}
 {{ "{% endif %}" }}
