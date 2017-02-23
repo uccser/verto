@@ -15,6 +15,7 @@ from kordac.tests.BoxedTextTest import BoxedTextTest
 from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
 from kordac.tests.RelativeLinkTest import RelativeLinkTest
+from kordac.tests.StyleTest import StyleTest
 
 def parse_args():
     opts = optparse.OptionParser(
@@ -45,6 +46,7 @@ def system_suite():
 def unit_suite():
     # NTS what order should these go in?
     return unittest.TestSuite((
+        unittest.makeSuite(StyleTest),
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
         # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()

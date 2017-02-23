@@ -48,7 +48,7 @@ class StylePreprocessor(Preprocessor):
                 block_match = c.search(line)
                 if block_match is not None:
                     # Grab important lines and their numbers
-                    line_nums, error_lines = zip(*map(lambda x: (x[0], x[1].strip()), (list(enumerate(lines))[max(0, i - 1): min(len(lines) - 1, i + 1)])))
+                    line_nums, error_lines = zip(*map(lambda x: (x[0] + 1, x[1].strip()), (list(enumerate(lines))[max(0, i - 1): i + 2])))
 
                     # Remove all empty lines Should only be one line left
                     if len([line for line in error_lines if line != '']) != 1:
