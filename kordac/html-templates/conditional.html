@@ -1,7 +1,7 @@
-{{ "{% if " }}{{ condition }}{{ " %}" }}
-{{ content }}
-{% for elif_condition, elif_content in elifs.iteritems() %}
-{{ "{% elif " }}{{ elif_condition }}{{ " %}" }}
+{{ "{% if " }}{{ if_expression }}{{ " %}" }}
+{{ if_content }}
+{% for elif_expression, elif_content in elifs.iteritems() %}
+{{ "{% elif " }}{{ elif_expression }}{{ " %}" }}
 {{ elif_content }}
 {% endfor %}
 {% if has_else %}
