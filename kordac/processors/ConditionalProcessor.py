@@ -1,5 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
-from kordac.processors.utils import blocks_to_string, parse_argument, etree, check_required_parameters, check_optional_parameters
+from kordac.processors.utils import blocks_to_string, parse_argument, parse_flag, etree, check_required_parameters, check_optional_parameters
 import kordac.processors.errors.TagNotMatchedError as TagNotMatchedError
 import re
 
@@ -37,15 +37,15 @@ class ConditionalProcessor(BlockProcessor):
             next_tag = self.pattern.search(block)
             end_tag = self.p_end.search(block)
 
-            is_if = parse_flag('if', next_tag.group('args'))
-            is_elif = parse_flag('elif', next_tag.group('args'))
-            is_else = parse_flag('else', next_tag.group('args'))
+            is_if = next_tag is not None and parse_flag('if', next_tag.group('args'))
+            is_elif = next_tag is not None and parse_flag('elif', next_tag.group('args'))
+            is_else = next_tag is not None and parse_flag('else', next_tag.group('args'))
 
             # Keep track of how many inner boxed-text start tags we have seen
             if is_if:
-                inner_start_tags += 1
+                inner_if_tags += 1
 
-            if inner_start_tags != inner_end_tags:
+            if inner_if_tags != inner_end_tags:
                 if end_tag is not None:
                     inner_end_tags += 1
                     end_tag = None
@@ -58,10 +58,10 @@ class ConditionalProcessor(BlockProcessor):
         if the_rest:
             blocks.insert(0, the_rest) # Keep anything off the end, should be empty though
 
-        if inner_start_tags != inner_end_tags:
+        if inner_if_tags != inner_end_tags:
             raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
 
-        return next_tag, content_blocks
+        return next_tag, content_blocks[:-1]
 
     def parse_blocks(self, blocks):
         # Parse all the inner content of the boxed-text tags
@@ -116,9 +116,9 @@ class ConditionalProcessor(BlockProcessor):
         context['elifs'] = elifs
 
         # Process else statement
-        has_else = parse_flag('else', next_tag.group('args'))
+        has_else = next_tag is not None and parse_flag('else', next_tag.group('args'))
         else_content = ''
-        if next_tag is not None and has_else:
+        if has_else:
             blocks.insert(0, block[next_tag.end():])
             next_tag, content_blocks = self.get_content(blocks)
             else_content = self.parse_blocks(content_blocks)
@@ -130,7 +130,7 @@ class ConditionalProcessor(BlockProcessor):
 
         # Render template and compile into an element
         html_string = self.template.render(context)
+        print(html_string)
         node = etree.fromstring(html_string)
 
-        # Update parent with the boxed-text element
         parent.append(node)
