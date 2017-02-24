@@ -1,5 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
+import markdown.inlinepatterns
 import re
 
 
@@ -8,8 +9,10 @@ class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.GLOSSARY_TEMPLATE = ext.html_templates['glossary-link']
+        self.processor = 'glossary-link'
         self.pattern = re.compile(ext.processor_info['glossary-link']['pattern'])
+        self.template = ext.jinja_templates['glossary-link']
+        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
 
     def test(self, parent, block):
         return self.pattern.search(block) is not None
@@ -39,13 +42,6 @@ class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
 
         id_count = term + '-' + str(self.occurance_counter[term])
 
-        # build whole sentence including glossary link
-        html_string = '<p>'
-        html_string += text_before_link
-        html_string += self.GLOSSARY_TEMPLATE.format(word=term, occurance=id_count, term=term)
-        html_string += text_after_link
-        html_string += '</p>'
-
-        # adds the sentence to the DOM - I think?...
+        html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
