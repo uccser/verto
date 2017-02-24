@@ -1,11 +1,15 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 from kordac.processors.errors.NoSourceLinkError import NoSourceLinkError
+from kordac.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
+from kordac.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from kordac.processors.utils import parse_argument, check_required_parameters
 import re
 
 
 class VideoBlockProcessor(BlockProcessor):
+    '''Searches blocks of markdown text and turns video tags into embeded players
+    '''
 
     def __init__(self, ext, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,9 +21,27 @@ class VideoBlockProcessor(BlockProcessor):
         self.required_parameters = ext.processor_info[self.processor]['required_parameters']
 
     def test(self, parent, block):
+        '''Return whether block contains a video tag
+
+        Args:
+            parent: Element which this block is in.
+            block: A string of markdown text
+
+        Returns:
+            True if a video tag is found
+        '''
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
+        '''Replaces all video tags {video url="example"} with embeded video link. Inherited from BlockProcessor class.
+
+        Args:
+            parent: Element which this block is in.
+            block: A string of markdown text to be converted
+
+        Returns:
+            html string with embedded videos
+        '''
 
         block = blocks.pop(0)
         match = self.pattern.search(block)
@@ -29,17 +51,21 @@ class VideoBlockProcessor(BlockProcessor):
 
         (video_type, identifier) = self.extract_video_identifier(url, match)
 
+        if not video_type:
+            raise UnsupportedVideoPlayerError(block, url, 'unsupported video player')
+
+        if not identifier:
+            raise NoVideoIdentifierError(block, url, 'missing video identifier')
+
         context = dict()
         context['identifier'] = identifier
+        context['video_url'] = ''
 
         if url and video_type:
             if video_type == 'youtube':
                 context['video_url'] = self.youtube_template.render(context)
             elif video_type == 'vimeo':
                 context['video_url'] = self.vimeo_template.render(context)
-
-        if not context['video_url']:
-            raise NoSourceLinkError(block, url, 'invalid video source link')
 
         check_required_parameters(self.processor, self.required_parameters, context)
 

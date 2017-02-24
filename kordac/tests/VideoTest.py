@@ -3,6 +3,9 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
+from kordac.processors.errors.NoSourceLinkError import NoSourceLinkError
+from kordac.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
+from kordac.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from kordac.tests.ProcessorTest import ProcessorTest
 
 
@@ -110,6 +113,23 @@ class VideoTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_file_string = self.read_test_file(self.processor_name, 'youtube_and_vimeo_links_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
+
+    def test_unsupported_video_type(self):
+        test_string = self.read_test_file(self.processor_name, 'unsupported_video_type.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, True], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(UnsupportedVideoPlayerError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_missing_identifier(self):
+        test_string = self.read_test_file(self.processor_name, 'missing_identifier.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(NoVideoIdentifierError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
 
     #~
     # Doc Tests

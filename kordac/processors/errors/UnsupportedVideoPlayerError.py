@@ -1,7 +1,7 @@
 from kordac.processors.errors.Error import Error
 
-class NoSourceLinkError(Error):
-    """Exception raised when no source link is found for a video
+class UnsupportedVideoPlayerError(Error):
+    """Exception raised when video player is not recognised
 
     Attributes:
         block -- block where tag was not matched
