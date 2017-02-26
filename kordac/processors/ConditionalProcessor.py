@@ -5,7 +5,15 @@ from collections import OrderedDict
 import re
 
 class ConditionalProcessor(BlockProcessor):
+    ''' Searches a Document for conditional tags e.g. {conditonal flag conditoon="<conditon>"}
+    The processor matches the following `elif` and `else` statements in the document and parses them via the provided html template.
+    '''
+
     def __init__(self, ext, *args, **kwargs):
+        '''
+        Args:
+            ext: An instance of the KordacExtension.
+        '''
         super().__init__(*args, **kwargs)
         self.processor = 'conditional'
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
@@ -16,11 +24,28 @@ class ConditionalProcessor(BlockProcessor):
         self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
 
     def test(self, parent, block):
+        ''' Tests if the block if it contains any type of conditional types.
+
+        Args:
+            parent: The parent element of the html tree.
+            blocks: The markdown blocks to until a new tag is found.
+
+        Returns:
+            Return true if any conditional tag is found.
+        '''
         return self.pattern.search(block) is not None or self.p_end.search(block) is not None
 
     def get_content(self, blocks):
-        '''
-        next_tag will be None if reached the end.
+        ''' Recursively parses blocks into an element tree, returning a string of the output.
+
+        Args:
+            blocks: The markdown blocks to until a new tag is found.
+
+        Returns:
+            The next tag (regex match) the current block (string) and the content of the blocks (list of strings).
+
+        Raises:
+            TagNotMatchedError: When a sibling conditional is not closed.
         '''
         next_tag = None
 
@@ -66,9 +91,17 @@ class ConditionalProcessor(BlockProcessor):
         if inner_if_tags != inner_end_tags:
             raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
 
-        return next_tag, block, content_blocks[:-1]
+        return next_tag, block, content_blocks[:-1] if content_blocks[-1].strip() == '' else content_blocks
 
     def parse_blocks(self, blocks):
+        '''Recursively parses blocks into an element tree, returning a string of the output.
+
+        Args:
+            blocks: The markdown blocks to process.
+
+        Returns:
+            A string of the element tree which was created.
+        '''
         # Parse all the inner content of the boxed-text tags
         content_tree = etree.Element('content')
         self.parser.parseChunk(content_tree, blocks_to_string(blocks))
@@ -80,6 +113,14 @@ class ConditionalProcessor(BlockProcessor):
         return content
 
     def run(self, parent, blocks):
+        ''' Removes all instances of text that match the following example {comment example text here}. Inherited from Preprocessor class.
+
+        Args:
+            lines: A list of lines of the Markdown document to be converted.
+
+        Returns:
+            Markdown document with comments removed.
+        '''
         block = blocks.pop(0)
         context = dict()
 
