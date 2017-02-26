@@ -1,0 +1,67 @@
+Conditional
+#######################################
+
+**Processor name:** ``conditional``
+
+You can include an conditional using the following text tag:
+
+.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_basic_usage.md
+   :language: none
+
+.. note::
+
+  Conditional blocks require an understanding of Python logical operators and expressions to function properly. The use of this tag requires co-ordination between authors and developers, as the variables used in the condition are expected when the result is rendered in a template engine.
+
+Tag Parameters
+***************************************
+
+Conditional tags function slightly differently to other block text tags. The first conditional text tag must contain the ``if`` parameter, followed by optional conditional text tags containing the ``elif`` parameter, followed by the optional text tag containing the ``else`` parameter.
+
+.. note::
+
+  Any strings within your Python expression need to be wrapped with single quotes (``'``) or escaped double quotes (``\"``).
+
+  Examples:
+
+  .. code-block:: python
+
+    {conditional if="version == 'teacher'"}
+    {conditional if="version == \"teacher\""}
+
+To create a set of conditional text tags, follow the following steps:
+
+1. First if block
+
+  - Contains ``if`` parameter - A Python expression to evaluate if true. If true, the enclosed content will be displayed.
+
+2. Then optional else if blocks. Multiple of these blocks can be listed after one another.
+
+  - Contains ``elif`` parameter - A Python expression to evaluate if true. If true, the enclosed content will be displayed.
+
+3. Then optional else block
+
+  - Contains ``else`` flag
+
+4. Lastly conditional end block
+
+Here is a more complicated example:
+
+.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_complex_usage.md
+   :language: none
+
+**Example**
+
+The default HTML for a conditional is:
+
+.. literalinclude:: ../../../kordac/html-templates/conditional.html
+  :language: css+jinja
+
+Using the following example tag:
+
+.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_basic_usage.md
+  :language: none
+
+The resulting HTML would be:
+
+.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_basic_usage_expected.html
+  :language: html

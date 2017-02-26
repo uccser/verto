@@ -1,5 +1,5 @@
-{conditional if condition="version >= 0.2.0"}
+{conditional if="version == 'teacher'"}
 
-This content only appears if version is greater than 0.2.
+This is text that only teachers should see.
 
 {conditional end}
