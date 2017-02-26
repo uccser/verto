@@ -1,7 +1,7 @@
 import markdown
 from kordac.KordacExtension import KordacExtension
 
-DEFAULT_PROCESSORS = {
+DEFAULT_PROCESSORS = frozenset({
     'save-title',
     'comment',
     'button-link',
@@ -9,7 +9,8 @@ DEFAULT_PROCESSORS = {
     'image',
     'relative-link',
     'boxed-text',
-}
+    'button-link',
+})
 
 class Kordac(object):
     """A converter object for converting markdown
@@ -80,18 +81,19 @@ class Kordac(object):
         self.html_templates.update(html_templates)
         self.create_converter()
 
-    def default_templates(self):
+    def clear_templates(self):
         """Set the template dictionary to it's original values."""
         self.html_templates = {}
         self.create_converter()
 
-    def processor_defaults(self):
+    @staticmethod
+    def processor_defaults():
         """Returns a copy of the default processor set.
 
         Returns:
             A set of default processor names as strings.
         """
-        return DEFAULT_PROCESSORS.copy()
+        return set(DEFAULT_PROCESSORS)
 
     def update_processors(self, processors=DEFAULT_PROCESSORS):
         """Update the processors used for conversion with the given set.

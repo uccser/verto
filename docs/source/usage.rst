@@ -96,11 +96,19 @@ Changing processors
 
 .. automethod:: kordac.Kordac.processor_defaults(processors)
 
-  This function is useful if you want to make minor changes to the default used processors. For example: with an existing Kordac converter ``converter``, you wish to still use all default processors but now skip video tags:
+  This function is useful if you want to make minor changes to the default used processors. For example: You wish to still use all default processors but skip video tags:
 
   .. code-block:: python
 
-    processors = converter.processor_defaults()
+    processors = Kordac.processor_defaults()
+    processors.remove('video')
+    converter = Kordac(processors=processors)
+
+  Or with an existing Kordac instance ``converter``:
+
+  .. code-block:: python
+
+    processors = Kordac.processor_defaults()
     processors.remove('video')
     converter.update_processors(processors)
 
@@ -109,13 +117,13 @@ Changing HTML templates
 
 .. automethod:: kordac.Kordac.update_templates(html_templates)
 
-.. automethod:: kordac.Kordac.default_templates()
+.. automethod:: kordac.Kordac.clear_templates()
 
 Full list of package methods
 =======================================
 
 .. autoclass:: kordac.Kordac()
-  :members: __init__, convert, update_processors, processor_defaults, update_templates, default_templates
+  :members: __init__, convert, update_processors, processor_defaults, update_templates, clear_templates
 
 .. autoclass:: kordac.Kordac.KordacResult()
 
