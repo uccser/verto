@@ -130,7 +130,6 @@ class ConditionalProcessor(BlockProcessor):
 
         # Render template and compile into an element
         html_string = self.template.render(context)
-        print(html_string)
         node = etree.fromstring(html_string)
 
         parent.append(node)
