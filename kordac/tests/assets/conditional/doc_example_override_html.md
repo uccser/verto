@@ -10,8 +10,4 @@ This is text that only instuctors should see.
 
 This is text that only coordinators should see.
 
-{conditional else}
-
-This is text that everyone else should see.
-
 {conditional end}

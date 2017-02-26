@@ -1,6 +1,7 @@
 from markdown.blockprocessors import BlockProcessor
 from kordac.processors.utils import blocks_to_string, parse_argument, parse_flag, etree, check_required_parameters, check_optional_parameters
-import kordac.processors.errors.TagNotMatchedError as TagNotMatchedError
+from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
+from collections import OrderedDict
 import re
 
 class ConditionalProcessor(BlockProcessor):
@@ -49,7 +50,11 @@ class ConditionalProcessor(BlockProcessor):
                 if end_tag is not None:
                     inner_end_tags += 1
                     end_tag = None
-            elif is_elif or is_else or end_tag is not None:
+            elif is_elif or is_else:
+                content_blocks.append(block[:next_tag.start()])
+                the_rest = block[next_tag.end():]
+                break
+            elif end_tag is not None:
                 content_blocks.append(block[:end_tag.start()])
                 the_rest = block[end_tag.end():]
                 break
@@ -61,7 +66,7 @@ class ConditionalProcessor(BlockProcessor):
         if inner_if_tags != inner_end_tags:
             raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
 
-        return next_tag, content_blocks[:-1]
+        return next_tag, block, content_blocks[:-1]
 
     def parse_blocks(self, blocks):
         # Parse all the inner content of the boxed-text tags
@@ -99,18 +104,18 @@ class ConditionalProcessor(BlockProcessor):
 
         # Process if statement
         if_expression = parse_argument('condition', start_tag.group('args'))
-        next_tag, content_blocks = self.get_content(blocks)
+        next_tag, block, content_blocks = self.get_content(blocks)
         if_content = self.parse_blocks(content_blocks)
 
         context['if_expression'] = if_expression
         context['if_content'] = if_content
 
         # Process elif statements
-        elifs = dict()
+        elifs = OrderedDict()
         while next_tag is not None and parse_flag('elif', next_tag.group('args')):
             elif_expression = parse_argument('condition', next_tag.group('args'))
             blocks.insert(0, block[next_tag.end():])
-            next_tag, content_blocks = self.get_content(blocks)
+            next_tag, block, content_blocks = self.get_content(blocks)
             content = self.parse_blocks(content_blocks)
             elifs[elif_expression] = content
         context['elifs'] = elifs
@@ -120,7 +125,7 @@ class ConditionalProcessor(BlockProcessor):
         else_content = ''
         if has_else:
             blocks.insert(0, block[next_tag.end():])
-            next_tag, content_blocks = self.get_content(blocks)
+            next_tag, block, content_blocks = self.get_content(blocks)
             else_content = self.parse_blocks(content_blocks)
         context['has_else'] = has_else
         context['else_content'] = else_content
@@ -131,5 +136,4 @@ class ConditionalProcessor(BlockProcessor):
         # Render template and compile into an element
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
-
         parent.append(node)
