@@ -14,6 +14,17 @@
     "comment": {
         "pattern" : "\\{comment [^\\}]+\\}"
     },
+    "conditional": {
+        "pattern": "^\\{conditional (?P<args>[^\\}]*(?<! end))\\}$",
+        "pattern_end": "^\\{conditional end\\}$",
+        "required_parameters": [],
+        "optional_parameter_dependencies": {
+          "condition": [],
+          "if": ["condition"],
+          "elif": ["condition"],
+          "else": []
+        }
+    },
     "video": {
         "pattern": "\\{video (?P<args>[^\\}]*)\\}"
     },

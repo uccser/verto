@@ -12,6 +12,16 @@ def parse_argument(argument_key, arguments, default=None):
         argument_value = default
     return argument_value
 
+def parse_flag(argument_key, arguments, default=False):
+    """Search for the given argument in a string of all arguments
+    Returns: Value of an argument as a string if found, otherwise None"""
+    result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
+    if result:
+        argument_value = True
+    else:
+        argument_value = default
+    return argument_value
+
 def check_required_parameters(tag, required_parameters, context):
     """Raises an error if the context is missing any required parameters"""
     if not all(parameter in context.keys() for parameter in required_parameters):
