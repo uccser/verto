@@ -1,16 +1,17 @@
 from kordac.processors.errors.Error import Error
 
-class TagNotMatchedError(Error):
-    """Exception raised when a custom markdown tag in not matched.
+class UnsupportedVideoPlayerError(Error):
+    """Exception raised when video player is not recognised
 
     Attributes:
-        tag -- tag which was not matched
         block -- block where tag was not matched
+        url -- original url
         message -- explanation of why error was thrown
     """
 
-    def __init__(self, tag, block, message):
+    def __init__(self, block, url, message):
         super().__init__(message)
-        self.tag = tag
         self.block = block
+        self.url = url
         self.message = message
+

@@ -21,3 +21,4 @@ The following pages covers how to use the available processors within Markdown t
     panel
     remove-title
     save-title
+    video
