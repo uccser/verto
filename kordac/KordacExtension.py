@@ -11,7 +11,7 @@ from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProc
 from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
-from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProcessor
+from kordac.processors.GlossaryLinkPattern import GlossaryLinkPattern
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
 from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
 from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
@@ -42,12 +42,12 @@ class KordacExtension(Extension):
             ['comment', CommentPreprocessor(self, md), '_begin'],
         ]
         inlinepatterns = [
-            ['relative-link', RelativeLinkPattern(self, md), '_begin']
+            ['relative-link', RelativeLinkPattern(self, md), '_begin'],
+            ['glossary-link', GlossaryLinkPattern(self, md), '_begin']
         ]
         blockprocessors = [
             #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
             ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
-            ['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             #['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],
