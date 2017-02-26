@@ -15,7 +15,7 @@ You can include an conditional using the following text tag:
 Tag Parameters
 ***************************************
 
-Conditional tags function slightly differently to other block text tags. The first conditional text tag must contain the ``if`` parameter, followed by optional conditional text tags containing the ``elif`` parameter, followed by the optional text tag containing the ``else`` parameter.
+Conditional tags function slightly differently to other block text tags. The first conditional text tag must contain the ``if`` flag, followed by optional conditional text tags containing the ``elif`` flag, followed by the optional text tag containing the ``else`` flag.
 
 .. note::
 
@@ -32,15 +32,17 @@ To create a set of conditional text tags, follow the following steps:
 
 1. First if block
 
-  - Contains ``if`` parameter - A Python expression to evaluate if true. If true, the enclosed content will be displayed.
+  - Contains ``if`` flag - Specifies that the conditonal is an opening if statement.
+  - Contains ``condition`` parameter - A Python expression to evaluate if true. If true, the enclosed content will be displayed.
 
 2. Then optional else if blocks. Multiple of these blocks can be listed after one another.
 
-  - Contains ``elif`` parameter - A Python expression to evaluate if true. If true, the enclosed content will be displayed.
+  - Contains ``elif`` flag - Specifies that the conditonal is an *else if* following an opening if statement.
+  - Contains ``condition`` parameter - A Python expression to evaluate if true. If true, the enclosed content will be displayed.
 
 3. Then optional else block
 
-  - Contains ``else`` flag
+  - Contains ``else`` flag - Specifies that the conditional is an *else* following an opening if statement, and optional elif statements.
 
 4. Lastly conditional end block
 
