@@ -1,5 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
-from kordac.processors.utils import parse_argument, check_required_parameters, check_optional_parameters
+from kordac.processors.utils import parse_argument, check_argument_requirements
 import re
 from markdown.util import etree
 
@@ -37,13 +37,12 @@ class ButtonLinkBlockProcessor(BlockProcessor):
         match = self.pattern.search(block)
 
         arguments = match.group('args')
+        check_argument_requirements(self.processor, arguments, self.required_parameters, self.optional_parameters)
+
         context = dict()
         context['link'] = parse_argument('link', arguments)
         context['text'] = parse_argument('text', arguments)
         context['file'] = parse_argument('file', arguments, 'no').lower() == 'yes'
-
-        check_required_parameters(self.processor, self.required_parameters, context)
-        check_optional_parameters(self.processor, self.optional_parameters, context)
 
         if context['file']:
             context['link'] = self.relative_file_template.render({'file_path': context['link']})
