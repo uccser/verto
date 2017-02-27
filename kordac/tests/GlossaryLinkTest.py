@@ -20,11 +20,90 @@ class GlossaryLinkTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'single_word_term.md')
 
         processor = GlossaryLinkPattern(self.ext, self.md.parser)
-        print(re.search(processor.compiled_re, test_string))
         self.assertIsNotNone(re.search(processor.compiled_re, test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'single_word_term_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_multiple_word_term(self):
+        test_string = self.read_test_file(self.processor_name, 'multiple_word_term.md')
+
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'multiple_word_term_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_reference_text_given(self):
+        test_string = self.read_test_file(self.processor_name, 'reference_text_given.md')
+
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'reference_text_given_text_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_leading_inline_text(self):
+        test_string = self.read_test_file(self.processor_name, 'leading_inline_text.md')
+
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'leading_inline_text_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_trailing_inline_text(self):
+        test_string = self.read_test_file(self.processor_name, 'trailing_inline_text.md')
+
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'trailing_inline_text_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_leading_and_trailing_inline_text(self):
+        test_string = self.read_test_file(self.processor_name, 'leading_and_trailing_inline_text.md')
+
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'leading_and_trailing_inline_text.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+
+    """
+    def test_multiple_terms(self):
+       pass
+    #~
+    # Doc Tests
+    #~
+
+    def test_doc_example_basic(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_doc_example_override_html(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [PanelBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
+        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+    """
 

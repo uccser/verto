@@ -1,5 +1,5 @@
 from kordac.processors.utils import check_required_parameters, parse_argument
-import markdown.util as util
+from markdown.util import etree
 import markdown.inlinepatterns
 import re
 
@@ -32,7 +32,7 @@ class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
         check_required_parameters(self.processor, self.required_parameters, context)
 
         html_string = self.template.render(context)
-        node = util.etree.fromstring(html_string)
+        node = etree.fromstring(html_string)
 
         return node
 
