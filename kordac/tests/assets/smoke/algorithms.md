@@ -110,7 +110,7 @@ Not all algorithms take double the time for double the input; some take a lot mo
 That's worth knowing in advance because we usually need our programs to scale up well;
 in the case of the high scores, if you're running a game that suddenly becomes popular, you want to know in advance that the high score algorithm will be fast enough if you get more scores to check.
 
-{panel type="extra-for-experts" title="Extra For Experts" title="Extra For Experts" "Algorithm complexity"}
+{panel type="extra-for-experts" title="Extra For Experts" "Algorithm complexity"}
 
 The formal term for working out the cost of an algorithm is [algorithm analysis](https://en.wikipedia.org/wiki/Analysis_of_algorithms),
 and we often refer to the cost as the algorithm's *complexity*.
@@ -137,7 +137,7 @@ They also happen to be great for illustrating some of the key concepts that aris
 
 ## Searching
 
-{panel type="teacher-note" title="Teacher Note" title="teacher-note" summary="Presenting searching in the classroom"}
+{panel type="teacher-note" title="Teacher Note" summary="Presenting searching in the classroom"}
 
 The present searching game in this section is split into two parts, the first corresponds to the Linear Search algorithm (also known as Sequential Search) and the second corresponds to {glossary-link term="Binary Search"}Binary Search{glossary-link end}. We recommend you play through the levels yourself for a while, or after reading this description. It is based on the [CS Unplugged Battleships game](http://csunplugged.com/searching-algorithms) which can be used as a classroom activity to enforce the lessons in this chapter (the hashing activity is not used for the present searching game). The
 

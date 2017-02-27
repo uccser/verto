@@ -1,14 +1,13 @@
-<script>
- if (version == 'teacher') {
-  return "<p>This is text that only teachers should see.</p>
-";
-}
-else if (version == 'instructor') {
-  return "<p>This is text that only instuctors should see.</p>
-";
-}
-else if (version == 'coordinator') {
-  return "<p>This is text that only coordinators should see.</p>
-";
-}
-</script>
+% if version == 'teacher':
+<p>
+ This is text that only teachers should see.
+</p>
+% elif version == 'instructor':
+<p>
+ This is text that only instuctors should see.
+</p>
+% elif version == 'coordinator':
+<p>
+ This is text that only coordinators should see.
+</p>
+% endif

@@ -109,7 +109,7 @@ class ConditionalProcessor(BlockProcessor):
         # Convert parsed element tree back into html text for rendering
         content = ''
         for child in content_tree:
-            content += etree.tostring(child, encoding="unicode", method="html") + '\n'
+            content += etree.tostring(child, encoding="unicode", method="html")
         return content
 
     def run(self, parent, blocks):
