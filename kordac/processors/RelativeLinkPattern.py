@@ -1,4 +1,3 @@
-from kordac.processors.utils import check_argument_requirements
 import markdown.util as util
 import markdown.inlinepatterns
 import re
