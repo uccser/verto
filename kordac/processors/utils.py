@@ -22,19 +22,20 @@ def parse_flag(argument_key, arguments, default=False):
         argument_value = default
     return argument_value
 
-def check_required_parameters(tag, required_parameters, context):
-    """Raises an error if the context is missing any required parameters"""
-    if not all(parameter in context.keys() for parameter in required_parameters):
-        parameter = next(parameter for parameter in required_parameters if parameter not in context.keys())
-        raise ParameterMissingError(tag, parameter, "{} is a required parameter.".format(parameter))
+def check_argument_requirements(processor, arguments, required_parameters, optional_parameters):
+    '''
+    Raises an error if the arguments are missing any required parameters or a parameter an optional parameter is dependent on.
+    '''
+    if not all(parse_argument(parameter, arguments, None) is not None for parameter in required_parameters):
+        parameter = next(parameter for parameter in required_parameters if parse_argument(parameter, arguments, None) is None)
+        raise ParameterMissingError(processor, parameter, "{} is a required parameter.".format(parameter))
 
-def check_optional_parameters(tag, optional_parameters, context):
-    """ Raises an error if the context is missing any parameters that an optional parameter is dependent on.
-    """
     for option, dependencies in optional_parameters.items():
-        if not all(parameter in context.keys() for parameter in dependencies):
-            parameter = next(parameter for parameter in dependencies if parameter not in context.keys())
-            raise ParameterMissingError(tag, parameter, "{} is a required parameter because {} exists.".format(parameter, option))
+        is_arg = parse_argument(option, arguments, None) is not None
+        is_flag = parse_flag(option, arguments)
+        if (is_arg or is_flag) and not all(parse_argument(parameter, arguments, None) is not None for parameter in dependencies):
+            parameter = next(parameter for parameter in dependencies if parse_argument(parameter, arguments, None) is None)
+            raise ParameterMissingError(processor, parameter, "{} is a required parameter because {} exists.".format(parameter, option))
 
 def blocks_to_string(blocks):
     """Returns a string after the blocks have been joined back together."""

@@ -30,14 +30,14 @@
     },
     "image": {
         "pattern": "(\\{image (?P<args>[^\\}]*)\\})",
-        "required_parameters": ["file_path"],
+        "required_parameters": ["file-path"],
         "optional_parameter_dependencies": {
             "alt": [],
             "caption": [],
-            "caption_link": ["caption"],
+            "caption-link": ["caption"],
             "source": [],
             "alignment": [],
-            "hover_text": []
+            "hover-text": []
         }
     },
     "interactive": {

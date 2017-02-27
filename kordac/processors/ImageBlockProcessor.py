@@ -2,7 +2,7 @@ from markdown.blockprocessors import BlockProcessor
 import re
 from kordac.processors.utils import parse_argument, centre_html
 from markdown.util import etree
-from kordac.processors.utils import check_required_parameters, check_optional_parameters
+from kordac.processors.utils import check_argument_requirements
 import jinja2
 
 # NTS needs to include alt tags
@@ -26,6 +26,7 @@ class ImageBlockProcessor(BlockProcessor):
         match = self.pattern.match(block)
 
         arguments = match.group('args')
+        check_argument_requirements(self.processor, arguments, self.required_parameters, self.optional_parameters)
 
         # check if internal or external image
         file_path = parse_argument('file-path', arguments)
@@ -43,9 +44,6 @@ class ImageBlockProcessor(BlockProcessor):
         context['source_link'] = parse_argument('source', arguments)
         context['alignment'] = parse_argument('alignment', arguments)
         context['hover_text'] =  parse_argument('hover-text', arguments)
-
-        check_required_parameters(self.processor, self.required_parameters, context)
-        check_optional_parameters(self.processor, self.optional_parameters, context)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)

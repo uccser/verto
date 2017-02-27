@@ -1,5 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
-from kordac.processors.utils import blocks_to_string, parse_argument, etree, check_required_parameters, check_optional_parameters
+from kordac.processors.utils import blocks_to_string, parse_argument, etree, check_argument_requirements
 import kordac.processors.errors.TagNotMatchedError as TagNotMatchedError
 import re
 
@@ -25,6 +25,8 @@ class BoxedTextBlockProcessor(BlockProcessor):
         # Found an end tag without processing a start tag first
         if start_tag is None and end_tag is not None:
             raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
+
+        check_argument_requirements(self.processor, start_tag.group('args'), self.required_parameters, self.optional_parameters)
 
         # Put left overs back on blocks, should be empty though
         blocks.insert(0, block[start_tag.end():])
@@ -77,9 +79,6 @@ class BoxedTextBlockProcessor(BlockProcessor):
         context = dict()
         context['indented'] = parse_argument('indented', start_tag.group('args'), 'no').lower() == 'yes'
         context['text'] = content
-
-        check_required_parameters(self.processor, self.required_parameters, context)
-        check_optional_parameters(self.processor, self.optional_parameters, context)
 
         # Render template and compile into an element
         html_string = self.template.render(context)
