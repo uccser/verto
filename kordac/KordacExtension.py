@@ -32,7 +32,6 @@ class KordacExtension(Extension):
         self.page_scripts = []
         self.required_files = defaultdict(set)
         self.title = None
-        self.html_templates = self.loadHTMLTemplates(html_templates)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.processor_info = self.loadProcessorInfo()
         self.processors = processors
@@ -52,7 +51,7 @@ class KordacExtension(Extension):
             ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
             #['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-            #['video', VideoBlockProcessor(self, md.parser), '_begin'],
+            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
@@ -78,16 +77,6 @@ class KordacExtension(Extension):
         self.page_scripts = []
         self.required_files.clear()
 
-    def loadHTMLTemplates(self, custom_templates):
-        templates = {}
-        for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
-            processor_name = re.search(r'(.*?).html', file).groups()[0]
-            if processor_name in custom_templates:
-                templates[processor_name] = custom_templates[processor_name]
-            else:
-                templates[processor_name] = open(os.path.join(os.path.dirname(__file__), 'html-templates', file)).read()
-        return templates
-
     def loadJinjaTemplates(self, custom_templates):
         templates = {}
         env = Environment(
@@ -95,13 +84,16 @@ class KordacExtension(Extension):
                 autoescape=select_autoescape(['html'])
                 )
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
-            processor_name = re.search(r'(.*?).html', file).groups()[0]
-            if processor_name in custom_templates:
-                templates[processor_name] = env.from_string(custom_templates[processor_name])
-            else:
-                templates[processor_name] = env.get_template(file)
+            html_file = re.search(r'(.*?).html$', file)
+            if html_file:
+                processor_name = html_file.groups()[0]
+                if processor_name in custom_templates:
+                    templates[processor_name] = env.from_string(custom_templates[processor_name])
+                else:
+                    templates[processor_name] = env.get_template(file)
         return templates
 
     def loadProcessorInfo(self):
         json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()
         return json.loads(json_data)
+

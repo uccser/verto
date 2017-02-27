@@ -54,7 +54,7 @@ def unit_suite():
         unittest.makeSuite(HeadingTest),
         unittest.makeSuite(ImageTest),
         unittest.makeSuite(RelativeLinkTest),
-        # unittest.makeSuite(VideoTest),
+        unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest),
         unittest.makeSuite(ButtonLinkTest),
         unittest.makeSuite(BoxedTextTest),
@@ -65,14 +65,14 @@ if __name__ == '__main__':
     options, arguments = parse_args()
 
     runner = unittest.TextTestRunner()
-    result = None
 
+    smoke_result = None
     if not options.no_smoke:
         print("Running Smoke Tests")
-        result = runner.run(smoke_suite())
+        smoke_result = runner.run(smoke_suite())
         print()
 
-    if options.travis and result and not result.wasSuccessful():
+    if options.travis and smoke_result and not smoke_result.wasSuccessful():
         print("Skipping other test-suites.")
         sys.exit(1)
         print()
@@ -89,5 +89,5 @@ if __name__ == '__main__':
         unit_result = runner.run(unit_suite())
         print()
 
-    if (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
+    if (smoke_result is not None and not system_result.wasSuccessful()) or (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
         sys.exit(1)
