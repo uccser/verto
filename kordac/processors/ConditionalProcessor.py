@@ -144,6 +144,7 @@ class ConditionalProcessor(BlockProcessor):
         blocks.insert(0, block[start_tag.end():])
 
         # Process if statement
+        check_argument_requirements(self.processor, start_tag.group('args'), self.required_parameters, self.optional_parameters)
         if_expression = parse_argument('condition', start_tag.group('args'))
         next_tag, block, content_blocks = self.get_content(blocks)
         if_content = self.parse_blocks(content_blocks)
@@ -154,6 +155,7 @@ class ConditionalProcessor(BlockProcessor):
         # Process elif statements
         elifs = OrderedDict()
         while next_tag is not None and parse_flag('elif', next_tag.group('args')):
+            check_argument_requirements(self.processor, next_tag.group('args'), self.required_parameters, self.optional_parameters)
             elif_expression = parse_argument('condition', next_tag.group('args'))
             blocks.insert(0, block[next_tag.end():])
             next_tag, block, content_blocks = self.get_content(blocks)
@@ -165,6 +167,7 @@ class ConditionalProcessor(BlockProcessor):
         has_else = next_tag is not None and parse_flag('else', next_tag.group('args'))
         else_content = ''
         if has_else:
+            check_argument_requirements(self.processor, next_tag.group('args'), self.required_parameters, self.optional_parameters)
             blocks.insert(0, block[next_tag.end():])
             next_tag, block, content_blocks = self.get_content(blocks)
             else_content = self.parse_blocks(content_blocks)
