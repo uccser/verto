@@ -1,0 +1,2 @@
+We've already had a taste of {glossary-link term="Regular expression"}regular expressions{glossary-link end} in the [getting started](chapters/formal-languages.html#getting-started) section. They are just a simple way to search for things in the input, or to specify what kind of input will be accepted as legitimate.
+For example, many web scripting programs use them to check input for patterns like dates, email addresses and URLs. They've become so popular that they're now built into most programming languages.

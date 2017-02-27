@@ -33,6 +33,7 @@ class KordacExtension(Extension):
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.processor_info = self.loadProcessorInfo()
         self.processors = processors
+        self.glossary_term_occurance_counter = {}
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
