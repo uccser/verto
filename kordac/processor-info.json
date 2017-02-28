@@ -9,7 +9,11 @@
         }
     },
     "glossary-link": {
-        "pattern": "\\{glossary-link term=\"([a-zA-Z]| )*\"( reference-text=\"([a-zA-Z]| )*\"){0,1}\\}.*\\{glossary-link end\\}"
+        "pattern": "\\{glossary-link ?(?P<args>[^\\}]*)}?(?P<text>.*?){glossary-link end\\}",
+        "required_parameters": ["term"],
+        "optional_parameter_dependencies": {
+            "reference-text" :[]
+        }
     },
     "comment": {
         "pattern" : "\\{comment [^\\}]+\\}"
