@@ -110,7 +110,7 @@ Not all algorithms take double the time for double the input; some take a lot mo
 That's worth knowing in advance because we usually need our programs to scale up well;
 in the case of the high scores, if you're running a game that suddenly becomes popular, you want to know in advance that the high score algorithm will be fast enough if you get more scores to check.
 
-{panel type="extra-for-experts" "Algorithm complexity"}
+{panel type="extra-for-experts" title="Extra For Experts"}
 
 The formal term for working out the cost of an algorithm is [algorithm analysis](https://en.wikipedia.org/wiki/Analysis_of_algorithms),
 and we often refer to the cost as the algorithm's *complexity*.
@@ -137,7 +137,7 @@ They also happen to be great for illustrating some of the key concepts that aris
 
 ## Searching
 
-{panel type="teacher-note" summary="Presenting searching in the classroom"}
+{panel type="teacher-note" title="Teacher Note" summary="Presenting searching in the classroom"}
 
 The present searching game in this section is split into two parts, the first corresponds to the Linear Search algorithm (also known as Sequential Search) and the second corresponds to {glossary-link term="Binary Search"}Binary Search{glossary-link end}. We recommend you play through the levels yourself for a while, or after reading this description. It is based on the [CS Unplugged Battleships game](http://csunplugged.com/searching-algorithms) which can be used as a classroom activity to enforce the lessons in this chapter (the hashing activity is not used for the present searching game). The
 
@@ -171,7 +171,7 @@ Since the boxes in the first game were in a random order there really wasn't any
 
 If you used this algorithm you might get lucky and find what you are looking for on your first go, but if you were really unlucky you might have to look through everything in your list before you found the right object! For a list of 10 items this means on average you would only have to look at 5 items to find what you were looking for, but for a list of 10000 you would have to look through on average 5000.
 
-{panel type="curiosity" summary="How is Bozo search different from Linear search?"}
+{panel type="curiosity" title="Curiosity" summary="How is Bozo search different from Linear search?"}
 If you watched the video at the beginning of the chapter you might be thinking that what you did in the present searching game sounds more like Bozo Search than Linear Search, but actually Bozo Search is even sillier than this! If you were doing a Bozo Search then after unwrapping a present and finding a monster inside, you would wrap the present back up and try another one at random! This means you might end up checking the same present again and again and again and you might never find the pet, even with a small number of presents!
 {panel end}
 
@@ -181,7 +181,7 @@ If you watched the video at the beginning of the chapter you might be thinking t
 
 A much better algorithm to use is called Binary Search. In the second part of the present searching game the boxes were in order, which meant you were able to be more clever when you were searching for the pet, and you might have been using a Binary Search without realising!
 
-{panel type="teacher-note" summary="Teaching binary search with a phone book"}
+{panel type="teacher-note" title="Teacher Note" summary="Teaching binary search with a phone book"}
 The binary search algorithm can be demonstrated with a phone book or dictionary: choose a name, then open it at the *middle* page of the book (students might point out that you could guess how far through to open it, but insist on starting in the middle).
 If you can spare the book, rip it in half at the chosen page, and ask the class which of the two halves contains the name (the ones before the middle, or the ones after).
 If you don't have replacement books available, you can still proceed by just holding up the chosen half, but it will be more memorable for students when they see the problem literally divided in half.
@@ -199,14 +199,14 @@ If you used a Binary Search on each of the levels then you would have always had
 
 Binary Search is a very powerful algorithm. If you had 1000 presents to search through it would take you at most 10 checks for Binary search to find something and Linear search would take at most 1000 checks, but if you doubled the number of presents to search through how would this change the number of checks made by Binary Search and Linear search?
 
-{panel type="spoiler" summary="How does doubling the number of boxes affect the number of checks required?"}
+{panel type="spoiler" title="Spoiler" summary="How does doubling the number of boxes affect the number of checks required?"}
 The answer to the above question is that the maximum number of checks for Linear Search would double, but the maximum number for Binary Search would only increase by one.
 {panel end}
 
 It is important to remember that you can only perform a Binary Search if the items you are searching through are sorted into order. This makes the sorting algorithms we will look at next even more important because without sorting algorithms we wouldn't be able to use Binary Search to quickly look through data!
 
 
-{panel type="project" summary="Code to   run linear and binary search for yourself"}
+{panel type="project" title="Project" summary="Code to   run linear and binary search for yourself"}
 The following files will run linear and binary search in various languages; you can use them to generate random lists of values and measure how long they take to find a given value.
 Your project is to measure the amount of time taken as the number of items (*n*) increases; try drawing a graph showing this.
 - [Scratch](files/linear-binary-search-scratch.zip) - [Download Scratch here](https://scratch.mit.edu/scratch2download/)
@@ -218,7 +218,7 @@ Your project is to measure the amount of time taken as the number of items (*n*)
 
 ## Sorting
 
-{panel type="teacher-note" summary="Why are we also covering sorting?"}
+{panel type="teacher-note" title="Teacher Note" summary="Why are we also covering sorting?"}
 Our main points have already been made --- what an algorithm is, how to estimate its cost, and that the cost isn't always proportional to the amount of data.
 However, it's good to reinforce this with some different algorithms.
 Sorting algorithms are useful to study because they illustrate many of the key issues that come up in algorithms, and there are some good contrasts, particularly between quicksort (which is fast and is widely used) and selection or insertion sort (which become very slow as the number of items sorted increases).
@@ -254,7 +254,7 @@ Tip: Start by moving all the boxes to the right of the screen and then once you 
 
 If you record how many comparisons you had to make each time to find the next lightest box you might notice a pattern (hint: finding the lightest  should take 7 comparisons, and then finding the second lightest should take 6 comparisons…). If you can see the pattern then how many comparisons do you think it would take to then sort 9 boxes into order? What about 20? If you knew how many comparisons it would take to sort 1000 boxes, then how many more comparisons would it take to sort 1001 instead?
 
-{panel type="teacher-note" summary="Answer for box analysis"}
+{panel type="teacher-note" title="Teacher Note" summary="Answer for box analysis"}
 For a list of 8 objects (like in the interactive) it should take 7 comparisons to find the lightest, 6 to find the next lightest, 5 to find the next, then 4, then 3, then 2, and then 1 to sort the final two boxes. In total this is 7+6+5+4+3+2+1 = 28 comparisons. If there had been 9 boxes it would have taken 8+7+6+5+4+3+2+1 = 36 comparisons. 20 boxes will take 190. Going from 1000 boxes up to 1001 will require 1000 extra comparisons, even though only 1 box has been added. Selection sort will always take
 $(n\times(n-1))/2$ comparisons to sort *n* items into order.
 
@@ -286,10 +286,11 @@ You can swap the word 'smallest' for 'largest' and the algorithm will still work
 
 ### Insertion Sort
 
-{panel type="teacher-note" summary="This section could be skipped"}
+{panel type="teacher-note" title="Teacher Note" summary="This section could be skipped"}
 This algorithm is useful and commonly taught, although for the purpose of teaching the principles of algorithms, it's doesn't add a lot to what we've just covered with selection sort, so could be skipped.
 However, if you have time, it's worth looking at for extra examples.
 {panel end}
+
 This algorithm works by removing each box from the original group of boxes and inserting it into its correct position in a new sorted list. Like Selection Sort, it is very intuitive and people often perform it when they are sorting objects themselves, like cards in their hands.
 
 Try this with the scales interactive. Start by moving all the boxes to one side of the screen, this is your original, and unsorted, group. Now choose a box at random and place that on the other side of the screen, this is the start of your sorted group.
@@ -329,7 +330,7 @@ Quicksort can be described in the following way:
 - Place all the items that are greater than it into one subgroup and all the items that are smaller into another subgroup. Place the pivot item in between these two subgroups.
 - Choose a subgroup and repeat this process. Eventually each subgroup will contain only one item and at this stage the items will be in sorted order.
 
-{panel type="project" summary="Code to run selection sort and quicksort for yourself"}
+{panel type="project" title="Project" summary="Code to run selection sort and quicksort for yourself"}
 The following files will run selection sort and quicksort in various languages; you can use them to generate random lists of values and measure how long they take to be sorted.
 Note how long these take for various amounts of input (*n*), and show it in a table or graph.
 You should notice that the time taken by Quicksort is quite different to that taken by selection sort.
@@ -352,7 +353,7 @@ In this chapter we have only talked about the number of comparisons an algorithm
 
 $n^2$
 
-{panel type="extra-for-experts" summary="Examples of Big O notation"}
+{panel type="extra-for-experts" title="Extra For Experts" summary="Examples of Big O notation"}
 Here are some Big O examples:
 
 - $O(1)$ - An algorithm with $O(1)$ complexity will always execute in the same amount of time regardless of how much data you give it to process. For example, finding the smallest value in a sorted list is always easy.

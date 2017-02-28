@@ -29,7 +29,7 @@ class ConfigurationTest(BaseTest):
     def test_default_processors_on_creation(self):
         """Checks if all expected default processors work on default creation"""
         kordac = Kordac()
-        # kordac.default_templates()
+        # kordac.clear_templates()
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
         converted_test_string = kordac.convert(test_string).html_string
         expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
@@ -47,7 +47,7 @@ class ConfigurationTest(BaseTest):
     def test_custom_processors_after_creation(self):
         """Checks if extension correct changes processors"""
         kordac = Kordac()
-        processors = kordac.processor_defaults()
+        processors = Kordac.processor_defaults()
         processors.add('example_processor')
         processors.remove('comment')
         kordac.update_processors(processors)
@@ -64,7 +64,7 @@ class ConfigurationTest(BaseTest):
         processors = ['comment', 'comment', 'comment']
         kordac = Kordac(processors=processors)
         self.assertEqual(kordac.kordac_extension.processors, set(processors))
-        processors = list(kordac.processor_defaults())
+        processors = list(Kordac.processor_defaults())
         processors.append('example_processor')
         processors.append('example_processor')
         processors.append('example_processor')
@@ -91,7 +91,7 @@ class ConfigurationTest(BaseTest):
     def test_reset_templates_after_custom(self):
         """Checks custom templates are reset when given at creation"""
         kordac = Kordac(html_templates=self.custom_templates)
-        kordac.default_templates()
+        kordac.clear_templates()
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
         converted_test_string = kordac.convert(test_string).html_string
         expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)

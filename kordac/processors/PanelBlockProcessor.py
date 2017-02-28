@@ -1,7 +1,7 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
-from kordac.processors.utils import blocks_to_string, parse_argument, check_required_parameters, check_optional_parameters
+from kordac.processors.utils import blocks_to_string, parse_argument, check_argument_requirements
 import re
 
 
@@ -27,6 +27,8 @@ class PanelBlockProcessor(BlockProcessor):
 
         if start_tag is None and end_tag is not None:
             raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
+
+        check_argument_requirements(self.processor, start_tag.group('args'), self.required_parameters, self.optional_parameters)
 
         blocks.insert(0, block[start_tag.end():])
 
@@ -77,9 +79,6 @@ class PanelBlockProcessor(BlockProcessor):
         context = self.get_attributes(start_tag.group('args'))
         context['content'] = content
 
-        check_required_parameters(self.processor, self.required_parameters, context)
-        check_optional_parameters(self.processor, self.optional_parameters, context)
-
         # create panel node and add it to parent element
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
@@ -89,7 +88,7 @@ class PanelBlockProcessor(BlockProcessor):
         panel_type = parse_argument('type', args)
         title = parse_argument('title', args)
         subtitle = parse_argument('subtitle', args)
-        expanded = parse_argument('expanded', args, default='no', convert_type=False)
+        expanded = parse_argument('expanded', args, default='no')
         return {
             'type': panel_type,
             'title': title,
