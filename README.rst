@@ -1,7 +1,7 @@
 .. figure:: kordac/images/kordac-logo.png
    :alt: Kordac Logo
 
-|Build Status|
+|Build Status| |Code Climate Status|
 
 Kordac is an extension of the Python Markdown package, which allows
 authors to include complex HTML elements with simple text tags in their
@@ -48,3 +48,7 @@ The changelog is available within the `documentation`_.
 
 .. |Build Status| image:: https://travis-ci.org/uccser/kordac.svg?branch=master
    :target: https://travis-ci.org/uccser/kordac
+
+.. |Code Climate Status| image:: https://codeclimate.com/github/uccser/kordac/badges/gpa.svg
+  :target: https://codeclimate.com/github/uccser/kordac
+  :alt: Code Climate
