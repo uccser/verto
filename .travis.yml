@@ -20,3 +20,7 @@ notifications:
     rooms: deptfunstuff:abJKvzApk5SKtcEyAgtswXAv
     on_success: change
     on_failure: change
+
+addons:
+    code_climate:
+        repo_token: e8d3f32c2549e7919e154bc5506d4cc743a03408f3ca2bf957020c3e5f826eaf
