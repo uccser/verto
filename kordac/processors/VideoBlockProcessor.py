@@ -3,7 +3,7 @@ from markdown.util import etree
 from kordac.processors.errors.NoSourceLinkError import NoSourceLinkError
 from kordac.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
 from kordac.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
-from kordac.processors.utils import parse_argument, check_required_parameters
+from kordac.processors.utils import parse_argument, check_argument_requirements
 import re
 
 
@@ -19,7 +19,7 @@ class VideoBlockProcessor(BlockProcessor):
         self.vimeo_template = ext.jinja_templates['video-vimeo']
         self.template = ext.jinja_templates[self.processor]
         self.required_parameters = ext.processor_info[self.processor]['required_parameters']
-
+        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
     def test(self, parent, block):
         '''Return whether block contains a video tag
 
@@ -47,6 +47,7 @@ class VideoBlockProcessor(BlockProcessor):
         match = self.pattern.search(block)
 
         arguments = match.group('args')
+        check_argument_requirements(self.processor, arguments, self.required_parameters, self.optional_parameters)
         url = parse_argument('url', arguments)
 
         (video_type, identifier) = self.extract_video_identifier(url, match)
@@ -66,8 +67,6 @@ class VideoBlockProcessor(BlockProcessor):
                 context['video_url'] = self.youtube_template.render(context)
             elif video_type == 'vimeo':
                 context['video_url'] = self.vimeo_template.render(context)
-
-        check_required_parameters(self.processor, self.required_parameters, context)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
@@ -95,4 +94,3 @@ class VideoBlockProcessor(BlockProcessor):
             return ('vimeo', video_query)
 
         return (None, '')
-

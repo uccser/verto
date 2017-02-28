@@ -16,6 +16,7 @@ The following pages covers how to use the available processors within Markdown t
     boxed-text
     button-link
     comment
+    conditional
     image
     relative-link
     panel

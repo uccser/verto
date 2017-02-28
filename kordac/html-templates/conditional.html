@@ -1,0 +1,15 @@
+<remove>
+{% autoescape false -%}
+{{ "{% if " }}{{ if_expression }}{{ " %}" }}
+{{ if_content }}
+{% for elif_expression, elif_content in elifs.items() -%}
+{{ "{% elif " }}{{ elif_expression }}{{ " %}" }}
+{{ elif_content }}
+{% endfor -%}
+{% if has_else -%}
+{{ "{% else %}" }}
+{{ else_content }}
+{% endif -%}
+{{ "{% endif %}" }}
+{% endautoescape -%}
+</remove>

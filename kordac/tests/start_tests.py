@@ -15,6 +15,7 @@ from kordac.tests.BoxedTextTest import BoxedTextTest
 from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
 from kordac.tests.RelativeLinkTest import RelativeLinkTest
+from kordac.tests.ConditionalTest import ConditionalTest
 
 def parse_args():
     opts = optparse.OptionParser(
@@ -56,9 +57,9 @@ def unit_suite():
         unittest.makeSuite(VideoTest),
         # unittest.makeSuite(InteractiveTest),
         unittest.makeSuite(ButtonLinkTest),
-        unittest.makeSuite(BoxedTextTest)
+        unittest.makeSuite(BoxedTextTest),
+        unittest.makeSuite(ConditionalTest)
     ))
-
 
 if __name__ == '__main__':
     options, arguments = parse_args()

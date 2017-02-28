@@ -15,6 +15,9 @@ from kordac.processors.GlossaryLinkBlockProcessor import GlossaryLinkBlockProces
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
 from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
 from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
+from kordac.processors.ConditionalProcessor import ConditionalProcessor
+from kordac.processors.RemovePostprocessor import RemovePostprocessor
+from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 
 from collections import defaultdict
 from os import listdir
@@ -49,6 +52,7 @@ class KordacExtension(Extension):
             #['glossary-link', GlossaryLinkBlockProcessor(self, md.parser), '_begin'],
             #['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+            ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
@@ -64,7 +68,9 @@ class KordacExtension(Extension):
             if processor_data[0] in self.processors:
                 md.parser.blockprocessors.add(processor_data[0], processor_data[1], processor_data[2])
 
+        md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
+        md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
 
     def clear_saved_data(self):
         self.title = None
