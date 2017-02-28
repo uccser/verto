@@ -1,5 +1,7 @@
+
 from kordac.processors.utils import check_required_parameters
 from markdown.util import etree
+import markdown.util as util
 import markdown.inlinepatterns
 import re
 
@@ -22,8 +24,6 @@ class RelativeLinkPattern(markdown.inlinepatterns.Pattern):
         self.pattern = ext.processor_info[self.processor]['pattern']
         self.compiled_re = re.compile('^(.*?){}(.*)$'.format(self.pattern), re.DOTALL | re.UNICODE)
         self.template = ext.jinja_templates[self.processor]
-        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
-        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
 
     def handleMatch(self, match):
 

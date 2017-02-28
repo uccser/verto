@@ -17,8 +17,10 @@ The following pages covers how to use the available processors within Markdown t
     button-link
     comment
     glossary-link
+    conditional
     image
     relative-link
     panel
     remove-title
     save-title
+    video

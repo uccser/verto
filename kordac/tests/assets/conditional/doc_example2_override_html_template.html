@@ -1,0 +1,17 @@
+<script>
+{% autoescape false -%}
+if ({{ if_expression }}) {
+  return """{{ if_content }}""";
+}
+{% for elif_expression, elif_content in elifs.items() -%}
+else if ({{ elif_expression }}) {
+  return """{{ elif_content }}""";
+}
+{% endfor -%}
+{% if has_else -%}
+else {
+  return """{{ else_content }}""";
+}
+{% endif -%}
+{% endautoescape -%}
+</script>

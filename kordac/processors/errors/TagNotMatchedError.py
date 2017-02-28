@@ -10,7 +10,7 @@ class TagNotMatchedError(Error):
     """
 
     def __init__(self, tag, block, message):
-        super(TagNotMatchedError, self).__init__(message)
+        super().__init__(message)
         self.tag = tag
         self.block = block
         self.message = message

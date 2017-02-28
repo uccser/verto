@@ -1,0 +1,11 @@
+<script>
+ if (version == 'teacher') {
+  return """<p>This is text that only teachers should see.</p>""";
+}
+else if (version == 'instructor') {
+  return """<p>This is text that only instuctors should see.</p>""";
+}
+else if (version == 'coordinator') {
+  return """<p>This is text that only coordinators should see.</p>""";
+}
+</script>
