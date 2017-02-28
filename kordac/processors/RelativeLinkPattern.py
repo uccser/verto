@@ -1,5 +1,3 @@
-
-from kordac.processors.utils import check_required_parameters
 from markdown.util import etree
 import markdown.util as util
 import markdown.inlinepatterns
@@ -31,10 +29,7 @@ class RelativeLinkPattern(markdown.inlinepatterns.Pattern):
         context['link_path'] = match.group('link_url')
         context['text'] = match.group('link_text')
 
-        check_required_parameters(self.processor, self.required_parameters, context)
-
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
 
         return node
-

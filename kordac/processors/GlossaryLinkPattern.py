@@ -1,4 +1,4 @@
-from kordac.processors.utils import check_required_parameters, parse_argument
+from kordac.processors.utils import check_argument_requirements, parse_argument
 from markdown.util import etree
 import markdown.inlinepatterns
 import re
@@ -31,6 +31,7 @@ class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
 
         text = match.group('text')
         arguments = match.group('args')
+        check_argument_requirements(self.processor, arguments, self.required_parameters, self.optional_parameters)
 
         term = parse_argument('term', arguments)
         reference = parse_argument('reference-text', arguments)
@@ -55,10 +56,7 @@ class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
 
             context['id'] = identifier
 
-        check_required_parameters(self.processor, self.required_parameters, context)
-
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
 
         return node
-
