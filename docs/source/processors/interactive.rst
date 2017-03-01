@@ -118,6 +118,43 @@ The resulting HTML would be:
 .. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_iframe_usage_expected.html
     :language: html
 
+Overriding HTML for Interactives
+***************************************
+
+When overriding the HTML for interactives, the following Jinja2 placeholders are available:
+
+- ``{{ name }}`` - The slug name of the interactive to include/link to.
+- ``{{ text }}`` - The text to to display to a link to a ``whole-page``
+  interactive.
+- ``{{ parameters }}`` - GET parameters to append to the interactive link.
+- ``{{ file_path }}`` - The location for the path to the thumbnail image.
+
+If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
+The default HTML for relative images is:
+
+.. literalinclude:: ../../../kordac/html-templates/relative-file-link.html
+  :language: css+jinja
+
+**Example**
+
+This example creates a link to ``whole-page`` interactives without a
+thumbnail.
+
+For example, providing the following HTML:
+
+.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_override_html_template.html
+   :language: css+jinja
+
+with the following tag:
+
+.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_override_html.md
+   :language: none
+
+would result in:
+
+.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_override_html_expected.html
+   :language: html
+
 .. _Computer Science Field Guide: https://github.com/uccser/cs-field-guide
 .. _animations comparing sorting algorithms: http://www.csfieldguide.org.nz/en/interactives/sorting-algorithm-comparison/index.html
 .. _viewing pixels of an image: http://www.csfieldguide.org.nz/en/interactives/pixel-viewer/index.html
