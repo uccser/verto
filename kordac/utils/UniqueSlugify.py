@@ -29,7 +29,7 @@ class UniqueSlugify(object):
             count += 1
             end_index = len(slug)
             if self.max_length and (len(slug) + floor(log10(count))) >= self.max_length:
-                end_index = len(slug) - floor(log10(count)) - 1
+                end_index = self.max_length - floor(log10(count)) - 1
             new_slug = "{0}{1}".format(slug[:end_index], count)
         self.uids.add(new_slug)
         return new_slug
