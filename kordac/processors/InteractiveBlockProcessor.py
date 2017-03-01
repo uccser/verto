@@ -40,7 +40,18 @@ class InteractiveBlockProcessor(BlockProcessor):
             self.scripts.append('\n{{% include \'interactive/{}/scripts.html\' %}}\n'.format(name))
         self.required.add(name)
 
-        context = {'name': name, 'type': interactive_type}
+        context = dict()
+        context['name'] = name
+        context['type'] = interactive_type
+        context['parameters'] = parse_argument('parameters', arguments)
+
+        file_path = parse_argument('file-path', arguments)
+        if file_path:
+            external_path_match = re.search(r'^http', file_path)
+            if external_path_match is None: # internal image
+                self.required.add(file_path)
+                file_path = self.relative_image_template.render({'file_path': file_path})
+            context['file_path'] = file_path
 
         check_required_parameters(self.processor, self.required_parameters, context)
         check_optional_parameters(self.processor, self.optional_parameters, context)

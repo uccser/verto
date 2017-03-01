@@ -27,27 +27,27 @@ Optional Tag Parameters
 - ``alignment`` - Valid values are 'left', 'center', or 'right'. Providing one of these values Will add CSS classes to the image for alignment.
 - ``hover-text`` - Additional text to be displayed when the user hovers their cursor over the image (note this won't appear on touch devices so use sparingly).
 
-The default HTML for button links is:
+The default HTML for image is:
 
 .. literalinclude:: ../../../kordac/html-templates/image.html
-   :language: css+jinja
+    :language: css+jinja
 
 Using the following example tag:
 
 .. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage.md
-   :language: none
+    :language: none
 
 The resulting HTML would be:
 
 .. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage_expected.html
-   :language: html
+    :language: html
 
 Overriding HTML for Images
 ***************************************
 
 When overriding the HTML for images, the following Jinja2 placeholders are available:
 
-- ``{{ file-path }}`` - The location for the path to the URL.
+- ``{{ file_path }}`` - The location for the path to the URL.
 - ``{{ alt }}`` - The alternative text for the image.
 - ``{{ hover_text }}`` - The text to display when the user hovers over the image (see `image title attribute <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title>`_).
 - ``{{ alignment }}`` - The location to add extra CSS classes for alignment.
@@ -55,10 +55,10 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 - ``{{ caption_link }}`` - The URL for the caption link .
 - ``{{ source_link }}`` - The URL for the source .
 
-If the ``file-path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
+If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
 The default HTML for relative images is:
 
-.. literalinclude:: ../../../kordac/html-templates/relative-image-link.html
+.. literalinclude:: ../../../kordac/html-templates/relative-file-link.html
   :language: css+jinja
 
 **Example 1**
