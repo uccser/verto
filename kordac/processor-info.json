@@ -68,9 +68,9 @@
         }
     },
     "heading": {
-        "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)",
+        "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
     },
     "relative-link": {
-        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)",
+        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
     }
 }

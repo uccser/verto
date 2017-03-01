@@ -2,7 +2,7 @@ import unittest
 import markdown
 
 from kordac.KordacExtension import KordacExtension
-from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
+from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from kordac.tests.ProcessorTest import ProcessorTest
 
 class HeadingTest(ProcessorTest):

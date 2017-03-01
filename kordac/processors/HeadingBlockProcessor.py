@@ -1,6 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
-from slugify import UniqueSlugify
 import re
 
 class HeadingBlockProcessor(BlockProcessor):
@@ -19,9 +18,9 @@ class HeadingBlockProcessor(BlockProcessor):
         self.max_levels = 6
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.template = ext.jinja_templates[self.processor]
-        self.custom_slugify = UniqueSlugify()
-        self.level_gen = LevelGenerator(self.max_levels)
-
+        self.custom_slugify = ext.custom_slugify
+        self.level_generator = LevelGenerator(self.max_levels)
+        
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
 
@@ -59,12 +58,13 @@ class HeadingBlockProcessor(BlockProcessor):
 
         level = len(match.group('level'))
         heading = match.group('header').strip()
-        level_trail = self.number_generator.next(level)
+        level_trail = self.level_generator.next(level)
 
         context = dict()
         context['heading_level'] = level
+        context['heading_type'] = "h{0}".format(level)
         context['title'] = heading
-        context['title_slug'] = custom_slugify(heading)
+        context['title_slug'] = self.custom_slugify(heading)
         context.update(
             zip(("level_{0}".format(level) for level in range(1, self.max_levels + 1))
                 , level_trail))
@@ -96,8 +96,8 @@ class LevelGenerator:
             A tuple of levels, where higher levels are first and the lowest
             level is last.
         '''
-        assert level_inc-1 < len(level_list)
+        assert level_inc-1 < len(self.level_list)
         self.level_list[level_inc-1] += 1
-        for index in range(level_inc, len(level_list)):
-            level_inc[index] = 0
+        for index in range(level_inc, len(self.level_list)):
+            self.level_list[index] = 0
         return tuple(self.level_list)

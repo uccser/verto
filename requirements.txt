@@ -2,7 +2,7 @@
 markdown>=2.6.8
 bs4>=0.0.1
 Jinja2>=2.9.5
-awesome-slugify>=1.6.5
+python-slugify>=1.2.1
 
 # Required dependencies for building documentation
 sphinx>=1.5.2
