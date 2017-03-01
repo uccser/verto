@@ -2,7 +2,16 @@ from slugify import slugify
 from math import log10, floor
 
 class UniqueSlugify(object):
+    ''' Wrapper for the python-slugify library enforcing unique slugs
+    on each successive call.
+    '''
+
     def __init__(self, uids=set(), entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, separator='-', save_order=False, stopwords=()):
+        '''
+        Args:
+            uids: A set of strings which are already taken as slugs.
+            Others: Passed directly to slugify.
+        '''
         self.uids = set(uids)
         self.entities = bool(entities)
         self.decimal = bool(decimal)
@@ -14,6 +23,10 @@ class UniqueSlugify(object):
         self.stopwords = tuple(stopwords)
 
     def __call__(self, text):
+        '''
+        Args:
+            text: A string to be turned into a slug.
+        '''
         slug = slugify(text = text,
                         entities = self.entities,
                         decimal = self.decimal,
@@ -34,5 +47,26 @@ class UniqueSlugify(object):
         self.uids.add(new_slug)
         return new_slug
 
+    def add_uid(self, uid):
+        '''
+        Adds an externally used slug. (Useful to re-add a slug after a
+        clear).
+        Args:
+            uid: A string which is already as a slug.
+        '''
+        self.uids.add(uid)
+
+    def add_uids(self, uids):
+        '''
+        Adds externally used slugs. (Useful to re-add slugs after a
+        clear).
+        Args:
+            uids: A set of strings which are already taken as slugs.
+        '''
+        self.uids.update(uids)
+
     def clear(self):
+        '''
+        Clears the known slugs used for uniqueness comparisons.
+        '''
         uids = set()
