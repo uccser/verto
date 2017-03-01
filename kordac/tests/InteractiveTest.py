@@ -17,14 +17,34 @@ class InteractiveTest(ProcessorTest):
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name), 'relative-file-link': ProcessorTest.loadJinjaTemplate(self, 'relative-file-link')}
         self.ext.required_files = defaultdict(set)
 
-    def test_doc_example_basic(self):
-        test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
+    def test_doc_example_in_page(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_doc_example_whole_page(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_doc_example_iframe(self):
+        test_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
     def test_doc_example_override_html(self):
