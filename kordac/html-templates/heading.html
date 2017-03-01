@@ -1,4 +1,9 @@
 {% set heading_type = "h{{ heading_level }}" %}
 <{{ heading_type }} id={{ title_slug }}>
-  {% if heading_level <= 2 %}<span>{{ "{{ heading.chapter }}" }}.{{ level_1 }}.{{ level_2 }}.</span>{% endif %} {{ title }}
+  {% if heading_level <= 2 %}
+  <span class="section_number">
+    {{ "{{ chapter.number }}" }}.{{ level_2 }}.
+  </span>
+  {% endif %}
+  {{ title }}
 </{{ heading_type }}>
