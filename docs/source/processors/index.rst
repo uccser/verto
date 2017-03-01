@@ -17,6 +17,7 @@ The following pages covers how to use the available processors within Markdown t
     button-link
     comment
     image
+    interactive
     relative-link
     panel
     remove-title

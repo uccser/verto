@@ -27,20 +27,20 @@ Optional Tag Parameters
 - ``alignment`` - Valid values are 'left', 'center', or 'right'. Providing one of these values Will add CSS classes to the image for alignment.
 - ``hover-text`` - Additional text to be displayed when the user hovers their cursor over the image (note this won't appear on touch devices so use sparingly).
 
-The default HTML for button links is:
+The default HTML for image is:
 
 .. literalinclude:: ../../../kordac/html-templates/image.html
-   :language: css+jinja
+    :language: css+jinja
 
 Using the following example tag:
 
 .. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage.md
-   :language: none
+    :language: none
 
 The resulting HTML would be:
 
 .. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage_expected.html
-   :language: html
+    :language: html
 
 Overriding HTML for Images
 ***************************************
