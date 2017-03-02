@@ -44,9 +44,13 @@ class HeadingTest(ProcessorTest):
                                                     title='This is an H6',
                                                     title_slug='this-is-an-h6',
                                                     level=6,
-                                                    children=()),
-                                        )),
-                        )),)
+                                                    children=()
+                                                ),
+                                            )
+                                        ),
+                                    )
+                        ),
+                    )
         self.assertEqual(tree, expected_tree)
 
 
@@ -77,9 +81,12 @@ class HeadingTest(ProcessorTest):
                                                     title='This is an H4',
                                                     title_slug='this-is-an-h4',
                                                     level=4,
-                                                    children=()),
-                                        )),
-                        )),
+                                                    children=()
+                                                ),
+                                            )
+                                        ),
+                                    )
+                        ),
                         HeadingNode(title='This is an H1',
                                     title_slug='this-is-an-h11',
                                     level=1,
@@ -93,13 +100,74 @@ class HeadingTest(ProcessorTest):
                                                     title='This is an H6',
                                                     title_slug='this-is-an-h6',
                                                     level=6,
-                                                    children=()),
-                                        )),
-                        )),
+                                                    children=()
+                                                ),
+                                            )
+                                        ),
+                                    )
+                        ),
                         HeadingNode(title='This is an H1',
                                     title_slug='this-is-an-h12',
                                     level=1,
                                     children=()
-                        ),)
+                        ),
+                    )
 
+        self.assertEqual(tree, expected_tree)
+
+    def test_multiple_roots_zero_level(self):
+        test_string = self.read_test_file(self.processor_name, 'multiple_roots_zero_level.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, True, True, True, True, True, True], [HeadingBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
+        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'multiple_roots_zero_level_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        tree = kordac_extension.get_heading_tree()
+        expected_tree = (HeadingNode(title='This is an H4',
+                                    title_slug='this-is-an-h4',
+                                    level=4,
+                                    children=()
+                        ),
+                        HeadingNode(title='This is an H2',
+                                    title_slug='this-is-an-h2',
+                                    level=2,
+                                    children=(
+                                        HeadingNode(
+                                            title='This is an H3',
+                                            title_slug='this-is-an-h3',
+                                            level=3,
+                                            children=()
+                                        ),
+                                    )
+                        ),
+                        HeadingNode(title='This is an H1',
+                                    title_slug='this-is-an-h1',
+                                    level=1,
+                                    children=(
+                                        HeadingNode(
+                                            title='This is an H3',
+                                            title_slug='this-is-an-h31',
+                                            level=3,
+                                            children=()
+                                        ),
+                                        HeadingNode(title='This is an H2',
+                                                    title_slug='this-is-an-h21',
+                                                    level=2,
+                                                    children=(
+                                                        HeadingNode(title='This is an H4',
+                                                                    title_slug='this-is-an-h41',
+                                                                    level=4,
+                                                                    children=()
+                                                        ),
+                                                    )
+                                        ),
+                                    )
+                        ),
+                    )
         self.assertEqual(tree, expected_tree)
