@@ -64,7 +64,7 @@ class InteractiveBlockProcessor(BlockProcessor):
             raise Error("TODO Proper error")
 
         if interactive_type == 'in-page':
-            self.scripts.append('interactive/{}/scripts.html'.format(name))
+            self.scripts.add('interactive/{}/scripts.html'.format(name))
         self.required.add(name)
 
         file_path = parse_argument('thumbnail', arguments)
