@@ -49,9 +49,6 @@
     "interactive": {
         "pattern": "^\\{interactive ?(?P<args>[^\\}]*)\\}$"
     },
-    "heading": {
-        "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
-    },
     "title": {
         "pattern": "^#+ ?(.*)"
     },
@@ -70,9 +67,10 @@
             "indented": []
         }
     },
+    "heading": {
+        "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
+    },
     "relative-link": {
-        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)",
-        "required_parameters": ["link_path"],
-        "optional_parameter_dependencies": []
+        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
     }
 }
