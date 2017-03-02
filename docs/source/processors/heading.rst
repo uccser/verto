@@ -20,7 +20,7 @@ The default HTML for headings is:
 .. literalinclude:: ../../../kordac/html-templates/heading.html
    :language: css+jinja
 
-**Example 1**
+**Example**
 
 Using the following tag:
 
