@@ -26,6 +26,8 @@ class UniqueSlugify(object):
         '''
         Args:
             text: A string to be turned into a slug.
+        Returns:
+            A string which is a slug (as specified by slugify) that is unique.
         '''
         slug = slugify(text=text,
                         entities=self.entities,
