@@ -43,7 +43,7 @@ class HeadingBlockProcessor(BlockProcessor):
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
-        ''' Processes the block matching the heading and added to the
+        ''' Processes the block matching the heading and adding to the
         html tree and the kordac heading tree.
 
         Args:
@@ -76,7 +76,7 @@ class HeadingBlockProcessor(BlockProcessor):
         context['title_slug'] = heading_slug
         for i, level_val in enumerate(level_trail):
             context["level_{0}".format(i + 1)] = level_val
-            
+
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
