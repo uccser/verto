@@ -1,5 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
+from kordac.utils.HeadingNode import HeadingNode, DynamicHeadingNode
 import re
 
 class HeadingBlockProcessor(BlockProcessor):
@@ -20,7 +21,10 @@ class HeadingBlockProcessor(BlockProcessor):
         self.template = ext.jinja_templates[self.processor]
         self.custom_slugify = ext.custom_slugify
         self.level_generator = LevelGenerator(self.max_levels)
-        
+
+        self.current_node = None
+        self.update_ext_root = ext._set_heading_root
+
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
 
@@ -58,13 +62,14 @@ class HeadingBlockProcessor(BlockProcessor):
 
         level = len(match.group('level'))
         heading = match.group('header').strip()
+        heading_slug = self.custom_slugify(heading)
         level_trail = self.level_generator.next(level)
 
         context = dict()
         context['heading_level'] = level
         context['heading_type'] = "h{0}".format(level)
         context['title'] = heading
-        context['title_slug'] = self.custom_slugify(heading)
+        context['title_slug'] = heading_slug
         context.update(
             zip(("level_{0}".format(level) for level in range(1, self.max_levels + 1))
                 , level_trail))
@@ -72,6 +77,21 @@ class HeadingBlockProcessor(BlockProcessor):
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
+
+        # Heading Tree Logic
+        parent = self.current_node
+        if parent is not None and level <= parent.level:
+            parent = parent.parent
+
+        new_node = DynamicHeadingNode(title=heading, title_slug=heading_slug, level=level, parent=parent, children=[])
+        if parent is not None:
+            parent.children.append(new_node)
+
+        self.current_node = new_node
+        root_node = self.current_node
+        while root_node.parent is not None:
+            root_node = root_node.parent
+        self.update_ext_root(root_node)
 
 class LevelGenerator:
     ''' Generates a level trail for example (1, 2, 3) which might be
