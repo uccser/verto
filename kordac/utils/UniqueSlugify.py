@@ -27,15 +27,15 @@ class UniqueSlugify(object):
         Args:
             text: A string to be turned into a slug.
         '''
-        slug = slugify(text = text,
-                        entities = self.entities,
-                        decimal = self.decimal,
-                        hexadecimal = self.hexadecimal,
-                        max_length = self.max_length,
-                        word_boundary = self.word_boundary,
-                        separator = self.separator,
-                        save_order = self.save_order,
-                        stopwords = self.stopwords)
+        slug = slugify(text=text,
+                        entities=self.entities,
+                        decimal=self.decimal,
+                        hexadecimal=self.hexadecimal,
+                        max_length=self.max_length,
+                        word_boundary=self.word_boundary,
+                        separator=self.separator,
+                        save_order=self.save_order,
+                        stopwords=self.stopwords)
         count = 0
         new_slug = slug
         while new_slug in self.uids:
