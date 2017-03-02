@@ -32,7 +32,6 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
     def __init__(self, processors=[], html_templates={}, *args, **kwargs):
-        self.page_scripts = []
         self.required_files = defaultdict(set)
         self.title = None
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
@@ -80,7 +79,6 @@ class KordacExtension(Extension):
 
     def clear_saved_data(self):
         self.title = None
-        self.page_scripts = []
         self.required_files.clear()
         self.custom_slugify.clear()
         self.heading_tree = None
