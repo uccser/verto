@@ -10,7 +10,7 @@ This processor an ID to each heading which allows for linking to a heading, and 
 
     This processor replaces the output of the standard markdown block processor for atx-style headings.
 
-You may creating a heading by using the following format:
+You may create a heading by using the following format:
 
 .. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_basic_usage.md
    :language: none
