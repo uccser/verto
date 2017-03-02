@@ -1,1 +1,1 @@
-{glossary-link term="algorithms"}algorithms{glossary-link end}
+A much better sorting algorithm is {glossary-link term="quicksort"}Quicksort!{glossary-link end} (the name is a bit of a giveaway)

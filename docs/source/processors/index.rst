@@ -16,9 +16,12 @@ The following pages covers how to use the available processors within Markdown t
     boxed-text
     button-link
     comment
+    glossary-link
+    conditional
     image
     interactive
     relative-link
     panel
     remove-title
     save-title
+    video

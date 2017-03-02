@@ -80,14 +80,14 @@ would result in:
 
 **Example 2**
 
-If you know all relative images are located within a specific folder, you could change the ``relative-image-link.html`` template.
+If you know all relative images are located within a specific folder, you could change the ``relative-file-link.html`` template.
 
 For example, providing the following HTML for ``image.html``:
 
 .. literalinclude:: ../../../kordac/tests/assets/image/doc_example_2_override_html_template.html
    :language: css+jinja
 
-and providing the following HTML for ``relative-image-link.html``:
+and providing the following HTML for ``relative-file-link.html``:
 
 .. literalinclude:: ../../../kordac/tests/assets/image/doc_example_2_override_link_html_template.html
    :language: css+jinja

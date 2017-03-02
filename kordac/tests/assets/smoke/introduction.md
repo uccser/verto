@@ -1,6 +1,6 @@
 # Introduction
 
-{panel type="teacher-note" summary="Introduction for teachers"}
+{panel type="teacher-note" title="teacher-note" summary="Introduction for teachers"}
 
 This guide is an online interactive textbook to support teaching computer science in high schools.
 It was initially developed to support the new achievement standards in Computer Science that are being rolled out in New Zealand from 2011 to 2013,
