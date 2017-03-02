@@ -24,7 +24,6 @@ class HeadingBlockProcessor(BlockProcessor):
         self.template = ext.jinja_templates[self.processor]
         self.custom_slugify = ext.custom_slugify
         self.level_generator = LevelGenerator(self.max_levels)
-
         self.roots = []
         self.current_node = None
         self.update_ext_tree = ext._set_heading_tree
@@ -75,15 +74,13 @@ class HeadingBlockProcessor(BlockProcessor):
         context['heading_type'] = "h{0}".format(level)
         context['title'] = heading
         context['title_slug'] = heading_slug
-        context.update(
-            zip(("level_{0}".format(level) for level in range(1, self.max_levels + 1))
-                , level_trail))
-
+        for i, level_val in enumerate(level_trail):
+            context["level_{0}".format(i + 1)] = level_val
+            
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
         self.add_to_heading_tree(heading, heading_slug, level)
-
 
     def add_to_heading_tree(self, heading, heading_slug, level):
         ''' Adds a new heading to the heading tree.
