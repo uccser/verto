@@ -7,7 +7,6 @@ from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
 from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from kordac.processors.RelativeLinkPattern import RelativeLinkPattern
-from kordac.processors.NumberedHashHeaderProcessor import NumberedHashHeaderProcessor
 from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
@@ -18,6 +17,10 @@ from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
 from kordac.processors.ConditionalProcessor import ConditionalProcessor
 from kordac.processors.RemovePostprocessor import RemovePostprocessor
 from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
+from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
+
+from kordac.utils.UniqueSlugify import UniqueSlugify
+from kordac.utils.HeadingNode import HeadingNode
 
 from collections import defaultdict
 from os import listdir
@@ -36,6 +39,8 @@ class KordacExtension(Extension):
         self.processor_info = self.loadProcessorInfo()
         self.processors = processors
         self.glossary_term_occurance_counter = {}
+        self.custom_slugify = UniqueSlugify()
+        self.heading_tree = None
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
@@ -49,14 +54,14 @@ class KordacExtension(Extension):
             ['glossary-link', GlossaryLinkPattern(self, md), '_begin']
         ]
         blockprocessors = [
-            #['hashheader', NumberedHashHeaderProcessor(self, md.parser), '_begin'],
             ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
             ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             ['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
-            ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin']
+            ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin'],
+            ['heading', HeadingBlockProcessor(self, md.parser), '_begin']
         ]
 
         for processor_data in preprocessors:
@@ -77,6 +82,8 @@ class KordacExtension(Extension):
         self.title = None
         self.page_scripts = []
         self.required_files.clear()
+        self.custom_slugify.clear()
+        self.heading_tree = None
 
     def loadJinjaTemplates(self, custom_templates):
         templates = {}
@@ -98,3 +105,10 @@ class KordacExtension(Extension):
         json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()
         return json.loads(json_data)
 
+    def get_heading_tree(self):
+        return self.heading_tree
+
+    def _set_heading_tree(self, tree):
+        assert isinstance(tree, tuple)
+        assert all(isinstance(child, HeadingNode) for child in tree)
+        self.heading_tree = tree
