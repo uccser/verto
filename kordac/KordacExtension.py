@@ -20,7 +20,7 @@ from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
-from kordac.utils.HeadingNode import DynamicHeadingNode
+from kordac.utils.HeadingNode import HeadingNode
 
 from collections import defaultdict
 from os import listdir
@@ -40,7 +40,7 @@ class KordacExtension(Extension):
         self.processors = processors
         self.glossary_term_occurance_counter = {}
         self.custom_slugify = UniqueSlugify()
-        self.heading_root = None
+        self.heading_tree = None
         super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
@@ -83,7 +83,7 @@ class KordacExtension(Extension):
         self.page_scripts = []
         self.required_files.clear()
         self.custom_slugify.clear()
-        self.heading_root = None
+        self.heading_tree = None
 
     def loadJinjaTemplates(self, custom_templates):
         templates = {}
@@ -105,11 +105,10 @@ class KordacExtension(Extension):
         json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()
         return json.loads(json_data)
 
-    def get_heading_root(self):
-        if self.heading_root is not None:
-            return self.heading_root.to_immutable()
-        return None
+    def get_heading_tree(self):
+        return self.heading_tree
 
-    def _set_heading_root(self, root):
-        assert isinstance(root, DynamicHeadingNode)
-        self.heading_root = root
+    def _set_heading_tree(self, tree):
+        assert isinstance(tree, tuple)
+        assert all(isinstance(child, HeadingNode) for child in tree)
+        self.heading_tree = tree

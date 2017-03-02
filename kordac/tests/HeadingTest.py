@@ -5,6 +5,7 @@ from unittest.mock import Mock
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from kordac.tests.ProcessorTest import ProcessorTest
+from kordac.utils.HeadingNode import HeadingNode
 
 class HeadingTest(ProcessorTest):
 
@@ -29,6 +30,26 @@ class HeadingTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+        tree = self.kordac_extension.get_heading_tree()
+        expected_tree = (HeadingNode(title='This is an H1',
+                                    title_slug='this-is-an-h1',
+                                    level=1,
+                                    children=(
+                                        HeadingNode(
+                                            title='This is an H2',
+                                            title_slug='this-is-an-h2',
+                                            level=2,
+                                            children=(
+                                                HeadingNode(
+                                                    title='This is an H6',
+                                                    title_slug='this-is-an-h6',
+                                                    level=6,
+                                                    children=()),
+                                        )),
+                        )),)
+        self.assertEqual(tree, expected_tree)
+
+
     def test_doc_example_override_html(self):
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
@@ -41,3 +62,44 @@ class HeadingTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+        tree = kordac_extension.get_heading_tree()
+        expected_tree = (HeadingNode(title='This is an H1',
+                                    title_slug='this-is-an-h1',
+                                    level=1,
+                                    children=(
+                                        HeadingNode(
+                                            title='This is an H2',
+                                            title_slug='this-is-an-h2',
+                                            level=2,
+                                            children=(
+                                                HeadingNode(
+                                                    title='This is an H4',
+                                                    title_slug='this-is-an-h4',
+                                                    level=4,
+                                                    children=()),
+                                        )),
+                        )),
+                        HeadingNode(title='This is an H1',
+                                    title_slug='this-is-an-h11',
+                                    level=1,
+                                    children=(
+                                        HeadingNode(
+                                            title='This is an H3',
+                                            title_slug='this-is-an-h3',
+                                            level=3,
+                                            children=(
+                                                HeadingNode(
+                                                    title='This is an H6',
+                                                    title_slug='this-is-an-h6',
+                                                    level=6,
+                                                    children=()),
+                                        )),
+                        )),
+                        HeadingNode(title='This is an H1',
+                                    title_slug='this-is-an-h12',
+                                    level=1,
+                                    children=()
+                        ),)
+
+        self.assertEqual(tree, expected_tree)

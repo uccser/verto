@@ -22,9 +22,10 @@ class HeadingBlockProcessor(BlockProcessor):
         self.custom_slugify = ext.custom_slugify
         self.level_generator = LevelGenerator(self.max_levels)
 
+        self.roots = []
         self.current_node = None
-        self.update_ext_root = ext._set_heading_root
-        self.get_ext_root = ext.get_heading_root
+        self.update_ext_tree = ext._set_heading_tree
+        self.get_ext_tree = ext.get_heading_tree
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -78,24 +79,46 @@ class HeadingBlockProcessor(BlockProcessor):
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
         parent.append(node)
+        self.add_to_heading_tree(heading, heading_slug, level)
 
-        # Heading Tree Logic
-        if self.get_ext_root() is None:  # We are likely on a new file
+
+    def add_to_heading_tree(self, heading, heading_slug, level):
+        ''' Adds a new heading to the heading tree.
+
+        Args:
+            heading: A string of the heading title
+            heading_slug: A string of the heading title as a slug
+            level: the level of the heading
+        '''
+        if self.get_ext_tree() is None:  # We are likely on a new file
             self.current_node = None
 
+        # Who is our parent node
         parent = self.current_node
-        if parent is not None and level <= parent.level:
+        while parent is not None and level <= parent.level:
             parent = parent.parent
 
+        # if we have no parent we are a new tree
+        if parent is None and self.current_node is not None:
+            # old tree is finished compile up and save
+            root_node = self.current_node
+            while root_node.parent is not None:
+                root_node = root_node.parent
+            self.roots.append(root_node.to_immutable())
+
+        # Make our new node
         new_node = DynamicHeadingNode(title=heading, title_slug=heading_slug, level=level, parent=parent, children=[])
         if parent is not None:
             parent.children.append(new_node)
 
+        # Find the current root node
         self.current_node = new_node
         root_node = self.current_node
         while root_node.parent is not None:
             root_node = root_node.parent
-        self.update_ext_root(root_node)
+
+        # Update the extension tree
+        self.update_ext_tree(tuple(self.roots + [root_node.to_immutable(),]))
 
 class LevelGenerator:
     ''' Generates a level trail for example (1, 2, 3) which might be
