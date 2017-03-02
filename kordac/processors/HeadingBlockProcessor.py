@@ -24,6 +24,7 @@ class HeadingBlockProcessor(BlockProcessor):
 
         self.current_node = None
         self.update_ext_root = ext._set_heading_root
+        self.get_ext_root = ext.get_heading_root
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -79,6 +80,9 @@ class HeadingBlockProcessor(BlockProcessor):
         parent.append(node)
 
         # Heading Tree Logic
+        if self.get_ext_root() is None:  # We are likely on a new file
+            self.current_node = None
+
         parent = self.current_node
         if parent is not None and level <= parent.level:
             parent = parent.parent
