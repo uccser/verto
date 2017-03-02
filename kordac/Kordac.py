@@ -61,10 +61,10 @@ class Kordac(object):
         self.kordac_extension.clear_saved_data()
         html_string = self.converter.convert(text)
         result = KordacResult(
-            html_string = html_string,
-            title = self.kordac_extension.title,
-            required_files = self.kordac_extension.required_files,
-            heading_tree = self.kordac_extension.get_heading_tree()
+            html_string=html_string,
+            title=self.kordac_extension.title,
+            required_files=self.kordac_extension.required_files,
+            heading_tree=self.kordac_extension.get_heading_tree()
         )
         return result
 

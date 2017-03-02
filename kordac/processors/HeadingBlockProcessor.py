@@ -4,13 +4,16 @@ from kordac.utils.HeadingNode import HeadingNode, DynamicHeadingNode
 import re
 
 class HeadingBlockProcessor(BlockProcessor):
-    ''' Searches a Document for markdown headings (e.g. # HeadingTitle) these are then processed into html headings and generates level trails for each.
+    ''' Searches a Document for markdown headings (e.g. # HeadingTitle)
+    these are then processed into html headings and generates level
+    trails for each.
     '''
 
     def __init__(self, ext, *args, **kwargs):
         '''
         Args:
-            ext: The parent node of the element tree that children will reside in.
+            ext: The parent node of the element tree that children will
+            reside in.
             args: Arguments handed to the super class.
             kwargs: Arguments handed to the super class.
         '''
@@ -31,7 +34,8 @@ class HeadingBlockProcessor(BlockProcessor):
         ''' Tests a block to see if the run method should be applied.
 
         Args:
-            parent: The parent node of the element tree that children will reside in.
+            parent: The parent node of the element tree that children
+            will reside in.
             block: The block to be tested.
 
         Returns:
@@ -40,15 +44,14 @@ class HeadingBlockProcessor(BlockProcessor):
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
-        ''' Increments the level trail at the given level. This also
-        zeros any levels after the incremented level.
+        ''' Processes the block matching the heading and added to the
+        html tree and the kordac heading tree.
 
         Args:
-            level_inc: the level to be incremented.
-
-        Returns:
-            A tuple of levels, where higher levels are first and the lowest
-            level is last.
+            parent: The parent node of the element tree that children
+            will reside in.
+            blocks: A list of strings of the document, where the
+            first block tests true.
         '''
         block = blocks.pop(0)
         match = self.pattern.search(block)
@@ -128,7 +131,8 @@ class LevelGenerator:
     def __init__(self, max_levels):
         '''
         Args:
-            max_levels: The max number of levels for the generator to handle.
+            max_levels: The max number of levels for the generator to
+            handle.
         '''
         self.level_list = [0 for _ in range(max_levels)]
 
@@ -140,8 +144,8 @@ class LevelGenerator:
             level_inc: the level to be incremented.
 
         Returns:
-            A tuple of levels, where higher levels are first and the lowest
-            level is last.
+            A tuple of levels, where higher levels are first and the
+            lowest level is last.
         '''
         assert level_inc-1 < len(self.level_list)
         self.level_list[level_inc-1] += 1
