@@ -2,13 +2,16 @@ from markdown.blockprocessors import BlockProcessor
 from markdown.postprocessors import Postprocessor
 from markdown.treeprocessors import Treeprocessor
 from kordac.processors.utils import parse_argument, check_argument_requirements
+from kordac.processors.errors.InvalidParameterError import InvalidParameterError
 from markdown.util import etree
 
 import re
 import os
 
 class InteractiveBlockProcessor(BlockProcessor):
-    '''Searches t
+    '''Searches a Document for interactive tags:
+        e.g. {interactive name='example' type='in-page'}
+        These are then replaced with the html template.
     '''
 
     def __init__(self, ext, *args, **kwargs):
@@ -61,7 +64,7 @@ class InteractiveBlockProcessor(BlockProcessor):
         parameters = parse_argument('parameters', arguments)
 
         if name is not None and name is '':
-            raise Error("TODO Proper error")
+            raise InvalidParameterError(self.processor, "name", "Name parameter must not be an empty string.")
 
         if interactive_type == 'in-page':
             self.scripts.add('interactive/{}/scripts.html'.format(name))
