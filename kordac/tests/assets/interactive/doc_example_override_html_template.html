@@ -11,11 +11,11 @@
     href="{{ "{% url 'interactive' name='" }}{{ name }}{{ "' %}" }}{% if parameters %}?{{ parameters }}{% endif %}"
     class="btn btn-interactive-link">
     <div class="btn-interactive-whole-page-text">
-      {% if text %}
+      {% if text -%}
         {{ text }}
-      {% else %}
+      {% else -%}
         Click to load {{ name }}
-      {% endif %}
+      {% endif -%}
     </div>
   </a>
 {%- endif -%}

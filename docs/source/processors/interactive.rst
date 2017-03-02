@@ -123,6 +123,7 @@ Overriding HTML for Interactives
 
 When overriding the HTML for interactives, the following Jinja2 placeholders are available:
 
+- ``{{ type }}`` - The type of the interactive.
 - ``{{ name }}`` - The slug name of the interactive to include/link to.
 - ``{{ text }}`` - The text to to display to a link to a ``whole-page``
   interactive.

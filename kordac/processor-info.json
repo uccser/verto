@@ -49,7 +49,11 @@
     "interactive": {
         "pattern": "^\\{interactive (?P<args>[^\\}]*)\\}$",
         "required_parameters": ["name", "type"],
-        "optional_parameter_dependencies": {}
+        "optional_parameter_dependencies": {
+          "text": [],
+          "parameters": [],
+          "thumbnail": [] 
+        }
     },
     "title": {
         "pattern": "^#+ ?(.*)"

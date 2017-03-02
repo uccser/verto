@@ -65,7 +65,8 @@ class Kordac(object):
             html_string=html_string,
             title=self.kordac_extension.title,
             required_files=self.kordac_extension.required_files,
-            heading_tree=self.kordac_extension.get_heading_tree()
+            heading_tree=self.kordac_extension.get_heading_tree(),
+            page_scripts=self.kordac_extension.page_scripts
         )
         return result
 
@@ -117,7 +118,7 @@ class KordacResult(object):
     after a conversion by run.
     """
 
-    def __init__(self, html_string, title, required_files, heading_tree):
+    def __init__(self, html_string, title, required_files, heading_tree, page_scripts):
         """Create a KordacResult object.
 
         Args:
@@ -129,3 +130,4 @@ class KordacResult(object):
         self.title = title
         self.required_files = required_files
         self.heading_tree = heading_tree
+        self.page_scripts = page_scripts
