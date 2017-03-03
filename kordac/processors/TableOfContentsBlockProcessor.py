@@ -1,14 +1,8 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
-from kordac.utils.HeadingNode import HeadingNode, DynamicHeadingNode
 import re
 
 class TableOfContentsBlockProcessor(BlockProcessor):
-    ''' Searches a Document for markdown headings (e.g. # HeadingTitle)
-    these are then processed into html headings and generates level
-    trails for each.
-    '''
-
     def __init__(self, ext, *args, **kwargs):
         '''
         Args:
