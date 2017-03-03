@@ -11,6 +11,7 @@ DEFAULT_PROCESSORS = frozenset({
     'boxed-text',
     'button-link',
     'glossary-link',
+    'interactive',
     'heading'
 })
 
