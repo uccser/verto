@@ -52,7 +52,7 @@
         "optional_parameter_dependencies": {
           "text": [],
           "parameters": [],
-          "thumbnail": [] 
+          "thumbnail": []
         }
     },
     "title": {
@@ -76,9 +76,7 @@
     "iframe": {
         "pattern": "\\{iframe ?(?P<args>[^\\}]*)\\}",
         "required_parameters": ["link"],
-        "optional_parameter_dependencies": {
-            "indented": []
-        }
+        "optional_parameter_dependencies": {}
     },
     "heading": {
         "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
