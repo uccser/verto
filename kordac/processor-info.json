@@ -67,6 +67,13 @@
             "indented": []
         }
     },
+    "iframe": {
+        "pattern": "\\{iframe ?(?P<args>[^\\}]*)\\}",
+        "required_parameters": ["link"],
+        "optional_parameter_dependencies": {
+            "indented": []
+        }
+    },
     "heading": {
         "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
     },

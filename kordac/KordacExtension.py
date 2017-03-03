@@ -18,6 +18,7 @@ from kordac.processors.ConditionalProcessor import ConditionalProcessor
 from kordac.processors.RemovePostprocessor import RemovePostprocessor
 from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
+from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
@@ -61,7 +62,8 @@ class KordacExtension(Extension):
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin'],
-            ['heading', HeadingBlockProcessor(self, md.parser), '_begin']
+            ['heading', HeadingBlockProcessor(self, md.parser), '_begin'],
+            ['iframe', FrameBlockProcessor(self, md.parser), '_begin']
         ]
 
         for processor_data in preprocessors:
