@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
+from kordac.processors.errors.ParameterMissingError import ParameterMissingError
 from kordac.tests.ProcessorTest import ProcessorTest
 
 class FrameTest(ProcessorTest):
@@ -14,6 +15,15 @@ class FrameTest(ProcessorTest):
         self.ext = Mock()
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
+
+    def test_example_no_link(self):
+        test_string = self.read_test_file(self.processor_name, 'example_no_link.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [FrameBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        with self.assertRaises(ParameterMissingError):
+            markdown.markdown(test_string, extensions=[self.kordac_extension])
 
     #~
     # Doc Tests

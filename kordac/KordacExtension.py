@@ -9,7 +9,6 @@ from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcesso
 from kordac.processors.RelativeLinkPattern import RelativeLinkPattern
 from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
-from kordac.processors.DjangoPostProcessor import DjangoPostProcessor
 from kordac.processors.GlossaryLinkPattern import GlossaryLinkPattern
 from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
 from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
