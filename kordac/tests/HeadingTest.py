@@ -27,8 +27,7 @@ class HeadingTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         tree = self.kordac_extension.get_heading_tree()
-        expected_tree = None
-        self.assertEqual(tree, expected_tree)
+        self.assertIsNone(tree)
 
     def test_single_heading(self):
         test_string = self.read_test_file(self.processor_name, 'example_single_heading.md')
@@ -48,7 +47,7 @@ class HeadingTest(ProcessorTest):
                                         children=()
             ),
         )
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
 
     #~
     # Doc Tests
@@ -85,7 +84,7 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                     )
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
 
 
     def test_doc_example_override_html(self):
@@ -147,7 +146,7 @@ class HeadingTest(ProcessorTest):
                         ),
                     )
 
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
 
     def test_multiple_roots_zero_level(self):
         test_string = self.read_test_file(self.processor_name, 'multiple_roots_zero_level.md')
@@ -204,4 +203,4 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                     )
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
