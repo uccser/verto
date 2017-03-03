@@ -11,6 +11,8 @@ DEFAULT_PROCESSORS = frozenset({
     'boxed-text',
     'button-link',
     'glossary-link',
+    'interactive',
+    'heading'
 })
 
 class Kordac(object):
@@ -62,7 +64,8 @@ class Kordac(object):
         result = KordacResult(
             html_string=html_string,
             title=self.kordac_extension.title,
-            required_files=self.kordac_extension.required_files
+            required_files=self.kordac_extension.required_files,
+            heading_tree=self.kordac_extension.get_heading_tree()
         )
         return result
 
@@ -114,7 +117,7 @@ class KordacResult(object):
     after a conversion by run.
     """
 
-    def __init__(self, html_string, title, required_files):
+    def __init__(self, html_string, title, required_files, heading_tree):
         """Create a KordacResult object.
 
         Args:
@@ -125,3 +128,4 @@ class KordacResult(object):
         self.html_string = html_string
         self.title = title
         self.required_files = required_files
+        self.heading_tree = heading_tree
