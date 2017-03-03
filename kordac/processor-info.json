@@ -73,6 +73,11 @@
             "indented": []
         }
     },
+    "iframe": {
+        "pattern": "\\{iframe ?(?P<args>[^\\}]*)\\}",
+        "required_parameters": ["link"],
+        "optional_parameter_dependencies": {}
+    },
     "table-of-contents": {
       "pattern": "(^|\\n)\\{table-of-contents\\}(\\n|$)"
     },
