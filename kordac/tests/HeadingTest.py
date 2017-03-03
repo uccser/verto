@@ -122,7 +122,7 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                         HeadingNode(title='This is an H1',
-                                    title_slug='this-is-an-h11',
+                                    title_slug='this-is-an-h1-2',
                                     level=1,
                                     children=(
                                         HeadingNode(
@@ -141,7 +141,7 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                         HeadingNode(title='This is an H1',
-                                    title_slug='this-is-an-h12',
+                                    title_slug='this-is-an-h1-3',
                                     level=1,
                                     children=()
                         ),
@@ -186,16 +186,16 @@ class HeadingTest(ProcessorTest):
                                     children=(
                                         HeadingNode(
                                             title='This is an H3',
-                                            title_slug='this-is-an-h31',
+                                            title_slug='this-is-an-h3-2',
                                             level=3,
                                             children=()
                                         ),
                                         HeadingNode(title='This is an H2',
-                                                    title_slug='this-is-an-h21',
+                                                    title_slug='this-is-an-h2-2',
                                                     level=2,
                                                     children=(
                                                         HeadingNode(title='This is an H4',
-                                                                    title_slug='this-is-an-h41',
+                                                                    title_slug='this-is-an-h4-2',
                                                                     level=4,
                                                                     children=()
                                                         ),
