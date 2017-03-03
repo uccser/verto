@@ -12,7 +12,8 @@ DEFAULT_PROCESSORS = frozenset({
     'button-link',
     'glossary-link',
     'interactive',
-    'heading'
+    'heading',
+    'table-of-contents',
 })
 
 class Kordac(object):
