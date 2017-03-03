@@ -17,6 +17,7 @@ from kordac.tests.RemoveTitleTest import RemoveTitleTest
 from kordac.tests.RelativeLinkTest import RelativeLinkTest
 from kordac.tests.ConditionalTest import ConditionalTest
 from kordac.tests.FrameTest import FrameTest
+from kordac.tests.TableOfContentsTest import TableOfContentsTest
 
 def parse_args():
     opts = optparse.OptionParser(
@@ -60,7 +61,8 @@ def unit_suite():
         unittest.makeSuite(ButtonLinkTest),
         unittest.makeSuite(BoxedTextTest),
         unittest.makeSuite(ConditionalTest),
-        unittest.makeSuite(FrameTest)
+        unittest.makeSuite(FrameTest),
+        unittest.makeSuite(TableOfContentsTest)
     ))
 
 if __name__ == '__main__':

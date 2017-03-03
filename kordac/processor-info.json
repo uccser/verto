@@ -78,6 +78,9 @@
         "required_parameters": ["link"],
         "optional_parameter_dependencies": {}
     },
+    "table-of-contents": {
+      "pattern": "(^|\\n)\\{table-of-contents\\}(\\n|$)"
+    },
     "heading": {
         "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
     },
