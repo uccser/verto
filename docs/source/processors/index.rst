@@ -24,4 +24,5 @@ The following pages covers how to use the available processors within Markdown t
     relative-link
     remove-title
     save-title
+    scratch
     video
