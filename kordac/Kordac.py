@@ -12,6 +12,7 @@ DEFAULT_PROCESSORS = frozenset({
     'button-link',
     'glossary-link',
     'heading',
+    'interactive',
     'iframe'
 })
 
