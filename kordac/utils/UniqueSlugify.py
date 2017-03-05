@@ -6,13 +6,14 @@ class UniqueSlugify(object):
     on each successive call.
     '''
 
-    def __init__(self, uids=set(), entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, separator='-', save_order=False, stopwords=()):
+    def __init__(self, uids=set(), occurance_separator='-', entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, separator='-', save_order=False, stopwords=()):
         '''
         Args:
             uids: A set of strings which are already taken as slugs.
             Others: Passed directly to slugify.
         '''
         self.uids = set(uids)
+        self.occurance_separator = str(occurance_separator)
         self.entities = bool(entities)
         self.decimal = bool(decimal)
         self.hexadecimal = bool(hexadecimal)
@@ -38,14 +39,16 @@ class UniqueSlugify(object):
                         separator=self.separator,
                         save_order=self.save_order,
                         stopwords=self.stopwords)
-        count = 0
+        count = 1
         new_slug = slug
         while new_slug in self.uids:
             count += 1
             end_index = len(slug)
-            if self.max_length and (len(slug) + floor(log10(count))) >= self.max_length:
-                end_index = self.max_length - floor(log10(count)) - 1
-            new_slug = "{0}{1}".format(slug[:end_index], count)
+            if self.max_length and (len(slug)
+                                    + len(self.occurance_separator)
+                                    + floor(log10(count))) >= self.max_length:
+                end_index = self.max_length - floor(log10(count)) - len(self.occurance_separator) - 1
+            new_slug = "{0}{1}{2}".format(slug[:end_index], self.occurance_separator, count)
         self.uids.add(new_slug)
         return new_slug
 

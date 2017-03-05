@@ -27,8 +27,7 @@ class HeadingTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         tree = self.kordac_extension.get_heading_tree()
-        expected_tree = None
-        self.assertEqual(tree, expected_tree)
+        self.assertIsNone(tree)
 
     def test_single_heading(self):
         test_string = self.read_test_file(self.processor_name, 'example_single_heading.md')
@@ -48,7 +47,7 @@ class HeadingTest(ProcessorTest):
                                         children=()
             ),
         )
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
 
     #~
     # Doc Tests
@@ -85,7 +84,7 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                     )
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
 
 
     def test_doc_example_override_html(self):
@@ -122,7 +121,7 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                         HeadingNode(title='This is an H1',
-                                    title_slug='this-is-an-h11',
+                                    title_slug='this-is-an-h1-2',
                                     level=1,
                                     children=(
                                         HeadingNode(
@@ -141,13 +140,13 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                         HeadingNode(title='This is an H1',
-                                    title_slug='this-is-an-h12',
+                                    title_slug='this-is-an-h1-3',
                                     level=1,
                                     children=()
                         ),
                     )
 
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
 
     def test_multiple_roots_zero_level(self):
         test_string = self.read_test_file(self.processor_name, 'multiple_roots_zero_level.md')
@@ -186,16 +185,16 @@ class HeadingTest(ProcessorTest):
                                     children=(
                                         HeadingNode(
                                             title='This is an H3',
-                                            title_slug='this-is-an-h31',
+                                            title_slug='this-is-an-h3-2',
                                             level=3,
                                             children=()
                                         ),
                                         HeadingNode(title='This is an H2',
-                                                    title_slug='this-is-an-h21',
+                                                    title_slug='this-is-an-h2-2',
                                                     level=2,
                                                     children=(
                                                         HeadingNode(title='This is an H4',
-                                                                    title_slug='this-is-an-h41',
+                                                                    title_slug='this-is-an-h4-2',
                                                                     level=4,
                                                                     children=()
                                                         ),
@@ -204,4 +203,4 @@ class HeadingTest(ProcessorTest):
                                     )
                         ),
                     )
-        self.assertEqual(tree, expected_tree)
+        self.assertTupleEqual(tree, expected_tree)
