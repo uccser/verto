@@ -30,7 +30,8 @@ setup(
     install_requires=[
         'markdown>=2.6.8',
         'bs4>=0.0.1',
-        'Jinja2>=2.9.5'
+        'Jinja2>=2.9.5',
+        'python-slugify>=1.2.1'
     ],
     zip_safe=False
 )

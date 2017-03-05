@@ -17,12 +17,15 @@ The following pages covers how to use the available processors within Markdown t
     button-link
     comment
     conditional
+    iframe
     glossary-link
     heading
     image
+    interactive
     panel
     relative-link
     remove-title
     save-title
     scratch
+    table-of-contents
     video

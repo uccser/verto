@@ -3,7 +3,14 @@ Heading
 
 **Processor name:** ``heading``
 
-This replaces the output of atx-style headings from the standard *markdown* block element. You may creating a heading by using the following format:
+This replaces the output of Markdown headings that begin with the ``#`` character (atx-style headings).
+This processor an ID to each heading which allows for linking to a heading, and adds the heading number before the heading text.
+
+.. note::
+
+    This processor replaces the output of the standard markdown block processor for atx-style headings.
+
+You may create a heading by using the following format:
 
 .. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_basic_usage.md
    :language: none
@@ -13,7 +20,7 @@ The default HTML for headings is:
 .. literalinclude:: ../../../kordac/html-templates/heading.html
    :language: css+jinja
 
-**Example 1**
+**Example**
 
 Using the following tag:
 

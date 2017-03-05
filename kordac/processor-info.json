@@ -47,7 +47,13 @@
         }
     },
     "interactive": {
-        "pattern": "^\\{interactive ?(?P<args>[^\\}]*)\\}$"
+        "pattern": "^\\{interactive (?P<args>[^\\}]*)\\}$",
+        "required_parameters": ["name", "type"],
+        "optional_parameter_dependencies": {
+          "text": [],
+          "parameters": [],
+          "thumbnail": []
+        }
     },
     "title": {
         "pattern": "^#+ ?(.*)"
@@ -66,6 +72,14 @@
         "optional_parameter_dependencies": {
             "indented": []
         }
+    },
+    "iframe": {
+        "pattern": "\\{iframe ?(?P<args>[^\\}]*)\\}",
+        "required_parameters": ["link"],
+        "optional_parameter_dependencies": {}
+    },
+    "table-of-contents": {
+      "pattern": "(^|\\n)\\{table-of-contents\\}(\\n|$)"
     },
     "heading": {
         "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
