@@ -5,7 +5,7 @@ from collections import namedtuple
 from hashlib import sha256
 import re
 
-class ScratchData(namedtuple('ScratchData', 'hash, text')):
+class ScratchImageMetaData(namedtuple('ScratchImageMetaData', 'hash, text')):
     ''' Represents data required to make a scratch image.
 
     Keyword arguments:
@@ -105,7 +105,7 @@ class ScratchBlockProcessor(BlockProcessor):
         Returns:
             The hash of the text for image retrieval.
         '''
-        return sha256(text.encode('utf8'))
+        return sha256(text.encode('utf8')).hexdigest()
 
     def update_required_images(self, content_hash, text):
         '''Adds the scratch code and hash to the kordac result.
@@ -114,4 +114,4 @@ class ScratchBlockProcessor(BlockProcessor):
             content_hash: The image hash.
             text: The source text of the image.
         '''
-        self.scratch_images.append(HeadingNode(hash=content_hash, text=text))
+        self.scratch_images.add(ScratchImageMetaData(hash=content_hash, text=text))
