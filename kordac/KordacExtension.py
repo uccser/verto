@@ -34,6 +34,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
     def __init__(self, processors=[], html_templates={}, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.required_files = defaultdict(set)
         self.title = None
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
@@ -42,7 +43,6 @@ class KordacExtension(Extension):
         self.custom_slugify = UniqueSlugify()
         self.glossary_terms = defaultdict(list)
         self.heading_tree = None
-        super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
         preprocessors = [
@@ -87,9 +87,10 @@ class KordacExtension(Extension):
 
     def clear_saved_data(self):
         self.title = None
-        self.required_files.clear()
         self.custom_slugify.clear()
         self.heading_tree = None
+        for key in self.required_files.keys():
+            self.required_files[key].clear()
 
     def loadJinjaTemplates(self, custom_templates):
         templates = {}

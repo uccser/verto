@@ -42,9 +42,9 @@ class HeadingTest(ProcessorTest):
         tree = self.kordac_extension.get_heading_tree()
         expected_tree = (
             HeadingNode(title='Heading One',
-                                        title_slug='heading-one',
-                                        level=1,
-                                        children=()
+                        title_slug='heading-one',
+                        level=1,
+                        children=()
             ),
         )
         self.assertTupleEqual(tree, expected_tree)
