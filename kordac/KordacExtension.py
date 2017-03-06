@@ -46,26 +46,29 @@ class KordacExtension(Extension):
 
     def extendMarkdown(self, md, md_globals):
         preprocessors = [
+            ['comment', CommentPreprocessor(self, md), '_begin'],
             ['save-title', SaveTitlePreprocessor(self, md), '_end'],
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
-            ['comment', CommentPreprocessor(self, md), '_begin'],
         ]
         inlinepatterns = [
             ['relative-link', RelativeLinkPattern(self, md), '_begin'],
-            ['glossary-link', GlossaryLinkPattern(self, md), '_begin']
+            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
         ]
         blockprocessors = [
-            ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+        # Markdown overrides
+            ['scratch', ScratchBlockProcessor(self, md.parser), '<code'],
+            ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
+        # Single line (in increasing complexity)
+            ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin'],
+            ['iframe', FrameBlockProcessor(self, md.parser), '_begin'],
             ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+            ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
+            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             ['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
-            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
+        # Multiline
             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin'],
-            ['heading', HeadingBlockProcessor(self, md.parser), '_begin'],
-            ['iframe', FrameBlockProcessor(self, md.parser), '_begin'],
-            ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin'],
-            ['scratch', ScratchBlockProcessor(self, md.parser), '>code']
+            ['panel', PanelBlockProcessor(self, md.parser), '_begin'],
         ]
 
         for processor_data in preprocessors:
