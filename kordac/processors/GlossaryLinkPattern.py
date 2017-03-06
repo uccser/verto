@@ -26,6 +26,8 @@ class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
         self.template = self.ext.jinja_templates[self.processor]
         self.required_parameters = self.ext.processor_info[self.processor]['required_parameters']
         self.optional_parameters = self.ext.processor_info[self.processor]['optional_parameter_dependencies']
+        self.ext_glossary_terms = ext.glossary_terms
+        self.unique_slugify = ext.custom_slugify
 
     def handleMatch(self, match):
 
@@ -40,20 +42,9 @@ class GlossaryLinkPattern(markdown.inlinepatterns.Pattern):
         context['term'] = term
         context['text'] = text
 
-        identifier = 'glossary-{}{}'
-
         if reference is not None:
-            if term in self.ext.glossary_term_occurance_counter.keys():
-                self.ext.glossary_term_occurance_counter[term] += 1
-            else:
-                self.ext.glossary_term_occurance_counter[term] = 1
-
-            count = self.ext.glossary_term_occurance_counter[term]
-            if count > 1:
-                identifier = identifier.format(term, '-' + str(count))
-            else:
-                identifier = identifier.format(term, '')
-
+            identifier = self.unique_slugify('glossary-' + term)
+            self.ext_glossary_terms[term].append((reference, identifier))
             context['id'] = identifier
 
         html_string = self.template.render(context)

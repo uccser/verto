@@ -39,8 +39,8 @@ class KordacExtension(Extension):
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.processor_info = self.loadProcessorInfo()
         self.processors = processors
-        self.glossary_term_occurance_counter = {}
         self.custom_slugify = UniqueSlugify()
+        self.glossary_terms = defaultdict(list)
         self.heading_tree = None
         super().__init__(*args, **kwargs)
 
