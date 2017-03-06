@@ -50,21 +50,22 @@ above), it doesn't not generate the image but saves the enclosed text and hash
 of the text in the ``required_files`` attribute under the key
 ``scratch_images``.
 
-Here is an example of the result of required files after the parsing two
-Scratch blocks:
+The following is an example of the result of required files after the parsing
+two Scratch blocks, where the ``scratch_images`` key points to a set of
+``namedtuple`` objects containing a ``hash`` (string) and ``text`` (string):
 
 .. code-block:: python
 
     required_files = {
         "scratch_images": [
-            {
-            "text": "when flag clicked\nsay [Hi]\n",
-            "hash": "12203e8a9d57d5a3bdc384522acd150c"
-            },
-            {
-              "text": "when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees\n",
-              "hash": "51b6c618e8440f64869ee24ad8405930"
-            }
+            ScratchImageMetaData(
+              hash="12203e8a9d57d5a3bdc384522acd150c",
+              text="when flag clicked\nsay [Hi]\n"
+            ),
+            ScratchImageMetaData(
+              hash="51b6c618e8440f64869ee24ad8405930",
+              text="when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees\n"
+            )
         ]
     }
 
