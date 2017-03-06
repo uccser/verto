@@ -19,6 +19,7 @@ from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
 from kordac.processors.TableOfContentsBlockProcessor import TableOfContentsBlockProcessor
+from kordac.processors.ScratchBlockProcessor import ScratchBlockProcessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
@@ -63,7 +64,8 @@ class KordacExtension(Extension):
             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin'],
             ['heading', HeadingBlockProcessor(self, md.parser), '_begin'],
             ['iframe', FrameBlockProcessor(self, md.parser), '_begin'],
-            ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin']
+            ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin'],
+            ['scratch', ScratchBlockProcessor(self, md.parser), '>code']
         ]
 
         for processor_data in preprocessors:
