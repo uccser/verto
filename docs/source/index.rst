@@ -22,6 +22,7 @@ For example:
     processors/index
     extensions
     changelog
+    contributing
 
 Other Features
 ==============
