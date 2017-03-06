@@ -59,11 +59,11 @@ two Scratch blocks, where the ``scratch_images`` key points to a set of
     required_files = {
         "scratch_images": [
             ScratchImageMetaData(
-              hash="12203e8a9d57d5a3bdc384522acd150c",
+              hash="a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da",
               text="when flag clicked\nsay [Hi]\n"
             ),
             ScratchImageMetaData(
-              hash="51b6c618e8440f64869ee24ad8405930",
+              hash="a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576",
               text="when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees\n"
             )
         ]
