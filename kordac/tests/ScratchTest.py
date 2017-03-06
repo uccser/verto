@@ -30,13 +30,13 @@ class ScratchTest(ProcessorTest):
 
         # Should really test result a better way
         actual = self.kordac_extension.required_files['scratch_images']
-        excpected = {
+        expected = {
                         ScratchImageMetaData(
                             hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
                             text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, excpected)
+        self.assertSetEqual(actual, expected)
 
     def test_doc_example_override_html(self):
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
@@ -54,13 +54,13 @@ class ScratchTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         actual = kordac_extension.required_files['scratch_images']
-        excpected = {
+        expected = {
                         ScratchImageMetaData(
                             hash='a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da',
                             text='when flag clicked\nsay [Hi]'
                         ),
                     }
-        self.assertSetEqual(actual, excpected)
+        self.assertSetEqual(actual, expected)
 
     #~
     # Other Tests
@@ -79,13 +79,13 @@ class ScratchTest(ProcessorTest):
 
         # Should really test result a better way
         actual = self.kordac_extension.required_files['scratch_images']
-        excpected = {
+        expected = {
                         ScratchImageMetaData(
                             hash='8e8a2129c3cecf32101248439961735fc1d45793fadc56e2575673f63d42b9fb',
                             text='when flag clicked\nclear\nforever\npen down\n\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\n\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, excpected)
+        self.assertSetEqual(actual, expected)
 
 
     def test_example_multiple_codeblocks(self):
@@ -102,7 +102,7 @@ class ScratchTest(ProcessorTest):
 
         # Should really test result a better way
         actual = self.kordac_extension.required_files['scratch_images']
-        excpected = {
+        expected = {
                         ScratchImageMetaData(
                             hash='a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da',
                             text='when flag clicked\nsay [Hi]'
@@ -116,4 +116,24 @@ class ScratchTest(ProcessorTest):
                             text='when flag clicked\nclear\nforever\npen down\n\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\n\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, excpected)
+        self.assertSetEqual(actual, expected)
+
+    def test_example_other_code(self):
+        test_string = self.read_test_file(self.processor_name, 'example_other_code.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False], [ScratchBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'example_other_code_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        # Should really test result a better way
+        actual = self.kordac_extension.required_files['scratch_images']
+        expected = {
+                        ScratchImageMetaData(
+                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
+                        ),
+                    }
+        self.assertSetEqual(actual, expected)
