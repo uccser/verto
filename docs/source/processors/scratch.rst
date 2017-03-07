@@ -13,8 +13,10 @@ to produce the following image:
 
 .. image:: ../images/scratch_blocks_example.png
 
-The syntax is the same for default Markdown code blocks, but Kordac handles the
-content differently due to the ``scratch`` language set at the start.
+The syntax is the same for default Markdown code blocks and works with
+fenced blocks and specified by the extension ``markdown.extensions.fenced_code``,
+but Kordac handles the content differently due to the ``scratch`` language set
+at the start.
 
 You can test the output of your Scratch block text at
 `scratchblocks.github.io`_.
@@ -24,6 +26,10 @@ You can test the output of your Scratch block text at
     Kordac doesn't create the Scratch images, but saves data for another system
     (for example: Django) to create the images.
     See :ref:`accessing-scratch-image-data` section below.
+
+.. note::
+
+    The following examples assume usage of the fenced code extension.
 
 The default HTML for button links is:
 
