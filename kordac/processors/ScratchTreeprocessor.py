@@ -31,7 +31,6 @@ class ScratchTreeprocessor(Treeprocessor):
         self.processor = 'scratch'
         self.template = ext.jinja_templates[self.processor]
         self.scratch_images = ext.required_files['scratch_images']
-        self.fenced_compatibility = '___' in ext.compatibility
 
     def run(self, root):
         ''' Processes the html tree finding code tags where scratch
@@ -40,52 +39,20 @@ class ScratchTreeprocessor(Treeprocessor):
         Args:
             root: The root of the document element tree.
         '''
-        if not self.fenced_compatibility:
-            for node in root.iter('pre'):
-                children = list(node)
-                content = children[0].text.strip()
-                if len(children) == 1 and content.startswith('scratch\n'):
-                    content = content[len('scratch\n'):]
-                    content_hash = ScratchTreeprocessor.hash_content(content)
-                    self.update_required_images(content_hash, content)
-                    html_string = self.template.render({ 'hash': content_hash })
-                    new_node = etree.fromstring(html_string)
+        for node in root.iter('pre'):
+            children = list(node)
+            content = children[0].text.strip()
+            if len(children) == 1 and content.startswith('scratch\n'):
+                content = content[len('scratch\n'):]
+                content_hash = ScratchTreeprocessor.hash_content(content)
+                self.update_required_images(content_hash, content)
+                html_string = self.template.render({ 'hash': content_hash })
+                new_node = etree.fromstring(html_string)
 
-                    node.tag = "remove"
-                    node.text = ""
-                    node.append(new_node)
-                    node.remove(children[0])
-
-        else:  # For compatibility with fenced_code extension
-            print("START")
-            root_string = etree.tostring(root, encoding="unicode", method="html")
-            print(root_string)
-            print("END")
-
-            for node in root.iter('pre'):
-                children = list(node)
-                content = children[0].text.strip()
-                if len(children) == 1 and content.startswith('scratch\n'):
-                    content = content[len('scratch\n'):]
-                    content_hash = ScratchTreeprocessor.hash_content(content)
-                    self.update_required_images(content_hash, content)
-                    html_string = self.template.render({ 'hash': content_hash })
-                    new_node = etree.fromstring(html_string)
-
-                    node.tag = "remove"
-                    node.text = ""
-                    node.append(new_node)
-                    node.remove(children[0])
-            # elif (self.fenced_compatibility and len(children) == 1 and children[0].tag == 'code'
-            # and 'class' in children[0].attrib and children[0].attrib['class'] == 'scratch'):
-            #     content_hash = ScratchTreeprocessor.hash_content(content)
-            #     self.update_required_images(content_hash, content)
-            #     html_string = self.template.render({ 'hash': content_hash })
-            #     node = etree.fromstring(html_string)
-            #
-            #     node.tag = "remove"
-            #     node.text = ""
-            #     node.append(node)
+                node.tag = "remove"
+                node.text = ""
+                node.append(new_node)
+                node.remove(children[0])
 
     @staticmethod
     def hash_content(text):
