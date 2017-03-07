@@ -47,7 +47,8 @@ class Kordac(object):
         """Create the Kordac extension and converter for future use."""
         self.kordac_extension = KordacExtension(
             processors=self.processors,
-            html_templates=self.html_templates
+            html_templates=self.html_templates,
+            extensions=self.extensions
         )
         all_extensions = self.extensions + [self.kordac_extension]
         self.converter = markdown.Markdown(extensions=all_extensions)

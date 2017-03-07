@@ -88,7 +88,5 @@
         "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
     },
     "scratch": {
-      "pattern_start": "(^|\\n)```\\s?scratch(\\n|$)",
-      "pattern_end": "(^|\\n)```(\\n|$)"
     }
 }

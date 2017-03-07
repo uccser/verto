@@ -19,7 +19,7 @@ from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
 from kordac.processors.TableOfContentsBlockProcessor import TableOfContentsBlockProcessor
-from kordac.processors.ScratchTreeProcessor import ScratchTreeProcessor
+from kordac.processors.ScratchTreeprocessor import ScratchTreeprocessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
@@ -33,7 +33,7 @@ import json
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
-    def __init__(self, processors=[], html_templates={}, *args, **kwargs):
+    def __init__(self, processors=[], html_templates={}, extensions=[], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.required_files = defaultdict(set)
         self.title = None
@@ -45,9 +45,12 @@ class KordacExtension(Extension):
         self.heading_tree = None
 
         self.compatibility = []
-        for extension in kwargs.get('extensions', []):
-            if isinstance(ext, utils.string_type):
-                self.compatibility.append(extension)
+        for extension in extensions:
+            if isinstance(extension, utils.string_type):
+                if extension.endswith('codehilite'):
+                    self.compatibility.append('hilite')
+                if extension.endswith('fenced_code'):
+                    self.compatibility.append('fenced_code_block')
 
     def extendMarkdown(self, md, md_globals):
         preprocessors = [
@@ -76,11 +79,9 @@ class KordacExtension(Extension):
             ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
         ]
         treeprocessors = [
-            ['scratch', ScratchTreeProcessor(self, md.parser), '>inline'],
+            ['scratch', ScratchTreeprocessor(self, md.parser), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
         ]
-        postprocessors = [
-
-        ]
+        postprocessors = []
 
         for processor_data in preprocessors:
             if processor_data[0] in self.processors:
