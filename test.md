@@ -1,0 +1,12 @@
+	scratch
+	when flag clicked
+	clear
+	forever
+	pen down
+	if &lt;&lt;mouse down?&gt; and &lt;touching [mouse-pointer v]?&gt;&gt; then
+	switch costume to [button v]
+	else
+	add (x position) to [list v]
+	end
+	move (foo) steps
+	turn ccw (9) degrees
