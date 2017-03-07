@@ -79,7 +79,7 @@ class KordacExtension(Extension):
             ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
         ]
         treeprocessors = [
-            ['scratch', ScratchTreeprocessor(self, md.parser), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
+            ['scratch', ScratchTreeprocessor(self, md), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
         ]
         postprocessors = []
 

@@ -11,6 +11,8 @@ class ScratchTest(ProcessorTest):
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'scratch'
 
+    def setUp(self):
+        self.kordac_extension = KordacExtension([self.processor_name], {}, ['markdown.extensions.fenced_code'])
     #~
     # Doc Tests
     #~
