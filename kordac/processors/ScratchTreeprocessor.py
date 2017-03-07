@@ -46,7 +46,14 @@ class ScratchTreeprocessor(Treeprocessor):
         if self.fenced_compatibility:
             for i in range(self.markdown.htmlStash.html_counter):
                 html_string, safe = self.markdown.htmlStash.rawHtmlBlocks[i]
-                node = etree.fromstring(html_string)
+                node = None
+                try:
+                    node = etree.fromstring(html_string)
+                except etree.ParseError:
+                    pass
+
+                if node is None:
+                    continue
                 self.process_html(node)
                 html_string = etree.tostring(node, encoding="unicode", method="html")
                 self.markdown.htmlStash.rawHtmlBlocks[i] = html_string, safe

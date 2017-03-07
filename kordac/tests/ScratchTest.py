@@ -37,9 +37,9 @@ class ScratchTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
-        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template})
+        kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template}, extensions=['markdown.extensions.fenced_code'])
 
-        converted_test_string = markdown.markdown(test_string, extensions=['markdown.extensions.fenced_code', self.kordac_extension])
+        converted_test_string = markdown.markdown(test_string, extensions=['markdown.extensions.fenced_code', kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
@@ -55,6 +55,24 @@ class ScratchTest(ProcessorTest):
     #~
     # Other Tests
     #~
+    def test_example_standard_markdown_block(self):
+        kordac_extension = KordacExtension([self.processor_name], {}, [])
+        test_string = self.read_test_file(self.processor_name, 'example_standard_markdown_block.md')
+
+        converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'example_standard_markdown_block_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        # Should really test result a better way
+        actual = kordac_extension.required_files['scratch_images']
+        expected = {
+                        ScratchImageMetaData(
+                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
+                        ),
+                    }
+        self.assertSetEqual(actual, expected)
+
     def test_example_separate_blocks(self):
         test_string = self.read_test_file(self.processor_name, 'example_separate_blocks.md')
 
