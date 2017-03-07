@@ -13,10 +13,14 @@ to produce the following image:
 
 .. image:: ../images/scratch_blocks_example.png
 
-The syntax is the same for default Markdown code blocks and works with
-fenced blocks and specified by the extension ``markdown.extensions.fenced_code``,
-but Kordac handles the content differently due to the ``scratch`` language set
-at the start.
+The syntax is the same for default Markdown code blocks. The only difference
+is that Kordac handles the content differently due to the ``scratch`` language
+set at the start.
+
+.. note::
+
+    This processor also works with syntax introduced by the `fenced_blocks`
+    and/or `codehilite` extensions.
 
 You can test the output of your Scratch block text at
 `scratchblocks.github.io`_.
@@ -29,7 +33,8 @@ You can test the output of your Scratch block text at
 
 .. note::
 
-    The following examples assume usage of the fenced code extension.
+    The following examples assume usage of the fenced code extension, by having
+    ``markdown.extensions.fenced_code`` in the list of extensions given to Kordac.
 
 The default HTML for button links is:
 
