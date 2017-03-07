@@ -96,3 +96,27 @@ class ConfigurationTest(BaseTest):
         converted_test_string = kordac.convert(test_string).html_string
         expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_multiline_custom_templates(self):
+        custom_templates = {
+            "image": """<div class="text-center">
+                          <img src="{{ file_path }}" class="rounded img-thumbnail"/>
+                        </div>""",
+            "boxed-text": """<div class="card">
+                               <div class="card-block">
+                                 {{ text }}
+                               </div>
+                             </div>""",
+            "heading": """<{{ heading_type }} id="{{ title_slug }}">
+                            <span class="section_number">
+                              {{ level_1 }}.{{ level_2 }}.{{ level_3 }}.{{ level_4 }}.{{ level_5 }}.{{ level_6 }}.
+                            </span>
+                            {{ title }}
+                          </{{ heading_type }}>"""
+        }
+
+        kordac = Kordac(html_templates=custom_templates)
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'multiline_templates_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
