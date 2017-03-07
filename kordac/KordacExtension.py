@@ -20,6 +20,7 @@ from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
 from kordac.processors.TableOfContentsBlockProcessor import TableOfContentsBlockProcessor
 from kordac.processors.ScratchTreeprocessor import ScratchTreeprocessor
+from kordac.processors.ScratchCompatibilityPreprocessor import ScratchCompatibilityPreprocessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
@@ -60,7 +61,6 @@ class KordacExtension(Extension):
         ]
         blockprocessors = [
         # Markdown overrides
-
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
         # Single line (in increasing complexity)
             ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin'],
@@ -102,6 +102,10 @@ class KordacExtension(Extension):
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
+
+        # Compatibility modules
+        if 'hilite' in self.compatibility and 'fenced_code_block' in self.compatibility and 'scratch' in self.processors:
+            md.preprocessors.add('scratch-compatibility', ScratchCompatibilityPreprocessor(self, md), '<fenced_code_block')
 
     def clear_saved_data(self):
         self.title = None
