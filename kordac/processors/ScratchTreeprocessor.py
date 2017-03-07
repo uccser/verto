@@ -50,7 +50,6 @@ class ScratchTreeprocessor(Treeprocessor):
                 self.process_html(node)
                 html_string = etree.tostring(node, encoding="unicode", method="html")
                 self.markdown.htmlStash.rawHtmlBlocks[i] = html_string, safe
-                print(safe)
 
     def process_html(self, node):
         ''' Checks if given node is a scratch code tag and replaces
