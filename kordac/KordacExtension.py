@@ -19,7 +19,7 @@ from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
 from kordac.processors.TableOfContentsBlockProcessor import TableOfContentsBlockProcessor
-from kordac.processors.ScratchBlockProcessor import ScratchBlockProcessor
+from kordac.processors.ScratchTreeProcessor import ScratchTreeProcessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
@@ -44,19 +44,20 @@ class KordacExtension(Extension):
         self.glossary_terms = defaultdict(list)
         self.heading_tree = None
 
+        self.compatibility = []
+        for extension in kwargs.get('extensions', []):
+            if isinstance(ext, utils.string_type):
+                self.compatibility.append(extension)
+
     def extendMarkdown(self, md, md_globals):
         preprocessors = [
             ['comment', CommentPreprocessor(self, md), '_begin'],
             ['save-title', SaveTitlePreprocessor(self, md), '_end'],
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
         ]
-        inlinepatterns = [
-            ['relative-link', RelativeLinkPattern(self, md), '_begin'],
-            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
-        ]
         blockprocessors = [
         # Markdown overrides
-            ['scratch', ScratchBlockProcessor(self, md.parser), '<code'],
+
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
         # Single line (in increasing complexity)
             ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin'],
@@ -70,16 +71,32 @@ class KordacExtension(Extension):
             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin'],
             ['panel', PanelBlockProcessor(self, md.parser), '_begin'],
         ]
+        inlinepatterns = [ # A special treeprocessor
+            ['relative-link', RelativeLinkPattern(self, md), '_begin'],
+            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
+        ]
+        treeprocessors = [
+            ['scratch', ScratchTreeProcessor(self, md.parser), '>inline'],
+        ]
+        postprocessors = [
+
+        ]
 
         for processor_data in preprocessors:
             if processor_data[0] in self.processors:
                 md.preprocessors.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in inlinepatterns:
-            if processor_data[0] in self.processors:
-                md.inlinePatterns.add(processor_data[0], processor_data[1], processor_data[2])
         for processor_data in blockprocessors:
             if processor_data[0] in self.processors:
                 md.parser.blockprocessors.add(processor_data[0], processor_data[1], processor_data[2])
+        for processor_data in inlinepatterns:
+            if processor_data[0] in self.processors:
+                md.inlinePatterns.add(processor_data[0], processor_data[1], processor_data[2])
+        for processor_data in treeprocessors:
+            if processor_data[0] in self.processors:
+                md.treeprocessors.add(processor_data[0], processor_data[1], processor_data[2])
+        for processor_data in postprocessors:
+            if processor_data[0] in self.processors:
+                md.postprocessors.add(processor_data[0], processor_data[1], processor_data[2])
 
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
