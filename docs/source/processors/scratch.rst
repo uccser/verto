@@ -1,6 +1,11 @@
 Scratch
 #######################################
 
+.. note::
+
+    The following examples assume usage of the fenced code extension, by having
+    ``markdown.extensions.fenced_code`` in the list of extensions given to Kordac.
+
 **Processor name:** ``scratch``
 
 You can include an image of Scratch blocks using
@@ -31,10 +36,6 @@ You can test the output of your Scratch block text at
     (for example: Django) to create the images.
     See :ref:`accessing-scratch-image-data` section below.
 
-.. note::
-
-    The following examples assume usage of the fenced code extension, by having
-    ``markdown.extensions.fenced_code`` in the list of extensions given to Kordac.
 
 The default HTML for button links is:
 
