@@ -94,5 +94,5 @@ if __name__ == '__main__':
         unit_result = runner.run(unit_suite())
         print()
 
-    if (smoke_result is not None and not system_result.wasSuccessful()) or (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
+    if (smoke_result is not None and not smoke_result.wasSuccessful()) or (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
         sys.exit(1)
