@@ -1,6 +1,31 @@
 Changelog
 #######################################
 
+0.3.1
+=======================================
+Fixes:
+
+  - Updated documentation and changelog.
+
+0.3.0
+=======================================
+
+Third prerelease of the Kordac converter.
+
+Adds support for the following processors:
+
+  - :doc:`processors/heading`
+  - :doc:`processors/iframe`
+  - :doc:`processors/interactive`
+  - :doc:`processors/scratch`
+  - :doc:`processors/table-of-contents`
+
+Fixes:
+
+  - Kordac now orders tags correctly in the markdown pipeline.
+  - System tests for multiple calls to Kordac and for multi-line templates.
+  - Glossary tags now correctly store slugs for the Kordac result as per documentation.
+
 0.2.0
 =======================================
 
