@@ -26,6 +26,10 @@ class GlossaryLinkTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'single_word_term_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = dict()
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
+
     def test_multiple_word_term(self):
         test_string = self.read_test_file(self.processor_name, 'multiple_word_term.md')
 
@@ -35,6 +39,10 @@ class GlossaryLinkTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'multiple_word_term_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
+
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = dict()
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_reference_text_given(self):
         test_string = self.read_test_file(self.processor_name, 'reference_text_given.md')
@@ -46,6 +54,13 @@ class GlossaryLinkTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'reference_text_given_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = {
+            'chomsky-hierarchy':
+                [('Formal languages', 'glossary-chomsky-hierarchy')]
+        }
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
+
     def test_leading_inline_text(self):
         test_string = self.read_test_file(self.processor_name, 'leading_inline_text.md')
 
@@ -55,6 +70,10 @@ class GlossaryLinkTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'leading_inline_text_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
+
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = dict()
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_trailing_inline_text(self):
         test_string = self.read_test_file(self.processor_name, 'trailing_inline_text.md')
@@ -66,6 +85,10 @@ class GlossaryLinkTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'trailing_inline_text_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = dict()
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
+
     def test_leading_and_trailing_inline_text(self):
         test_string = self.read_test_file(self.processor_name, 'leading_and_trailing_inline_text.md')
 
@@ -75,6 +98,10 @@ class GlossaryLinkTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'leading_and_trailing_inline_text_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
+
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = dict()
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_multiple_terms(self):
         test_string = self.read_test_file(self.processor_name, 'multiple_terms.md')
@@ -86,6 +113,13 @@ class GlossaryLinkTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'multiple_terms_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = {
+            'finite-state-automaton':
+                [('Formal languages', 'glossary-finite-state-automaton')]
+        }
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
+
     def test_multiple_reference_text(self):
         test_string = self.read_test_file(self.processor_name, 'multiple_reference_text.md')
 
@@ -95,6 +129,16 @@ class GlossaryLinkTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'multiple_reference_text_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
+
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = {
+            'algorithm':
+                [('computer program', 'glossary-algorithm'),
+                 ('algorithm cost', 'glossary-algorithm-2'),
+                 ('searching algorithms', 'glossary-algorithm-3'),
+                 ('sorting algorithms', 'glossary-algorithm-4')]
+        }
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     #~
     # Doc Tests
@@ -110,6 +154,10 @@ class GlossaryLinkTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+        glossary_terms = self.kordac_extension.glossary_terms
+        expected_glossary_terms = dict()
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
+
     def test_doc_example_override_html(self):
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
 
@@ -123,3 +171,9 @@ class GlossaryLinkTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+        glossary_terms = kordac_extension.glossary_terms
+        expected_glossary_terms = {
+            'algorithm':
+                [('Software Engineering', 'glossary-algorithm')]
+        }
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)

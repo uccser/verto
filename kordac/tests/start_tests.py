@@ -16,6 +16,9 @@ from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
 from kordac.tests.RelativeLinkTest import RelativeLinkTest
 from kordac.tests.ConditionalTest import ConditionalTest
+from kordac.tests.FrameTest import FrameTest
+from kordac.tests.TableOfContentsTest import TableOfContentsTest
+from kordac.tests.ScratchTest import ScratchTest
 
 def parse_args():
     opts = optparse.OptionParser(
@@ -55,10 +58,13 @@ def unit_suite():
         unittest.makeSuite(ImageTest),
         unittest.makeSuite(RelativeLinkTest),
         unittest.makeSuite(VideoTest),
-        # unittest.makeSuite(InteractiveTest),
+        unittest.makeSuite(InteractiveTest),
         unittest.makeSuite(ButtonLinkTest),
         unittest.makeSuite(BoxedTextTest),
-        unittest.makeSuite(ConditionalTest)
+        unittest.makeSuite(ConditionalTest),
+        unittest.makeSuite(FrameTest),
+        unittest.makeSuite(TableOfContentsTest),
+        unittest.makeSuite(ScratchTest)
     ))
 
 if __name__ == '__main__':
@@ -75,7 +81,6 @@ if __name__ == '__main__':
     if options.travis and smoke_result and not smoke_result.wasSuccessful():
         print("Skipping other test-suites.")
         sys.exit(1)
-        print()
 
     system_result = None
     if not options.no_system:

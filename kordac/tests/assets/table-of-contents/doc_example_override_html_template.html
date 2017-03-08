@@ -1,0 +1,10 @@
+<div class="toc">
+  <strong>Table of Contents</strong>
+  <ul>
+    {% raw -%}
+      {% for heading in headings %}
+        <li><a href="#{{ heading.id }}">{{ heading.name }}</a></li>
+      {% endfor %}
+    {% endraw -%}
+  </ul>
+</div>

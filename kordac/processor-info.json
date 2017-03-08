@@ -47,10 +47,13 @@
         }
     },
     "interactive": {
-        "pattern": "^\\{interactive ?(?P<args>[^\\}]*)\\}$"
-    },
-    "heading": {
-        "pattern": "(^|\\n)(?P<level>#{1,6})(?P<header>.*?)#*(\\n|$)"
+        "pattern": "^\\{interactive (?P<args>[^\\}]*)\\}$",
+        "required_parameters": ["name", "type"],
+        "optional_parameter_dependencies": {
+          "text": [],
+          "parameters": [],
+          "thumbnail": []
+        }
     },
     "title": {
         "pattern": "^#+ ?(.*)"
@@ -70,9 +73,23 @@
             "indented": []
         }
     },
+    "iframe": {
+        "pattern": "\\{iframe ?(?P<args>[^\\}]*)\\}",
+        "required_parameters": ["link"],
+        "optional_parameter_dependencies": {}
+    },
+    "table-of-contents": {
+      "pattern": "(^|\\n)\\{table-of-contents\\}(\\n|$)"
+    },
+    "heading": {
+        "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
+    },
     "relative-link": {
-        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)",
-        "required_parameters": ["link_path"],
-        "optional_parameter_dependencies": []
+        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
+    },
+    "scratch": {
+      "scratch-compatibility": {
+        "pattern": "(?P<fence>^(?:~{3,}|`{3,}))[ ]*scratch?[ ]*(hl_lines=(?P<quot>\"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*}?[ ]*\n(?P<code>.*?)(?<=\n)(?P=fence)[ ]*$"
+      }
     }
 }
