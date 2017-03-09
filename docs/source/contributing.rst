@@ -18,9 +18,25 @@ If you would like to contribute to Kordac, fork the repository.
 
 Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For an overview on how to use kordac, refer to the usage page of these docs.
+Before reading this section, make sure you have read `how to use Kordac`_ (or even better, have already used Kordac!).
 
-Kordac is split into <> main parts:
+.. _how to use Kordac: http://kordac.readthedocs.io/en/develop/usage.html
+
+
+There are several parts and terms of Kordac to become familiar with:
+
+- **Tag**
+    This refers to the custom markdown syntax that Kordac processes.
+    
+    For example:
+    
+    .. code-block:: none
+
+      {comment this will be removed by the converter}
+
+      {image file-path='img/totally-real-image.png' alt='process me'}
+    
+    are examples of the ``comment`` and ``image`` tags in Kordac.  
 
 - ``Kordac()``
 	The convertor object itself. This is what a user will use to create a Kordac converter, and what is used to define a custom processor list, custom html templates and custom Markdown Extensions to use.
@@ -34,41 +50,40 @@ Kordac is split into <> main parts:
     	- Required glossary terms
 
 - ``KordacExtension()``
-    Inherits the `Extension` class from Markdown.
+    Inherits the ``Extension`` class from Markdown.
     This class is the main class of the project. It loads all the processor information, loads the template files and clears and populates the attributes to be returned by the ``KordacResult`` object.
 
 - ``Processors/``
-  	Each processor is independent from all other processors. There are several different kinds of processors, the types used in Kordac so far are ``preprocessor``, ``blockprocessor``, ``inlinepattern`` and ``treeprocessor``.
-  	
-  	- What does a processor actually do
-  	- Order
-  	- Types
+  	There is a different processor for each tag. A processor uses it's corresponding regex loaded from ``processor-info.json`` to find matches in the text, and uses the given arguments in the matched tag to populate and output it's html template.
 
-- ``Templates/``
-  	The jinja templates to be populated by processors.
+- ``html-templates/``
+  	The html templates (using Jinja2 template engine) to be populated by processors.
 
 - ``processor-info.json``
-
-Kordac is an extension for `Python Markdown`_.
-
-.. _Python Markdown: https://pythonhosted.org/Markdown/
-
+	Every processor is listed in this file, and will at least contain a regex pattern to match it's corresponding tag.
+	Most will also define required and optional parameters, these correspond to arguments in the tag's template.
 
 
 
 Creating a New Processor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To create a new processor, a good place to start is the `Extension API`_ page of the Python docs, or even the `source code`_ itself.
+To create a new processor, a good place to start is the `Extension API`_ page of the Python Markdown docs, or even the `source code`_ itself.
 
 .. _Extension API: https://pythonhosted.org/Markdown/extensions/api.html
 
 .. _source code: https://github.com/waylan/Python-Markdown
+
 
 There are several different kinds of processors available, each serving a slightly different purpose.
 
 Generally, every processor will have an ``__init__``, ``test`` and ``run`` method.
 
 The processors are called from the ``KordacExtension`` class.
+
+  	There are several different kinds of processors, the types used in Kordac so far are ``preprocessor``, ``blockprocessor``, ``inlinepattern`` and ``treeprocessor``. Each processor behaves slightly differently, and expects different input.
+  	
+  	Each processor is independent from all other processors, and the order of processors matters.
+
 
 Where do I add my processor to kordac, so that kordac knows to use it? (default processors)
 What order do processors happen in?
