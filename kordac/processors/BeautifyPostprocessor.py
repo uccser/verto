@@ -14,7 +14,7 @@ class BeautifyPostprocessor(Postprocessor):
 
     def run(self, text):
         text = self.store_non_pre_code_tags(text)
-        text = BeautifulSoup(text, 'html.parser').prettify()  # Could use `formatter="html"`
+        text = BeautifulSoup(text, 'html.parser').prettify(formatter="html")
         text = self.restore_non_pre_code_tags(text)
         return text
 
