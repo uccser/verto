@@ -6,9 +6,11 @@ The git repository for Kordac can be found here_.
 .. _here: https://github.com/uccser/kordac
 
 
-Issue Reporting
+Issue Reporting and Bug Fixes
 =======================================
 If you come across a bug in Kordac, please `report it`_ on the repo.
+
+<Bug fix? Add tests.>
 
 .. _report it: https://github.com/uccser/kordac/issues
 
@@ -117,11 +119,47 @@ To start the test suite:
 
 This will execute the Smoke, System and then Unit tests.
 
-To execute the test suite without the smoke tests:
+There are several arguments that can be used with this command to skip particular tests (``--no_smoke``, ``--no_system`` and ``--no_unit``).
+
+<folder structure>
+<Method names should be descriptive and start with "test">
+
+Adding Tests
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If you are adding an new test file (e.g. for a new processor), then this needs to be added to the Test Suite in ``start_tests.py``.
+
+Provided Base Classes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Processor Tests
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+All processor tests inherit from the ``ProcessorTest`` class. Processors should create a ``Mock()`` object, which will contain the bare minimum for the processor to be run (it's jinja template's and properties loaded from ``processor-info.json``), i.e. there is no reason for it to know about properties of the other processors.
+
+A test method will typically follow the same sequence of steps:
+
+	1. Retrieve the test string (there is a ``read_test_file()`` method provided by the ``ProcessorTest`` class)
+	2. Split into blocks (there is a ``to_blocks()`` method provided by the ``ProcessorTest`` class)
+	3. Use an ``Assert`` to confirm there are(not) matches to the regex
+	4. Convert the test string using the ``kordac_extension`` (provided by the ``SetUp()`` method in ``ProcessorTest``)
+	5. Load the expected converted result
+	6. Check the converted result is the same as the expected result
+
+
+Testing Assets
+***************************************
+<explain markdown and html file >
+
+
+The test markdown file and expected html file should be placed in ``kordac/tests/assets/<processor-name>/``. The expected file should have the same name as the corresponding test file, with ``expected`` appended to the file name.
+
+For example:
 
 .. code-block:: none
+	
+	kordac/tests/assets/boxed-text/no_boxed_text.md
+	kordac/tests/assets/boxed-text/no_boxed_text_expected.html
 
-	$ python3 -m kordac.tests.start_tests --no_smoke
+
 
 Creating a release
 =======================================
@@ -139,14 +177,11 @@ can only be performed by repository administrators
 
 .. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed, and also used during the documentation build to number the version of Kordac it was built from.
 
+
 Notes
 =======================================
 
-Talk about Base classes that we provide.
 Want to know why type of tests we want. (Check input and output)
-
-Bug fix? Add tests.
-
 
 
 Adding something that interacts with something else? Best to catch those interactions downstream - don't change things at the start of the pipeline to try and get things ready for a processor later on, let that second processor deal with it.
