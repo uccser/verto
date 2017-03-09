@@ -1,0 +1,113 @@
+from markdown.blockprocessors import BlockProcessor
+from kordac.processors.utils import *
+import re
+
+class GenericContainerBlockProcessor(BlockProcessor):
+    def __init__(self, processor, ext, *args, **kwargs):
+        '''
+        Args:
+            ext: An instance of the Kordac Extension.
+        '''
+        super().__init__(*args, **kwargs)
+        self.processor = processor
+        self.p_start = re.compile(r'\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}}').format(self.processor)
+        self.p_end = re.compile(r'\{{{0} end\}}').format(self.processor)
+        self.arguments = ext.processor_info[self.processor]['arguments']
+        template_name = self.processor['template_name']
+        self.template = ext.jinja_templates[ext.processor_info[template_name]
+        self.template_parameters = ext.processor_info[self.processor]['template_parameters']
+
+    def test(self, parent, block):
+        ''' Tests a block to see if the run method should be applied.
+
+        Args:
+            parent: The parent node of the element tree that children
+            will reside in.
+            block: The block to be tested.
+
+        Returns:
+            True if there are any start or end tags within the block.
+        '''
+        return self.p_start.search(block) is not None or self.p_end.search(block) is not None
+
+    def run(self, parent, blocks):
+        ''' Generic run method for container tags.
+
+        Args:
+            parent: The parent node of the element tree that children
+            will reside in.
+            blocks: A list of strings of the document, where the
+            first block tests true.
+        '''
+        block = blocks.pop(0)
+
+        start_tag = self.p_start.search(block)
+        end_tag = self.p_end.search(block)
+
+        if ((start_tag is None and end_tag is not None)
+         or (start_tag.end() > end_tag.start())):
+            raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
+
+        before = block[:start_tag.start()]
+        after = block[start_tag.end():]
+
+        if before.strip() != '':
+            self.parser.parseChunk(parent, before)
+        if after.strip() != '':
+            blocks.insert(0, after)
+
+        if len(self.arguments) > 0:
+            check_arguments(self.processor, match.group('args'), self.arguments)
+
+        content_blocks = []
+        the_rest = None
+        inner_start_tags = 0
+        inner_end_tags = 0
+
+        while len(blocks) > 0:
+            block = blocks.pop(0)
+            inner_tag = self.p_start.search(block)
+            end_tag = self.p_end.search(block)
+
+            if ((inner_tag and end_tag is None)
+             or (inner_tag.start() < end_tag.end())):
+                inner_start_tags += 1
+
+            if end_tag and inner_start_tags == inner_end_tags:
+                content_blocks.append(block[:end_tag.start()])
+                the_rest = block[end_tag.end():]
+                break
+            elif end_tag:
+                inner_end_tags += 1
+                end_tag = None
+            content_blocks.append(block)
+
+        if the_rest.strip() != '':
+            blocks.insert(0, the_rest)
+
+        if end_tag is None or inner_start_tags != inner_end_tags:
+            raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
+
+        content_tree = etree.Element('content')
+        self.parser.parseChunk(content_tree, blocks_to_string(content_blocks))
+
+        content = ''
+        for child in content_tree:
+            content += etree.tostring(child, encoding="unicode", method="html") + '\n'
+
+        context = dict()
+        for parameter, parameter_info in self.template_parameters.items():
+            argument_name = parameter_info['argument']
+            parameter_default = parameter_info['default'] if 'default' in parameter_info else None
+            parameter_value = None
+            if argument_info['argument'] == 'content':
+                parameter_value = content
+            else:
+                argument_value = parse_argument(argument_name, match.group('args'), parameter_default)
+                transformation = find_transformation(parameter_info['transform'])
+                parameter_value = transformation(argument_value) if transformation is not None else argument_value
+            context[parameter] = parameter_value
+
+        html_string = self.template.render(context)
+        node = etree.fromstring(html_string)
+        parent.append(node)

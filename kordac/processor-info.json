@@ -66,17 +66,43 @@
         }
     },
     "boxed-text": {
+        "class": "generic_container",
         "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<! end)\\}",
         "pattern_end": "\\{boxed-text end\\}",
-        "required_parameters": [],
-        "optional_parameter_dependencies": {
-            "indented": []
+        "arguments": {
+          "indented": {
+            "required": false,
+            "dependencies": []
+          }
+        },
+        "template_name": "boxed-text",
+        "template_parameters": {
+          "indented": {
+            "argument": "indented",
+            "transform": "str.lower",
+            "default": "no"
+          },
+          "text": {
+            "argument": "content",
+            "transform": null,
+          }
         }
     },
     "iframe": {
-        "pattern": "\\{iframe ?(?P<args>[^\\}]*)\\}",
-        "required_parameters": ["link"],
-        "optional_parameter_dependencies": {}
+        "class": "generic_tag",
+        "arguments": {
+          "link": {
+            "required": true,
+            "dependencies": []
+          }
+        },
+        "template_name": "iframe",
+        "template_parameters": {
+          "link": {
+            "argument": "link",
+            "transform": null
+          }
+        }
     },
     "table-of-contents": {
       "pattern": "(^|\\n)\\{table-of-contents\\}(\\n|$)"
