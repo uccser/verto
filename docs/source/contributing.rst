@@ -74,20 +74,26 @@ To create a new processor, a good place to start is the `Extension API`_ page of
 .. _source code: https://github.com/waylan/Python-Markdown
 
 
-There are several different kinds of processors available, each serving a slightly different purpose.
+There are several different kinds of processors in Python Markdown, each serving a slightly different purpose. We recommend reading the API docs to determine which processor best suits your purpose (Kordac currently makes use of ``preprocessor``, ``blockprocessor``, ``inlinepattern`` and ``treeprocessor``).
+
+The order of the processors matters and is defined when each processor is added to the ``OrderedDict`` in ``KordacExtension.py``. Each processor is independent of every other processor. If you have two processors in the pipeline that may overlap (e.g. codehilite and fencedcode), the second processor must handle whatever the first outputs, i.e. refrain from manipulating the outout of the first processor to help the second.
+
+Every processor belongs in the ``processors/`` directory, but there are several other places they need to be listed, these are:
+
+- The frozenset of ``DEFAULT_PROCESSORS`` in ``Kordac.py``
+- The relevant list in ``extendMarkdown()`` in ``KordacExtension.py`` (see `OrderedDict in the Markdown API docs`_ for determining order)
+.. _OrderedDict in the Markdown API docs: https://pythonhosted.org/Markdown/extensions/api.html#ordereddict
+- The processor's template should be added to ``html-templates`` using the Jinja2 Template Engine syntax for variable parameters
+- The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``
 
 Generally, every processor will have an ``__init__``, ``test`` and ``run`` method.
 
-The processors are called from the ``KordacExtension`` class.
 
-  	There are several different kinds of processors, the types used in Kordac so far are ``preprocessor``, ``blockprocessor``, ``inlinepattern`` and ``treeprocessor``. Each processor behaves slightly differently, and expects different input.
   	
-  	Each processor is independent from all other processors, and the order of processors matters.
 
 
 Where do I add my processor to kordac, so that kordac knows to use it? (default processors)
-What order do processors happen in?
-How do I chose what type of processor to use?
+
 Add to processor information file.
 What things should remain independent from each other - only a couple things that interact, (required files, headingnode)
 
