@@ -76,28 +76,35 @@ To create a new processor, a good place to start is the `Extension API`_ page of
 
 There are several different kinds of processors in Python Markdown, each serving a slightly different purpose. We recommend reading the API docs to determine which processor best suits your purpose (Kordac currently makes use of ``preprocessor``, ``blockprocessor``, ``inlinepattern`` and ``treeprocessor``).
 
-The order of the processors matters and is defined when each processor is added to the ``OrderedDict`` in ``KordacExtension.py``. Each processor is independent of every other processor. If you have two processors in the pipeline that may overlap (e.g. codehilite and fencedcode), the second processor must handle whatever the first outputs, i.e. refrain from manipulating the outout of the first processor to help the second.
+The order of the processors matters and is defined when each processor is added to the ``OrderedDict`` in ``KordacExtension.py``.
+
+Each processor is independent of every other processor. If you have two processors in the pipeline that may overlap (e.g. codehilite and fencedcode), the second processor must handle whatever the first outputs, i.e. refrain from manipulating the output of the first processor to help the second.
 
 Every processor belongs in the ``processors/`` directory, but there are several other places they need to be listed, these are:
 
 - The frozenset of ``DEFAULT_PROCESSORS`` in ``Kordac.py``
 - The relevant list in ``extendMarkdown()`` in ``KordacExtension.py`` (see `OrderedDict in the Markdown API docs`_ for determining order)
-.. _OrderedDict in the Markdown API docs: https://pythonhosted.org/Markdown/extensions/api.html#ordereddict
 - The processor's template should be added to ``html-templates`` using the Jinja2 Template Engine syntax for variable parameters
 - The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``
 
-Generally, every processor will have an ``__init__``, ``test`` and ``run`` method.
+.. _OrderedDict in the Markdown API docs: https://pythonhosted.org/Markdown/extensions/api.html#ordereddict
+
+The new processors should also:
+
+- Be thoroughly tested (see the section below)
+- Have clear and accurate documentation. See the docs on other processors for the preferred format. Your docs should include:
+	- An example of the tag in markdown
+	- Required parameters
+	- Optional parameters
+	- Examples
+	- Examples of overriding the html
+
+We suggest writing the docs before you even write the processor itself as this will give you a clear idea of how a processor in Kordac should behave.
 
 
-  	
+Generally, every processor will have at least three methods (``__init__``, ``test`` and ``run``).
 
-
-Where do I add my processor to kordac, so that kordac knows to use it? (default processors)
-
-Add to processor information file.
-What things should remain independent from each other - only a couple things that interact, (required files, headingnode)
-
-Put page in docs, examples of how to use it, how to configure. Required and optional arguments. Jinja template overrides.
+The ``test`` method should only return boolean values. This method is used to test if the regex has found a match or not, (and is often used by the Test Suite to check the regex is correct). For Block Processors, this method is also used to determine whether to execute the ``run()`` method or not.
 
 
 The Test Suite
