@@ -110,6 +110,24 @@ To execute the test suite without the smoke tests:
 
 	$ python3 -m kordac.tests.start_tests --no_smoke
 
+Creating a release
+=======================================
+
+This is our current process for creating and publishing a Kordac release. This
+can only be performed by repository administrators
+
+1. `Create a release branch <http://nvie.com/posts/a-successful-git-branching-model/#creating-a-release-branch>`_. Checkout to this branch.
+2. Update the version number [1]_ within ``kordac/__init__.py``.
+3. Check test suite for errors, and fix any issues that arise, or `log an issue <https://github.com/uccser/cs-field-guide/issues/new>`_.
+4. Detail the changes in ``docs/source/changelog.rst``.
+5. `Complete the release branch <http://nvie.com/posts/a-successful-git-branching-model/#finishing-a-release-branch>`_. Be sure to tag the release with the version number for creating the release on GitHub.
+6. Create the release on `GitHub <https://github.com/uccser/kordac/releases/>`_ on the tagged commit.
+7. Upload a new version of Kordac to PyPI.
+
+.. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed, and also used during the documentation build to number the version of Kordac it was built from.
+
+Notes
+=======================================
 
 Talk about Base classes that we provide.
 Want to know why type of tests we want. (Check input and output)
