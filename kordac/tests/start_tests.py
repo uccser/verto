@@ -19,6 +19,7 @@ from kordac.tests.ConditionalTest import ConditionalTest
 from kordac.tests.FrameTest import FrameTest
 from kordac.tests.TableOfContentsTest import TableOfContentsTest
 from kordac.tests.ScratchTest import ScratchTest
+from kordac.tests.BeautifyTest import BeautifyTest
 
 def parse_args():
     opts = optparse.OptionParser(
@@ -64,7 +65,8 @@ def unit_suite():
         unittest.makeSuite(ConditionalTest),
         unittest.makeSuite(FrameTest),
         unittest.makeSuite(TableOfContentsTest),
-        unittest.makeSuite(ScratchTest)
+        unittest.makeSuite(ScratchTest),
+        unittest.makeSuite(BeautifyTest)
     ))
 
 if __name__ == '__main__':
