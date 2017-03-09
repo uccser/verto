@@ -59,8 +59,7 @@ Creating a release
 =======================================
 
 This is our current process for creating and publishing a Kordac release. This
-can only be performed by users that are part of the `uccser/Kordac team`, if you
-are not on this team get in contact with someone who is.
+can only be performed by repository administrators
 
 1. `Create a release branch <http://nvie.com/posts/a-successful-git-branching-model/#creating-a-release-branch>`_. Checkout to this branch.
 2. Update the version number [1]_ within ``kordac/__init__.py``.
@@ -70,4 +69,4 @@ are not on this team get in contact with someone who is.
 6. Create the release on `GitHub <https://github.com/uccser/kordac/releases/>`_ on the tagged commit.
 7. Upload a new version of Kordac to PyPI.
 
-.. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed.
+.. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed, and also used during the documentation build to number the version of Kordac it was built from.
