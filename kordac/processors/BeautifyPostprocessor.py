@@ -31,9 +31,12 @@ class BeautifyPostprocessor(Postprocessor):
         out_text = ''
         match = self.code_pattern.search(text)
         while match is not None:
-            html_string = match.group()
-            placeholder = self.html_stash.store(html_string, True)
-            out_text = text[:match.start()] + placeholder
+            if not any(match.start() in range(*span) or match.end() in range(*span) for span in pre_spans):
+                html_string = match.group()
+                placeholder = self.html_stash.store(html_string, True)
+                out_text = text[:match.start()] + placeholder
+            else:
+                out_text = text[:match.end()]
             text = text[match.end():]
             match = self.pre_pattern.search(text)
         out_text += text
