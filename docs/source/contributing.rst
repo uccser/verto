@@ -1,22 +1,31 @@
 Contributing to Kordac
 #######################################
 
-The git repository for Kordac can be found here_.
+Welcome to the Kordac developer community! We have spent many months developing this project, and we would love for you to get involved! The following documentation has been written to help you get a grasp on how Kordac is pieced together to make contributing as simple and straight forward as possible. Please feel free to fix bugs and/or suggest new features and improvements to the system (or the docs) by making a pull request.
+
+Kordac was created to be used by two much larger projects (the `CS Unplugged`_ and `CS Field Guide`_ websites) as the markdown-to-html converter. The tags we chose are designed to allow authors of these two projects to easily write material without technical elements getting in the way. It is therefore important to us that Kordac remains as simple and robust as possible, please keep this in mind if you decide to work on Kordac with us.
+
+.. _CS Unplugged: https://github.com/uccser/cs-unplugged/
+.. _CS Field Guide: https://github.com/uccser/cs-field-guide/
+
+The git repository for Kordac can be found `here`_, jump in and take a look around!
 
 .. _here: https://github.com/uccser/kordac
 
+<mention django>
 
 Issue Reporting and Bug Fixes
 =======================================
-If you come across a bug in Kordac, please `report it`_ on the repo.
+If you come across a bug in Kordac, please `report it on the repo issue tracker`_.
 
-<Bug fix? Add tests.>
+.. _report it on the repo issue tracker: https://github.com/uccser/kordac/issues
 
-.. _report it: https://github.com/uccser/kordac/issues
+If you choose to fix the bug for us, consider adding the relevant tests to the Test Suite (detailed further down this page) to help us catch any future bugs.
+
 
 The Code Base
 =======================================
-If you would like to contribute to Kordac, fork the repository.
+If you would like to contribute to Kordac, create a fork of the repository.
 
 Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -25,7 +34,9 @@ Before reading this section, make sure you have read `how to use Kordac`_ (or ev
 .. _how to use Kordac: http://kordac.readthedocs.io/en/develop/usage.html
 
 
-There are several parts and terms of Kordac to become familiar with:
+Terminology
+***************************************
+There are a couple of terms we use when describing Kordac to become familiar with:
 
 - **Tag**
     This refers to the custom markdown syntax that Kordac processes.
@@ -36,9 +47,35 @@ There are several parts and terms of Kordac to become familiar with:
 
       {comment this will be removed by the converter}
 
-      {image file-path='img/totally-real-image.png' alt='process me'}
+      {image file-path="img/totally-real-image.png" alt="process me"}
     
-    are examples of the ``comment`` and ``image`` tags in Kordac.  
+    are examples of the ``comment`` and ``image`` tags in Kordac.
+
+- **Processor**
+	This refers to the class that is responsible for converting a specific tag. For example, `RelativeLinkPattern` is the processor for internal links.
+
+
+Project Structure
+***************************************
+Below is a basic overview of the project structure:
+
+.. code-block:: none
+
+	├── docs/  
+	├── kordac/  
+	│   ├── html-templates/
+	│   ├── KordacExtension.py
+	│   ├── Kordac.py
+	│   ├── processor-info.json
+	│   ├── processors/
+	│   │   └── errors/
+	│   ├── tests/
+	│   │   └── assets/
+	│   └── utils/
+	├── requirements.txt
+	└── setup.py
+
+The files and folders of interest are:
 
 - ``Kordac()``
 	The convertor object itself. This is what a user will use to create a Kordac converter, and what is used to define a custom processor list, custom html templates and custom Markdown Extensions to use.
@@ -52,8 +89,8 @@ There are several parts and terms of Kordac to become familiar with:
     	- Required glossary terms
 
 - ``KordacExtension()``
-    Inherits the ``Extension`` class from Markdown.
-    This class is the main class of the project. It loads all the processor information, loads the template files and clears and populates the attributes to be returned by the ``KordacResult`` object.
+    This is the main class of the project, and inherits the ``Extension`` class from Markdown.
+    It loads all of the processor information, loads the template files and clears and populates the attributes to be returned by the ``KordacResult`` object.
 
 - ``Processors/``
   	There is a different processor for each tag. A processor uses it's corresponding regex loaded from ``processor-info.json`` to find matches in the text, and uses the given arguments in the matched tag to populate and output it's html template.
@@ -69,25 +106,26 @@ There are several parts and terms of Kordac to become familiar with:
 
 Creating a New Processor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-To create a new processor, a good place to start is the `Extension API`_ page of the Python Markdown docs, or even the `source code`_ itself.
+To create a new processor, a good place to start is the `Extension API`_ page of the Python Markdown docs, and you can also read the `source code`_ itself.
 
 .. _Extension API: https://pythonhosted.org/Markdown/extensions/api.html
 
 .. _source code: https://github.com/waylan/Python-Markdown
 
 
-There are several different kinds of processors in Python Markdown, each serving a slightly different purpose. We recommend reading the API docs to determine which processor best suits your purpose (Kordac currently makes use of ``preprocessor``, ``blockprocessor``, ``inlinepattern`` and ``treeprocessor``).
+There are several different kinds of processors in Python Markdown, each serving a slightly different purpose. We recommend reading the API docs to determine which processor best suits your purpose (Kordac currently makes use of ``preprocessor``, ``blockprocessor``, ``inlinepattern``, ``treeprocessor`` and ``postprocessor``).
 
 The order of the processors matters and is defined when each processor is added to the ``OrderedDict`` in ``KordacExtension.py``.
 
-Each processor is independent of every other processor. If you have two processors in the pipeline that may overlap (e.g. codehilite and fencedcode), the second processor must handle whatever the first outputs, i.e. refrain from manipulating the output of the first processor to help the second.
+Each processor is independent of every other processor. If you have two processors in the pipeline that may overlap (e.g. codehilite and fencedcode), the second processor must handle whatever the first outputs. Therefore refrain from manipulating the output of a processor for a later processor.
 
-Every processor belongs in the ``processors/`` directory, but there are several other places they need to be listed, these are:
+The logic for each processor belongs in the ``processors/`` directory, and there are several other places where processors details need to be listed. These are:
 
-- The frozenset of ``DEFAULT_PROCESSORS`` in ``Kordac.py``
+- The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``
+- If it should be a default processor, it should be added to the frozenset of ``DEFAULT_PROCESSORS`` in ``Kordac.py``
 - The relevant list in ``extendMarkdown()`` in ``KordacExtension.py`` (see `OrderedDict in the Markdown API docs`_ for determining order)
 - The processor's template should be added to ``html-templates`` using the Jinja2 Template Engine syntax for variable parameters
-- The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``
+
 
 .. _OrderedDict in the Markdown API docs: https://pythonhosted.org/Markdown/extensions/api.html#ordereddict
 
@@ -101,19 +139,14 @@ The new processors should also:
 	- Examples
 	- Examples of overriding the html
 
-We suggest writing the docs before you even write the processor itself as this will give you a clear idea of how a processor in Kordac should behave.
-
-
-Generally, every processor will have at least three methods (``__init__``, ``test`` and ``run``).
-
-The ``test`` method should only return boolean values. This method is used to test if the regex has found a match or not, (and is often used by the Test Suite to check the regex is correct). For Block Processors, this method is also used to determine whether to execute the ``run()`` method or not.
+We recommend writing documentation and test cases before you even write the processor itself as this will give you a clear idea of how a processor in Kordac should behave.
 
 
 The Test Suite
 =======================================
 To start the test suite:
 
-.. code-block:: none
+.. code-block:: bash
 
     $ python3 -m kordac.tests.start_tests
 
