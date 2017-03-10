@@ -14,8 +14,10 @@ The git repository for Kordac can be found `here`_, jump in and take a look arou
 
 <mention django>
 
+
 Issue Reporting and Bug Fixes
 =======================================
+
 If you come across a bug in Kordac, please `report it on the repo issue tracker`_.
 
 .. _report it on the repo issue tracker: https://github.com/uccser/kordac/issues
@@ -25,10 +27,13 @@ If you choose to fix the bug for us, consider adding the relevant tests to the T
 
 The Code Base
 =======================================
+
 If you would like to contribute to Kordac, create a fork of the repository.
+
 
 Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Before reading this section, make sure you have read `how to use Kordac`_ (or even better, have already used Kordac!).
 
 .. _how to use Kordac: http://kordac.readthedocs.io/en/develop/usage.html
@@ -36,6 +41,7 @@ Before reading this section, make sure you have read `how to use Kordac`_ (or ev
 
 Terminology
 ***************************************
+
 There are a couple of terms we use when describing Kordac to become familiar with:
 
 - **Tag**
@@ -57,12 +63,13 @@ There are a couple of terms we use when describing Kordac to become familiar wit
 
 Project Structure
 ***************************************
+
 Below is a basic overview of the project structure:
 
 .. code-block:: none
 
-	├── docs/  
-	├── kordac/  
+	├── docs/
+	├── kordac/
 	│   ├── html-templates/
 	│   ├── KordacExtension.py
 	│   ├── Kordac.py
@@ -70,7 +77,6 @@ Below is a basic overview of the project structure:
 	│   ├── processors/
 	│   │   └── errors/
 	│   ├── tests/
-	│   │   └── assets/
 	│   └── utils/
 	├── requirements.txt
 	└── setup.py
@@ -102,10 +108,16 @@ The files and folders of interest are:
 	Every processor is listed in this file, and will at least contain a regex pattern to match it's corresponding tag.
 	Most will also define required and optional parameters, these correspond to arguments in the tag's template.
 
+- ``tests/`` are explained in the Test Suite section further down the page
+
+
+It is important to note that Kordac is not just a Markdown Extension, it is in fact a wrapper for Python Markdown.
+``KordacExtension`` **is** an extension for Python Markdown. We have created an 
 
 
 Creating a New Processor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 To create a new processor, a good place to start is the `Extension API`_ page of the Python Markdown docs, and you can also read the `source code`_ itself.
 
 .. _Extension API: https://pythonhosted.org/Markdown/extensions/api.html
@@ -144,6 +156,7 @@ We recommend writing documentation and test cases before you even write the proc
 
 The Test Suite
 =======================================
+
 To start the test suite:
 
 .. code-block:: bash
@@ -154,18 +167,53 @@ This will execute the Smoke, System and then Unit tests.
 
 There are several arguments that can be used with this command to skip particular tests (``--no_smoke``, ``--no_system`` and ``--no_unit``).
 
-<folder structure>
+Test Suite Structure
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Recall our folder structure diagrom from earlier. This time, we're focusing just on the ``tests/`` folder:
+
+.. code-block:: none
+
+	└── kordac/
+	    └── tests/
+	        ├── assets/
+	        ├── BaseTest.py
+	        ├── ConfigurationTest.py
+	        ├── ProcessorTest.py
+	        ├── SmokeTests.py
+	        └── start_tests.py
+
+The folder and files of interest are:
+
+- ``BaseTest.py``
+
+- ``ConfigurationTest.py``
+	Contains the unit tests.
+
+- ``ProcessorTest.py``
+
+- ``SmokeTests.py``
+	Contains smoke tests for both the docs and kordac
+
+- ``start_tests.py``
+
+- - ``assets/``
+
 <Method names should be descriptive and start with "test">
 
 Adding Tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 If you are adding an new test file (e.g. for a new processor), then this needs to be added to the Test Suite in ``start_tests.py``.
+
 
 Provided Base Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+
 Processor Tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 All processor tests inherit from the ``ProcessorTest`` class. Processors should create a ``Mock()`` object, which will contain the bare minimum for the processor to be run (it's jinja template's and properties loaded from ``processor-info.json``), i.e. there is no reason for it to know about properties of the other processors.
 
 A test method will typically follow the same sequence of steps:
@@ -178,8 +226,10 @@ A test method will typically follow the same sequence of steps:
 	6. Check the converted result is the same as the expected result
 
 
+
 Testing Assets
 ***************************************
+
 <explain markdown and html file >
 
 
@@ -214,7 +264,9 @@ can only be performed by repository administrators
 Notes
 =======================================
 
-Want to know why type of tests we want. (Check input and output)
+Kordac should make use GitHub's features:
 
-
-Adding something that interacts with something else? Best to catch those interactions downstream - don't change things at the start of the pipeline to try and get things ready for a processor later on, let that second processor deal with it.
+Issue template
+Pull request template
+Contributing page
+So GitHub can display these when appropriate.
