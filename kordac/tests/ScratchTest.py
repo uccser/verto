@@ -117,14 +117,16 @@ class ScratchTest(ProcessorTest):
         self.assertSetEqual(actual, expected)
 
     def test_example_multiple_codeblocks_2(self):
+        extensions = ['markdown.extensions.codehilite', 'markdown.extensions.fenced_code']
+        kordac_extension = KordacExtension([self.processor_name], {}, extensions)
         test_string = self.read_test_file(self.processor_name, 'example_multiple_codeblocks_2.md')
 
-        converted_test_string = markdown.markdown(test_string, extensions=['markdown.extensions.fenced_code', self.kordac_extension])
+        converted_test_string = markdown.markdown(test_string, extensions=extensions + [kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'example_multiple_codeblocks_expected_2.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
         # Should really test result a better way
-        actual = self.kordac_extension.required_files['scratch_images']
+        actual = kordac_extension.required_files['scratch_images']
         expected = {
                         ScratchImageMetaData(
                             hash='a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da',
