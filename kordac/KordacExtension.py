@@ -24,6 +24,7 @@ from kordac.processors.ScratchCompatibilityPreprocessor import ScratchCompatibil
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
+from kordac.utils.overrides import is_block_level, BLOCK_LEVEL_ELEMENTS
 
 from collections import defaultdict
 from os import listdir
@@ -104,6 +105,8 @@ class KordacExtension(Extension):
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
 
         # Compatibility modules
+        md.postprocessors['raw_html'].isblocklevel = lambda html: is_block_level(html, BLOCK_LEVEL_ELEMENTS)
+
         if 'hilite' in self.compatibility and 'fenced_code_block' in self.compatibility and 'scratch' in self.processors:
             md.preprocessors.add('scratch-compatibility', ScratchCompatibilityPreprocessor(self, md), '<fenced_code_block')
 
