@@ -10,8 +10,8 @@ class GenericContainerBlockProcessor(BlockProcessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = processor
-        self.p_start = re.compile(r'\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}}').format(self.processor)
-        self.p_end = re.compile(r'\{{{0} end\}}').format(self.processor)
+        self.p_start = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)').format(self.processor)
+        self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)').format(self.processor)
         self.arguments = ext.processor_info[self.processor]['arguments']
         template_name = self.processor['template_name']
         self.template = ext.jinja_templates[ext.processor_info[template_name]

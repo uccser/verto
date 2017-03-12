@@ -1,74 +1,6 @@
 {
-    "panel": {
-        "pattern_start": "^\\{panel ?(?P<args>[^\\}]*)(?<! end)\\}",
-        "pattern_end": "\\{panel end\\}",
-        "required_parameters": ["type", "title"],
-        "optional_parameter_dependencies": {
-            "subtitle": [],
-            "expanded": []
-        }
-    },
-    "glossary-link": {
-        "pattern": "\\{glossary-link ?(?P<args>[^\\}]*)}?(?P<text>.*?){glossary-link end\\}",
-        "required_parameters": ["term"],
-        "optional_parameter_dependencies": {
-            "reference-text" :[]
-        }
-    },
-    "comment": {
-        "pattern" : "\\{comment [^\\}]+\\}"
-    },
-    "conditional": {
-        "pattern": "^\\{conditional (?P<args>[^\\}]*(?<! end))\\}$",
-        "pattern_end": "^\\{conditional end\\}$",
-        "required_parameters": [],
-        "optional_parameter_dependencies": {
-          "condition": [],
-          "if": ["condition"],
-          "elif": ["condition"],
-          "else": []
-        }
-    },
-    "video": {
-        "pattern": "\\{video (?P<args>[^\\}]*)\\}",
-        "required_parameters": ["url"],
-        "optional_parameter_dependencies": {}
-    },
-    "image": {
-        "pattern": "(\\{image (?P<args>[^\\}]*)\\})",
-        "required_parameters": ["file-path"],
-        "optional_parameter_dependencies": {
-            "alt": [],
-            "caption": [],
-            "caption-link": ["caption"],
-            "source": [],
-            "alignment": [],
-            "hover-text": []
-        }
-    },
-    "interactive": {
-        "pattern": "^\\{interactive (?P<args>[^\\}]*)\\}$",
-        "required_parameters": ["name", "type"],
-        "optional_parameter_dependencies": {
-          "text": [],
-          "parameters": [],
-          "thumbnail": []
-        }
-    },
-    "title": {
-        "pattern": "^#+ ?(.*)"
-    },
-    "button-link": {
-        "pattern": "\\{button-link (?P<args>[^\\}]*)\\}",
-        "required_parameters": ["link", "text"],
-        "optional_parameter_dependencies": {
-            "file": []
-        }
-    },
     "boxed-text": {
         "class": "generic_container",
-        "pattern_start": "\\{boxed-text ?(?P<args>[^\\}]*)(?<! end)\\}",
-        "pattern_end": "\\{boxed-text end\\}",
         "arguments": {
           "indented": {
             "required": false,
@@ -88,6 +20,84 @@
           }
         }
     },
+    "button-link": {
+        "class": "generic_tag",
+        "arguments": {
+          "link": {
+            "required": true,
+            "dependencies": []
+          },
+          "text": {
+            "required": true,
+            "dependencies": []
+          },
+          "file": {
+            "required": false,
+            "dependencies": []
+          }
+        },
+        "template_parameters": {
+          "link": {
+            "argument": "link",
+            "transform": "relative_file",
+            "transform_condition": "lambda context: context['file'] == 'yes'"
+          },
+          "text": {
+            "argument": "text",
+            "transform": null,
+          },
+          "file": {
+            "argument": "file",
+            "transform": "str.lower",
+            "default": "no"
+          }
+        }
+    },
+    "comment": {
+        "class": "custom",
+        "pattern" : "(^|\\n) *\\{comment [^\\}]+\\} *(\\n|$)",
+        "arguments": {},
+        "template_parameters": {}
+    },
+    "conditional": {
+        "class": "custom",
+        "arguments": {
+          "condition": {
+            "required": false,
+            "dependencies": []
+          },
+          "if": {
+            "required": false,
+            "dependencies": ["condition"]
+          },
+          "elif": {
+            "required": false,
+            "dependencies": ["condition"]
+          },
+          "else": {
+            "required": false,
+            "dependencies": []
+          }
+        }
+    },
+    "glossary-link": {
+        "class": "custom",
+        "pattern": "\\{glossary-link ?(?P<args>[^\\}]*)}?(?P<text>.*?){glossary-link end\\}",
+        "arguments": {
+          "term": {
+            "required": true,
+            "dependencies": []
+          },
+          "reference-text": {
+            "required": false,
+            "dependencies": []
+          }
+        }
+    },
+    "heading": {
+        "class": "custom",
+        "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
+    },
     "iframe": {
         "class": "generic_tag",
         "arguments": {
@@ -104,18 +114,136 @@
           }
         }
     },
-    "table-of-contents": {
-      "pattern": "(^|\\n)\\{table-of-contents\\}(\\n|$)"
+    "image": {
+        "class": "custom",
+        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)\\} *(\\n|$)",
+        "arguments": {
+          "file-path": {
+            "required": true,
+            "dependencies": []
+          },
+          "alt": {
+            "required": false,
+            "dependencies": []
+          },
+          "caption": {
+            "required": false,
+            "dependencies": []
+          },
+          "caption-link": {
+            "required": false,
+            "dependencies": []
+          },
+          "source": {
+            "required": false,
+            "dependencies": []
+          },
+          "alignment": {
+            "required": false,
+            "dependencies": []
+          },
+          "hover-text": {
+            "required": false,
+            "dependencies": []
+          }
+        }
     },
-    "heading": {
-        "pattern": "(^|\\n)(?P<level>#{1,6})(?!#+)\\s?(?P<header>.*?)\\s?#*(\\n|$)"
+    "interactive": {
+        "class": "custom",
+        "pattern": "(^|\\n) *\\{interactive (?P<args>[^\\}]*)\\} *(\\n|$)",
+        "arguments": {
+          "name": {
+            "required": true,
+            "dependencies": []
+          },
+          "type": {
+            "required": true,
+            "dependencies": []
+          },
+          "text": {
+            "required": false,
+            "dependencies": []
+          },
+          "parameters": {
+            "required": false,
+            "dependencies": []
+          },
+          "thumbnail": {
+            "required": false,
+            "dependencies": []
+          }
+        }
+    },
+    "panel": {
+        "class": "generic_container",
+        "arguments": {
+          "type": {
+            "required": true,
+            "dependencies": []
+          },
+          "title": {
+            "required": true,
+            "dependencies": []
+          },
+          "subtitle": {
+            "required": false,
+            "dependencies": []
+          },
+          "expanded": {
+            "required": false,
+            "dependencies": []
+          }
+        },
+        "template_parameters": {
+          "type": {
+            "argument": "type",
+            "transform": null
+          },
+          "title": {
+            "argument": "title",
+            "transform": null,
+          },
+          "subtitle": {
+            "argument": "subtitle",
+            "transform": null
+          },
+          "expanded": {
+            "argument": "expanded",
+            "transform": null
+          },
+          "content": {
+            "argument": "content",
+            "transform": null
+          }
+        }
+    },
+    "table-of-contents": {
+        "class": "generic_tag",
+        "arguments": {},
+        "template_parameters": {}
     },
     "relative-link": {
+        "class": "custom",
         "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
     },
     "scratch": {
-      "scratch-compatibility": {
-        "pattern": "(?P<fence>^(?:~{3,}|`{3,}))[ ]*scratch?[ ]*(hl_lines=(?P<quot>\"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*}?[ ]*\n(?P<code>.*?)(?<=\n)(?P=fence)[ ]*$"
-      }
+        "class": "custom",
+        "scratch-compatibility": {
+          "pattern": "(?P<fence>^(?:~{3,}|`{3,}))[ ]*scratch?[ ]*(hl_lines=(?P<quot>\"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*}?[ ]*\n(?P<code>.*?)(?<=\n)(?P=fence)[ ]*$"
+        }
+    },
+    "title": {
+        "class": "custom",
+        "pattern": "^#+ ?(.*)"
+    },
+    "video": {
+        "class": "custom",
+        "pattern": "(^|\\n) *\\{video (?P<args>[^\\}]*)\\} *(\\n|$)",
+        "arguments": {
+          "url": {
+            "required": true,
+            "dependencies": []
+          }
+        },
     }
 }
