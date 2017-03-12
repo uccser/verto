@@ -7,6 +7,20 @@ Kordac was created to be used by two much larger projects (the `CS Unplugged`_ a
 
 The git repository for Kordac can be found `here`_, jump in and take a look around!
 
+.. note::
+
+	The two projects that Kordac was developed for are Django projects, so you may come across HTML (in templates, test cases etc) that contains Django syntax.
+
+	For example, below is the expected output for a for a image tag test:
+
+	.. code-block:: HTMl
+
+		<div>
+		 <img alt="Lipsum" class="" src="{% static 'computer-studying-turing-test.png' %}"/>
+		</div>
+
+	This does not mean that Kordac is only suitable for Django projects, as it's just a matter of customising the relevant HTMl templates.
+
 
 Issue Reporting and Bug Fixes
 =======================================
@@ -150,7 +164,7 @@ There are several arguments that can be used with this command to skip particula
 Test Suite Structure
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Recall our project structure diagram from earlier. This time, we're focusing just on the ``tests/`` directory:
+We are now focusing on our project structure diagram from earlier:
 
 .. code-block:: none
 
@@ -165,29 +179,29 @@ Recall our project structure diagram from earlier. This time, we're focusing jus
 
 The items of interest are:
 
-- ``BaseTest.py``
+- ``BaseTest())``
 	This class is inherited by nearly every other test file, and contains a method to read a given test asset file.
 
-- ``ConfigurationTest.py``
+- ``ConfigurationTest()``
 	This is the test class for testing different configurations of ``Kordac()`` (e.g. using a custom list of processors and/or custom html templates). This class inherits the ``BaseTest`` class.
 
 - ``ProcessorTest.py``
 	This is the class inherited by all processor test classes. It contains several useful methods for testing processors, including those for loading templates and processor info.
 
-- ``SmokeTests.py``
-	This contains two classes for smoke testing (one class for ``Kordac``, the other for the docs).
+- ``SmokeDocsTest()`` and ``SmokeFileTest()``
+	These are the two classes for smoke testing.
 
 - ``start_tests.py``
 	This is the file that is executed in order to run each of the three types of tests (Smoke, System and Unit). Every new test class must be added to the relevant section of this file.
 
 - ``assets/``
-	This directory contains a sub directory for every test class that loads external assets (i.e. test input files).
+	This directory contains a sub directory for every test class that loads external assets (e.g. test input files).
 
 
 Adding Tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When writing a new test function, it is important that the method name is as descriptive as possible, and is prefixed with ``test_``.
+When writing a new test function, it is important that the method name is as descriptive as possible. The method name should also be prefixed with ``test_`` as the test suite will only execute methods with this prefix.
 
 If you have added a new processor to ``Kordac``, then a corresponding test suite also needs to be added. This test suite should be added to the ``unit_suite()`` function in ``start_tests.py``. The section below has details on how to write a processor test.
 	
@@ -195,12 +209,12 @@ If you have added a new processor to ``Kordac``, then a corresponding test suite
 Processor Tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-All processor tests inherit from the ``ProcessorTest`` class. Processors should create a ``Mock()`` object, which will contain the bare minimum for the processor to be run (it's html template and properties loaded from ``processor-info.json``), i.e. there is no reason for it to know about properties of the other processors.
+All processor tests inherit from the ``ProcessorTest`` class. Processors should create a ``Mock()`` object, which will contain the bare minimum for the processor to be run (it's HTML template and properties loaded from ``processor-info.json``), i.e. there is no reason for it to know about properties of the other processors.
 
 A test method will typically follow the same sequence of steps:
 
 	1. Retrieve the test string (there is a ``read_test_file()`` method provided by the ``ProcessorTest`` class)
-	2. Confirm there are(not) matches to the regex in the test string
+	2. Confirm there are (not) matches to the regex in the test string
 	3. Convert the test string using the ``kordac_extension`` (provided by the ``SetUp()`` method in ``ProcessorTest``)
 	4. Load the expected converted result
 	5. Check the converted result is the same as the expected result
@@ -209,7 +223,7 @@ A test method will typically follow the same sequence of steps:
 Testing Assets
 ***************************************
 
-Most tests will load an asset file. This file contains example markdown text (and therefore has a ``.md`` extension). For comparing the converted result of this markdown file with it's expected output, a corresponding "expected" file should be created. The expected file should have the same name as the corresponding test file, with ``expected`` appended to the file name.
+Most tests will load an asset file. This file contains example Markdown text (and therefore has a ``.md`` extension). For comparing the converted result of this Markdown file with it's expected output, a corresponding "expected" file should be created. The expected file should have the same name as the corresponding test file, with ``expected`` appended to the file name (and has a ``.html`` extension).
 
 These asset files should be placed in ``kordac/tests/assets/<processor-name>/``. 
 
@@ -249,8 +263,6 @@ Issue template
 Pull request template
 Contributing page
 So GitHub can display these when appropriate.
-
-
 
 .. _CS Unplugged: https://github.com/uccser/cs-unplugged/
 .. _CS Field Guide: https://github.com/uccser/cs-field-guide/
