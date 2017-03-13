@@ -10,7 +10,7 @@ Clearly and concisely describe the issue or suggestion here:
 
 ### Checklist
 
-*Put an `x` in the boxes that apply. You can also fill these out after creating the issue.*
+*Change the space in the box to an `x` for those that apply. You can also fill these out after creating the issue.*
 
 - [ ] I have linked any relevant [existing issues/suggestions](https://github.com/uccser/kordac/issues) in the description above (include `#???` in your description to reference an issue, where `???` is the issue number)
 

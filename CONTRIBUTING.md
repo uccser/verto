@@ -10,7 +10,7 @@ Below are a few more general notes to remember while you are working on Kordac.
 
 This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code.
-Please report unacceptable behavior to [csse-education-research@canterbury.ac.nz](csse-education-research@canterbury.ac.nz)
+Please report unacceptable behavior to [csse-education-research@canterbury.ac.nz](mailto:csse-education-research@canterbury.ac.nz)
 
 ### Reporting issues
 
