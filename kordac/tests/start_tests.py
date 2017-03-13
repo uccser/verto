@@ -19,6 +19,7 @@ from kordac.tests.ConditionalTest import ConditionalTest
 from kordac.tests.FrameTest import FrameTest
 from kordac.tests.TableOfContentsTest import TableOfContentsTest
 from kordac.tests.ScratchTest import ScratchTest
+from kordac.tests.BeautifyTest import BeautifyTest
 
 def parse_args():
     opts = optparse.OptionParser(
@@ -64,7 +65,8 @@ def unit_suite():
         unittest.makeSuite(ConditionalTest),
         unittest.makeSuite(FrameTest),
         unittest.makeSuite(TableOfContentsTest),
-        unittest.makeSuite(ScratchTest)
+        unittest.makeSuite(ScratchTest),
+        unittest.makeSuite(BeautifyTest)
     ))
 
 if __name__ == '__main__':
@@ -94,5 +96,5 @@ if __name__ == '__main__':
         unit_result = runner.run(unit_suite())
         print()
 
-    if (smoke_result is not None and not system_result.wasSuccessful()) or (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
+    if (smoke_result is not None and not smoke_result.wasSuccessful()) or (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
         sys.exit(1)

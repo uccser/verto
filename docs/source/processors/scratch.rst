@@ -1,6 +1,11 @@
 Scratch
 #######################################
 
+.. note::
+
+    The following examples assume usage of the fenced code extension, by having
+    ``markdown.extensions.fenced_code`` in the list of extensions given to Kordac.
+
 **Processor name:** ``scratch``
 
 You can include an image of Scratch blocks using
@@ -13,8 +18,14 @@ to produce the following image:
 
 .. image:: ../images/scratch_blocks_example.png
 
-The syntax is the same for default Markdown code blocks, but Kordac handles the
-content differently due to the ``scratch`` language set at the start.
+The syntax is the same for default Markdown code blocks. The only difference
+is that Kordac handles the content differently due to the ``scratch`` language
+set at the start.
+
+.. note::
+
+    This processor also works with syntax introduced by the `fenced_blocks`
+    and/or `codehilite` extensions.
 
 You can test the output of your Scratch block text at
 `scratchblocks.github.io`_.
@@ -24,6 +35,7 @@ You can test the output of your Scratch block text at
     Kordac doesn't create the Scratch images, but saves data for another system
     (for example: Django) to create the images.
     See :ref:`accessing-scratch-image-data` section below.
+
 
 The default HTML for button links is:
 
