@@ -12,8 +12,7 @@ class HeadingBlockProcessor(BlockProcessor):
     def __init__(self, ext, *args, **kwargs):
         '''
         Args:
-            ext: The parent node of the element tree that children will
-            reside in.
+            ext: The KordacExtension object.
             args: Arguments handed to the super class.
             kwargs: Arguments handed to the super class.
         '''

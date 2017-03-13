@@ -1,7 +1,6 @@
 from markdown.extensions import Extension
 import markdown.util as utils
 
-from kordac.processors.PanelBlockProcessor import PanelBlockProcessor
 from kordac.processors.CommentPreprocessor import CommentPreprocessor
 from kordac.processors.VideoBlockProcessor import VideoBlockProcessor
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
@@ -10,17 +9,15 @@ from kordac.processors.RelativeLinkPattern import RelativeLinkPattern
 from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.GlossaryLinkPattern import GlossaryLinkPattern
-from kordac.processors.ButtonLinkBlockProcessor import ButtonLinkBlockProcessor
-from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
 from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
 from kordac.processors.ConditionalProcessor import ConditionalProcessor
 from kordac.processors.RemovePostprocessor import RemovePostprocessor
 from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
-from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
-from kordac.processors.TableOfContentsBlockProcessor import TableOfContentsBlockProcessor
 from kordac.processors.ScratchTreeprocessor import ScratchTreeprocessor
 from kordac.processors.ScratchCompatibilityPreprocessor import ScratchCompatibilityPreprocessor
+from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
+from kordac.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
@@ -34,6 +31,30 @@ import json
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
+    PREPROCESSORS = [
+        ['comment', CommentPreprocessor(self, md), '_begin'],
+        ['save-title', SaveTitlePreprocessor(self, md), '_end'],
+        ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
+    ]
+    BLOCKPROCESSORS = [
+    # Markdown overrides
+        ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
+    # Single line (in increasing complexity)
+        ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+        ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+        ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+        ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
+    # Multiline
+    ]
+    INLINEPATTERNS = [ # A special treeprocessor
+        ['relative-link', RelativeLinkPattern(self, md), '_begin'],
+        ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
+    ]
+    TREEPROCESSORS = [
+        ['scratch', ScratchTreeprocessor(self, md), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
+    ]
+    POSTPROCESSORS = []
+
     def __init__(self, processors=[], html_templates={}, extensions=[], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.required_files = defaultdict(set)
@@ -53,49 +74,27 @@ class KordacExtension(Extension):
                 if extension.endswith('fenced_code'):
                     self.compatibility.append('fenced_code_block')
 
-    def extendMarkdown(self, md, md_globals):
-        preprocessors = [
-            ['comment', CommentPreprocessor(self, md), '_begin'],
-            ['save-title', SaveTitlePreprocessor(self, md), '_end'],
-            ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
-        ]
-        blockprocessors = [
-        # Markdown overrides
-            ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
-        # Single line (in increasing complexity)
-            ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin'],
-            ['iframe', FrameBlockProcessor(self, md.parser), '_begin'],
-            ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-            ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
-            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-            ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
-        # Multiline
-            ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin'],
-            ['panel', PanelBlockProcessor(self, md.parser), '_begin'],
-        ]
-        inlinepatterns = [ # A special treeprocessor
-            ['relative-link', RelativeLinkPattern(self, md), '_begin'],
-            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
-        ]
-        treeprocessors = [
-            ['scratch', ScratchTreeprocessor(self, md), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
-        ]
-        postprocessors = []
+        self.preprocessors = self.PREPROCESSORS.copy()
+        self.blockprocessors = self.BLOCKPROCESSORS.copy()
+        self.inlinepatterns = self.INLINEPATTERNS.copy()
+        self.treeprocessors = self.TREEPROCESSORS.copy()
+        self.postprocessors = self.POSTPROCESSORS.copy()
+        self.buildGenericProcessors()
 
-        for processor_data in preprocessors:
+    def extendMarkdown(self, md, md_globals):
+        for processor_data in self.preprocessors:
             if processor_data[0] in self.processors:
                 md.preprocessors.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in blockprocessors:
+        for processor_data in self.blockprocessors:
             if processor_data[0] in self.processors:
                 md.parser.blockprocessors.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in inlinepatterns:
+        for processor_data in self.inlinepatterns:
             if processor_data[0] in self.processors:
                 md.inlinePatterns.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in treeprocessors:
+        for processor_data in self.treeprocessors:
             if processor_data[0] in self.processors:
                 md.treeprocessors.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in postprocessors:
+        for processor_data in self.postprocessors:
             if processor_data[0] in self.processors:
                 md.postprocessors.add(processor_data[0], processor_data[1], processor_data[2])
 
@@ -129,6 +128,14 @@ class KordacExtension(Extension):
                 else:
                     templates[processor_name] = env.get_template(file)
         return templates
+
+    def buildGenericProcessors(self):
+        for processor, processor_info in self.processor_info.items():
+            processor_class = processor_info.get('class', None)
+            if processor_class == 'generic_tag':
+                self.blockprocessors.insert(0, [processor, GenericTagBlockProcessor(processor, self, md.parser), '_begin'])
+            if processor_class == 'generic_container':
+                self.blockprocessors.append([processor, GenericContainerBlockProcessor(processor, self, md.parser, '_begin')])
 
     def loadProcessorInfo(self):
         json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()

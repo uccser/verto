@@ -2,7 +2,8 @@ from markdown.preprocessors import Preprocessor
 import re
 
 class CommentPreprocessor(Preprocessor):
-    '''Searches a Document for comments e.g. {comment example text here} and removes them from the document.
+    ''' Searches a Document for comments (e.g. {comment example text here})
+    and removes them from the document.
     '''
 
     def __init__(self, ext, *args, **kwargs):
@@ -11,7 +12,8 @@ class CommentPreprocessor(Preprocessor):
             ext: An instance of the Markdown parser class.
         '''
         super().__init__(*args, **kwargs)
-        self.pattern = re.compile(ext.processor_info['comment']['pattern'])
+        self.processor = 'comment'
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
 
     def test(self, lines):
         '''Return whether the provided document contains comments needing removal.

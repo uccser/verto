@@ -1,5 +1,5 @@
 from markdown.treeprocessors import Treeprocessor
-from kordac.processors.utils import blocks_to_string, parse_argument, etree
+from kordac.processors.utils import etree
 from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
 from collections import namedtuple
 from hashlib import sha256

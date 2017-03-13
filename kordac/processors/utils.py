@@ -4,8 +4,15 @@ from collections import OrderedDict
 from kordac.processors.errors.ArgumentMissingError import ArgumentMissingError
 
 def parse_argument(argument_key, arguments, default=None):
-    """Search for the given argument in a string of all arguments
-    Returns: Value of an argument as a string if found, otherwise None"""
+    ''' Search for the given argument in a string of all arguments
+
+    Args:
+        argument_key: The name of the argument.
+        arguments: A string of the argument inputs.
+        default: The default value if not found.
+    Returns:
+        Value of an argument as a string if found, otherwise None.
+    '''
     result = re.search(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments)
     if result:
         argument_value = result.group(2)
@@ -14,8 +21,16 @@ def parse_argument(argument_key, arguments, default=None):
     return argument_value
 
 def parse_flag(argument_key, arguments, default=False):
-    """Search for the given argument in a string of all arguments
-    Returns: Value of an argument as a string if found, otherwise None"""
+    ''' Search for the given argument in a string of all arguments,
+    treating the argument as a flag only.
+
+    Args:
+        argument_key: The name of the argument.
+        arguments: A string of the argument inputs.
+        default: The default value if not found.
+    Returns:
+        Value of an argument as a string if found, otherwise None.
+    '''
     result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
     if result:
         argument_value = True
@@ -24,9 +39,18 @@ def parse_flag(argument_key, arguments, default=False):
     return argument_value
 
 def parse_arguments(processor, inputs, arguments):
-    '''
-    Returns a dictionary of argument to value.
-    Raises an error if the arguments are missing any required parameters or a parameter an optional parameter is dependent on.
+    ''' Parses the arguments of a given input and ensures
+    they meet the defined requirements.
+
+    Args:
+        processor: The processor of the given arguments.
+        inputs: A string of the arguments from user input.
+        arguments: A dictionary of argument descriptions.
+    Returns:
+        A dictionary of arguments to values.
+    Raises:
+        ArgumentMissingError: If any required arguments are missing or
+        an argument an optional argument is dependent on is missing.
     '''
     argument_values = dict()
     for argument, argument_info in arguments.items():
@@ -52,7 +76,14 @@ def parse_arguments(processor, inputs, arguments):
 
 def process_parameters(processor, parameters, argument_values):
     '''
-    Returns a dictionary of parameter to value.
+    Processes a given set of arguments by the parameter definitions.
+
+    Args:
+        processor: The processor of the given arguments.
+        parameters: A dictionary of parameter definitions.
+        argument_values: A dictionary of argument to values.
+    Returns:
+        A dictionary of parameter to converted values.
     '''
     context = dict()
     transformations = OrderedDict()
@@ -81,21 +112,27 @@ def process_parameters(processor, parameters, argument_values):
 def find_transformation(option):
     '''
     Returns a transformation for a given string.
-    In future should be able to combine piped transformations into a single
-    function.
+    TODO:
+    In future should be able to combine piped transformations
+    into a single function.
+
+    Args:
+        option: The desired transformations.
+    Returns:
+        A function of the transformation.
     '''
     return {
         'str.lower': lambda x: x.lower(),
         'str.upper': lambda x: x.upper(),
+        'relative_file_link': lambda x: self.relative_file_template.render({'file_path': x})
     }.get(option, None)
 
 def blocks_to_string(blocks):
-    """Returns a string after the blocks have been joined back together."""
-    return '\n\n'.join(blocks).rstrip('\n')
+    ''' Returns a string after the blocks have been joined back together.
 
-def centre_html(node, width):
-    """Wraps the given node with HTML to centre using the given number of columns"""
-    offset_width = (12 - width) // 2
-    root = etree.fromstring(CENTERED_HTML.format(width=width, offset_width=offset_width))
-    root.find(".//div[@content]").append(node)
-    return root
+    Args:
+        blocks: A list of strings of the document blocks.
+    Returns:
+        A string of the document.
+    '''
+    return '\n\n'.join(blocks).rstrip('\n')

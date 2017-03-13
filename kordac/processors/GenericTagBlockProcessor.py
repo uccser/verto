@@ -14,7 +14,7 @@ class GenericTagBlockProcessor(BlockProcessor):
         self.arguments = ext.processor_info[self.processor]['arguments']
         template_name = self.processor.get('template_name', self.processor)
         self.template = ext.jinja_templates[ext.processor_info[template_name]
-        self.template_parameters = ext.processor_info[self.processor]['template_parameters']
+        self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.

@@ -1,9 +1,8 @@
+from markdown.inlinepatterns import Pattern
 from markdown.util import etree
-import markdown.util as util
-import markdown.inlinepatterns
 import re
 
-class RelativeLinkPattern(markdown.inlinepatterns.Pattern):
+class RelativeLinkPattern(Pattern):
     """Return a link element from the given match.
 
     Only matches:
@@ -24,7 +23,12 @@ class RelativeLinkPattern(markdown.inlinepatterns.Pattern):
         self.template = ext.jinja_templates[self.processor]
 
     def handleMatch(self, match):
-
+        '''
+        Args:
+            match: The string of text where the match was found.
+        Returns:
+            An element tree node to be appended to the html tree.
+        '''
         context = dict()
         context['link_path'] = match.group('link_url')
         context['text'] = match.group('link_text')

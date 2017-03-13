@@ -1,32 +1,32 @@
-from markdown.blockprocessors import BlockProcessor
-from markdown.util import etree
+from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from kordac.processors.errors.NoSourceLinkError import NoSourceLinkError
 from kordac.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
 from kordac.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
-from kordac.processors.utils import parse_argument, check_argument_requirements
+from kordac.processors.utils import *
 import re
 
 
-class VideoBlockProcessor(BlockProcessor):
-    '''Searches blocks of markdown text and turns video tags into embeded players
+class VideoBlockProcessor(GenericTagBlockProcessor):
+    ''' Searches blocks of markdown text and turns video tags into
+    embeded players.
     '''
 
     def __init__(self, ext, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.processor = 'video'
+        '''
+        Args:
+            ext: An instance of the Kordac Extension.
+        '''
+        super().__init__('video', ext, *args, **kwargs)
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.youtube_template = ext.jinja_templates['video-youtube']
         self.vimeo_template = ext.jinja_templates['video-vimeo']
-        self.template = ext.jinja_templates[self.processor]
-        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
-        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
+
     def test(self, parent, block):
-        '''Return whether block contains a video tag
+        ''' Return whether block contains a video tag.
 
         Args:
             parent: Element which this block is in.
             block: A string of markdown text
-
         Returns:
             True if a video tag is found
         '''
@@ -37,20 +37,25 @@ class VideoBlockProcessor(BlockProcessor):
 
         Args:
             parent: Element which this block is in.
-            block: A string of markdown text to be converted
-
-        Returns:
-            html string with embedded videos
+            block: A string of markdown text to be converted.
         '''
 
         block = blocks.pop(0)
+
         match = self.pattern.search(block)
+        before = block[:match.start()]
+        after = block[match.end():]
+
+        if before.strip() != '':
+            self.parser.parseChunk(parent, before)
+        if after.strip() != '':
+            blocks.insert(0, after)
 
         arguments = match.group('args')
-        check_argument_requirements(self.processor, arguments, self.required_parameters, self.optional_parameters)
-        url = parse_argument('url', arguments)
+        argument_values = parse_arguments(self.processor, arguments, self.arguments)
+        url = argument_values['url']
 
-        (video_type, identifier) = self.extract_video_identifier(url, match)
+        (video_type, identifier) = self.extract_video_identifier(url)
 
         if not video_type:
             raise UnsupportedVideoPlayerError(block, url, 'unsupported video player')
@@ -72,9 +77,13 @@ class VideoBlockProcessor(BlockProcessor):
         node = etree.fromstring(html_string)
         parent.append(node)
 
-
-    def extract_video_identifier(self, video_url, match):
-        '''Returns the indentifier from a given URL'''
+    def extract_video_identifier(self, video_url):
+        '''Extracts an identifier and service from a video url.
+        Args:
+            video_url: The input url.
+        Returns:
+            A tuple of the service and video identifier.
+        '''
 
         if re.match('.*?youtu\.{0,1}be(.com){0,1}', video_url) is not None: # is a youtube url
             video_url = re.sub(r'(.*?)(\?rel=0)', r'\g<1>', video_url)

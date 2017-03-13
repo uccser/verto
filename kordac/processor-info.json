@@ -44,7 +44,7 @@
           },
           "link": {
             "argument": "link",
-            "transform": "relative_file",
+            "transform": "relative_file_link",
             "transform_condition": "lambda context: context['file'] == 'yes'"
           },
           "text": {
@@ -82,7 +82,7 @@
     },
     "glossary-link": {
         "class": "custom",
-        "pattern": "\\{glossary-link ?(?P<args>[^\\}]*)}?(?P<text>.*?){glossary-link end\\}",
+        "pattern": "\\{glossary-link ?(?P<args>[^\\}]*)\\}?(?P<text>.*?)\\{glossary-link end\\}",
         "arguments": {
           "term": {
             "required": true,

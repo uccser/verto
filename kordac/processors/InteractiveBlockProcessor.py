@@ -1,14 +1,12 @@
-from markdown.blockprocessors import BlockProcessor
-from markdown.postprocessors import Postprocessor
-from markdown.treeprocessors import Treeprocessor
-from kordac.processors.utils import parse_argument, check_argument_requirements
+from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from kordac.processors.errors.InvalidParameterError import InvalidParameterError
+from kordac.processors.utils import *
 from markdown.util import etree
 
 import re
 import os
 
-class InteractiveBlockProcessor(BlockProcessor):
+class InteractiveBlockProcessor(GenericTagBlockProcessor):
     '''Searches a Document for interactive tags:
         e.g. {interactive name='example' type='in-page'}
         These are then replaced with the html template.
@@ -19,15 +17,11 @@ class InteractiveBlockProcessor(BlockProcessor):
         Args:
             ext: An instance of the Kordac Extension.
         '''
-        super().__init__(*args, **kwargs)
-        self.processor = 'interactive'
+        super().__init__('interactive', ext, *args, **kwargs)
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
-        self.template = ext.jinja_templates[self.processor]
         self.relative_file_template = ext.jinja_templates['relative-file-link']
         self.scripts = ext.required_files["page_scripts"]
         self.required = ext.required_files["interactives"]
-        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
-        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -53,15 +47,23 @@ class InteractiveBlockProcessor(BlockProcessor):
             first block tests true.
         '''
         block = blocks.pop(0)
+
         match = self.pattern.match(block)
+        before = block[:match.start()]
+        after = block[match.end():]
+
+        if before.strip() != '':
+            self.parser.parseChunk(parent, before)
+        if after.strip() != '':
+            blocks.insert(0, after)
 
         arguments = match.group('args')
-        check_argument_requirements(self.processor, arguments, self.required_parameters, self.optional_parameters)
+        argument_values = parse_arguments(self.processor, arguments, self.arguments)
 
-        name = parse_argument('name', arguments)
-        interactive_type = parse_argument('type', arguments)
-        text = parse_argument('text', arguments)
-        parameters = parse_argument('parameters', arguments)
+        name = argument_values['name']
+        interactive_type = argument_values['type']
+        text = argument_values['text']
+        parameters = argument_values['parameters']
 
         if name is not None and name is '':
             raise InvalidParameterError(self.processor, "name", "Name parameter must not be an empty string.")
