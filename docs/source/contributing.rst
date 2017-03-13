@@ -39,7 +39,7 @@ If you would like to contribute to Kordac, `create a fork of the repository`_.
 Overview
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Before reading this section, make sure you have read `how to use Kordac`_ (or even better, have already used Kordac!).
+Before reading this section, make sure you have read :doc:`how to use <usage>` (or even better, have already used Kordac!).
 
 
 Terminology
@@ -250,7 +250,6 @@ can only be performed by repository administrators
 .. _here: https://github.com/uccser/kordac
 .. _report it on the repo issue tracker: https://github.com/uccser/kordac/issues
 .. _create a fork of the repository: https://help.github.com/articles/fork-a-repo/
-.. _how to use Kordac: http://kordac.readthedocs.io/en/develop/usage.html
 .. _Extension API: https://pythonhosted.org/Markdown/extensions/api.html
 .. _source code: https://github.com/waylan/Python-Markdown
 .. _OrderedDict in the Markdown API docs: https://pythonhosted.org/Markdown/extensions/api.html#ordereddict
