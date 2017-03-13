@@ -14,7 +14,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)').format(self.processor)
         self.arguments = ext.processor_info[self.processor]['arguments']
         template_name = self.processor.get('template_name', self.processor)
-        self.template = ext.jinja_templates[ext.processor_info[template_name]
+        self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
 
     def test(self, parent, block):

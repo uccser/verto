@@ -25,7 +25,7 @@ class GlossaryLinkPattern(Pattern):
         self.compiled_re = re.compile(r'^(.*?){}(.*)$'.format(self.pattern), re.DOTALL | re.UNICODE)
         self.arguments = ext.processor_info[self.processor]['arguments']
         template_name = self.processor.get('template_name', self.processor)
-        self.template = ext.jinja_templates[ext.processor_info[template_name]
+        self.template = ext.jinja_templates[template_name]
 
     def handleMatch(self, match):
         '''
