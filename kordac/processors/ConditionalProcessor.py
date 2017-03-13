@@ -15,8 +15,6 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
             ext: An instance of the KordacExtension.
         '''
         super().__init__('conditional', ext, *args, **kwargs)
-        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
-        self.p_end = re.compile(ext.processor_info[self.processor]['pattern_end'])
 
     def test(self, parent, block):
         ''' Tests if the block if it contains any type of conditional types.
@@ -28,7 +26,7 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         Returns:
             Return true if any conditional tag is found.
         '''
-        return self.pattern.search(block) is not None or self.p_end.search(block) is not None
+        return self.p_start.search(block) is not None or self.p_end.search(block) is not None
 
     def run(self, parent, blocks):
         ''' Removes all instances of text that match the following example {comment example text here}. Inherited from Preprocessor class.
@@ -42,11 +40,11 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         block = blocks.pop(0)
         context = dict()
 
-        start_tag = self.pattern.search(block)
+        start_tag = self.p_start.search(block)
         end_tag = self.p_end.search(block)
 
         if ((start_tag is None and end_tag is not None)
-         or (start_tag.end() > end_tag.start())):
+         or (start_tag and end_tag and start_tag.end() > end_tag.start())):
             raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
 
         is_if = parse_flag('if', start_tag.group('args'))
@@ -123,7 +121,7 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
             block = blocks.pop(0)
 
             # Do we have either a start or end tag
-            next_tag = self.pattern.search(block)
+            next_tag = self.p_start.search(block)
             end_tag = self.p_end.search(block)
 
             is_if = next_tag is not None and parse_flag('if', next_tag.group('args'))

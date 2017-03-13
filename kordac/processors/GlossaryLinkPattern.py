@@ -24,8 +24,11 @@ class GlossaryLinkPattern(Pattern):
         self.pattern = self.ext.processor_info['glossary-link']['pattern']
         self.compiled_re = re.compile(r'^(.*?){}(.*)$'.format(self.pattern), re.DOTALL | re.UNICODE)
         self.arguments = ext.processor_info[self.processor]['arguments']
-        template_name = self.processor.get('template_name', self.processor)
+        template_name = ext.processor_info.get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
+        
+        self.ext_glossary_terms = ext.glossary_terms
+        self.unique_slugify = ext.custom_slugify
 
     def handleMatch(self, match):
         '''
@@ -40,8 +43,8 @@ class GlossaryLinkPattern(Pattern):
         arguments = match.group('args')
         argument_values = parse_arguments(self.processor, arguments, self.arguments)
 
-        term = arugment_values['term']
-        reference = arugment_values['reference-text']
+        term = argument_values['term']
+        reference = argument_values.get('reference-text', None)
 
         context = {
             'term': term,

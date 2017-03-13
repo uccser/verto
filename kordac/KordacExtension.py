@@ -31,30 +31,6 @@ import json
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
-    PREPROCESSORS = [
-        ['comment', CommentPreprocessor(self, md), '_begin'],
-        ['save-title', SaveTitlePreprocessor(self, md), '_end'],
-        ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
-    ]
-    BLOCKPROCESSORS = [
-    # Markdown overrides
-        ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
-    # Single line (in increasing complexity)
-        ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-        ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-        ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-        ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
-    # Multiline
-    ]
-    INLINEPATTERNS = [ # A special treeprocessor
-        ['relative-link', RelativeLinkPattern(self, md), '_begin'],
-        ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
-    ]
-    TREEPROCESSORS = [
-        ['scratch', ScratchTreeprocessor(self, md), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
-    ]
-    POSTPROCESSORS = []
-
     def __init__(self, processors=[], html_templates={}, extensions=[], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.required_files = defaultdict(set)
@@ -74,14 +50,32 @@ class KordacExtension(Extension):
                 if extension.endswith('fenced_code'):
                     self.compatibility.append('fenced_code_block')
 
-        self.preprocessors = self.PREPROCESSORS.copy()
-        self.blockprocessors = self.BLOCKPROCESSORS.copy()
-        self.inlinepatterns = self.INLINEPATTERNS.copy()
-        self.treeprocessors = self.TREEPROCESSORS.copy()
-        self.postprocessors = self.POSTPROCESSORS.copy()
-        self.buildGenericProcessors()
-
     def extendMarkdown(self, md, md_globals):
+        self.preprocessors = [
+            ['comment', CommentPreprocessor(self, md), '_begin'],
+            ['save-title', SaveTitlePreprocessor(self, md), '_end'],
+            ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
+        ]
+        self.blockprocessors = [
+        # Markdown overrides
+            ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
+        # Single line (in increasing complexity)
+            ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+            ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
+        # Multiline
+        ]
+        self.inlinepatterns = [ # A special treeprocessor
+            ['relative-link', RelativeLinkPattern(self, md), '_begin'],
+            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
+        ]
+        self.treeprocessors = [
+            ['scratch', ScratchTreeprocessor(self, md), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
+        ]
+        self.postprocessors = []
+        self.buildGenericProcessors(md, md_globals)
+
         for processor_data in self.preprocessors:
             if processor_data[0] in self.processors:
                 md.preprocessors.add(processor_data[0], processor_data[1], processor_data[2])
@@ -129,13 +123,13 @@ class KordacExtension(Extension):
                     templates[processor_name] = env.get_template(file)
         return templates
 
-    def buildGenericProcessors(self):
+    def buildGenericProcessors(self, md, md_globals):
         for processor, processor_info in self.processor_info.items():
             processor_class = processor_info.get('class', None)
             if processor_class == 'generic_tag':
                 self.blockprocessors.insert(0, [processor, GenericTagBlockProcessor(processor, self, md.parser), '_begin'])
             if processor_class == 'generic_container':
-                self.blockprocessors.append([processor, GenericContainerBlockProcessor(processor, self, md.parser, '_begin')])
+                self.blockprocessors.append([processor, GenericContainerBlockProcessor(processor, self, md.parser), '_begin'])
 
     def loadProcessorInfo(self):
         json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()

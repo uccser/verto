@@ -10,10 +10,10 @@ class GenericContainerBlockProcessor(BlockProcessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = processor
-        self.p_start = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)').format(self.processor)
-        self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)').format(self.processor)
+        self.p_start = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)'.format(self.processor))
+        self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)'.format(self.processor))
         self.arguments = ext.processor_info[self.processor]['arguments']
-        template_name = self.processor.get('template_name', self.processor)
+        template_name = ext.processor_info.get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
 
@@ -45,7 +45,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         end_tag = self.p_end.search(block)
 
         if ((start_tag is None and end_tag is not None)
-         or (start_tag.end() > end_tag.start())):
+         or (start_tag and end_tag and start_tag.end() > end_tag.start())):
             raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
 
         before = block[:start_tag.start()]
@@ -56,7 +56,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         if after.strip() != '':
             blocks.insert(0, after)
 
-        argument_values = parse_arguments(self.processor, match.group('args'), self.arguments)
+        argument_values = parse_arguments(self.processor, start_tag.group('args'), self.arguments)
 
         content_blocks = []
         the_rest = None
@@ -69,7 +69,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
             end_tag = self.p_end.search(block)
 
             if ((inner_tag and end_tag is None)
-             or (inner_tag.start() < end_tag.end())):
+             or (inner_tag and end_tag and inner_tag.start() < end_tag.end())):
                 inner_start_tags += 1
 
             if end_tag and inner_start_tags == inner_end_tags:

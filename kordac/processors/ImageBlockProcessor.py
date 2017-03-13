@@ -67,13 +67,13 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
 
         context = dict()
         context['file_path'] = file_path
-        context['alt'] = argument_values['alt']
-        context['title'] =  argument_values['title']
-        context['caption'] = argument_values['caption']
-        context['caption_link'] = argument_values['caption-link']
-        context['source_link'] = argument_values['source']
-        context['alignment'] = argument_values['alignment']
-        context['hover_text'] =  argument_values['hover-text']
+        context['alt'] = argument_values.get('alt', None)
+        context['title'] =  argument_values.get('title', None)
+        context['caption'] = argument_values.get('caption', None)
+        context['caption_link'] = argument_values.get('caption-link', None)
+        context['source_link'] = argument_values.get('source', None)
+        context['alignment'] = argument_values.get('alignment', None)
+        context['hover_text'] =  argument_values.get('hover-text', None)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)

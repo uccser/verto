@@ -55,22 +55,22 @@ def parse_arguments(processor, inputs, arguments):
     argument_values = dict()
     for argument, argument_info in arguments.items():
         is_required = argument_info['required']
-        is_arg = parse_argument(argument, arguments, None) is not None
-        is_flag = parse_flag(argument, arguments)
+        is_arg = parse_argument(argument, inputs, None) is not None
+        is_flag = parse_flag(argument, inputs)
 
-        if is_required and (is_arg or is_flag):
+        if is_required and not (is_arg or is_flag):
             raise ArgumentMissingError(processor, parameter, "{} is a required argument.".format(argument))
         elif not is_required and (is_arg or is_flag):
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
-                if not (parse_argument(other_argument, arguments, None) is None
-                    or parse_flag(other_argument, arguments) is None):
+                if not (parse_argument(other_argument, inputs, None) is None
+                    or parse_flag(other_argument, inputs) is None):
                         raise ArgumentMissingError(processor, argument, "{} is a required parameter because {} exists.".format(other_argument, argument))
 
         if is_flag:
             argument_values[argument] = True
         elif is_arg:
-            argument_values[argument] = parse_argument(argument, arguments, None)
+            argument_values[argument] = parse_argument(argument, inputs, None)
 
     return argument_values
 
@@ -90,7 +90,7 @@ def process_parameters(processor, parameters, argument_values):
     for parameter, parameter_info in parameters.items():
         argument_name = parameter_info['argument']
         parameter_default = parameter_info['default'] if 'default' in parameter_info else None
-        argument_value = argument_values[argument_name] if argument_values[argument_name] is not None else parameter_default
+        argument_value = argument_values[argument_name] if argument_values.get(argument_name, None) is not None else parameter_default
 
         parameter_value = argument_value
         if parameter_info.get('transform', None):

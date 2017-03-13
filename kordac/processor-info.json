@@ -150,7 +150,6 @@
     },
     "interactive": {
         "class": "custom",
-        "pattern": "(^|\\n) *\\{interactive (?P<args>[^\\}]*)\\} *(\\n|$)",
         "arguments": {
           "name": {
             "required": true,
@@ -234,6 +233,6 @@
           "url": {
             "required": true
           }
-        },
+        }
     }
 }

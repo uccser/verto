@@ -18,7 +18,6 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             ext: An instance of the Kordac Extension.
         '''
         super().__init__('interactive', ext, *args, **kwargs)
-        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.relative_file_template = ext.jinja_templates['relative-file-link']
         self.scripts = ext.required_files["page_scripts"]
         self.required = ext.required_files["interactives"]
@@ -62,8 +61,8 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
 
         name = argument_values['name']
         interactive_type = argument_values['type']
-        text = argument_values['text']
-        parameters = argument_values['parameters']
+        text = argument_values.get('text', None)
+        parameters = argument_values.get('parameters', None)
 
         if name is not None and name is '':
             raise InvalidParameterError(self.processor, "name", "Name parameter must not be an empty string.")
@@ -72,7 +71,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             self.scripts.add('interactive/{}/scripts.html'.format(name))
         self.required.add(name)
 
-        file_path = parse_argument('thumbnail', arguments)
+        file_path = argument_values.get('thumbnail', None)
         if file_path is None:
             file_path = "{}/thumbnail.png".format(name)
 
