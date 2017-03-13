@@ -58,7 +58,7 @@ class CommentTest(ProcessorTest):
         # We expect to match the first closing '}' to enforce simple comments
         test_string = self.read_test_file(self.processor_name, 'comment_contains_comment.md')
 
-        self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
+        self.assertFalse(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'comment_contains_comment_expected.html', strip=True)

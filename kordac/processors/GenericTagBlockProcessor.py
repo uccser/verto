@@ -15,6 +15,7 @@ class GenericTagBlockProcessor(BlockProcessor):
         template_name = ext.processor_info.get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
+        self.process_parameters = lambda processor, parameters, argument_values: process_parameters(ext, processor, parameters, argument_values)
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -50,7 +51,7 @@ class GenericTagBlockProcessor(BlockProcessor):
             blocks.insert(0, after)
 
         argument_values = parse_arguments(self.processor, match.group('args'), self.arguments)
-        context = process_parameters(self.processor, self.template_parameters, argument_values)
+        context = self.process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)

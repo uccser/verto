@@ -1,6 +1,6 @@
 import re
 from markdown.util import etree
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from kordac.processors.errors.ArgumentMissingError import ArgumentMissingError
 
 def parse_argument(argument_key, arguments, default=None):
@@ -52,29 +52,28 @@ def parse_arguments(processor, inputs, arguments):
         ArgumentMissingError: If any required arguments are missing or
         an argument an optional argument is dependent on is missing.
     '''
-    argument_values = dict()
+    argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
         is_required = argument_info['required']
         is_arg = parse_argument(argument, inputs, None) is not None
         is_flag = parse_flag(argument, inputs)
 
         if is_required and not (is_arg or is_flag):
-            raise ArgumentMissingError(processor, parameter, "{} is a required argument.".format(argument))
+            raise ArgumentMissingError(processor, argument, "{} is a required argument.".format(argument))
         elif not is_required and (is_arg or is_flag):
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
-                if not (parse_argument(other_argument, inputs, None) is None
-                    or parse_flag(other_argument, inputs) is None):
-                        raise ArgumentMissingError(processor, argument, "{} is a required parameter because {} exists.".format(other_argument, argument))
+                if not (parse_argument(other_argument, inputs, None) is not None
+                    or parse_flag(other_argument, inputs) is not None):
+                        raise ArgumentMissingError(processor, argument, "{} is a required argument because {} exists.".format(other_argument, argument))
 
         if is_flag:
             argument_values[argument] = True
         elif is_arg:
             argument_values[argument] = parse_argument(argument, inputs, None)
-
     return argument_values
 
-def process_parameters(processor, parameters, argument_values):
+def process_parameters(ext, processor, parameters, argument_values):
     '''
     Processes a given set of arguments by the parameter definitions.
 
@@ -89,27 +88,28 @@ def process_parameters(processor, parameters, argument_values):
     transformations = OrderedDict()
     for parameter, parameter_info in parameters.items():
         argument_name = parameter_info['argument']
-        parameter_default = parameter_info['default'] if 'default' in parameter_info else None
-        argument_value = argument_values[argument_name] if argument_values.get(argument_name, None) is not None else parameter_default
+        parameter_default = parameter_info.get('default', None)
+        argument_value = argument_values.get(argument_name, parameter_default)
 
         parameter_value = argument_value
         if parameter_info.get('transform', None):
-            transformation = find_transformation(parameter_info['transform'])
+            transform = find_transformation(ext, parameter_info['transform'])
             if parameter_info.get('transform_condition', None):
-                transformations[parameter] = (eval(parameter_info['transform_condition']), transformation)
+                transformations[parameter] = (eval(parameter_info['transform_condition']), transform)
             else:
-                transformations[parameter] = (True, transformation)
+                transformations[parameter] = (True, transform)
 
         context[parameter] = parameter_value
 
-    for parameter, (condition, transformation) in transformations.items():
-        if isinstance(condition, bool) and condition == True:
-            context[parameter] = transform(context[parameter])
-        if callable(condition) and condition(context):
-            context[parameter] = transform(context[parameter])
+    for parameter, (condition, transform) in transformations.items():
+        if context[parameter] is not None:
+            if isinstance(condition, bool) and condition == True:
+                context[parameter] = transform(context[parameter])
+            if callable(condition) and condition(context):
+                context[parameter] = transform(context[parameter])
     return context
 
-def find_transformation(option):
+def find_transformation(ext, option):
     '''
     Returns a transformation for a given string.
     TODO:
@@ -124,7 +124,7 @@ def find_transformation(option):
     return {
         'str.lower': lambda x: x.lower(),
         'str.upper': lambda x: x.upper(),
-        'relative_file_link': lambda x: self.relative_file_template.render({'file_path': x})
+        'relative_file_link': lambda x: ext.jinja_templates['relative-file-link'].render({'file_path': x})
     }.get(option, None)
 
 def blocks_to_string(blocks):

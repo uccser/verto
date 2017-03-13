@@ -11,8 +11,7 @@
         "template_parameters": {
           "indented": {
             "argument": "indented",
-            "transform": "str.lower",
-            "default": "no"
+            "transform": "str.lower"
           },
           "text": {
             "argument": "content",
@@ -55,7 +54,7 @@
     },
     "comment": {
         "class": "custom",
-        "pattern" : "(^|\\n) *\\{comment [^\\}]+\\} *(\\n|$)",
+        "pattern": "(^|\\n) *\\{comment [^\\}]+\\} *(\\n|$)",
         "arguments": {},
         "template_parameters": {}
     },

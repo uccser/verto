@@ -6,12 +6,12 @@ class ArgumentMissingError(Error):
     Attributes:
         tag -- tag which was not matched
         block -- block where tag was not matched
-        parameter -- the parameter that was not found
+        argument -- the argument that was not found
         message -- explanation of why error was thrown
     """
 
-    def __init__(self, tag, parameter, message):
+    def __init__(self, tag, argument, message):
         super().__init__(message)
         self.tag = tag
-        self.parameter = parameter
+        self.argument = argument
         self.message = message

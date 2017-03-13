@@ -1,4 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
+from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
 from kordac.processors.utils import *
 import re
 
@@ -16,6 +17,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         template_name = ext.processor_info.get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
+        self.process_parameters = lambda processor, parameters, argument_values: process_parameters(ext, processor, parameters, argument_values)
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -59,7 +61,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         argument_values = parse_arguments(self.processor, start_tag.group('args'), self.arguments)
 
         content_blocks = []
-        the_rest = None
+        the_rest = ''
         inner_start_tags = 0
         inner_end_tags = 0
 
@@ -95,7 +97,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
             content += etree.tostring(child, encoding="unicode", method="html") + '\n'
 
         argument_values['content'] = content
-        context = process_parameters(self.processor, self.template_parameters, argument_values)
+        context = self.process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
