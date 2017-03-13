@@ -16,7 +16,7 @@
           },
           "text": {
             "argument": "content",
-            "transform": null,
+            "transform": null
           }
         }
     },
@@ -37,6 +37,11 @@
           }
         },
         "template_parameters": {
+          "file": {
+            "argument": "file",
+            "transform": "str.lower",
+            "default": "no"
+          },
           "link": {
             "argument": "link",
             "transform": "relative_file",
@@ -44,12 +49,7 @@
           },
           "text": {
             "argument": "text",
-            "transform": null,
-          },
-          "file": {
-            "argument": "file",
-            "transform": "str.lower",
-            "default": "no"
+            "transform": null
           }
         }
     },
@@ -178,42 +178,33 @@
         "class": "generic_container",
         "arguments": {
           "type": {
-            "required": true,
-            "dependencies": []
+            "required": true
           },
           "title": {
-            "required": true,
-            "dependencies": []
+            "required": true
           },
           "subtitle": {
-            "required": false,
-            "dependencies": []
+            "required": false
           },
           "expanded": {
-            "required": false,
-            "dependencies": []
+            "required": false
           }
         },
         "template_parameters": {
           "type": {
-            "argument": "type",
-            "transform": null
+            "argument": "type"
           },
           "title": {
-            "argument": "title",
-            "transform": null,
+            "argument": "title"
           },
           "subtitle": {
-            "argument": "subtitle",
-            "transform": null
+            "argument": "subtitle"
           },
           "expanded": {
-            "argument": "expanded",
-            "transform": null
+            "argument": "expanded"
           },
           "content": {
-            "argument": "content",
-            "transform": null
+            "argument": "content"
           }
         }
     },
@@ -241,8 +232,7 @@
         "pattern": "(^|\\n) *\\{video (?P<args>[^\\}]*)\\} *(\\n|$)",
         "arguments": {
           "url": {
-            "required": true,
-            "dependencies": []
+            "required": true
           }
         },
     }

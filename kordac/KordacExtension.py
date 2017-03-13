@@ -25,7 +25,7 @@ from kordac.processors.ScratchCompatibilityPreprocessor import ScratchCompatibil
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
 
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from os import listdir
 import os.path
 import re
@@ -132,7 +132,7 @@ class KordacExtension(Extension):
 
     def loadProcessorInfo(self):
         json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()
-        return json.loads(json_data)
+        return json.loads(json_data, object_pairs_hook=OrderedDict)
 
     def get_heading_tree(self):
         return self.heading_tree

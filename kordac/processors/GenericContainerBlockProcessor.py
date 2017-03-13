@@ -56,8 +56,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         if after.strip() != '':
             blocks.insert(0, after)
 
-        if len(self.arguments) > 0:
-            check_arguments(self.processor, match.group('args'), self.arguments)
+        argument_values = parse_arguments(self.processor, match.group('args'), self.arguments)
 
         content_blocks = []
         the_rest = None
@@ -95,18 +94,8 @@ class GenericContainerBlockProcessor(BlockProcessor):
         for child in content_tree:
             content += etree.tostring(child, encoding="unicode", method="html") + '\n'
 
-        context = dict()
-        for parameter, parameter_info in self.template_parameters.items():
-            argument_name = parameter_info['argument']
-            parameter_default = parameter_info['default'] if 'default' in parameter_info else None
-            parameter_value = None
-            if argument_info['argument'] == 'content':
-                parameter_value = content
-            else:
-                argument_value = parse_argument(argument_name, match.group('args'), parameter_default)
-                transformation = find_transformation(parameter_info['transform'])
-                parameter_value = transformation(argument_value) if transformation is not None else argument_value
-            context[parameter] = parameter_value
+        argument_values['content'] = content
+        context = process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
