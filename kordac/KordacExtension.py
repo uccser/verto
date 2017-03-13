@@ -19,6 +19,7 @@ from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
 from kordac.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from kordac.processors.FrameBlockProcessor import FrameBlockProcessor
 from kordac.processors.TableOfContentsBlockProcessor import TableOfContentsBlockProcessor
+from kordac.processors.ScratchBlockProcessor import ScratchBlockProcessor
 
 from kordac.utils.UniqueSlugify import UniqueSlugify
 from kordac.utils.HeadingNode import HeadingNode
@@ -33,6 +34,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
     def __init__(self, processors=[], html_templates={}, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.required_files = defaultdict(set)
         self.title = None
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
@@ -41,29 +43,32 @@ class KordacExtension(Extension):
         self.custom_slugify = UniqueSlugify()
         self.glossary_terms = defaultdict(list)
         self.heading_tree = None
-        super().__init__(*args, **kwargs)
 
     def extendMarkdown(self, md, md_globals):
         preprocessors = [
+            ['comment', CommentPreprocessor(self, md), '_begin'],
             ['save-title', SaveTitlePreprocessor(self, md), '_end'],
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
-            ['comment', CommentPreprocessor(self, md), '_begin'],
         ]
         inlinepatterns = [
             ['relative-link', RelativeLinkPattern(self, md), '_begin'],
-            ['glossary-link', GlossaryLinkPattern(self, md), '_begin']
+            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
         ]
         blockprocessors = [
-            ['panel', PanelBlockProcessor(self, md.parser), '>ulist'],
+        # Markdown overrides
+            ['scratch', ScratchBlockProcessor(self, md.parser), '<code'],
+            ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
+        # Single line (in increasing complexity)
+            ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin'],
+            ['iframe', FrameBlockProcessor(self, md.parser), '_begin'],
             ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+            ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
+            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             ['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
-            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            ['button-link', ButtonLinkBlockProcessor(self, md.parser), '_begin'],
+        # Multiline
             ['boxed-text', BoxedTextBlockProcessor(self, md.parser), '_begin'],
-            ['heading', HeadingBlockProcessor(self, md.parser), '_begin'],
-            ['iframe', FrameBlockProcessor(self, md.parser), '_begin'],
-            ['table-of-contents', TableOfContentsBlockProcessor(self, md.parser), '_begin']
+            ['panel', PanelBlockProcessor(self, md.parser), '_begin'],
         ]
 
         for processor_data in preprocessors:
@@ -82,9 +87,10 @@ class KordacExtension(Extension):
 
     def clear_saved_data(self):
         self.title = None
-        self.required_files.clear()
         self.custom_slugify.clear()
         self.heading_tree = None
+        for key in self.required_files.keys():
+            self.required_files[key].clear()
 
     def loadJinjaTemplates(self, custom_templates):
         templates = {}
