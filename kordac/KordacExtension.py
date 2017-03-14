@@ -102,21 +102,16 @@ class KordacExtension(Extension):
         self.postprocessors = []
         self.buildGenericProcessors(md, md_globals)
 
-        for processor_data in self.preprocessors:
-            if processor_data[0] in self.processors:
-                md.preprocessors.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in self.blockprocessors:
-            if processor_data[0] in self.processors:
-                md.parser.blockprocessors.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in self.inlinepatterns:
-            if processor_data[0] in self.processors:
-                md.inlinePatterns.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in self.treeprocessors:
-            if processor_data[0] in self.processors:
-                md.treeprocessors.add(processor_data[0], processor_data[1], processor_data[2])
-        for processor_data in self.postprocessors:
-            if processor_data[0] in self.processors:
-                md.postprocessors.add(processor_data[0], processor_data[1], processor_data[2])
+        def update_processors(processors, markdown_processors):
+            for processor_data in processors:
+                if processor_data[0] in self.processors:
+                    markdown_processors.add(processor_data[0], processor_data[1], processor_data[2])
+
+        update_processors(self.preprocessors, md.preprocessors)
+        update_processors(self.blockprocessors, md.parser.blockprocessors)
+        update_processors(self.inlinepatterns, md.inlinePatterns)
+        update_processors(self.treeprocessors, md.treeprocessors)
+        update_processors(self.postprocessors, md.postprocessors)
 
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
@@ -173,11 +168,11 @@ class KordacExtension(Extension):
         for processor, processor_info in self.processor_info.items():
             processor_class = processor_info.get('class', None)
             if processor_class == 'generic_tag':
-                processor = GenericTagBlockProcessor(processor, self, md.parser)
-                self.blockprocessors.insert(0, [processor, processor, '_begin'])
+                processor_object = GenericTagBlockProcessor(processor, self, md.parser)
+                self.blockprocessors.insert(0, [processor, processor_object, '_begin'])
             if processor_class == 'generic_container':
-                processor = GenericContainerBlockProcessor(processor, self, md.parser)
-                self.blockprocessors.append([processor, processor, '_begin'])
+                processor_object = GenericContainerBlockProcessor(processor, self, md.parser)
+                self.blockprocessors.append([processor, processor_object, '_begin'])
 
     def loadProcessorInfo(self):
         '''Loads processor descriptions from a json file.
