@@ -1,5 +1,6 @@
 from kordac.processors.errors.Error import Error
 
+
 class TagNotMatchedError(Error):
     """Exception raised when a custom markdown tag in not matched.
 

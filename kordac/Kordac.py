@@ -18,6 +18,7 @@ DEFAULT_PROCESSORS = frozenset({
     'scratch'
 })
 
+
 class Kordac(object):
     '''A converter object for converting markdown with complex elements
     to HTML.
@@ -117,6 +118,7 @@ class Kordac(object):
         '''
         self.processors = set(processors)
         self.create_converter()
+
 
 class KordacResult(object):
     '''Object created by Kordac containing the result data

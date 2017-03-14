@@ -1,5 +1,6 @@
 from kordac.processors.errors.Error import Error
 
+
 class NoSourceLinkError(Error):
     """Exception raised when no source link is found for a video
 
@@ -14,4 +15,3 @@ class NoSourceLinkError(Error):
         self.block = block
         self.url = url
         self.message = message
-

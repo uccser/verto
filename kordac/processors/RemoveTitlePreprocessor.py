@@ -1,7 +1,9 @@
 from markdown.preprocessors import Preprocessor
 import re
 
+
 class RemoveTitlePreprocessor(Preprocessor):
+    '''Removes the first found title from the given document.'''
 
     def __init__(self, ext, *args, **kwargs):
         '''
@@ -13,7 +15,7 @@ class RemoveTitlePreprocessor(Preprocessor):
         self.pattern = re.compile(ext.processor_info['title']['pattern'])
 
     def test(self, lines):
-        ''' Tests the given document to check if the processor should be
+        '''Tests the given document to check if the processor should be
         run.
 
         Args:
@@ -24,7 +26,7 @@ class RemoveTitlePreprocessor(Preprocessor):
         return self.pattern.search(lines) is not None
 
     def run(self, lines):
-        ''' If the title is found on a line, remove the line.
+        '''If the title is found on a line, remove the line.
 
         Args:
             lines: A list of strings that form the document.

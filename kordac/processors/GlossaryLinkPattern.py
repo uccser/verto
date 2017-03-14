@@ -1,6 +1,5 @@
 from markdown.inlinepatterns import Pattern
-from kordac.processors.utils import *
-from markdown.util import etree
+from kordac.processors.utils import etree, parse_arguments
 import re
 
 
@@ -26,7 +25,7 @@ class GlossaryLinkPattern(Pattern):
         self.arguments = ext.processor_info[self.processor]['arguments']
         template_name = ext.processor_info.get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
-        
+
         self.ext_glossary_terms = ext.glossary_terms
         self.unique_slugify = ext.custom_slugify
 

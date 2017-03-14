@@ -1,8 +1,7 @@
 from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from kordac.processors.errors.NoSourceLinkError import NoSourceLinkError
 from kordac.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
 from kordac.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
-from kordac.processors.utils import *
+from kordac.processors.utils import etree, parse_arguments
 import re
 
 
@@ -33,7 +32,8 @@ class VideoBlockProcessor(GenericTagBlockProcessor):
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
-        '''Replaces all video tags {video url="example"} with embeded video link. Inherited from BlockProcessor class.
+        '''Replaces all video tags {video url="example"} with embeded
+        video link. Inherited from BlockProcessor class.
 
         Args:
             parent: Element which this block is in.
@@ -85,13 +85,13 @@ class VideoBlockProcessor(GenericTagBlockProcessor):
             A tuple of the service and video identifier.
         '''
 
-        if re.match('.*?youtu\.{0,1}be(.com){0,1}', video_url) is not None: # is a youtube url
+        if re.match('.*?youtu\.{0,1}be(.com){0,1}', video_url) is not None:  # is a youtube url
             video_url = re.sub(r'(.*?)(\?rel=0)', r'\g<1>', video_url)
             if 'youtu.be' in video_url or 'youtube.com/embed' in video_url:
                 video_query = video_url.split('/')[-1]
             elif 'youtube.com' in video_url:
                 start_pos = video_url.find('v=') + 2
-                end_pos = video_url.find('&');
+                end_pos = video_url.find('&')
                 if end_pos == -1:
                     end_pos = len(video_url)
                 video_query = video_url[start_pos:end_pos]

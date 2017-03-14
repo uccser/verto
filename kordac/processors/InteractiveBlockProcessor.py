@@ -1,10 +1,8 @@
 from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from kordac.processors.errors.InvalidParameterError import InvalidParameterError
-from kordac.processors.utils import *
-from markdown.util import etree
-
+from kordac.processors.utils import etree, parse_arguments
 import re
-import os
+
 
 class InteractiveBlockProcessor(GenericTagBlockProcessor):
     '''Searches a Document for interactive tags:
@@ -76,7 +74,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             file_path = "{}/thumbnail.png".format(name)
 
         external_path_match = re.search(r'^http', file_path)
-        if external_path_match is None: # internal image
+        if external_path_match is None:  # internal image
             self.required.add(file_path)
             file_path = self.relative_file_template.render({'file_path': file_path})
 

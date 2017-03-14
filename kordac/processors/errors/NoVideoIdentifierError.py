@@ -1,5 +1,6 @@
 from kordac.processors.errors.Error import Error
 
+
 class NoVideoIdentifierError(Error):
     """Exception raised when no identifier is found for a video
 
@@ -14,4 +15,3 @@ class NoVideoIdentifierError(Error):
         self.block = block
         self.url = url
         self.message = message
-

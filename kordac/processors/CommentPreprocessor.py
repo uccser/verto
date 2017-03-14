@@ -1,6 +1,7 @@
 from markdown.preprocessors import Preprocessor
 import re
 
+
 class CommentPreprocessor(Preprocessor):
     ''' Searches a Document for comments (e.g. {comment example text here})
     and removes them from the document.
@@ -27,11 +28,12 @@ class CommentPreprocessor(Preprocessor):
         return self.pattern.search(lines) is not None
 
     def run(self, lines):
-        ''' Removes all instances of text that match the following example {comment example text here}. Inherited from Preprocessor class.
+        ''' Removes all instances of text that match the following
+        example {comment example text here}. Inherited from
+        Preprocessor class.
 
         Args:
             lines: A list of lines of the Markdown document to be converted.
-
         Returns:
             Markdown document with comments removed.
         '''

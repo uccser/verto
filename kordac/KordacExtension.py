@@ -30,6 +30,7 @@ import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
+
 class KordacExtension(Extension):
     '''The Kordac markdown extension which enables all the processors,
     and extracts all the important information to expose externally to
@@ -81,21 +82,22 @@ class KordacExtension(Extension):
             ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
         ]
         self.blockprocessors = [
-        # Markdown overrides
+            # Markdown overrides
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
-        # Single line (in increasing complexity)
+            # Single line (in increasing complexity)
             ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
             ['image', ImageBlockProcessor(self, md.parser), '_begin'],
             ['video', VideoBlockProcessor(self, md.parser), '_begin'],
             ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
-        # Multiline
+            # Multiline
         ]
-        self.inlinepatterns = [ # A special treeprocessor
+        self.inlinepatterns = [  # A special treeprocessor
             ['relative-link', RelativeLinkPattern(self, md), '_begin'],
             ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
         ]
+        scratch_ordering = '>inline' if 'hilite' not in self.compatibility else '<hilite'
         self.treeprocessors = [
-            ['scratch', ScratchTreeprocessor(self, md), '>inline' if 'hilite' not in self.compatibility else '<hilite'],
+            ['scratch', ScratchTreeprocessor(self, md), scratch_ordering],
         ]
         self.postprocessors = []
         self.buildGenericProcessors(md, md_globals)
@@ -122,9 +124,10 @@ class KordacExtension(Extension):
 
         # Compatibility modules
         if ('hilite' in self.compatibility
-         and 'fenced_code_block' in self.compatibility
-         and 'scratch' in self.processors):
-            md.preprocessors.add('scratch-compatibility', ScratchCompatibilityPreprocessor(self, md), '<fenced_code_block')
+           and 'fenced_code_block' in self.compatibility
+           and 'scratch' in self.processors):
+                processor = ScratchCompatibilityPreprocessor(self, md)
+                md.preprocessors.add('scratch-compatibility', processor, '<fenced_code_block')
 
     def clear_saved_data(self):
         '''Clears stored information from processors, should be called
@@ -170,9 +173,11 @@ class KordacExtension(Extension):
         for processor, processor_info in self.processor_info.items():
             processor_class = processor_info.get('class', None)
             if processor_class == 'generic_tag':
-                self.blockprocessors.insert(0, [processor, GenericTagBlockProcessor(processor, self, md.parser), '_begin'])
+                processor = GenericTagBlockProcessor(processor, self, md.parser)
+                self.blockprocessors.insert(0, [processor, processor, '_begin'])
             if processor_class == 'generic_container':
-                self.blockprocessors.append([processor, GenericContainerBlockProcessor(processor, self, md.parser), '_begin'])
+                processor = GenericContainerBlockProcessor(processor, self, md.parser)
+                self.blockprocessors.append([processor, processor, '_begin'])
 
     def loadProcessorInfo(self):
         '''Loads processor descriptions from a json file.

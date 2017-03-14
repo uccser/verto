@@ -1,8 +1,12 @@
 from markdown.blockprocessors import BlockProcessor
-from kordac.processors.utils import *
+from kordac.processors.utils import etree, parse_arguments, process_parameters
 import re
 
+
 class GenericTagBlockProcessor(BlockProcessor):
+    ''' A generic processor that matches '{<name> args}' and replaces
+    with the according html template.
+    '''
     def __init__(self, processor, ext, *args, **kwargs):
         '''
         Args:
@@ -15,7 +19,8 @@ class GenericTagBlockProcessor(BlockProcessor):
         template_name = ext.processor_info.get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
-        self.process_parameters = lambda processor, parameters, argument_values: process_parameters(ext, processor, parameters, argument_values)
+        self.process_parameters = lambda processor, parameters, argument_values: \
+            process_parameters(ext, processor, parameters, argument_values)
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.

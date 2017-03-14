@@ -1,7 +1,8 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
-from kordac.utils.HeadingNode import HeadingNode, DynamicHeadingNode
+from kordac.utils.HeadingNode import DynamicHeadingNode
 import re
+
 
 class HeadingBlockProcessor(BlockProcessor):
     ''' Searches a Document for markdown headings (e.g. # HeadingTitle)
@@ -53,7 +54,7 @@ class HeadingBlockProcessor(BlockProcessor):
         '''
         block = blocks.pop(0)
         match = self.pattern.search(block)
-        assert match is not None # If this is true how did we test successfully
+        assert match is not None  # If this is true how did we test successfully
 
         before = block[:match.start()]
         after = block[match.end():]
@@ -117,7 +118,8 @@ class HeadingBlockProcessor(BlockProcessor):
             root_node = root_node.parent
 
         # Update the extension tree
-        self.update_ext_tree(tuple(self.roots + [root_node.to_immutable(),]))
+        self.update_ext_tree(tuple(self.roots + [root_node.to_immutable(), ]))
+
 
 class LevelGenerator:
     ''' Generates a level trail for example (1, 2, 3) which might be

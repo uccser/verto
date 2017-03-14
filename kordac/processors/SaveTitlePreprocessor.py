@@ -1,6 +1,7 @@
 from markdown.preprocessors import Preprocessor
 import re
 
+
 class SaveTitlePreprocessor(Preprocessor):
     ''' Saves the first title found in the document to
     the KordacExtension as part of the final result.

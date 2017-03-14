@@ -1,5 +1,6 @@
 from kordac.processors.errors.Error import Error
 
+
 class InvalidParameterError(Error):
     """Exception raised when an invalid parameter value is found.
 

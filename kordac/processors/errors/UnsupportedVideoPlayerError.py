@@ -1,5 +1,6 @@
 from kordac.processors.errors.Error import Error
 
+
 class UnsupportedVideoPlayerError(Error):
     """Exception raised when video player is not recognised
 
@@ -14,4 +15,3 @@ class UnsupportedVideoPlayerError(Error):
         self.block = block
         self.url = url
         self.message = message
-

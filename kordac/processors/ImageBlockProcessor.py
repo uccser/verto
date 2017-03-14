@@ -1,8 +1,7 @@
 from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from kordac.processors.utils import *
-from markdown.util import etree
-import jinja2
+from kordac.processors.utils import etree, parse_arguments
 import re
+
 
 class ImageBlockProcessor(GenericTagBlockProcessor):
     ''' Searches a Document for image tags e.g. {image file-path="<condition>"}
@@ -61,19 +60,19 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
         # check if internal or external image
         file_path = argument_values['file-path']
         external_path_match = re.search(r'^http', file_path)
-        if external_path_match is None: # internal image
+        if external_path_match is None:  # internal image
             self.required.add(file_path)
             file_path = self.relative_image_template.render({'file_path': file_path})
 
         context = dict()
         context['file_path'] = file_path
         context['alt'] = argument_values.get('alt', None)
-        context['title'] =  argument_values.get('title', None)
+        context['title'] = argument_values.get('title', None)
         context['caption'] = argument_values.get('caption', None)
         context['caption_link'] = argument_values.get('caption-link', None)
         context['source_link'] = argument_values.get('source', None)
         context['alignment'] = argument_values.get('alignment', None)
-        context['hover_text'] =  argument_values.get('hover-text', None)
+        context['hover_text'] = argument_values.get('hover-text', None)
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)

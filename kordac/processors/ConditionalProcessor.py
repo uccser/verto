@@ -1,12 +1,14 @@
 from kordac.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
-from kordac.processors.utils import *
+from kordac.processors.utils import etree, parse_arguments, parse_flag, blocks_to_string
 from collections import OrderedDict
-import re
+
 
 class ConditionalProcessor(GenericContainerBlockProcessor):
-    ''' Searches a Document for conditional tags e.g. {conditonal flag condition="<condition>"}
-    The processor matches the following `elif` and `else` statements in the document and parses them via the provided html template.
+    ''' Searches a Document for conditional tags e.g.
+    {conditonal flag condition="<condition>"}  The processor matches
+    the following `elif` and `else` statements in the document and
+    parses them via the provided html template.
     '''
 
     def __init__(self, ext, *args, **kwargs):
@@ -22,20 +24,23 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         Args:
             parent: The parent element of the html tree.
             blocks: The markdown blocks to until a new tag is found.
-
         Returns:
             Return true if any conditional tag is found.
         '''
         return self.p_start.search(block) is not None or self.p_end.search(block) is not None
 
     def run(self, parent, blocks):
-        ''' Removes all instances of text that match the following example {comment example text here}. Inherited from Preprocessor class.
+        ''' Replaces all conditionals with the given html template.
+        Allows for recursively defined if statements.
 
         Args:
             lines: A list of lines of the Markdown document to be converted.
-
         Returns:
             Markdown document with comments removed.
+        Raises:
+            TagNotMatchedError: When a condition tags does not have
+                a matching start tag, or a start tag does not have
+                a matching end tag.
         '''
         block = blocks.pop(0)
         context = dict()
@@ -44,7 +49,7 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         end_tag = self.p_end.search(block)
 
         if ((start_tag is None and end_tag is not None)
-         or (start_tag and end_tag and start_tag.end() > end_tag.start())):
+           or (start_tag and end_tag and start_tag.end() > end_tag.start())):
             raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
 
         is_if = parse_flag('if', start_tag.group('args'))
@@ -148,7 +153,7 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
             content_blocks.append(block)
 
         if the_rest.strip() != '':
-            blocks.insert(0, the_rest) # Keep anything off the end, should be empty though
+            blocks.insert(0, the_rest)  # Keep anything off the end, should be empty though
 
         if inner_if_tags != inner_end_tags:
             raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')

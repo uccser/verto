@@ -2,6 +2,7 @@ from markdown.inlinepatterns import Pattern
 from markdown.util import etree
 import re
 
+
 class RelativeLinkPattern(Pattern):
     """Return a link element from the given match.
 

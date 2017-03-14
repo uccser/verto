@@ -1,7 +1,8 @@
 import re
-from markdown.util import etree
+from markdown.util import etree  # noqa: F401
 from collections import OrderedDict, defaultdict
 from kordac.processors.errors.ArgumentMissingError import ArgumentMissingError
+
 
 def parse_argument(argument_key, arguments, default=None):
     ''' Search for the given argument in a string of all arguments
@@ -20,6 +21,7 @@ def parse_argument(argument_key, arguments, default=None):
         argument_value = default
     return argument_value
 
+
 def parse_flag(argument_key, arguments, default=False):
     ''' Search for the given argument in a string of all arguments,
     treating the argument as a flag only.
@@ -37,6 +39,7 @@ def parse_flag(argument_key, arguments, default=False):
     else:
         argument_value = default
     return argument_value
+
 
 def parse_arguments(processor, inputs, arguments):
     ''' Parses the arguments of a given input and ensures
@@ -64,14 +67,16 @@ def parse_arguments(processor, inputs, arguments):
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
                 if not (parse_argument(other_argument, inputs, None) is not None
-                    or parse_flag(other_argument, inputs) is not None):
-                        raise ArgumentMissingError(processor, argument, "{} is a required argument because {} exists.".format(other_argument, argument))
+                   or parse_flag(other_argument, inputs) is not None):
+                        message = "{} is a required argument because {} exists.".format(other_argument, argument)
+                        raise ArgumentMissingError(processor, argument, message)
 
         if is_flag:
             argument_values[argument] = True
         elif is_arg:
             argument_values[argument] = parse_argument(argument, inputs, None)
     return argument_values
+
 
 def process_parameters(ext, processor, parameters, argument_values):
     '''
@@ -103,11 +108,12 @@ def process_parameters(ext, processor, parameters, argument_values):
 
     for parameter, (condition, transform) in transformations.items():
         if context[parameter] is not None:
-            if isinstance(condition, bool) and condition == True:
+            if isinstance(condition, bool) and condition:
                 context[parameter] = transform(context[parameter])
             if callable(condition) and condition(context):
                 context[parameter] = transform(context[parameter])
     return context
+
 
 def find_transformation(ext, option):
     '''
@@ -126,6 +132,7 @@ def find_transformation(ext, option):
         'str.upper': lambda x: x.upper(),
         'relative_file_link': lambda x: ext.jinja_templates['relative-file-link'].render({'file_path': x})
     }.get(option, None)
+
 
 def blocks_to_string(blocks):
     ''' Returns a string after the blocks have been joined back together.
