@@ -31,7 +31,24 @@ import json
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 class KordacExtension(Extension):
+    '''The Kordac markdown extension which enables all the processors,
+    and extracts all the important information to expose externally to
+    the Kordac converter.
+    '''
+
     def __init__(self, processors=[], html_templates={}, extensions=[], *args, **kwargs):
+        '''
+        Args:
+            processors: A set of processor names given as strings for which
+                their processors are enabled. If given, all other
+                processors are skipped.
+            html_templates: A dictionary of HTML templates to override
+                existing HTML templates for processors. Dictionary contains
+                processor names given as a string as keys mapping HTML strings
+                as values.
+                eg: {'image': '<img src={{ source }}>'}
+            extensions: A list of extra extensions for compatibility.
+        '''
         super().__init__(*args, **kwargs)
         self.required_files = defaultdict(set)
         self.title = None
@@ -51,6 +68,13 @@ class KordacExtension(Extension):
                     self.compatibility.append('fenced_code_block')
 
     def extendMarkdown(self, md, md_globals):
+        '''Inherited from the markdown.Extension class. Extends
+        markdown with custom processors.
+
+        Args:
+            md: An instance of the markdown object to extend.
+            md_globals: Global variables in the markdown module namespace.
+        '''
         self.preprocessors = [
             ['comment', CommentPreprocessor(self, md), '_begin'],
             ['save-title', SaveTitlePreprocessor(self, md), '_end'],
@@ -97,10 +121,15 @@ class KordacExtension(Extension):
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
 
         # Compatibility modules
-        if 'hilite' in self.compatibility and 'fenced_code_block' in self.compatibility and 'scratch' in self.processors:
+        if ('hilite' in self.compatibility
+         and 'fenced_code_block' in self.compatibility
+         and 'scratch' in self.processors):
             md.preprocessors.add('scratch-compatibility', ScratchCompatibilityPreprocessor(self, md), '<fenced_code_block')
 
     def clear_saved_data(self):
+        '''Clears stored information from processors, should be called
+        between runs.
+        '''
         self.title = None
         self.custom_slugify.clear()
         self.heading_tree = None
@@ -108,6 +137,14 @@ class KordacExtension(Extension):
             self.required_files[key].clear()
 
     def loadJinjaTemplates(self, custom_templates):
+        '''Loads default templates from the templates directory, if
+        a custom template is given that will override the default
+        template.
+
+        Args:
+            custom_templates: a dictionary of names to custom templates
+                which are used to override default templates.
+        '''
         templates = {}
         env = Environment(
                 loader=PackageLoader('kordac', 'html-templates'),
@@ -124,6 +161,12 @@ class KordacExtension(Extension):
         return templates
 
     def buildGenericProcessors(self, md, md_globals):
+        '''Builds any generic processors as described by the processor
+        info stored in the json file.
+        Args:
+            md: An instance of the markdown object to extend.
+            md_globals: Global variables in the markdown module namespace.
+        '''
         for processor, processor_info in self.processor_info.items():
             processor_class = processor_info.get('class', None)
             if processor_class == 'generic_tag':
@@ -132,13 +175,31 @@ class KordacExtension(Extension):
                 self.blockprocessors.append([processor, GenericContainerBlockProcessor(processor, self, md.parser), '_begin'])
 
     def loadProcessorInfo(self):
+        '''Loads processor descriptions from a json file.
+
+        Returns:
+            The json object of the file where objects are ordered dictionaries.
+        '''
         json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()
         return json.loads(json_data, object_pairs_hook=OrderedDict)
 
     def get_heading_tree(self):
+        '''
+        Gets the heading tree as described by the heading processor.
+
+        Returns:
+            The internal heading tree object. None if heading processor
+            has not been run.
+        '''
         return self.heading_tree
 
     def _set_heading_tree(self, tree):
+        ''' An internal method for setting the heading tree from
+        an external processor.
+
+        Args:
+            tree: A tuple of HeadingNodes to become the new tree.
+        '''
         assert isinstance(tree, tuple)
         assert all(isinstance(child, HeadingNode) for child in tree)
         self.heading_tree = tree
