@@ -29,6 +29,8 @@ set at the start.
 
 You can test the output of your Scratch block text at
 `scratchblocks.github.io`_.
+You can also generate Scratch block text from a published Scratch project at
+`scratchblocks.github.io/generator/`_.
 
 .. warning::
 
@@ -114,4 +116,5 @@ would result in:
 
 .. _Scratch Block Plugin notation: https://wiki.scratch.mit.edu/wiki/Block_Plugin
 .. _scratchblocks.github.io: https://scratchblocks.github.io/#when%20flag%20clicked%0Aclear%0Aforever%0Apen%20down%0Aif%20%3C%3Cmouse%20down%3F%3E%20and%20%3Ctouching%20%5Bmouse-pointer%20v%5D%3F%3E%3E%20then%0Aswitch%20costume%20to%20%5Bbutton%20v%5D%0Aelse%0Aadd%20(x%20position)%20to%20%5Blist%20v%5D%0Aend%0Amove%20(foo)%20steps%0Aturn%20ccw%20(9)%20degrees
+.. _scratchblocks.github.io/generator/: https://scratchblocks.github.io/generator/
 .. _scratchblocks: https://github.com/scratchblocks/scratchblocks
