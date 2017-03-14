@@ -27,7 +27,8 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         Returns:
             Return true if any conditional tag is found.
         '''
-        return self.p_start.search(block) is not None or self.p_end.search(block) is not None
+        return (self.p_start.search(block) is not None
+                or self.p_end.search(block) is not None)
 
     def run(self, parent, blocks):
         ''' Replaces all conditionals with the given html template.
@@ -102,16 +103,19 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         parent.append(node)
 
     def get_content(self, blocks):
-        ''' Recursively parses blocks into an element tree, returning a string of the output.
+        ''' Recursively parses blocks into an element tree, returning
+        a string of the output.
 
         Args:
             blocks: The markdown blocks to until a new tag is found.
 
         Returns:
-            The next tag (regex match) the current block (string) and the content of the blocks (list of strings).
+            The next tag (regex match) the current block (string) and
+            the content of the blocks (list of strings).
 
         Raises:
-            TagNotMatchedError: When a sibling conditional is not closed.
+            TagNotMatchedError: When a sibling conditional is not
+            closed.
         '''
         next_tag = None
 
@@ -147,7 +151,8 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
                 the_rest = block[next_tag.end():]
                 break
             elif end_tag is not None:
-                content_blocks.append(block[:end_tag.start()])
+                if block[:end_tag.start()].strip() != '':
+                    content_blocks.append(block[:end_tag.start()])
                 the_rest = block[end_tag.end():]
                 break
             content_blocks.append(block)
@@ -161,7 +166,8 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         return next_tag, block, content_blocks
 
     def parse_blocks(self, blocks):
-        '''Recursively parses blocks into an element tree, returning a string of the output.
+        '''Recursively parses blocks into an element tree,
+        returning a string of the output.
 
         Args:
             blocks: The markdown blocks to process.
