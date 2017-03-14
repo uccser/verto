@@ -77,31 +77,7 @@ class KordacExtension(Extension):
             md: An instance of the markdown object to extend.
             md_globals: Global variables in the markdown module namespace.
         '''
-        self.preprocessors = [
-            ['comment', CommentPreprocessor(self, md), '_begin'],
-            ['save-title', SaveTitlePreprocessor(self, md), '_end'],
-            ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
-        ]
-        self.blockprocessors = [
-            # Markdown overrides
-            ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
-            # Single line (in increasing complexity)
-            ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-            ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
-            # Multiline
-        ]
-        self.inlinepatterns = [  # A special treeprocessor
-            ['relative-link', RelativeLinkPattern(self, md), '_begin'],
-            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
-        ]
-        scratch_ordering = '>inline' if 'hilite' not in self.compatibility else '<hilite'
-        self.treeprocessors = [
-            ['scratch', ScratchTreeprocessor(self, md), scratch_ordering],
-        ]
-        self.postprocessors = []
-        self.buildGenericProcessors(md, md_globals)
+        self.buildProcessors(md, md_globals)
 
         def update_processors(processors, markdown_processors):
             for processor_data in processors:
@@ -160,6 +136,33 @@ class KordacExtension(Extension):
                 else:
                     templates[processor_name] = env.get_template(file)
         return templates
+
+    def buildProcessors(self, md, md_globals):
+        self.preprocessors = [
+            ['comment', CommentPreprocessor(self, md), '_begin'],
+            ['save-title', SaveTitlePreprocessor(self, md), '_end'],
+            ['remove-title', RemoveTitlePreprocessor(self, md), '_end'],
+        ]
+        self.blockprocessors = [
+            # Markdown overrides
+            ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
+            # Single line (in increasing complexity)
+            ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
+            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
+            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
+            ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
+            # Multiline
+        ]
+        self.inlinepatterns = [  # A special treeprocessor
+            ['relative-link', RelativeLinkPattern(self, md), '_begin'],
+            ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
+        ]
+        scratch_ordering = '>inline' if 'hilite' not in self.compatibility else '<hilite'
+        self.treeprocessors = [
+            ['scratch', ScratchTreeprocessor(self, md), scratch_ordering],
+        ]
+        self.postprocessors = []
+        self.buildGenericProcessors(md, md_globals)
 
     def buildGenericProcessors(self, md, md_globals):
         '''Builds any generic processors as described by the processor
