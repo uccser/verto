@@ -9,6 +9,8 @@ class JinjaPostprocessor(Postprocessor):
     '''
 
     def __init__(self, *args, **kwargs):
+        ''' Creates a new JinjaPostprocessor.
+        '''
         super().__init__(*args, **kwargs)
 
     def run(self, text):

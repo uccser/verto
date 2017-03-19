@@ -24,8 +24,6 @@ class ScratchTreeprocessor(Treeprocessor):
         Args:
             ext: The parent node of the element tree that children will
             reside in.
-            args: Arguments handed to the super class.
-            kwargs: Arguments handed to the super class.
         '''
         super().__init__(*args, **kwargs)
         self.processor = 'scratch'

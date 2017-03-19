@@ -13,8 +13,6 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
         Args:
             ext: The parent node of the element tree that children will
                 reside in.
-            args: Arguments handed to the super class.
-            kwargs: Arguments handed to the super class.
         '''
         super().__init__('image', ext, *args, **kwargs)
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])

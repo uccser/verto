@@ -3,7 +3,8 @@ import re
 
 
 class RemoveTitlePreprocessor(Preprocessor):
-    '''Removes the first found title from the given document.'''
+    '''Removes the first found title from the given document.
+    '''
 
     def __init__(self, ext, *args, **kwargs):
         '''

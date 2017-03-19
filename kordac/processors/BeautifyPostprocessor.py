@@ -11,6 +11,8 @@ class BeautifyPostprocessor(Postprocessor):
     '''
 
     def __init__(self, *args, **kwargs):
+        ''' Creates a new BeautifyPostprocessor.
+        '''
         super().__init__(*args, **kwargs)
         self.pre_pattern = re.compile(r'<pre>.*?</pre>', re.DOTALL)
         self.code_pattern = re.compile(r'<code>(?P<code>.*?)</code>', re.DOTALL)

@@ -28,8 +28,8 @@ class RelativeLinkPattern(Pattern):
         self.template = ext.jinja_templates[self.processor]
 
     def handleMatch(self, match):
-        '''
-        Inherited from Pattern. Accepts a match and returns an ElementTree element of a internal link.
+        ''' Inherited from Pattern. Accepts a match and returns an
+        ElementTree element of a internal link.
         Args:
             match: The string of text where the match was found.
         Returns:

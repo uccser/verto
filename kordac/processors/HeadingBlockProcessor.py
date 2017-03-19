@@ -14,8 +14,6 @@ class HeadingBlockProcessor(BlockProcessor):
         '''
         Args:
             ext: The KordacExtension object.
-            args: Arguments handed to the super class.
-            kwargs: Arguments handed to the super class.
         '''
         super().__init__(*args, **kwargs)
         self.processor = 'heading'
