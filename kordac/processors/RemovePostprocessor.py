@@ -8,13 +8,17 @@ class RemovePostprocessor(Postprocessor):
     '''
 
     def __init__(self, *args, **kwargs):
+        ''' Creates a new RemovePostprocessor.
+        '''
         super().__init__(*args, **kwargs)
 
     def run(self, text):
         '''
+        Deletes removes tags from the text, without changing sibling
+        elements.
         Args:
             text: A string of the document.
         Returns:
             The document text with all remove tag removed.
         '''
-        return text.replace('<remove>', '').replace('</remove>', '')
+        return text.replace('<remove>\n', '').replace('</remove>\n', '').replace('<remove>', '').replace('</remove>', '')

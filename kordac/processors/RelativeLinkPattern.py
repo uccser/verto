@@ -4,7 +4,7 @@ import re
 
 
 class RelativeLinkPattern(Pattern):
-    """Return a link element from the given match.
+    '''Return a link element from the given match.
 
     Only matches:
         - Markdown links using []() syntax.
@@ -15,9 +15,13 @@ class RelativeLinkPattern(Pattern):
             - ftps:
             - mailto:
             - news:
-    """
+    '''
 
     def __init__(self, ext, *args, **kwargs):
+        '''
+        Args:
+            ext: An instance of the Markdown class.
+        '''
         self.processor = 'relative-link'
         self.pattern = ext.processor_info[self.processor]['pattern']
         self.compiled_re = re.compile('^(.*?){}(.*)$'.format(self.pattern), re.DOTALL | re.UNICODE)
@@ -25,6 +29,7 @@ class RelativeLinkPattern(Pattern):
 
     def handleMatch(self, match):
         '''
+        Inherited from Pattern. Accepts a match and returns an ElementTree element of a internal link.
         Args:
             match: The string of text where the match was found.
         Returns:

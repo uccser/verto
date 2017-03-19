@@ -26,7 +26,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
 
         Args:
             parent: The parent node of the element tree that children
-            will reside in.
+                will reside in.
             block: The block to be tested.
 
         Returns:
@@ -39,9 +39,9 @@ class GenericContainerBlockProcessor(BlockProcessor):
 
         Args:
             parent: The parent node of the element tree that children
-            will reside in.
+                will reside in.
             blocks: A list of strings of the document, where the
-            first block tests true.
+                first block tests true.
         '''
         block = blocks.pop(0)
 

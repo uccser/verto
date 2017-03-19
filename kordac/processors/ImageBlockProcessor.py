@@ -12,7 +12,7 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
         '''
         Args:
             ext: The parent node of the element tree that children will
-            reside in.
+                reside in.
             args: Arguments handed to the super class.
             kwargs: Arguments handed to the super class.
         '''
@@ -26,7 +26,7 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
 
         Args:
             parent: The parent node of the element tree that children
-            will reside in.
+                will reside in.
             block: The block to be tested.
         Returns:
             True if the block matches the pattern regex of a HeadingBlock.
@@ -39,9 +39,9 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
 
         Args:
             parent: The parent node of the element tree that children
-            will reside in.
+                will reside in.
             blocks: A list of strings of the document, where the
-            first block tests true.
+                first block tests true.
         '''
         block = blocks.pop(0)
 

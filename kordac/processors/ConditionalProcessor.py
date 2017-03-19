@@ -19,7 +19,8 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         super().__init__('conditional', ext, *args, **kwargs)
 
     def test(self, parent, block):
-        ''' Tests if the block if it contains any type of conditional types.
+        ''' Tests if the block if it contains any type of conditional
+        types.
 
         Args:
             parent: The parent element of the html tree.
@@ -35,7 +36,8 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         Allows for recursively defined if statements.
 
         Args:
-            lines: A list of lines of the Markdown document to be converted.
+            lines: A list of lines of the Markdown document to be
+                converted.
         Returns:
             Markdown document with comments removed.
         Raises:
@@ -115,7 +117,7 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
 
         Raises:
             TagNotMatchedError: When a sibling conditional is not
-            closed.
+                closed.
         '''
         next_tag = None
 

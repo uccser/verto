@@ -106,7 +106,7 @@ The items of interest are:
 
 - ``html-templates/`` - The html templates (using the Jinja2 template engine) with variable arguments to be populated by processors.
 
-- ``processor-info.json`` - Every processor is listed in this file, and will at least contain a class determining where it is custom or generic, where custom processors will have a pattern to match it's corresponding tag. Most will also define required and optional parameters, these correspond to arguments in the tag's html template.
+- ``processor-info.json`` - Every processor is listed in this file, and will at least contain a class determining whether it is custom or generic, where custom processors will have a pattern to match it's corresponding tag. Most will also define required and optional parameters, these correspond to arguments in the tag's html template.
 
 - ``tests/`` - explained in the Test Suite section further down the page.
 
@@ -228,7 +228,7 @@ To generate the output:
 .. literalinclude:: ../../kordac/tests/assets/button-link/doc_example_basic_usage_expected.html
     :language: html
 
-A generic container processor, a pair of matching tags where one opens the container and one closes the container. The start tag gives the arguments as parameters to an html template. An the end tag is used to capture the content between the tags to be used as an additional parameter to the html template.  An example of a processor that uses the generic container processor is the :ref:`boxed-text <boxed-text>` processor which is described in the json as:
+A generic container processor, a pair of matching tags where one opens the container and one closes the container. The start tag gives the arguments as parameters to an html template. The end tag is used to capture the content between the tags to be used as an additional parameter to the html template.  An example of a processor that uses the generic container processor is the :ref:`boxed-text <boxed-text>` processor which is described in the json as:
 
 .. code-block:: none
 

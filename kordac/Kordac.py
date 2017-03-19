@@ -92,7 +92,8 @@ class Kordac(object):
         self.create_converter()
 
     def clear_templates(self):
-        '''Set the template dictionary to it's original values.'''
+        '''Set the template dictionary to it's original values.
+        '''
         self.html_templates = {}
         self.create_converter()
 
@@ -132,7 +133,11 @@ class KordacResult(object):
             html_string: A string of HTML text.
             title: The first heading encountered when converting.
             required_files: Dictionary of required file types to sets
-            of paths.
+                of paths.
+            heading_tree: A tuple of HeadingNodes which represent the
+                heading structure of the document.
+            required_glossary_terms: A dictionary of glossary terms to
+                a list of tuples containing reference text and slugs.
         '''
         self.html_string = html_string
         self.title = title

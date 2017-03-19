@@ -121,6 +121,9 @@ class KordacExtension(Extension):
         Args:
             custom_templates: a dictionary of names to custom templates
                 which are used to override default templates.
+        Returns:
+            A dictionary of tuples containing template-names to
+            compiled jinja templated.
         '''
         templates = {}
         env = Environment(
@@ -138,6 +141,13 @@ class KordacExtension(Extension):
         return templates
 
     def buildProcessors(self, md, md_globals):
+        '''
+        Populates internal variables for processors. This should not be
+        called externally, this is used by the extendMarkdown method.
+        Args:
+            md: An instance of the markdown object being extended.
+            md_globals: Global variables in the markdown module namespace.
+        '''
         self.preprocessors = [
             ['comment', CommentPreprocessor(self, md), '_begin'],
             ['save-title', SaveTitlePreprocessor(self, md), '_end'],
