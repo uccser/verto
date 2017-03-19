@@ -21,4 +21,5 @@ class RemovePostprocessor(Postprocessor):
         Returns:
             The document text with all remove tag removed.
         '''
-        return text.replace('<remove>\n', '').replace('</remove>\n', '').replace('<remove>', '').replace('</remove>', '')
+        text = text.replace('<remove>\n', '').replace('</remove>\n', '')
+        return text.replace('<remove>', '').replace('</remove>', '')
