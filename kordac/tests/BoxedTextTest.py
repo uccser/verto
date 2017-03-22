@@ -2,7 +2,7 @@ import markdown
 from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
-from kordac.processors.BoxedTextBlockProcessor import BoxedTextBlockProcessor
+from kordac.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 from kordac.tests.ProcessorTest import ProcessorTest
 
 
@@ -16,12 +16,13 @@ class BoxedTextTest(ProcessorTest):
         self.ext = Mock()
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
+        self.block_processor = GenericContainerBlockProcessor(self.processor_name, self.ext, Mock())
 
     def test_no_boxed_text(self):
         test_string = self.read_test_file(self.processor_name, 'no_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([False, False, False, False], [BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, False, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'no_boxed_text_expected.html', strip=True)
@@ -31,7 +32,7 @@ class BoxedTextTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'single_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, False, True], [BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'single_boxed_text_expected.html', strip=True)
@@ -41,7 +42,7 @@ class BoxedTextTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'indented_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'indented_boxed_text_expected.html', strip=True)
@@ -51,7 +52,7 @@ class BoxedTextTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'multiple_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True, False, True, False, True, False], [BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True, False, True, False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'multiple_boxed_text_expected.html', strip=True)
@@ -61,7 +62,7 @@ class BoxedTextTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'recursive_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True, False, True, False, True], [BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True, False, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'recursive_boxed_text_expected.html', strip=True)
@@ -75,7 +76,7 @@ class BoxedTextTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, False, True], [BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
@@ -85,7 +86,7 @@ class BoxedTextTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [BoxedTextBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
         kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template})

@@ -1,27 +1,30 @@
 from slugify import slugify
 from math import log10, floor
 
+
 class UniqueSlugify(object):
     ''' Wrapper for the python-slugify library enforcing unique slugs
     on each successive call.
     '''
 
-    def __init__(self, uids=set(), occurance_separator='-', entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, separator='-', save_order=False, stopwords=()):
-        '''
-        Args:
-            uids: A set of strings which are already taken as slugs.
-            Others: Passed directly to slugify.
-        '''
-        self.uids = set(uids)
-        self.occurance_separator = str(occurance_separator)
-        self.entities = bool(entities)
-        self.decimal = bool(decimal)
-        self.hexadecimal = bool(hexadecimal)
-        self.max_length = int(max_length)
-        self.word_boundary = bool(word_boundary)
-        self.separator = str(separator)
-        self.save_order = bool(save_order)
-        self.stopwords = tuple(stopwords)
+    def __init__(self, uids=set(), occurance_separator='-', entities=True,
+                 decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
+                 separator='-', save_order=False, stopwords=()):
+                    '''
+                    Args:
+                        uids: A set of strings which are already taken as slugs.
+                        Others: Passed directly to slugify.
+                    '''
+                    self.uids = set(uids)
+                    self.occurance_separator = str(occurance_separator)
+                    self.entities = bool(entities)
+                    self.decimal = bool(decimal)
+                    self.hexadecimal = bool(hexadecimal)
+                    self.max_length = int(max_length)
+                    self.word_boundary = bool(word_boundary)
+                    self.separator = str(separator)
+                    self.save_order = bool(save_order)
+                    self.stopwords = tuple(stopwords)
 
     def __call__(self, text):
         '''
@@ -31,14 +34,14 @@ class UniqueSlugify(object):
             A string which is a slug (as specified by slugify) that is unique.
         '''
         slug = slugify(text=text,
-                        entities=self.entities,
-                        decimal=self.decimal,
-                        hexadecimal=self.hexadecimal,
-                        max_length=self.max_length,
-                        word_boundary=self.word_boundary,
-                        separator=self.separator,
-                        save_order=self.save_order,
-                        stopwords=self.stopwords)
+                       entities=self.entities,
+                       decimal=self.decimal,
+                       hexadecimal=self.hexadecimal,
+                       max_length=self.max_length,
+                       word_boundary=self.word_boundary,
+                       separator=self.separator,
+                       save_order=self.save_order,
+                       stopwords=self.stopwords)
         count = 1
         new_slug = slug
         while new_slug in self.uids:
@@ -74,4 +77,4 @@ class UniqueSlugify(object):
         '''
         Clears the known slugs used for uniqueness comparisons.
         '''
-        uids = set()
+        self.uids = set()

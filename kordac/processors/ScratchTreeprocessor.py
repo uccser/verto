@@ -1,9 +1,8 @@
 from markdown.treeprocessors import Treeprocessor
-from kordac.processors.utils import blocks_to_string, parse_argument, etree
-from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
+from kordac.processors.utils import etree
 from collections import namedtuple
 from hashlib import sha256
-import re
+
 
 class ScratchImageMetaData(namedtuple('ScratchImageMetaData', 'hash, text')):
     ''' Represents data required to make a scratch image.
@@ -12,6 +11,7 @@ class ScratchImageMetaData(namedtuple('ScratchImageMetaData', 'hash, text')):
         hash: hash of the scratch data
         text: text of the scratch code
     '''
+
 
 class ScratchTreeprocessor(Treeprocessor):
     ''' Searches a Document for codeblocks with the scratch language.
@@ -24,8 +24,6 @@ class ScratchTreeprocessor(Treeprocessor):
         Args:
             ext: The parent node of the element tree that children will
             reside in.
-            args: Arguments handed to the super class.
-            kwargs: Arguments handed to the super class.
         '''
         super().__init__(*args, **kwargs)
         self.processor = 'scratch'
@@ -67,20 +65,20 @@ class ScratchTreeprocessor(Treeprocessor):
         '''
         children = list(node)
         if (len(children) == 1 and children[0].tag == 'code'
-         and ((children[0].text.strip().startswith('scratch\n'))
-         or ('class' in children[0].attrib.keys() and children[0].attrib['class'] == 'scratch'))):
-            content = children[0].text.strip()
-            if content.startswith('scratch\n'):
-                content = content[len('scratch\n'):]
-            content_hash = ScratchTreeprocessor.hash_content(content)
-            self.update_required_images(content_hash, content)
-            html_string = self.template.render({ 'hash': content_hash })
-            new_node = etree.fromstring(html_string)
+           and ((children[0].text.strip().startswith('scratch\n'))
+           or ('class' in children[0].attrib.keys() and children[0].attrib['class'] == 'scratch'))):
+                content = children[0].text.strip()
+                if content.startswith('scratch\n'):
+                    content = content[len('scratch\n'):]
+                content_hash = ScratchTreeprocessor.hash_content(content)
+                self.update_required_images(content_hash, content)
+                html_string = self.template.render({'hash': content_hash})
+                new_node = etree.fromstring(html_string)
 
-            node.tag = "remove"
-            node.text = ""
-            node.append(new_node)
-            node.remove(children[0])
+                node.tag = "remove"
+                node.text = ""
+                node.append(new_node)
+                node.remove(children[0])
 
     @staticmethod
     def hash_content(text):

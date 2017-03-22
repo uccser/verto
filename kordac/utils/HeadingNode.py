@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+
 class HeadingNode(namedtuple('HeadingNode', 'title, title_slug, level, children')):
     ''' Represents a heading in the heading tree.
 
@@ -9,6 +10,7 @@ class HeadingNode(namedtuple('HeadingNode', 'title, title_slug, level, children'
         level: the level of the current node.
         children: a tuple of HeadingNodes the level directly below the current node.
     '''
+
 
 class DynamicHeadingNode(object):
     ''' Represents a heading in the heading tree.
