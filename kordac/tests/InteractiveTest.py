@@ -7,9 +7,15 @@ from kordac.processors.InteractiveBlockProcessor import InteractiveBlockProcesso
 from kordac.tests.ProcessorTest import ProcessorTest
 
 class InteractiveTest(ProcessorTest):
+    '''The interactive processor is a simple tag with a complex
+    output that relies on external systems.
+    Internally linked file features need to be considered
+    when testing images, such that required files are modified
+    and need to be checked to see if updated correctly.
+    '''
 
     def __init__(self, *args, **kwargs):
-        """Set processor name in class for file names"""
+        '''Set processor name in class for file names.'''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'interactive'
         self.ext = Mock()
@@ -18,6 +24,8 @@ class InteractiveTest(ProcessorTest):
         self.ext.required_files = defaultdict(set)
 
     def test_doc_example_in_page(self):
+        '''Example of an in-page interactive.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage.md')
         blocks = self.to_blocks(test_string)
 
@@ -28,6 +36,8 @@ class InteractiveTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_doc_example_whole_page(self):
+        '''Example of an whole-page interactive.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage.md')
         blocks = self.to_blocks(test_string)
 
@@ -38,6 +48,8 @@ class InteractiveTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_doc_example_iframe(self):
+        '''Example of an iframe interactive.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage.md')
         blocks = self.to_blocks(test_string)
 
@@ -48,6 +60,8 @@ class InteractiveTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_doc_example_override_html(self):
+        '''Example showing overriding the html-template.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
 
