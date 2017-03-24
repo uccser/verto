@@ -22,6 +22,9 @@ from kordac.tests.ScratchTest import ScratchTest
 from kordac.tests.BeautifyTest import BeautifyTest
 
 def parse_args():
+    '''Parses the arguments for running the test suite, these are
+    useful for developing when parts of verto are known to fail.
+    '''
     opts = optparse.OptionParser(
         usage='Run the command `python -m kordac.tests.start_tests` from the level above the kordac directory.', description="Verifies that Kordac is functional compared to the testing suite.")
     opts.add_option('--travis',
@@ -37,18 +40,23 @@ def parse_args():
     return options, arguments
 
 def smoke_suite():
+    '''Builds the smoke tests.
+    '''
     return unittest.TestSuite((
         unittest.makeSuite(SmokeDocsTest),
         unittest.makeSuite(SmokeFileTest),
     ))
 
 def system_suite():
+    '''Builds specific system tests.
+    '''
     return unittest.TestSuite((
         unittest.makeSuite(ConfigurationTest)
     ))
 
 def unit_suite():
-    # NTS what order should these go in?
+    '''Builds unittests. (Not really unittests).
+    '''
     return unittest.TestSuite((
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),

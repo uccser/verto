@@ -12,7 +12,9 @@ from kordac.tests.ProcessorTest import ProcessorTest
 class VideoTest(ProcessorTest):
 
     def __init__(self, *args, **kwargs):
-        """Set processor name in class for file names"""
+        '''Sets up a processor name and info for accessing testing
+        assets.
+        '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'video'
         self.ext = Mock()
@@ -157,4 +159,3 @@ class VideoTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
-
