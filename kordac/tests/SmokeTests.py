@@ -9,28 +9,29 @@ class SmokeDocsTest(unittest.TestCase):
         self.maxDiff = None
         self.build_path = "docs/build"
 
-    @unittest.skipIf(
-        not os.path.isdir('docs') and os.name not in ['nt', 'posix'],
-        'Docs are not present')
+    @unittest.skipIf(not os.path.isdir('docs') and os.name not in ['nt', 'posix'], 'Docs are not present')
     def test_compile_docs(self):
         '''This test is skipped if the docs directory is not found.
         '''
-        system = os.name
+        cwd = os.path.abspath('docs')
+        command = 'make'
+        options = 'SPHINXOPTS=\'-W\''
 
-        command = None
-        if system == 'nt':
-            command = 'make.bat'
-        elif system == 'posix':
-            command = 'make'
-
-        if command is None:
-            self.fail('Unknown operating system, but test still run. This should never happen.')
-
-        p = subprocess.Popen([command, 'clean'], cwd='docs', stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=None)
+        p = subprocess.Popen([command, 'clean'],
+                             cwd=cwd,
+                             stdin=subprocess.DEVNULL,
+                             stdout=subprocess.DEVNULL,
+                             stderr=None,
+                             shell=True)
         p.wait(timeout=10) # Will throw exception if times out
         self.assertEqual(p.returncode, 0) # Success returncode
 
-        p = subprocess.Popen([command, 'SPHINXOPTS=\'-W\'', 'html'], cwd='docs', stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=None)
+        p = subprocess.Popen([command, options, 'html'],
+                             cwd=cwd,
+                             stdin=subprocess.DEVNULL,
+                             stdout=subprocess.DEVNULL,
+                             stderr=None,
+                             shell=True)
         p.wait(timeout=10) # Will throw exception if times out
         self.assertEqual(p.returncode, 0) # Success returncode
 
