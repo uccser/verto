@@ -78,6 +78,18 @@ class CommentTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'comment_contains_comment_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_comment_within_block_container(self):
+        '''Tests that comments are removed from containers.
+        '''
+        kordac_extension = KordacExtension([self.processor_name, 'panel'], {})
+        test_string = self.read_test_file(self.processor_name, 'comment_within_block_container.md')
+
+        self.assertTrue(CommentPreprocessor(self.ext, self.md.parser).test(test_string), msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'comment_within_block_container_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     #~
     # Doc Tests
     #~
