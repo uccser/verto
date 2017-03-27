@@ -2,20 +2,21 @@ import markdown
 from kordac.KordacExtension import KordacExtension
 
 DEFAULT_PROCESSORS = frozenset({
-    'save-title',
-    'comment',
-    'button-link',
-    'panel',
-    'image',
-    'relative-link',
     'boxed-text',
     'button-link',
+    'comment',
+    'conditional',
     'glossary-link',
     'heading',
-    'interactive',
     'iframe',
+    'image',
+    'interactive',
+    'panel',
+    'relative-link',
+    'save-title',
+    'scratch',
     'table-of-contents',
-    'scratch'
+    'video'
 })
 
 

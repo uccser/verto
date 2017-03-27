@@ -19,6 +19,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         self.relative_file_template = ext.jinja_templates['relative-file-link']
         self.scripts = ext.required_files["page_scripts"]
         self.required = ext.required_files["interactives"]
+        self.required_images = ext.required_files["images"]
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -74,7 +75,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
 
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None:  # internal image
-            self.required.add(file_path)
+            self.required_images.add(file_path)
             file_path = self.relative_file_template.render({'file_path': file_path})
 
         context = dict()

@@ -1,5 +1,6 @@
 import unittest
 from kordac.Kordac import Kordac, KordacResult
+from kordac.processors.ScratchTreeprocessor import ScratchImageMetaData
 from kordac.utils.HeadingNode import HeadingNode
 import jinja2
 from kordac.tests.BaseTest import BaseTest
@@ -38,17 +39,33 @@ class ConfigurationTest(BaseTest):
                     html_string=self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True),
                     title='Example Title',
                     required_files={
-                        'interactives': set(),
-                        'images': set(),
+                        'interactives': {
+                            'binary-cards'
+                        },
+                        'images': {
+                            'binary-cards/thumbnail.png'
+                        },
                         'page_scripts': set(),
-                        'scratch_images': set()
+                        'scratch_images': {
+                            ScratchImageMetaData(
+                                hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                                text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
+                            ),
+                        }
                     },
                     heading_tree=(HeadingNode(
-                        title='Example Title',
-                        title_slug='example-title',
-                        level=1,
-                        children=()
-                    ),),
+                            title='Example Title',
+                            title_slug='example-title',
+                            level=1,
+                            children=(),
+                        ),
+                        HeadingNode(
+                            title='Example Title 2',
+                            title_slug='example-title-2',
+                            level=1,
+                            children=()
+                        ),
+                    ),
                     required_glossary_terms=defaultdict(list)
                 )
             ),
@@ -127,7 +144,6 @@ class ConfigurationTest(BaseTest):
         creation.
         '''
         kordac = Kordac()
-        # kordac.clear_templates()
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
         converted_test_string = kordac.convert(test_string).html_string
         expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
