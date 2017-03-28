@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.ConditionalProcessor import ConditionalProcessor
+from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
 from kordac.tests.ProcessorTest import ProcessorTest
 
 
@@ -47,6 +48,63 @@ class ConditionalTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'example_elif_noelse_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_example_single_elif(self):
+        '''Example showing a single elif statement with no
+        else statement.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'example_single_elif.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True, False, True], [ConditionalProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
+        expected_string = self.read_test_file(self.processor_name, 'example_single_elif_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_multiple_else_error(self):
+        '''Ensures that the TagNotMatchedError is thrown when
+        multiple else statements are given.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'multiple_else_error.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True, False, True, False, True], [ConditionalProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_else_then_elif_error(self):
+        '''Ensures that the TagNotMatchedError is thrown when
+        elifs are given after the else statement.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'else_then_elif_error.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True, False, True, False, True], [ConditionalProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_missing_end_statement_error(self):
+        '''Ensures that the TagNotMatchedError is thrown
+        when the end statement is not matched.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_end_statement_error.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True, False, True, False], [ConditionalProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_missing_if_statement_error(self):
+        '''Ensures that the TagNotMatchedError is thrown
+        when an else/elif is given before an if statement.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_if_statement_error.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [ConditionalProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
 
     #~
     # Doc Tests

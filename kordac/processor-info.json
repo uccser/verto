@@ -60,6 +60,7 @@
     },
     "conditional": {
         "class": "custom",
+        "pattern": "(^|\\n) *\\{conditional ?(?P<args>[^\\}]*)\\} *(\\n|$)",
         "arguments": {
           "condition": {
             "required": false,
@@ -74,6 +75,10 @@
             "dependencies": ["condition"]
           },
           "else": {
+            "required": false,
+            "dependencies": []
+          },
+          "end": {
             "required": false,
             "dependencies": []
           }
