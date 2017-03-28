@@ -42,9 +42,7 @@ class ConfigurationTest(BaseTest):
                         'interactives': {
                             'binary-cards'
                         },
-                        'images': {
-                            'binary-cards/thumbnail.png'
-                        },
+                        'images': set(),
                         'page_scripts': set(),
                         'scratch_images': {
                             ScratchImageMetaData(

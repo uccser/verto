@@ -35,6 +35,18 @@ class InteractiveTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+        required_files={
+            'interactives': {
+                'binary-cards'
+            },
+            'images': set(),
+            'page_scripts': {
+                'interactive/binary-cards/scripts.html'
+            },
+            'scratch_images': set()
+        }
+        self.assertEqual(self.kordac_extension.required_files, required_files)
+
     def test_doc_example_whole_page(self):
         '''Example of an whole-page interactive.
         '''
@@ -47,6 +59,16 @@ class InteractiveTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+        required_files={
+            'interactives': set(),
+            'images': {
+                'binary-cards/thumbnail.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.kordac_extension.required_files, required_files)
+
     def test_doc_example_iframe(self):
         '''Example of an iframe interactive.
         '''
@@ -58,6 +80,16 @@ class InteractiveTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+        required_files={
+            'interactives': {
+                'binary-cards'
+            },
+            'images': set(),
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.kordac_extension.required_files, required_files)
 
     def test_doc_example_override_html(self):
         '''Example showing overriding the html-template.

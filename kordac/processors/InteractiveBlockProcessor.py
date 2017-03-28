@@ -67,23 +67,25 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
 
         if interactive_type == 'in-page':
             self.scripts.add('interactive/{}/scripts.html'.format(name))
-        self.required.add(name)
-
-        file_path = argument_values.get('thumbnail', None)
-        if file_path is None:
-            file_path = "{}/thumbnail.png".format(name)
-
-        external_path_match = re.search(r'^http', file_path)
-        if external_path_match is None:  # internal image
-            self.required_images.add(file_path)
-            file_path = self.relative_file_template.render({'file_path': file_path})
+        if interactive_type != 'whole-page':
+            self.required.add(name)
 
         context = dict()
         context['type'] = interactive_type
         context['name'] = name
         context['text'] = text
         context['parameters'] = parameters
-        context['file_path'] = file_path
+
+        if interactive_type == 'whole-page':
+            file_path = argument_values.get('thumbnail', None)
+            if file_path is None:
+                file_path = "{}/thumbnail.png".format(name)
+
+            external_path_match = re.search(r'^http', file_path)
+            if external_path_match is None:  # internal image
+                self.required_images.add(file_path)
+                file_path = self.relative_file_template.render({'file_path': file_path})
+            context['file_path'] = file_path
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
