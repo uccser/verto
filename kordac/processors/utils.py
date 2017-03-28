@@ -17,7 +17,7 @@ def parse_argument(argument_key, arguments, default=None):
     '''
     result = re.search(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments)
     if result:
-        argument_value = result.group(2)
+        argument_value = result.group(2).replace(r'\"', r'"')
     else:
         argument_value = default
     return argument_value
