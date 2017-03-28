@@ -4,6 +4,8 @@ from collections import defaultdict
 
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.ImageBlockProcessor import ImageBlockProcessor
+from kordac.processors.errors.ArgumentMissingError import ArgumentMissingError
+from kordac.processors.errors.ArgumentValueError import ArgumentValueError
 from kordac.tests.ProcessorTest import ProcessorTest
 
 class ImageTest(ProcessorTest):
@@ -278,6 +280,28 @@ class ImageTest(ProcessorTest):
             'computer-studying-turing-test.png'
         }
         self.assertSetEqual(expected_images, images)
+
+    def test_caption_link_error(self):
+        '''Tests that the argument for caption-link throughs the
+        ArgumentMissingError when caption is not provided.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'caption_link_error.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [ImageBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
+
+    def test_align_undefined_error(self):
+        '''Tests that undefined align value produces
+        the ArgumentValueError.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'align_undefined_error.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [ImageBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]), test_string)
 
     #~
     # Doc Tests

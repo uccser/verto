@@ -136,7 +136,7 @@
           },
           "caption-link": {
             "required": false,
-            "dependencies": []
+            "dependencies": ["caption"]
           },
           "source": {
             "required": false,
@@ -144,7 +144,8 @@
           },
           "alignment": {
             "required": false,
-            "dependencies": []
+            "dependencies": [],
+            "values": ["left", "center", "right"]
           },
           "hover-text": {
             "required": false,

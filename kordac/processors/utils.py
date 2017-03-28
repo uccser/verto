@@ -2,6 +2,7 @@ import re
 from markdown.util import etree  # noqa: F401
 from collections import OrderedDict, defaultdict
 from kordac.processors.errors.ArgumentMissingError import ArgumentMissingError
+from kordac.processors.errors.ArgumentValueError import ArgumentValueError
 
 
 def parse_argument(argument_key, arguments, default=None):
@@ -66,15 +67,19 @@ def parse_arguments(processor, inputs, arguments):
         elif not is_required and (is_arg or is_flag):
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
-                if not (parse_argument(other_argument, inputs, None) is not None
-                   or parse_flag(other_argument, inputs) is not None):
+                if (parse_argument(other_argument, inputs, None) is None
+                   and parse_flag(other_argument, inputs, None) is None):
                         message = "{} is a required argument because {} exists.".format(other_argument, argument)
                         raise ArgumentMissingError(processor, argument, message)
 
         if is_flag:
             argument_values[argument] = True
         elif is_arg:
-            argument_values[argument] = parse_argument(argument, inputs, None)
+            value = parse_argument(argument, inputs, None)
+            if argument_info.get('values', None) and value not in argument_info['values']:
+                message = "{} is not one of {}".format(value, argument_info['values'])
+                raise ArgumentValueError(processor, argument, value, message)
+            argument_values[argument] = value
     return argument_values
 
 
