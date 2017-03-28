@@ -4,6 +4,7 @@ from kordac.processors.utils import etree, parse_arguments, parse_flag, blocks_t
 from collections import OrderedDict
 import re
 
+
 class ConditionalProcessor(BlockProcessor):
     ''' Searches a Document for conditional tags e.g.
     {conditonal flag condition="<condition>"}  The processor matches
@@ -23,7 +24,6 @@ class ConditionalProcessor(BlockProcessor):
         template_name = ext.processor_info.get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
-
 
     def test(self, parent, block):
         ''' Tests if the block if it contains any type of conditional
