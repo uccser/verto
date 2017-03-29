@@ -5,8 +5,6 @@
           "indented": {
             "required": false,
             "dependencies": []
-      }
-    },
           }
         },
         "template_name": "boxed-text",
