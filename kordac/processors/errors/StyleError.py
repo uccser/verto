@@ -1,6 +1,7 @@
 from kordac.processors.errors.Error import Error
 
-class StyleError(Exception):
+
+class StyleError(Error):
     """Exception raised when a Style rule is broken.
 
     Attributes:

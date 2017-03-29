@@ -227,7 +227,7 @@
       "inline_pattern": "\\{{{inline} ?([^\\}}]*)\\}}",
       "strings": {
         "inline": ["glossary-link"],
-        "block": ["comment", "panel", "video", "image", "interactive", "button-link", "boxed-text"]
+        "block": ["boxed-text", "button-link", "comment", "conditional", "iframe", "image", "interactive", "panel", "table-of-contents", "video"]
       }
     },
     "title": {

@@ -1,5 +1,5 @@
 This is not valid
 {panel}
 This is not valid
-panel end}
+{panel end}
 This is not valid

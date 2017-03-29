@@ -1,7 +1,7 @@
 from kordac.processors.errors.StyleError import StyleError
 from markdown.preprocessors import Preprocessor
-from collections import OrderedDict
 import re
+
 
 class StylePreprocessor(Preprocessor):
     '''
@@ -24,16 +24,6 @@ class StylePreprocessor(Preprocessor):
         self.block_strings = ext.processor_info[self.processor]['strings']['block']
         self.inline_strings = ext.processor_info[self.processor]['strings']['inline']
 
-    def test(self, lines):
-        '''All documents always need to be processed.
-
-        Args:
-            lines: A string of Markdown text.
-        Returns:
-            True
-        '''
-        return True
-
     def run(self, lines):
         '''
         Validates lines and raising StyleErrors when rules are not upheld.
@@ -48,7 +38,8 @@ class StylePreprocessor(Preprocessor):
                 block_match = c.search(line)
                 if block_match is not None:
                     # Grab important lines and their numbers
-                    line_nums, error_lines = zip(*map(lambda x: (x[0] + 1, x[1].strip()), (list(enumerate(lines))[max(0, i - 1): i + 2])))
+                    important_lines = (list(enumerate(lines))[max(0, i - 1): i + 2])
+                    line_nums, error_lines = zip(*map(lambda x: (x[0] + 1, x[1].strip()), important_lines))
 
                     # Remove all empty lines Should only be one line left
                     if len([line for line in error_lines if line != '']) != 1:
@@ -59,16 +50,5 @@ class StylePreprocessor(Preprocessor):
                     for char in rest:
                         if not char.isspace():
                             raise StyleError(line_nums, error_lines, "Blocks must be the only thing on the line.")
-
-            # for inline_string in self.inline_strings:
-            #     c = re.compile(self.inline_pattern.format(**{'inline': inline_string}))
-            #     inline_match = c.search(line)
-            #     if inline_match is not None:
-            #         start_index, end_index = inline_match.span()
-            #
-            #         if not ((start_index - 1) >= 0 and line[start_index - 1].isspace() or (start_index - 1) < 0):
-            #             raise StyleError([i], [line], "Inline must be separated by whitespace.")
-            #         if not ((end_index + 1) < len(line) and line[end_index + 1].isspace() or (end_index + 1) >= len(line)):
-            #             raise StyleError([i], [line], "Inline must be separated by whitespace.")
 
         return lines

@@ -92,6 +92,7 @@ class KordacExtension(Extension):
         update_processors(self.treeprocessors, md.treeprocessors)
         update_processors(self.postprocessors, md.postprocessors)
 
+        md.preprocessors.add('style', StylePreprocessor(self, md), '_begin')
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
