@@ -21,10 +21,5 @@ For example:
     usage
     processors/index
     extensions
+    contributing
     changelog
-
-Other Features
-==============
-
-- HTML for any given processor can replaced
-- Specific processors can be enabled while ignoring all other processors

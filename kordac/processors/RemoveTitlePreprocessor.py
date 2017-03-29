@@ -12,7 +12,7 @@ class RemoveTitlePreprocessor(Preprocessor):
         return self.pattern.search(lines) is not None
 
     def run(self, lines):
-        """If the title is found on a line, remove the line."""
+        '''If the title is found on a line, remove the line.'''
         title_found = False
         for i, line in enumerate(lines):
             if not title_found and self.pattern.search(line) is not None:

@@ -15,7 +15,12 @@ from kordac.tests.BoxedTextTest import BoxedTextTest
 from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
 from kordac.tests.RelativeLinkTest import RelativeLinkTest
+from kordac.tests.ConditionalTest import ConditionalTest
 from kordac.tests.StyleTest import StyleTest
+from kordac.tests.FrameTest import FrameTest
+from kordac.tests.TableOfContentsTest import TableOfContentsTest
+from kordac.tests.ScratchTest import ScratchTest
+from kordac.tests.BeautifyTest import BeautifyTest
 
 def parse_args():
     opts = optparse.OptionParser(
@@ -49,34 +54,37 @@ def unit_suite():
         unittest.makeSuite(StyleTest),
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
-        # unittest.makeSuite(GlossaryLinkTest), # order of tests by cmp()
+        unittest.makeSuite(GlossaryLinkTest),
         unittest.makeSuite(PanelTest),
         unittest.makeSuite(CommentTest),
         unittest.makeSuite(HeadingTest),
         unittest.makeSuite(ImageTest),
         unittest.makeSuite(RelativeLinkTest),
-        # unittest.makeSuite(VideoTest),
-        # unittest.makeSuite(InteractiveTest),
+        unittest.makeSuite(VideoTest),
+        unittest.makeSuite(InteractiveTest),
         unittest.makeSuite(ButtonLinkTest),
-        unittest.makeSuite(BoxedTextTest)
+        unittest.makeSuite(BoxedTextTest),
+        unittest.makeSuite(ConditionalTest),
+        unittest.makeSuite(FrameTest),
+        unittest.makeSuite(TableOfContentsTest),
+        unittest.makeSuite(ScratchTest),
+        unittest.makeSuite(BeautifyTest)
     ))
-
 
 if __name__ == '__main__':
     options, arguments = parse_args()
 
     runner = unittest.TextTestRunner()
-    result = None
 
+    smoke_result = None
     if not options.no_smoke:
         print("Running Smoke Tests")
-        result = runner.run(smoke_suite())
+        smoke_result = runner.run(smoke_suite())
         print()
 
-    if options.travis and result and not result.wasSuccessful():
+    if options.travis and smoke_result and not smoke_result.wasSuccessful():
         print("Skipping other test-suites.")
         sys.exit(1)
-        print()
 
     system_result = None
     if not options.no_system:
@@ -90,5 +98,5 @@ if __name__ == '__main__':
         unit_result = runner.run(unit_suite())
         print()
 
-    if (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
+    if (smoke_result is not None and not smoke_result.wasSuccessful()) or (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
         sys.exit(1)

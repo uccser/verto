@@ -16,8 +16,16 @@ The following pages covers how to use the available processors within Markdown t
     boxed-text
     button-link
     comment
+    conditional
+    iframe
+    glossary-link
+    heading
     image
-    relative-link
+    interactive
     panel
+    relative-link
     remove-title
     save-title
+    scratch
+    table-of-contents
+    video
