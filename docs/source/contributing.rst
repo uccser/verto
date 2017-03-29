@@ -102,11 +102,11 @@ The items of interest are:
 
 - ``KordacExtension()`` - This is the main class of the project, and inherits the ``Extension`` class from Markdown. It loads all of the processor information, loads the template files and clears and populates the attributes to be returned by the ``KordacResult`` object.
 
-- ``Processors/`` - There is a different processor for each tag. A processor uses it's corresponding regex loaded from ``processor-info.json`` to find matches in the text, and uses the given arguments in the matched tag to populate and output it's html template.
+- ``Processors/`` - There is a different processor for each tag. A processor uses it's corresponding description loaded from ``processor-info.json`` to find matches in the text, and uses the given arguments in the matched tag to populate and output it's html template.
 
 - ``html-templates/`` - The html templates (using the Jinja2 template engine) with variable arguments to be populated by processors.
 
-- ``processor-info.json`` - Every processor is listed in this file, and will at least contain a regex pattern to match it's corresponding tag. Most will also define required and optional parameters, these correspond to arguments in the tag's html template.
+- ``processor-info.json`` - Every processor is listed in this file, and will at least contain a class determining whether it is custom or generic, where custom processors will have a pattern to match it's corresponding tag. Most will also define required and optional parameters, these correspond to arguments in the tag's html template.
 
 - ``tests/`` - explained in the Test Suite section further down the page.
 
@@ -117,7 +117,161 @@ It is important to note that Kordac is not just a Markdown Extension, it is a wr
 Creating a New Processor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To create a new processor, a good place to start is the `Extension API`_ page of the Python Markdown docs, and you can also read the `source code`_ itself.
+There are two ways distinctly different ways to create a new processor. The simplist way is to make use of the provided generic processors and define the new processor in the ``processor-info.json`` file, while more complex processors reqiure additional source code. Complex processors should be considered when custom functionality is required that cannot be achieved with generic processors.
+
+In all cases new processors should:
+
+- Be thoroughly tested (see the section on :ref:`testing <the-test-suite>`)
+- Have clear and accurate documentation. See the docs on other processors for the preferred format. Your docs should include:
+
+  - An example of the tag in markdown
+  - Required parameters
+  - Optional parameters
+  - Examples
+  - Examples of overriding the html
+
+We recommend writing documentation and test cases before you even write the processor itself as this will give you a clear idea of how a processor in Kordac should behave.
+
+Generic Processors
+**************************************
+
+There are two types of generic processors:
+
+  - tags (``generic_tag``): which match ``{<processor_name> <args>}`` in the markdown text replacing with the given html-template.
+  - containers (``generic_container``): which are a pair of tags which capture the content between the tags for the html-template. A generic container's opening tag specifies the arguments, while the closing tag only has the ``end`` argument allowing for the content to contain generic containers.
+
+To create a new processor that uses the generic processors the processor must be added to the ``processor-info.json`` file and an associated html-template must be created.
+
+How to make a JSON Definition
+++++++++++++++++++++++++++++++++++++++
+
+The json description of a generic processor must contain the attributes:
+
+  - ``class``: Either ``generic_tag`` or ``generic_container`` for a generic processor.
+  - ``arguments``: An object describing arguments passed to the tag.
+  - ``template_parameters``: An object describing template parameters.
+  - (Optional) ``template_name``: A custom name for the html-template to use. Defaults to the processor name otherwise.
+
+The ``argument`` parameter is a dictionary (or object) containing argument name, argument-info pairs. Where the argument-info contains the attributes:
+
+  - ``required``: ``true`` if the argument must be set or ``false`` otherwise.
+  - (Optional) ``dependencies``: A list of argument-names that must also be set if this argument is used.
+
+These arguments are transformed for use in the html-template by the ``template_parameters`` attribute. This attribute is similar to the ``argument`` attribute by containing parameter name, parameter-info pairs. Where the parameter-info contains the attributes:
+
+  - ``argument``: The name of the argument to retrieve the value of to  use/transform into the parameter value.
+  - (Optional) ``default``: The value the parameter defaults to if the argument is not given otherwise defaults to ``None``.
+  - (Optional) ``transform``: The name of the transform to modify the argument value by or defaults to null for no transformation. The avaliable transforms are detailed below.
+  - (Optional) ``transform_condition``: A function that takes the context after parameters are set but before transformation (The transformations are done in order they appear in the json document). If the function returns ``True`` then the transformation is applied.
+
+For a generic container type processor the ``argument`` of the parameter may be ``content`` which is the captured content between the start and end tags.
+
+The set of currently avaliable transformations for the ``transform`` attribute are:
+
+  - ``str.lower``: Converts the string into a lowercase version.
+  - ``str.upper``: Converts the string into an UPPERCASE version.
+  - ``relative_file_link``: Applies the relative-file-link html-template to the argument.
+
+Examples
+++++++++++++++++++++++++++++++++++++++
+
+A generic tag processor, is a simple single line tag that uses the given arguments as parameters to an html template. An example of a processor that uses the generic tag processor is the :ref:`button-link <button-link>` processor which is described in the json as:
+
+.. code-block:: none
+
+    "button-link": {
+      "class": "generic_tag",
+      "arguments": {
+        "link": {
+          "required": true,
+          "dependencies": []
+        },
+        "text": {
+          "required": true,
+          "dependencies": []
+        },
+        "file": {
+          "required": false,
+          "dependencies": []
+        }
+      },
+      "template_parameters": {
+        "file": {
+          "argument": "file",
+          "transform": "str.lower",
+          "default": "no"
+        },
+        "link": {
+          "argument": "link",
+          "transform": "relative_file_link",
+          "transform_condition": "lambda context: context['file'] == 'yes'"
+        },
+        "text": {
+          "argument": "text",
+          "transform": null
+        }
+      }
+    }
+
+And has the following html-template:
+
+.. literalinclude:: ../../kordac/html-templates/button-link.html
+    :language: css+jinja
+
+This enables the following markdown:
+
+.. literalinclude:: ../../kordac/tests/assets/button-link/doc_example_basic_usage.md
+    :language: none
+
+To generate the output:
+
+.. literalinclude:: ../../kordac/tests/assets/button-link/doc_example_basic_usage_expected.html
+    :language: html
+
+A generic container processor, a pair of matching tags where one opens the container and one closes the container. The start tag gives the arguments as parameters to an html template. The end tag is used to capture the content between the tags to be used as an additional parameter to the html template.  An example of a processor that uses the generic container processor is the :ref:`boxed-text <boxed-text>` processor which is described in the json as:
+
+.. code-block:: none
+
+    "boxed-text": {
+        "class": "generic_container",
+        "arguments": {
+          "indented": {
+            "required": false,
+            "dependencies": []
+          }
+        },
+        "template_name": "boxed-text",
+        "template_parameters": {
+          "indented": {
+            "argument": "indented",
+            "transform": "str.lower"
+          },
+          "text": {
+            "argument": "content",
+            "transform": null
+          }
+        }
+    }
+
+And has the following html-template:
+
+.. literalinclude:: ../../kordac/html-templates/boxed-text.html
+    :language: css+jinja
+
+This enables the following markdown:
+
+.. literalinclude:: ../../kordac/tests/assets/boxed-text/doc_example_basic_usage.md
+    :language: none
+
+To generate the output:
+
+.. literalinclude:: ../../kordac/tests/assets/boxed-text/doc_example_basic_usage_expected.html
+    :language: html
+
+Custom Processors
+**************************************
+
+To create a custom processor, the ``class`` attribute of the processor in the ``processor-info.json`` file must be ``"custom"``. A good place to start when programming a new processor is the `Extension API`_ page of the Python Markdown docs, and you can also read the `source code`_ itself.
 
 There are several different kinds of processors in Python Markdown, each serving a slightly different purpose. We recommend reading the API docs to determine which processor best suits your purpose. Kordac currently makes use of ``preprocessor``, ``blockprocessor``, ``inlinepattern``, ``treeprocessor`` and ``postprocessor``, but you are welcome to use another type of processor if it better suits the task.
 
@@ -132,18 +286,7 @@ The logic for each processor belongs in the ``processors/`` directory, and there
 - The relevant list in ``extendMarkdown()`` in ``KordacExtension.py`` (see `OrderedDict in the Markdown API docs`_ for manipulating processor order)
 - The processor's template should be added to ``html-templates`` using the Jinja2 template engine syntax for variable parameters
 
-The new processors should also:
-
-- Be thoroughly tested (see the section below)
-- Have clear and accurate documentation. See the docs on other processors for the preferred format. Your docs should include:
-  - An example of the tag in markdown
-  - Required parameters
-  - Optional parameters
-  - Examples
-  - Examples of overriding the html
-
-We recommend writing documentation and test cases before you even write the processor itself as this will give you a clear idea of how a processor in Kordac should behave.
-
+.. _the-test-suite:
 
 The Test Suite
 =======================================

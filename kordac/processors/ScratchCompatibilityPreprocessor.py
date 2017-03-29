@@ -1,6 +1,7 @@
 from markdown.preprocessors import Preprocessor
 import re
 
+
 class ScratchCompatibilityPreprocessor(Preprocessor):
     '''Should only be active if using the scratch processor and the
     extensions for fenced_code and codehilite. This preprocessor works

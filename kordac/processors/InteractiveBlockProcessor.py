@@ -1,14 +1,10 @@
-from markdown.blockprocessors import BlockProcessor
-from markdown.postprocessors import Postprocessor
-from markdown.treeprocessors import Treeprocessor
-from kordac.processors.utils import parse_argument, check_argument_requirements
+from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from kordac.processors.errors.InvalidParameterError import InvalidParameterError
-from markdown.util import etree
-
+from kordac.processors.utils import etree, parse_arguments
 import re
-import os
 
-class InteractiveBlockProcessor(BlockProcessor):
+
+class InteractiveBlockProcessor(GenericTagBlockProcessor):
     '''Searches a Document for interactive tags:
         e.g. {interactive name='example' type='in-page'}
         These are then replaced with the html template.
@@ -19,24 +15,18 @@ class InteractiveBlockProcessor(BlockProcessor):
         Args:
             ext: An instance of the Kordac Extension.
         '''
-        super().__init__(*args, **kwargs)
-        self.processor = 'interactive'
-        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
-        self.template = ext.jinja_templates[self.processor]
+        super().__init__('interactive', ext, *args, **kwargs)
         self.relative_file_template = ext.jinja_templates['relative-file-link']
         self.scripts = ext.required_files["page_scripts"]
         self.required = ext.required_files["interactives"]
-        self.required_parameters = ext.processor_info[self.processor]['required_parameters']
-        self.optional_parameters = ext.processor_info[self.processor]['optional_parameter_dependencies']
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
 
         Args:
             parent: The parent node of the element tree that children
-            will reside in.
+                will reside in.
             block: The block to be tested.
-
         Returns:
             True if the block matches the pattern regex of a HeadingBlock.
         '''
@@ -48,20 +38,28 @@ class InteractiveBlockProcessor(BlockProcessor):
 
         Args:
             parent: The parent node of the element tree that children
-            will reside in.
+                will reside in.
             blocks: A list of strings of the document, where the
-            first block tests true.
+                first block tests true.
         '''
         block = blocks.pop(0)
+
         match = self.pattern.match(block)
+        before = block[:match.start()]
+        after = block[match.end():]
+
+        if before.strip() != '':
+            self.parser.parseChunk(parent, before)
+        if after.strip() != '':
+            blocks.insert(0, after)
 
         arguments = match.group('args')
-        check_argument_requirements(self.processor, arguments, self.required_parameters, self.optional_parameters)
+        argument_values = parse_arguments(self.processor, arguments, self.arguments)
 
-        name = parse_argument('name', arguments)
-        interactive_type = parse_argument('type', arguments)
-        text = parse_argument('text', arguments)
-        parameters = parse_argument('parameters', arguments)
+        name = argument_values['name']
+        interactive_type = argument_values['type']
+        text = argument_values.get('text', None)
+        parameters = argument_values.get('parameters', None)
 
         if name is not None and name is '':
             raise InvalidParameterError(self.processor, "name", "Name parameter must not be an empty string.")
@@ -70,12 +68,12 @@ class InteractiveBlockProcessor(BlockProcessor):
             self.scripts.add('interactive/{}/scripts.html'.format(name))
         self.required.add(name)
 
-        file_path = parse_argument('thumbnail', arguments)
+        file_path = argument_values.get('thumbnail', None)
         if file_path is None:
             file_path = "{}/thumbnail.png".format(name)
 
         external_path_match = re.search(r'^http', file_path)
-        if external_path_match is None: # internal image
+        if external_path_match is None:  # internal image
             self.required.add(file_path)
             file_path = self.relative_file_template.render({'file_path': file_path})
 

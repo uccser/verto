@@ -8,6 +8,7 @@ BLOCK_LEVEL_ELEMENTS = [
     'pre', 'section', 'table', 'tfoot', 'ul', 'video', 'remove'
 ]  # TODO: TO MAKE CONFIGURABLE
 
+
 def is_block_level(html, block_level_elements):
     '''
     Checks if the root element (or first element) of the given
@@ -27,7 +28,7 @@ def is_block_level(html, block_level_elements):
         if isinstance(tag, string_type):
             elements = '|'.join(block_level_elements)
             block_elements_re = re.compile("^({})$".format(elements),
-                                            re.IGNORECASE)
+                                           re.IGNORECASE)
             return block_elements_re.match(tag)
         return False
     return False
