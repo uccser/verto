@@ -1,6 +1,7 @@
 from markdown.treeprocessors import Treeprocessor
 from kordac.processors.utils import etree
 from collections import namedtuple
+from functools import reduce
 from hashlib import sha256
 from random import shuffle
 import re
@@ -68,31 +69,27 @@ class ScratchTreeprocessor(Treeprocessor):
         '''
         children = list(node)
         if (len(children) == 1 and children[0].tag == 'code'):
-            language = (children[0].attrib['class']
-                        if 'class' in children[0].attrib.keys()
-                        else children[0].text.strip())
+            content = children[0].text.strip()
+            language = children[0].attrib.get('class', content)
+            language_in_content = 'class' not in children[0].attrib.keys()
 
-            match = self.pattern.match(language)
+            match = self.pattern.search(language)
             if match is not None:
                 options = list(filter(None, match.group('options').split('|')))
-                content = children[0].text.strip()
-                if content.startswith('scratch\n'):
+                if language_in_content:
                     content = content[match.end():]
 
-                content_blocks = []
-                if 'split' in options:
-                    content_blocks = content.split('\n\n')
-                else:
-                    content_blocks.append(content)
+                content_blocks = list(filter(None, content.split('\n\n')))
+                if 'random' in options:
+                    shuffle(content_blocks)
+                if 'split' not in options:
+                    content_blocks = [reduce(lambda x, y: '\n\n'.join([x, y]), content_blocks)]
 
                 images = []
                 for block in content_blocks:
                     content_hash = ScratchTreeprocessor.hash_content(block)
                     self.update_required_images(content_hash, block)
                     images.append(content_hash)
-
-                if 'random' in options:
-                    shuffle(images)
 
                 html_string = self.template.render({'images': images})
                 new_node = etree.fromstring(html_string)
