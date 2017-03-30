@@ -29,6 +29,7 @@ class ScratchCompatibilityPreprocessor(Preprocessor):
         self.processor = 'scratch-compatibility'
 
         self.pattern = re.compile(ext.processor_info['scratch'][self.processor]['pattern'], re.DOTALL | re.MULTILINE)
+        self.CODE_FORMAT = '<pre><code class="scratch{1}">{0}</code></pre>'
 
     def run(self, lines):
         ''' Inherited from Preprocessor, removes scratch codeblocks
@@ -43,7 +44,7 @@ class ScratchCompatibilityPreprocessor(Preprocessor):
         text = "\n".join(lines)
         match = self.pattern.search(text)
         while match is not None:
-            code = '<pre><code class="scratch{1}">{0}</code></pre>'.format(self._escape(match.group('code')), match.group('options'))
+            code = self.CODE_FORMAT.format(self._escape(match.group('code')), match.group('options'))
             placeholder = self.markdown.htmlStash.store(code, safe=True)
             text = text[:match.start()] + '\n' + placeholder + '\n' + text[match.end():]
             match = self.pattern.search(text)
