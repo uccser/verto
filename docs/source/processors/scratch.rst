@@ -54,6 +54,26 @@ The resulting HTML would be:
 .. literalinclude:: ../../../kordac/tests/assets/scratch/doc_example_basic_usage_expected.html
     :language: html
 
+.. _scratch_options:
+
+Options
+***************************************
+Options that change the output behaviour can be specified by appending them after the language separated by ``:``. The options avaliable are:
+
+- ``split`` - This option turns separate Scratch blocks (which are dictated by an empty line) into separate images.
+- ``random`` - This parameter randomises the order of separate Scratch blocks (which are dictated by an empty line).
+
+
+For example options can be used like:
+
+.. literalinclude:: ../../../kordac/tests/assets/scratch/example_split_codeblocks.md
+    :language: none
+
+Or for more than one option:
+
+.. literalinclude:: ../../../kordac/tests/assets/scratch/example_random_split_codeblocks.md
+    :language: none
+
 .. _accessing-scratch-image-data:
 
 Accessing Scratch image data
@@ -95,7 +115,7 @@ Overriding HTML for Scratch
 
 When overriding the HTML for Scratch code, the following Jinja2 placeholders are available:
 
-- ``{{ hash }}`` - The hash of the Scratch code used in the expected filename.
+- ``{{ hash }}`` - A list of hashes of the Scratch code-blocks used in the expected filename(s).
 
 **Example**
 
