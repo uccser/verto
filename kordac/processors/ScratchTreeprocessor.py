@@ -75,7 +75,7 @@ class ScratchTreeprocessor(Treeprocessor):
 
             match = self.pattern.search(language)
             if match is not None:
-                options = list(filter(None, match.group('options').split('|')))
+                options = list(filter(None, match.group('options').split(':')))
                 if language_in_content:
                     content = content[match.end():]
 

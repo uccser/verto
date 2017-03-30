@@ -1,6 +1,6 @@
 Scratch is great for kids you can great simple code like:
 
-    scratch|split
+    scratch:split
     when flag clicked
     say [Hi]
 

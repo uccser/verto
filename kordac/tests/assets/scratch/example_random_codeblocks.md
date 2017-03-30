@@ -1,6 +1,6 @@
 Scratch is great for kids you can great simple code like:
 
-```scratch|random
+```scratch:random
 when flag clicked
 say [Hi]
 

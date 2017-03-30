@@ -3,7 +3,7 @@ import re
 
 # Enable support for | so that languages can be passed options
 FENCED_BLOCK_RE_OVERRIDE = re.compile(r'''(?P<fence>^(?:~{3,}|`{3,}))[ ]*
-(\{?\.?(?P<lang>[\w#.+-\|]*))?[ ]*
+(\{?\.?(?P<lang>[\w#.+-:]*))?[ ]*
 (hl_lines=(?P<quot>"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*
 }?[ ]*\n
 (?P<code>.*?)(?<=\n)
