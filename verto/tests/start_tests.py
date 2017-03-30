@@ -1,0 +1,100 @@
+import sys, unittest, optparse
+from collections import defaultdict
+
+from verto.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
+from verto.tests.ConfigurationTest import ConfigurationTest
+from verto.tests.GlossaryLinkTest import GlossaryLinkTest
+from verto.tests.PanelTest import PanelTest
+from verto.tests.CommentTest import CommentTest
+from verto.tests.HeadingTest import HeadingTest
+from verto.tests.ImageTest import ImageTest
+from verto.tests.VideoTest import VideoTest
+from verto.tests.InteractiveTest import InteractiveTest
+from verto.tests.ButtonLinkTest import ButtonLinkTest
+from verto.tests.BoxedTextTest import BoxedTextTest
+from verto.tests.SaveTitleTest import SaveTitleTest
+from verto.tests.RemoveTitleTest import RemoveTitleTest
+from verto.tests.RelativeLinkTest import RelativeLinkTest
+from verto.tests.ConditionalTest import ConditionalTest
+from verto.tests.FrameTest import FrameTest
+from verto.tests.TableOfContentsTest import TableOfContentsTest
+from verto.tests.ScratchTest import ScratchTest
+from verto.tests.BeautifyTest import BeautifyTest
+
+def parse_args():
+    opts = optparse.OptionParser(
+        usage='Run the command `python -m verto.tests.start_tests` from the level above the verto directory.', description="Verifies that Verto is functional compared to the testing suite.")
+    opts.add_option('--travis',
+        action='store_true', help='Enables skipping suites on failure. To be used by continuous integration system.', default=False)
+    opts.add_option('--no_smoke',
+        action='store_true', help='Skips smoke tests, should be used for local development only.', default=False)
+    opts.add_option('--no_system',
+        action='store_true', help='Skips system tests, should be used for local development only.', default=False)
+    opts.add_option('--no_unit',
+        action='store_true', help='Skips unit tests, should be used for local development only.', default=False)
+    options, arguments = opts.parse_args()
+
+    return options, arguments
+
+def smoke_suite():
+    return unittest.TestSuite((
+        unittest.makeSuite(SmokeDocsTest),
+        unittest.makeSuite(SmokeFileTest),
+    ))
+
+def system_suite():
+    return unittest.TestSuite((
+        unittest.makeSuite(ConfigurationTest)
+    ))
+
+def unit_suite():
+    # NTS what order should these go in?
+    return unittest.TestSuite((
+        unittest.makeSuite(SaveTitleTest),
+        unittest.makeSuite(RemoveTitleTest),
+        unittest.makeSuite(GlossaryLinkTest),
+        unittest.makeSuite(PanelTest),
+        unittest.makeSuite(CommentTest),
+        unittest.makeSuite(HeadingTest),
+        unittest.makeSuite(ImageTest),
+        unittest.makeSuite(RelativeLinkTest),
+        unittest.makeSuite(VideoTest),
+        unittest.makeSuite(InteractiveTest),
+        unittest.makeSuite(ButtonLinkTest),
+        unittest.makeSuite(BoxedTextTest),
+        unittest.makeSuite(ConditionalTest),
+        unittest.makeSuite(FrameTest),
+        unittest.makeSuite(TableOfContentsTest),
+        unittest.makeSuite(ScratchTest),
+        unittest.makeSuite(BeautifyTest)
+    ))
+
+if __name__ == '__main__':
+    options, arguments = parse_args()
+
+    runner = unittest.TextTestRunner()
+
+    smoke_result = None
+    if not options.no_smoke:
+        print("Running Smoke Tests")
+        smoke_result = runner.run(smoke_suite())
+        print()
+
+    if options.travis and smoke_result and not smoke_result.wasSuccessful():
+        print("Skipping other test-suites.")
+        sys.exit(1)
+
+    system_result = None
+    if not options.no_system:
+        print("Running System Tests")
+        system_result = runner.run(system_suite())
+        print()
+
+    unit_result = None
+    if not options.no_unit:
+        print("Running Unit Tests")
+        unit_result = runner.run(unit_suite())
+        print()
+
+    if (smoke_result is not None and not smoke_result.wasSuccessful()) or (system_result is not None and not system_result.wasSuccessful()) or (unit_result is not None and not unit_result.wasSuccessful()):
+        sys.exit(1)

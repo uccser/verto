@@ -1,10 +1,10 @@
 Extensions
 #######################################
 
-As Kordac is an extension of the Python Markdown package, you should be able to include any extension for the original package.
-This page details using extensions with Kordac, plus listing a few useful extensions that we recommend.
+As Verto is an extension of the Python Markdown package, you should be able to include any extension for the original package.
+This page details using extensions with Verto, plus listing a few useful extensions that we recommend.
 
-To include a package, pass a list of extensions to the ``extensions`` keyword when creating the Kordac object. For example:
+To include a package, pass a list of extensions to the ``extensions`` keyword when creating the Verto object. For example:
 
 .. code-block:: python
 
@@ -14,14 +14,14 @@ To include a package, pass a list of extensions to the ``extensions`` keyword wh
         'markdown.extensions.sane_lists',
         mdx_math.MathExtension(enable_dollar_delimiter=True)
     ]
-    converter = Kordac(extensions=extra_extensions)
+    converter = Verto(extensions=extra_extensions)
 
 A list of extensions for the Markdown package can be found `in their official documentation <http://pythonhosted.org/Markdown/extensions/index.html>`_.
 
 Math
 =======================================
 
-Math can be rendered by including the `Python Markdown Math <https://pypi.python.org/pypi/python-markdown-math>`_ package, and passing it through to Kordac as an extension to use.
+Math can be rendered by including the `Python Markdown Math <https://pypi.python.org/pypi/python-markdown-math>`_ package, and passing it through to Verto as an extension to use.
 A guide on how to install and use the extension can be found in the package's `README file <https://github.com/mitya57/python-markdown-math/blob/master/README.md>`_.
 
 Fenced Code

@@ -4,14 +4,14 @@ Scratch
 .. note::
 
     The following examples assume usage of the fenced code extension, by having
-    ``markdown.extensions.fenced_code`` in the list of extensions given to Kordac.
+    ``markdown.extensions.fenced_code`` in the list of extensions given to Verto.
 
 **Processor name:** ``scratch``
 
 You can include an image of Scratch blocks using
 `Scratch Block Plugin notation`_ using the following notation:
 
-.. literalinclude:: ../../../kordac/tests/assets/scratch/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/scratch/doc_example_basic_usage.md
     :language: none
 
 to produce the following image:
@@ -19,7 +19,7 @@ to produce the following image:
 .. image:: ../images/scratch_blocks_example.png
 
 The syntax is the same for default Markdown code blocks. The only difference
-is that Kordac handles the content differently due to the ``scratch`` language
+is that Verto handles the content differently due to the ``scratch`` language
 set at the start.
 
 .. note::
@@ -34,24 +34,24 @@ You can also generate Scratch block text from a published Scratch project at
 
 .. warning::
 
-    Kordac doesn't create the Scratch images, but saves data for another system
+    Verto doesn't create the Scratch images, but saves data for another system
     (for example: Django) to create the images.
     See :ref:`accessing-scratch-image-data` section below.
 
 
 The default HTML for button links is:
 
-.. literalinclude:: ../../../kordac/html-templates/scratch.html
+.. literalinclude:: ../../../verto/html-templates/scratch.html
     :language: css+jinja
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/scratch/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/scratch/doc_example_basic_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/scratch/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/scratch/doc_example_basic_usage_expected.html
     :language: html
 
 .. _accessing-scratch-image-data:
@@ -59,7 +59,7 @@ The resulting HTML would be:
 Accessing Scratch image data
 ***************************************
 
-When Kordac encounters a code block with the Scratch language (see example
+When Verto encounters a code block with the Scratch language (see example
 above), it doesn't not generate the image but saves the enclosed text and hash
 of the text in the ``required_files`` attribute under the key
 ``scratch_images``.
@@ -86,7 +86,7 @@ two Scratch blocks, where the ``scratch_images`` key points to a set of
 The processor replaces the text with an image linked to the expected location
 of the image.
 
-After Kordac has completed a conversion, you will need to retrieve this data
+After Verto has completed a conversion, you will need to retrieve this data
 from ``required_files`` and render it to an image in the expected location.
 The `scratchblocks`_ renderer on GitHub allows of rendering to an SVG or PNG.
 
@@ -101,17 +101,17 @@ When overriding the HTML for Scratch code, the following Jinja2 placeholders are
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../kordac/tests/assets/scratch/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/scratch/doc_example_override_html_template.html
     :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/scratch/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/scratch/doc_example_override_html.md
     :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/scratch/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/scratch/doc_example_override_html_expected.html
     :language: html
 
 .. _Scratch Block Plugin notation: https://wiki.scratch.mit.edu/wiki/Block_Plugin

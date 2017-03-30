@@ -1,10 +1,10 @@
 # Contributing Guide
 
-Welcome to the Kordac developer community! We have spent many months developing this project, and we would love for you to get involved!
+Welcome to the Verto developer community! We have spent many months developing this project, and we would love for you to get involved!
 
-We've written a technical guide about how Kordac works and how to contribute [here](kordac.readthedocs.io/en/develop/contributing.html). These docs should give you a good overview of how Kordac is pieced together.
+We've written a technical guide about how Verto works and how to contribute [here](verto.readthedocs.io/en/develop/contributing.html). These docs should give you a good overview of how Verto is pieced together.
 
-Below are a few more general notes to remember while you are working on Kordac.
+Below are a few more general notes to remember while you are working on Verto.
 
 ### Code of Conduct
 
@@ -14,14 +14,14 @@ Please report unacceptable behavior to [csse-education-research@canterbury.ac.nz
 
 ### Reporting issues
 
-This section guides you through submitting an issue for Kordac.
+This section guides you through submitting an issue for Verto.
 Following these guidelines helps maintainers and the community understand your findings.
 
-Before submitting an issue, please take a look at the [issues](https://github.com/uccser/kordac/issues) on the repository to check it hasn't already been reported.
+Before submitting an issue, please take a look at the [issues](https://github.com/uccser/verto/issues) on the repository to check it hasn't already been reported.
 
 ### Your first code contribution
 
-Unsure where to begin contributing to Kordac? Take a look at the [issues](https://github.com/uccser/kordac/issues) on the repository.
+Unsure where to begin contributing to Verto? Take a look at the [issues](https://github.com/uccser/verto/issues) on the repository.
 
 ### Pull requests
 
@@ -30,7 +30,7 @@ Unsure where to begin contributing to Kordac? Take a look at the [issues](https:
 - Your pull request should be on a new branch from our `develop` branch (unless it's something tiny like a typo). The naming conventions of branches should be descriptive of the new addition/modification. Ideally they would specify their namespace as well, for example:
   - `processor/image`
   - `issue/234`
-- Linked any relevant [existing issues](https://github.com/uccser/kordac/issues).
+- Linked any relevant [existing issues](https://github.com/uccser/verto/issues).
 - Run the test suite and all tests passed
 - Added necessary documentation (if appropriate).
 
