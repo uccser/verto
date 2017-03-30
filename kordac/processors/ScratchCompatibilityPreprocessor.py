@@ -43,7 +43,7 @@ class ScratchCompatibilityPreprocessor(Preprocessor):
         text = "\n".join(lines)
         match = self.pattern.search(text)
         while match is not None:
-            code = '<pre><code class="scratch">{0}</code></pre>'.format(self._escape(match.group('code')))
+            code = '<pre><code class="scratch{1}">{0}</code></pre>'.format(self._escape(match.group('code')), match.group('options'))
             placeholder = self.markdown.htmlStash.store(code, safe=True)
             text = text[:match.start()] + '\n' + placeholder + '\n' + text[match.end():]
             match = self.pattern.search(text)
