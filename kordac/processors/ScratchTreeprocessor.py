@@ -92,7 +92,7 @@ class ScratchTreeprocessor(Treeprocessor):
                     images.append(content_hash)
 
                 if 'random' in options:
-                    shuffle(content_blocks)
+                    shuffle(images)
 
                 html_string = self.template.render({'images': images})
                 new_node = etree.fromstring(html_string)
