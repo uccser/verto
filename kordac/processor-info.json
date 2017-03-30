@@ -217,6 +217,7 @@
     },
     "scratch": {
         "class": "custom",
+        "pattern": "^scratch(?P<options>(\\|[^\\|]+)*)($|\\n)",
         "scratch-compatibility": {
           "pattern": "(?P<fence>^(?:~{3,}|`{3,}))[ ]*scratch?[ ]*(hl_lines=(?P<quot>\"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*}?[ ]*\n(?P<code>.*?)(?<=\n)(?P=fence)[ ]*$"
         }
