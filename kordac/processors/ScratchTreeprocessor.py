@@ -68,7 +68,9 @@ class ScratchTreeprocessor(Treeprocessor):
         '''
         children = list(node)
         if (len(children) == 1 and children[0].tag == 'code'):
-            language = children[0].attrib['class'] if 'class' in children[0].attrib.keys() else children[0].text.strip()
+            language = (children[0].attrib['class']
+                        if 'class' in children[0].attrib.keys()
+                        else children[0].text.strip())
 
             match = self.pattern.match(language)
             if match is not None:
