@@ -11,6 +11,7 @@ from verto.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from verto.processors.GlossaryLinkPattern import GlossaryLinkPattern
 from verto.processors.BeautifyPostprocessor import BeautifyPostprocessor
 from verto.processors.ConditionalProcessor import ConditionalProcessor
+from verto.processors.StylePreprocessor import StylePreprocessor
 from verto.processors.RemovePostprocessor import RemovePostprocessor
 from verto.processors.JinjaPostprocessor import JinjaPostprocessor
 from verto.processors.HeadingBlockProcessor import HeadingBlockProcessor
@@ -72,6 +73,7 @@ class VertoExtension(Extension):
     def extendMarkdown(self, md, md_globals):
         '''Inherited from the markdown.Extension class. Extends
         markdown with custom processors.
+            ['style', StylePreprocessor(self, md), '_begin']
 
         Args:
             md: An instance of the markdown object to extend.
@@ -90,6 +92,7 @@ class VertoExtension(Extension):
         update_processors(self.treeprocessors, md.treeprocessors)
         update_processors(self.postprocessors, md.postprocessors)
 
+        md.preprocessors.add('style', StylePreprocessor(self, md), '_begin')
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')

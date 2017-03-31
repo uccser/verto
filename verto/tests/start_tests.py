@@ -17,6 +17,7 @@ from verto.tests.RemoveTitleTest import RemoveTitleTest
 from verto.tests.RelativeLinkTest import RelativeLinkTest
 from verto.tests.ConditionalTest import ConditionalTest
 from verto.tests.FrameTest import FrameTest
+from verto.tests.StyleTest import StyleTest
 from verto.tests.TableOfContentsTest import TableOfContentsTest
 from verto.tests.ScratchTest import ScratchTest
 from verto.tests.BeautifyTest import BeautifyTest
@@ -50,6 +51,7 @@ def system_suite():
 def unit_suite():
     # NTS what order should these go in?
     return unittest.TestSuite((
+        unittest.makeSuite(StyleTest),
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
         unittest.makeSuite(GlossaryLinkTest),

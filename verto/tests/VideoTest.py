@@ -37,7 +37,7 @@ class VideoTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'youtube_embed_link.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([False, True, False, False, False, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False, False, False, False, False, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_file_string = self.read_test_file(self.processor_name, 'youtube_embed_link_expected.html', strip=True)
@@ -157,4 +157,3 @@ class VideoTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
-

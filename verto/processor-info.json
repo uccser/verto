@@ -221,6 +221,15 @@
           "pattern": "(?P<fence>^(?:~{3,}|`{3,}))[ ]*scratch?[ ]*(hl_lines=(?P<quot>\"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*}?[ ]*\n(?P<code>.*?)(?<=\n)(?P=fence)[ ]*$"
         }
     },
+    "style": {
+      "class": "custom",
+      "block_pattern": "\\{{{block} ?([^\\}}]*)\\}}",
+      "inline_pattern": "\\{{{inline} ?([^\\}}]*)\\}}",
+      "strings": {
+        "inline": ["glossary-link"],
+        "block": ["boxed-text", "button-link", "comment", "conditional", "iframe", "image", "interactive", "panel", "table-of-contents", "video"]
+      }
+    },
     "title": {
         "class": "custom",
         "pattern": "^#+ ?(.*)"
