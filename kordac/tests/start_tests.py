@@ -16,6 +16,7 @@ from kordac.tests.SaveTitleTest import SaveTitleTest
 from kordac.tests.RemoveTitleTest import RemoveTitleTest
 from kordac.tests.RelativeLinkTest import RelativeLinkTest
 from kordac.tests.ConditionalTest import ConditionalTest
+from kordac.tests.StyleTest import StyleTest
 from kordac.tests.FrameTest import FrameTest
 from kordac.tests.TableOfContentsTest import TableOfContentsTest
 from kordac.tests.ScratchTest import ScratchTest
@@ -50,6 +51,7 @@ def system_suite():
 def unit_suite():
     # NTS what order should these go in?
     return unittest.TestSuite((
+        unittest.makeSuite(StyleTest),
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
         unittest.makeSuite(GlossaryLinkTest),

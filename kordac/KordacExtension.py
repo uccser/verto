@@ -10,6 +10,7 @@ from kordac.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from kordac.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from kordac.processors.GlossaryLinkPattern import GlossaryLinkPattern
 from kordac.processors.BeautifyPostprocessor import BeautifyPostprocessor
+from kordac.processors.StylePreprocessor import StylePreprocessor
 from kordac.processors.ConditionalProcessor import ConditionalProcessor
 from kordac.processors.RemovePostprocessor import RemovePostprocessor
 from kordac.processors.JinjaPostprocessor import JinjaPostprocessor
@@ -73,6 +74,7 @@ class KordacExtension(Extension):
     def extendMarkdown(self, md, md_globals):
         '''Inherited from the markdown.Extension class. Extends
         markdown with custom processors.
+            ['style', StylePreprocessor(self, md), '_begin']
 
         Args:
             md: An instance of the markdown object to extend.
@@ -91,6 +93,7 @@ class KordacExtension(Extension):
         update_processors(self.treeprocessors, md.treeprocessors)
         update_processors(self.postprocessors, md.postprocessors)
 
+        md.preprocessors.add('style', StylePreprocessor(self, md), '_begin')
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
