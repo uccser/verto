@@ -26,7 +26,6 @@ class ScratchTest(ProcessorTest):
     #~
     # Doc Tests
     #~
-
     def test_doc_example_basic(self):
         '''An example of common useage.
         '''
@@ -79,7 +78,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_standard_markdown_block_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual_scratch_images = kordac_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
@@ -98,7 +96,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_separate_blocks_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual_scratch_images = self.kordac_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
@@ -117,7 +114,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_multiple_codeblocks_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual_scratch_images = self.kordac_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
@@ -147,7 +143,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_multiple_codeblocks_expected_2.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual_scratch_images = kordac_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
@@ -175,7 +170,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_split_codeblocks_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual = self.kordac_extension.required_files['scratch_images']
         expected = {
                         ScratchImageMetaData(
@@ -204,7 +198,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_split_codeblocks_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual = kordac_extension.required_files['scratch_images']
         expected = {
                         ScratchImageMetaData(
@@ -223,6 +216,8 @@ class ScratchTest(ProcessorTest):
         self.assertSetEqual(actual, expected)
 
     def test_example_split_codeblocks_compatibility(self):
+        '''Tests that options are compatible with codehilite.
+        '''
         extensions = ['markdown.extensions.codehilite', 'markdown.extensions.fenced_code']
         kordac_extension = KordacExtension([self.processor_name], {}, extensions)
         test_string = self.read_test_file(self.processor_name, 'example_split_codeblocks.md')
@@ -231,7 +226,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_split_codeblocks_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual = kordac_extension.required_files['scratch_images']
         expected = {
                         ScratchImageMetaData(
@@ -287,7 +281,6 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_other_code_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
         actual_scratch_images = self.kordac_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
