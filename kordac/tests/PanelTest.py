@@ -4,6 +4,7 @@ from unittest.mock import Mock
 from kordac.KordacExtension import KordacExtension
 from kordac.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
+from kordac.processors.errors.ArgumentValueError import ArgumentValueError
 from kordac.tests.ProcessorTest import ProcessorTest
 
 class PanelTest(ProcessorTest):
@@ -31,9 +32,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[self.kordac_extension])
-        expected_string = self.read_test_file(self.processor_name, 'parses_blank_expected.html', strip=True)
-        self.assertEqual(expected_string, converted_test_string)
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.kordac_extension]),test_string)
 
     def test_parses_no_blank_lines_single_paragraph(self):
         '''Tests that a block of text as content is added to the panel.

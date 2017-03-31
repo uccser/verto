@@ -22,7 +22,10 @@ class ImageTest(ProcessorTest):
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'image'
         self.ext = Mock()
-        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name), 'relative-file-link': ProcessorTest.loadJinjaTemplate(self, 'relative-file-link')}
+        self.ext.jinja_templates = {
+            self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name),
+            'relative-file-link': ProcessorTest.loadJinjaTemplate(self, 'relative-file-link')
+        }
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.required_files = defaultdict(set)
 

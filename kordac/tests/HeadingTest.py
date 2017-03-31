@@ -12,7 +12,7 @@ class HeadingTest(ProcessorTest):
     functionality of the default markdown (#) heading. We allow for
     an html override and the final result also outputs a tree
     representing the layout of the headings. A consideration when
-    testing is that slugs of headings should all be unique.
+    creating tests is that slugs of headings are unique.
     '''
 
     def __init__(self, *args, **kwargs):
@@ -65,7 +65,6 @@ class HeadingTest(ProcessorTest):
     def test_multiple_roots_zero_level(self):
         '''Test complex usage of heading where root level nodes
         may be of varying levels until an H1 is used.
-        environment.
         '''
         test_string = self.read_test_file(self.processor_name, 'multiple_roots_zero_level.md')
         blocks = self.to_blocks(test_string)

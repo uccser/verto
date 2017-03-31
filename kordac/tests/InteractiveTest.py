@@ -9,13 +9,15 @@ from kordac.tests.ProcessorTest import ProcessorTest
 class InteractiveTest(ProcessorTest):
     '''The interactive processor is a simple tag with a complex
     output that relies on external systems.
-    Internally linked file features need to be considered
-    when testing images, such that required files are modified
-    and need to be checked to see if updated correctly.
+    When writing tests whether or not the thumbnail is externally
+    or internally linked will changed output. If the thumbnail is
+    internal then the required files must be modified to include
+    this image.
     '''
 
     def __init__(self, *args, **kwargs):
-        '''Set processor name in class for file names.'''
+        '''Set processor name in class for file names.
+        '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'interactive'
         self.ext = Mock()

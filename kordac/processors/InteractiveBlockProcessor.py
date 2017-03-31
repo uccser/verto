@@ -1,5 +1,4 @@
 from kordac.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from kordac.processors.errors.InvalidParameterError import InvalidParameterError
 from kordac.processors.utils import etree, parse_arguments
 import re
 
@@ -61,9 +60,6 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         interactive_type = argument_values['type']
         text = argument_values.get('text', None)
         parameters = argument_values.get('parameters', None)
-
-        if name is not None and name is '':
-            raise InvalidParameterError(self.processor, "name", "Name parameter must not be an empty string.")
 
         if interactive_type == 'in-page':
             self.scripts.add('interactive/{}/scripts.html'.format(name))

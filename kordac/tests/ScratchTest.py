@@ -22,9 +22,11 @@ class ScratchTest(ProcessorTest):
         extension by default (as this is the desired usecase).
         '''
         self.kordac_extension = KordacExtension([self.processor_name], {}, ['markdown.extensions.fenced_code'])
+
     #~
     # Doc Tests
     #~
+
     def test_doc_example_basic(self):
         '''An example of common useage.
         '''
@@ -34,15 +36,14 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        # Should really test result a better way
-        actual = self.kordac_extension.required_files['scratch_images']
-        expected = {
+        actual_scratch_images = self.kordac_extension.required_files['scratch_images']
+        expected_scratch_images = {
                         ScratchImageMetaData(
                             hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
                             text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, expected)
+        self.assertSetEqual(actual_scratch_images, expected_scratch_images)
 
     def test_doc_example_override_html(self):
         '''An example showing how to override the html-template.
@@ -56,14 +57,14 @@ class ScratchTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        actual = kordac_extension.required_files['scratch_images']
-        expected = {
+        actual_scratch_images = kordac_extension.required_files['scratch_images']
+        expected_scratch_images = {
                         ScratchImageMetaData(
                             hash='a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da',
                             text='when flag clicked\nsay [Hi]'
                         ),
                     }
-        self.assertSetEqual(actual, expected)
+        self.assertSetEqual(actual_scratch_images, expected_scratch_images)
 
     #~
     # Other Tests
@@ -79,14 +80,14 @@ class ScratchTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         # Should really test result a better way
-        actual = kordac_extension.required_files['scratch_images']
-        expected = {
+        actual_scratch_images = kordac_extension.required_files['scratch_images']
+        expected_scratch_images = {
                         ScratchImageMetaData(
                             hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
                             text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, expected)
+        self.assertSetEqual(actual_scratch_images, expected_scratch_images)
 
     def test_example_separate_blocks(self):
         '''Tests that code separated by whitespace is still processed.
@@ -98,14 +99,14 @@ class ScratchTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         # Should really test result a better way
-        actual = self.kordac_extension.required_files['scratch_images']
-        expected = {
+        actual_scratch_images = self.kordac_extension.required_files['scratch_images']
+        expected_scratch_images = {
                         ScratchImageMetaData(
                             hash='8e8a2129c3cecf32101248439961735fc1d45793fadc56e2575673f63d42b9fb',
                             text='when flag clicked\nclear\nforever\npen down\n\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\n\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, expected)
+        self.assertSetEqual(actual_scratch_images, expected_scratch_images)
 
 
     def test_example_multiple_codeblocks(self):
@@ -118,8 +119,8 @@ class ScratchTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         # Should really test result a better way
-        actual = self.kordac_extension.required_files['scratch_images']
-        expected = {
+        actual_scratch_images = self.kordac_extension.required_files['scratch_images']
+        expected_scratch_images = {
                         ScratchImageMetaData(
                             hash='a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da',
                             text='when flag clicked\nsay [Hi]'
@@ -133,7 +134,7 @@ class ScratchTest(ProcessorTest):
                             text='when flag clicked\nclear\nforever\npen down\n\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\n\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, expected)
+        self.assertSetEqual(actual_scratch_images, expected_scratch_images)
 
     def test_example_multiple_codeblocks_2(self):
         '''Tests that enabling the codehilite extension does not effect
@@ -148,8 +149,8 @@ class ScratchTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         # Should really test result a better way
-        actual = kordac_extension.required_files['scratch_images']
-        expected = {
+        actual_scratch_images = kordac_extension.required_files['scratch_images']
+        expected_scratch_images = {
                         ScratchImageMetaData(
                             hash='a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da',
                             text='when flag clicked\nsay [Hi]'
@@ -163,7 +164,7 @@ class ScratchTest(ProcessorTest):
                             text='when flag clicked\nclear\nforever\npen down\n\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\n\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, expected)
+        self.assertSetEqual(actual_scratch_images, expected_scratch_images)
 
     def test_example_other_code(self):
         '''Tests that other codeblocks that are not scratch codeblocks
@@ -176,11 +177,11 @@ class ScratchTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         # Should really test result a better way
-        actual = self.kordac_extension.required_files['scratch_images']
-        expected = {
+        actual_scratch_images = self.kordac_extension.required_files['scratch_images']
+        expected_scratch_images = {
                         ScratchImageMetaData(
                             hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
                             text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
                     }
-        self.assertSetEqual(actual, expected)
+        self.assertSetEqual(actual_scratch_images, expected_scratch_images)

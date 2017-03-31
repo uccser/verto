@@ -32,7 +32,7 @@ class RelativeLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_long_path(self):
-        '''Tests that long paths less than 31 characters work.
+        '''Tests that long paths with less than 31 characters work.
         '''
         test_string = self.read_test_file(self.processor_name, 'long_path.md')
 
@@ -44,7 +44,7 @@ class RelativeLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_multiple_links(self):
-        '''
+        '''Tests that multiple links are processed.
         '''
         test_string = self.read_test_file(self.processor_name, 'multiple_links.md')
 

@@ -33,20 +33,20 @@ class ConditionalTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'example_basic_else_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_example_elif_noelse(self):
+    def test_example_elif_no_else(self):
         '''Complex example showing multiple elif statements with
         no else statement.
         '''
-        test_string = self.read_test_file(self.processor_name, 'example_elif_noelse.md')
+        test_string = self.read_test_file(self.processor_name, 'example_elif_no_else.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, True, False, True, False, True], [ConditionalProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        html_template = self.read_test_file(self.processor_name, 'example_elif_noelse_template.html', strip=True)
+        html_template = self.read_test_file(self.processor_name, 'example_elif_no_else_template.html', strip=True)
         kordac_extension = KordacExtension([self.processor_name], html_templates={self.processor_name: html_template})
 
         converted_test_string = markdown.markdown(test_string, extensions=[kordac_extension])
-        expected_string = self.read_test_file(self.processor_name, 'example_elif_noelse_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'example_elif_no_else_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
     def test_example_single_elif(self):
