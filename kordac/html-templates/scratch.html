@@ -1,4 +1,6 @@
-<div>
-  <object type="image/svg+xml" data="{% autoescape false -%}{{ "{% static '" }}scratch-blocks-{{ hash }}.svg{{ "' %}" }}{%- endautoescape %}">
-  </object>
+<div class="scratch-inline-images">
+  {% for hash in images -%}
+    <object type="image/svg+xml" data="{% autoescape false -%}{{ "{% static '" }}scratch-blocks-{{ hash }}.svg{{ "' %}" }}{%- endautoescape %}">
+    </object>
+  {% endfor -%}
 </div>

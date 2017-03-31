@@ -7,6 +7,7 @@ DEFAULT_PROCESSORS = frozenset({
     'comment',
     'conditional',
     'glossary-link',
+    'style',
     'heading',
     'iframe',
     'image',
