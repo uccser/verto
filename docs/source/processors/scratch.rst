@@ -1,12 +1,16 @@
 Scratch
 #######################################
 
+**Processor name:** ``scratch``
+
+.. danger::
+
+  Scratch blocks require an understanding of the Scratch programming language and how Verto is integrated with other systems. The use of this processor requires co-ordination between authors and developers to achieve the desired functionality.
+
 .. note::
 
     The following examples assume usage of the fenced code extension, by having
     ``markdown.extensions.fenced_code`` in the list of extensions given to Verto.
-
-**Processor name:** ``scratch``
 
 You can include an image of Scratch blocks using
 `Scratch Block Plugin notation`_ using the following notation:

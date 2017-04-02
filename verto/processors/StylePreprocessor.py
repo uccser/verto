@@ -1,4 +1,4 @@
-from kordac.processors.errors.StyleError import StyleError
+from verto.processors.errors.StyleError import StyleError
 from markdown.preprocessors import Preprocessor
 import re
 
@@ -15,7 +15,7 @@ class StylePreprocessor(Preprocessor):
     def __init__(self, ext, *args, **kwargs):
         '''
         Args:
-            ext: An instance of the Kordac Extension
+            ext: An instance of the Verto Extension
         '''
         super().__init__(*args, **kwargs)
         self.processor = 'style'

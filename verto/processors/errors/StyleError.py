@@ -1,4 +1,4 @@
-from kordac.processors.errors.Error import Error
+from verto.processors.errors.Error import Error
 
 
 class StyleError(Error):
