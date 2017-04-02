@@ -136,6 +136,29 @@ class ConfigurationTest(BaseTest):
             self.assertTupleEqual(kordac_result.heading_tree, test[1].heading_tree)
             self.assertDictEqual(kordac_result.required_glossary_terms, test[1].required_glossary_terms)
 
+    def test_custom_processors_and_custom_templates_on_creation(self):
+        '''Checks if custom processors and custom templates work
+        together on creation of kordac.
+        '''
+        processors = {'image', 'boxed-text'}
+        kordac = Kordac(processors=processors, html_templates=self.custom_templates)
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'custom_processors_custom_templates_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_processors_and_custom_templates_after_creation(self):
+        '''Checks if custom processors and custom templates work
+        together after creation of kordac.
+        '''
+        processors = {'image', 'boxed-text'}
+        kordac = Kordac()
+        kordac.update_processors(processors)
+        kordac.update_templates(self.custom_templates)
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = kordac.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'custom_processors_custom_templates_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_default_processors_on_creation(self):
         '''Checks if all expected default processors work on default
@@ -148,8 +171,8 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_processors_on_creation(self):
-        """Checks if system only uses specified processors.
-        """
+        '''Checks if system only uses specified processors.
+        '''
         processors = {'panel', 'image'}
         kordac = Kordac(processors=processors)
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
@@ -158,8 +181,8 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_processors_after_creation(self):
-        """Checks if extension correct changes processors.
-        """
+        '''Checks if extension correct changes processors.
+        '''
         kordac = Kordac()
         processors = Kordac.processor_defaults()
         processors.add('example_processor')
@@ -174,9 +197,9 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_unique_custom_processors(self):
-        """Checks if unique processors are stored when duplicates
+        '''Checks if unique processors are stored when duplicates
         provided.
-        """
+        '''
         processors = ['comment', 'comment', 'comment']
         kordac = Kordac(processors=processors)
         self.assertEqual(kordac.kordac_extension.processors, set(processors))
@@ -188,8 +211,8 @@ class ConfigurationTest(BaseTest):
         self.assertTrue(kordac.kordac_extension.processors, processors)
 
     def test_custom_templates_on_creation(self):
-        """Checks custom templates are used when given on creation.
-        """
+        '''Checks custom templates are used when given on creation.
+        '''
         kordac = Kordac(html_templates=self.custom_templates)
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
         converted_test_string = kordac.convert(test_string).html_string
@@ -197,8 +220,8 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_templates_after_creation(self):
-        """Checks custom templates are used when given after creation.
-        """
+        '''Checks custom templates are used when given after creation.
+        '''
         kordac = Kordac()
         kordac.update_templates(self.custom_templates)
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
@@ -207,8 +230,8 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_reset_templates_after_custom(self):
-        """Checks custom templates are reset when given at creation.
-        """
+        '''Checks custom templates are reset when given at creation.
+        '''
         kordac = Kordac(html_templates=self.custom_templates)
         kordac.clear_templates()
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
@@ -217,9 +240,9 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_multiline_custom_templates(self):
-        """Checks that multiple multiline custom templates are loaded
+        '''Checks that multiple multiline custom templates are loaded
         and used correctly.
-        """
+        '''
         custom_templates = {
             "image": """<div class="text-center">
                           <img src="{{ file_path }}" class="rounded img-thumbnail"/>
