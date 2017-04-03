@@ -1,5 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
+from kordac.processors.errors.ArgumentValueError import ArgumentValueError
 from kordac.processors.utils import etree, parse_arguments, process_parameters, blocks_to_string
 import re
 
@@ -96,7 +97,11 @@ class GenericContainerBlockProcessor(BlockProcessor):
 
         content = ''
         for child in content_tree:
-            content += etree.tostring(child, encoding="unicode", method="html") + '\n'
+            content += etree.tostring(child, encoding='unicode', method='html') + '\n'
+
+        if content.strip() == '':
+            message = 'content cannot be blank.'
+            raise ArgumentValueError(self.processor, 'content', content, message)
 
         argument_values['content'] = content
         context = self.process_parameters(self.processor, self.template_parameters, argument_values)

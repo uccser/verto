@@ -7,10 +7,15 @@ from kordac.tests.ProcessorTest import ProcessorTest
 
 
 class BoxedTextTest(ProcessorTest):
-    """
-    """
+    '''The BoxedText processor inherits from the generic container.
+    The tests contained here test that arguments and the output
+    (html-template) work as expected.
+    '''
 
     def __init__(self, *args, **kwargs):
+        '''Sets up a generic container to test that the matches are
+        occuring appropriately.
+        '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'boxed-text'
         self.ext = Mock()
@@ -19,6 +24,9 @@ class BoxedTextTest(ProcessorTest):
         self.block_processor = GenericContainerBlockProcessor(self.processor_name, self.ext, Mock())
 
     def test_no_boxed_text(self):
+        '''Tests that the text containing the processor name is
+        not matched.
+        '''
         test_string = self.read_test_file(self.processor_name, 'no_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
@@ -29,6 +37,9 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_single_boxed_text(self):
+        '''Tests that the most generic case of a single match is found
+        with generic content contained within.
+        '''
         test_string = self.read_test_file(self.processor_name, 'single_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
@@ -39,6 +50,8 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_indented_boxed_text(self):
+        '''Tests that the indented argument works as appropriate.
+        '''
         test_string = self.read_test_file(self.processor_name, 'indented_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
@@ -49,6 +62,9 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_multiple_boxed_text(self):
+        '''Tests that multiple different matches (that are not
+        within others) are matched and processed correctly.
+        '''
         test_string = self.read_test_file(self.processor_name, 'multiple_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
@@ -59,6 +75,10 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_recursive_boxed_text(self):
+        '''Tests that multiple different matches (that are
+        contained as content of eachother) are matched and
+        processed correctly.
+        '''
         test_string = self.read_test_file(self.processor_name, 'recursive_boxed_text.md')
         blocks = self.to_blocks(test_string)
 
@@ -73,6 +93,9 @@ class BoxedTextTest(ProcessorTest):
     #~
 
     def test_doc_example_basic(self):
+        '''Tests that the most generic case of a single match is found
+        with generic content contained within.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
         blocks = self.to_blocks(test_string)
 
@@ -83,6 +106,9 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_doc_example_override_html(self):
+        '''Tests and shows example of overriding the html of the
+        processor.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
 

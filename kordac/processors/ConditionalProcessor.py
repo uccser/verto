@@ -1,10 +1,11 @@
-from kordac.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
+from markdown.blockprocessors import BlockProcessor
 from kordac.processors.errors.TagNotMatchedError import TagNotMatchedError
 from kordac.processors.utils import etree, parse_arguments, parse_flag, blocks_to_string
 from collections import OrderedDict
+import re
 
 
-class ConditionalProcessor(GenericContainerBlockProcessor):
+class ConditionalProcessor(BlockProcessor):
     ''' Searches a Document for conditional tags e.g.
     {conditonal flag condition="<condition>"}  The processor matches
     the following `elif` and `else` statements in the document and
@@ -16,7 +17,13 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         Args:
             ext: An instance of the KordacExtension.
         '''
-        super().__init__('conditional', ext, *args, **kwargs)
+        super().__init__(*args, **kwargs)
+        self.processor = 'conditional'
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
+        self.arguments = ext.processor_info[self.processor]['arguments']
+        template_name = ext.processor_info.get('template_name', self.processor)
+        self.template = ext.jinja_templates[template_name]
+        self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
 
     def test(self, parent, block):
         ''' Tests if the block if it contains any type of conditional
@@ -28,8 +35,7 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         Returns:
             Return true if any conditional tag is found.
         '''
-        return (self.p_start.search(block) is not None
-                or self.p_end.search(block) is not None)
+        return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
         ''' Replaces all conditionals with the given html template.
@@ -48,20 +54,16 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         block = blocks.pop(0)
         context = dict()
 
-        start_tag = self.p_start.search(block)
-        end_tag = self.p_end.search(block)
-
-        if ((start_tag is None and end_tag is not None)
-           or (start_tag and end_tag and start_tag.end() > end_tag.start())):
-            raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
-
+        start_tag = self.pattern.search(block)
         is_if = parse_flag('if', start_tag.group('args'))
 
         # elif or else before an if conditional
         if not is_if:
             is_elif = parse_flag('elif', start_tag.group('args'))
             is_else = parse_flag('else', start_tag.group('args'))
-            msg = '{} conditional found before if'.format('elif' if is_elif else 'else' if is_else else 'unrecognised')
+            is_end = parse_flag('end', start_tag.group('args'))
+            string = 'elif' if is_elif else 'else' if is_else else 'end' if is_end else 'unrecognised'
+            msg = '{} conditional found before if'.format(string)
             raise TagNotMatchedError(self.processor, block, msg)
 
         # Put left overs back on blocks, should be empty though
@@ -99,6 +101,11 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
         context['has_else'] = has_else
         context['else_content'] = else_content
 
+        if (next_tag is None
+           or (next_tag is not None and not parse_flag('end', next_tag.group('args')))):
+            msg = 'end conditional not found'
+            raise TagNotMatchedError(self.processor, block, msg)
+
         # Render template and compile into an element
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)
@@ -132,34 +139,28 @@ class ConditionalProcessor(GenericContainerBlockProcessor):
             block = blocks.pop(0)
 
             # Do we have either a start or end tag
-            next_tag = self.p_start.search(block)
-            end_tag = self.p_end.search(block)
+            next_tag = self.pattern.search(block)
 
             is_if = next_tag is not None and parse_flag('if', next_tag.group('args'))
             is_elif = next_tag is not None and parse_flag('elif', next_tag.group('args'))
             is_else = next_tag is not None and parse_flag('else', next_tag.group('args'))
+            is_end = next_tag is not None and parse_flag('end', next_tag.group('args'))
 
             # Keep track of how many inner boxed-text start tags we have seen
             if is_if:
                 inner_if_tags += 1
 
             if inner_if_tags != inner_end_tags:
-                if end_tag is not None:
+                if is_end:
                     inner_end_tags += 1
-                    end_tag = None
-            elif is_elif or is_else:
+            elif is_elif or is_else or is_end:
                 if block[:next_tag.start()].strip() != '':
                     content_blocks.append(block[:next_tag.start()])
                 the_rest = block[next_tag.end():]
                 break
-            elif end_tag is not None:
-                if block[:end_tag.start()].strip() != '':
-                    content_blocks.append(block[:end_tag.start()])
-                the_rest = block[end_tag.end():]
-                break
             content_blocks.append(block)
 
-        if the_rest.strip() != '':
+        if the_rest and the_rest.strip() != '':
             blocks.insert(0, the_rest)  # Keep anything off the end, should be empty though
 
         if inner_if_tags != inner_end_tags:

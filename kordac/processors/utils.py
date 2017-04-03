@@ -2,10 +2,11 @@ import re
 from markdown.util import etree  # noqa: F401
 from collections import OrderedDict, defaultdict
 from kordac.processors.errors.ArgumentMissingError import ArgumentMissingError
+from kordac.processors.errors.ArgumentValueError import ArgumentValueError
 
 
 def parse_argument(argument_key, arguments, default=None):
-    ''' Search for the given argument in a string of all arguments
+    '''Search for the given argument in a string of all arguments
 
     Args:
         argument_key: The name of the argument.
@@ -16,14 +17,14 @@ def parse_argument(argument_key, arguments, default=None):
     '''
     result = re.search(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments)
     if result:
-        argument_value = result.group(2)
+        argument_value = result.group(2).replace(r'\"', r'"')
     else:
         argument_value = default
     return argument_value
 
 
 def parse_flag(argument_key, arguments, default=False):
-    ''' Search for the given argument in a string of all arguments,
+    '''Search for the given argument in a string of all arguments,
     treating the argument as a flag only.
 
     Args:
@@ -42,7 +43,7 @@ def parse_flag(argument_key, arguments, default=False):
 
 
 def parse_arguments(processor, inputs, arguments):
-    ''' Parses the arguments of a given input and ensures
+    '''Parses the arguments of a given input and ensures
     they meet the defined requirements.
 
     Args:
@@ -62,25 +63,31 @@ def parse_arguments(processor, inputs, arguments):
         is_flag = parse_flag(argument, inputs)
 
         if is_required and not (is_arg or is_flag):
-            raise ArgumentMissingError(processor, argument, "{} is a required argument.".format(argument))
+            raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))
         elif not is_required and (is_arg or is_flag):
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
-                if not (parse_argument(other_argument, inputs, None) is not None
-                   or parse_flag(other_argument, inputs) is not None):
-                        message = "{} is a required argument because {} exists.".format(other_argument, argument)
+                if (parse_argument(other_argument, inputs, None) is None
+                   and parse_flag(other_argument, inputs, None) is None):
+                        message = '{} is a required argument because {} exists.'.format(other_argument, argument)
                         raise ArgumentMissingError(processor, argument, message)
 
         if is_flag:
             argument_values[argument] = True
         elif is_arg:
-            argument_values[argument] = parse_argument(argument, inputs, None)
+            value = parse_argument(argument, inputs, None)
+            if value and value.strip() == '':
+                message = '{} cannot be blank.'.format(argument)
+                raise ArgumentValueError(processor, argument, value, message)
+            if argument_info.get('values', None) and value not in argument_info['values']:
+                message = '{} is not one of {}.'.format(value, argument_info['values'])
+                raise ArgumentValueError(processor, argument, value, message)
+            argument_values[argument] = value
     return argument_values
 
 
 def process_parameters(ext, processor, parameters, argument_values):
-    '''
-    Processes a given set of arguments by the parameter definitions.
+    '''Processes a given set of arguments by the parameter definitions.
 
     Args:
         processor: The processor of the given arguments.
@@ -116,8 +123,7 @@ def process_parameters(ext, processor, parameters, argument_values):
 
 
 def find_transformation(ext, option):
-    '''
-    Returns a transformation for a given string.
+    '''Returns a transformation for a given string.
     TODO:
     In future should be able to combine piped transformations
     into a single function.
@@ -135,7 +141,8 @@ def find_transformation(ext, option):
 
 
 def blocks_to_string(blocks):
-    ''' Returns a string after the blocks have been joined back together.
+    '''Returns a string after the blocks have been joined back
+    together.
 
     Args:
         blocks: A list of strings of the document blocks.
