@@ -11,11 +11,13 @@ from verto.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from verto.processors.GlossaryLinkPattern import GlossaryLinkPattern
 from verto.processors.BeautifyPostprocessor import BeautifyPostprocessor
 from verto.processors.ConditionalProcessor import ConditionalProcessor
+from verto.processors.StylePreprocessor import StylePreprocessor
 from verto.processors.RemovePostprocessor import RemovePostprocessor
 from verto.processors.JinjaPostprocessor import JinjaPostprocessor
 from verto.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from verto.processors.ScratchTreeprocessor import ScratchTreeprocessor
 from verto.processors.ScratchCompatibilityPreprocessor import ScratchCompatibilityPreprocessor
+from verto.processors.ScratchCompatibilityPreprocessor import FENCED_BLOCK_RE_OVERRIDE
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 
@@ -72,6 +74,7 @@ class VertoExtension(Extension):
     def extendMarkdown(self, md, md_globals):
         '''Inherited from the markdown.Extension class. Extends
         markdown with custom processors.
+            ['style', StylePreprocessor(self, md), '_begin']
 
         Args:
             md: An instance of the markdown object to extend.
@@ -90,12 +93,17 @@ class VertoExtension(Extension):
         update_processors(self.treeprocessors, md.treeprocessors)
         update_processors(self.postprocessors, md.postprocessors)
 
+        md.preprocessors.add('style', StylePreprocessor(self, md), '_begin')
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
         md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
 
         # Compatibility modules
         md.postprocessors['raw_html'].isblocklevel = lambda html: is_block_level(html, BLOCK_LEVEL_ELEMENTS)
+
+        if ('fenced_code_block' in self.compatibility
+           and 'scratch' in self.processors):
+                md.preprocessors['fenced_code_block'].FENCED_BLOCK_RE = FENCED_BLOCK_RE_OVERRIDE
 
         if ('hilite' in self.compatibility
            and 'fenced_code_block' in self.compatibility

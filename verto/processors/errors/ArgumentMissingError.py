@@ -2,7 +2,7 @@ from verto.processors.errors.Error import Error
 
 
 class ArgumentMissingError(Error):
-    '''Exception raised when a custom markdown tag in not matched.
+    '''Exception raised a required or dependent argument is not found.
 
     Attributes:
         tag: tag which was not matched

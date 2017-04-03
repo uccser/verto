@@ -17,13 +17,17 @@ from verto.tests.RemoveTitleTest import RemoveTitleTest
 from verto.tests.RelativeLinkTest import RelativeLinkTest
 from verto.tests.ConditionalTest import ConditionalTest
 from verto.tests.FrameTest import FrameTest
+from verto.tests.StyleTest import StyleTest
 from verto.tests.TableOfContentsTest import TableOfContentsTest
 from verto.tests.ScratchTest import ScratchTest
 from verto.tests.BeautifyTest import BeautifyTest
 
 def parse_args():
+    '''Parses the arguments for running the test suite, these are
+    useful for developing when parts of verto are known to fail.
+    '''
     opts = optparse.OptionParser(
-        usage='Run the command `python -m verto.tests.start_tests` from the level above the verto directory.', description="Verifies that Verto is functional compared to the testing suite.")
+        usage='Run the command `python -m verto.tests.start_tests` from the level above the verto directory.', description='Verifies that Verto is functional compared to the testing suite.')
     opts.add_option('--travis',
         action='store_true', help='Enables skipping suites on failure. To be used by continuous integration system.', default=False)
     opts.add_option('--no_smoke',
@@ -37,19 +41,25 @@ def parse_args():
     return options, arguments
 
 def smoke_suite():
+    '''Builds the smoke tests.
+    '''
     return unittest.TestSuite((
         unittest.makeSuite(SmokeDocsTest),
         unittest.makeSuite(SmokeFileTest),
     ))
 
 def system_suite():
+    '''Builds specific system tests.
+    '''
     return unittest.TestSuite((
         unittest.makeSuite(ConfigurationTest)
     ))
 
 def unit_suite():
-    # NTS what order should these go in?
+    '''Builds unittests. (Not really unittests).
+    '''
     return unittest.TestSuite((
+        unittest.makeSuite(StyleTest),
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(RemoveTitleTest),
         unittest.makeSuite(GlossaryLinkTest),
@@ -76,23 +86,23 @@ if __name__ == '__main__':
 
     smoke_result = None
     if not options.no_smoke:
-        print("Running Smoke Tests")
+        print('Running Smoke Tests')
         smoke_result = runner.run(smoke_suite())
         print()
 
     if options.travis and smoke_result and not smoke_result.wasSuccessful():
-        print("Skipping other test-suites.")
+        print('Skipping other test-suites.')
         sys.exit(1)
 
     system_result = None
     if not options.no_system:
-        print("Running System Tests")
+        print('Running System Tests')
         system_result = runner.run(system_suite())
         print()
 
     unit_result = None
     if not options.no_unit:
-        print("Running Unit Tests")
+        print('Running Unit Tests')
         unit_result = runner.run(unit_suite())
         print()
 

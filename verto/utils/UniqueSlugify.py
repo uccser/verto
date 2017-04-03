@@ -51,7 +51,7 @@ class UniqueSlugify(object):
                                     + len(self.occurance_separator)
                                     + floor(log10(count))) >= self.max_length:
                 end_index = self.max_length - floor(log10(count)) - len(self.occurance_separator) - 1
-            new_slug = "{0}{1}{2}".format(slug[:end_index], self.occurance_separator, count)
+            new_slug = '{0}{1}{2}'.format(slug[:end_index], self.occurance_separator, count)
         self.uids.add(new_slug)
         return new_slug
 

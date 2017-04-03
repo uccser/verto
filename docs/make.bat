@@ -1,12 +1,23 @@
 @ECHO OFF
-
+setlocal
 pushd %~dp0
 
 REM Command file for Sphinx documentation
 
+
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=sphinx-build
 )
+if "%SPHINXOPTS%" == "" (
+	if not "%1" == "SPHINXOPTS" goto :skip
+)
+shift /1
+set SPHINXOPTS=%1
+set SPHINXOPTS=%SPHINXOPTS:~1,-1%
+shift /1
+:skip
+
+
 set SOURCEDIR=source
 set BUILDDIR=build
 set SPHINXPROJ=Verto
@@ -34,3 +45,4 @@ goto end
 
 :end
 popd
+endlocal 

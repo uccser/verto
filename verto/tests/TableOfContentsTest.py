@@ -7,7 +7,15 @@ from verto.tests.ProcessorTest import ProcessorTest
 
 
 class TableOfContentsTest(ProcessorTest):
+    '''The table-of-contents processor inherits from the generic
+    tag procesor.  The tests contained here test that arguments
+    and the output (html-template) work as expected.
+    '''
+
     def __init__(self, *args, **kwargs):
+        '''Sets up a generic tag to test that the matches are
+        occuring appropriately.
+        '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'table-of-contents'
         self.ext = Mock()
@@ -19,6 +27,8 @@ class TableOfContentsTest(ProcessorTest):
     # Doc Tests
     #~
     def test_doc_example_basic(self):
+        '''A generic example of common usage.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
         blocks = self.to_blocks(test_string)
 
@@ -29,6 +39,8 @@ class TableOfContentsTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_doc_example_override_html(self):
+        '''A example showing how to override the html template.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
 

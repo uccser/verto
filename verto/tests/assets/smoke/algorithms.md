@@ -285,7 +285,9 @@ Some students may recognise this formula as Gauss' trick (see [the anecdotes abo
 {panel end}
 
 {comment}
+
 TODO: Include a spoiler so that students can see the answer (or an interactive), and additionally a curiosity about Gauss' trick
+
 {comment end}
 
 This algorithm is called Selection sort, because each time you look through the list you are 'selecting' the next lightest box and putting it into the correct position. If you go back to the algorithms racing interactive at the top of the page you might now be able to watch the selection sort list and understand what it is doing at each step.
@@ -371,6 +373,7 @@ In this chapter we have only talked about the number of comparisons an algorithm
 $n^2$
 
 {panel type="extra-for-experts" title="Extra For Experts" summary="Examples of Big O notation"}
+
 Here are some Big O examples:
 
 - $O(1)$ - An algorithm with $O(1)$ complexity will always execute in the same amount of time regardless of how much data you give it to process. For example, finding the smallest value in a sorted list is always easy.
