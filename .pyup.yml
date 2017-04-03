@@ -1,0 +1,4 @@
+update: all
+branch: develop
+schedule: "every week"
+label_prs: update
