@@ -7,7 +7,7 @@ class SmokeDocsTest(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.maxDiff = None
-        self.build_path = "docs/build"
+        self.build_path = 'docs/build'
 
     @unittest.skipIf(not os.path.isdir('docs') and os.name not in ['nt', 'posix'], 'Docs are not present')
     def test_compile_docs(self):

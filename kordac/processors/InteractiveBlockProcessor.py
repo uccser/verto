@@ -16,9 +16,9 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         '''
         super().__init__('interactive', ext, *args, **kwargs)
         self.relative_file_template = ext.jinja_templates['relative-file-link']
-        self.scripts = ext.required_files["page_scripts"]
-        self.required = ext.required_files["interactives"]
-        self.required_images = ext.required_files["images"]
+        self.scripts = ext.required_files['page_scripts']
+        self.required = ext.required_files['interactives']
+        self.required_images = ext.required_files['images']
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -75,7 +75,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         if interactive_type == 'whole-page':
             file_path = argument_values.get('thumbnail', None)
             if file_path is None:
-                file_path = "{}/thumbnail.png".format(name)
+                file_path = '{}/thumbnail.png'.format(name)
 
             external_path_match = re.search(r'^http', file_path)
             if external_path_match is None:  # internal image

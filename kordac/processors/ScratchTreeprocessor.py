@@ -57,7 +57,7 @@ class ScratchTreeprocessor(Treeprocessor):
                 if node is None:
                     continue
                 self.process_html(node)
-                html_string = etree.tostring(node, encoding="unicode", method="html")
+                html_string = etree.tostring(node, encoding='unicode', method='html')
                 self.markdown.htmlStash.rawHtmlBlocks[i] = html_string, safe
 
     def process_html(self, node):
@@ -94,8 +94,8 @@ class ScratchTreeprocessor(Treeprocessor):
                 html_string = self.template.render({'images': images})
                 new_node = etree.fromstring(html_string)
 
-                node.tag = "remove"
-                node.text = ""
+                node.tag = 'remove'
+                node.text = ''
                 node.append(new_node)
                 node.remove(children[0])
 

@@ -20,7 +20,7 @@ class BaseTest(unittest.TestCase):
         This function reads a file from a given filename in UTF-8 encoding.
         '''
         file_path = self.test_file_path.format(test_type=test_type, filename=filename)
-        file_object = open(file_path, encoding="utf-8")
+        file_object = open(file_path, encoding='utf-8')
         text =  file_object.read()
         if strip:
             text = text.rstrip('\r\n')

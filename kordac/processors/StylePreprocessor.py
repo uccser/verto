@@ -43,12 +43,12 @@ class StylePreprocessor(Preprocessor):
 
                     # Remove all empty lines Should only be one line left
                     if len([line for line in error_lines if line != '']) != 1:
-                        raise StyleError(line_nums, error_lines, "Blocks must be separated by whitespace.")
+                        raise StyleError(line_nums, error_lines, 'Blocks must be separated by whitespace.')
 
                     start_index, end_index = block_match.span()
                     rest = line[:start_index] + line[end_index+1:]
                     for char in rest:
                         if not char.isspace():
-                            raise StyleError(line_nums, error_lines, "Blocks must be the only thing on the line.")
+                            raise StyleError(line_nums, error_lines, 'Blocks must be the only thing on the line.')
 
         return lines

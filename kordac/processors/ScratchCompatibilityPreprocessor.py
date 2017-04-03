@@ -41,14 +41,14 @@ class ScratchCompatibilityPreprocessor(Preprocessor):
         Returns:
             Markdown document with scratch codeblocks removed.
         '''
-        text = "\n".join(lines)
+        text = '\n'.join(lines)
         match = self.pattern.search(text)
         while match is not None:
             code = self.CODE_FORMAT.format(self._escape(match.group('code')), match.group('options'))
             placeholder = self.markdown.htmlStash.store(code, safe=True)
             text = text[:match.start()] + '\n' + placeholder + '\n' + text[match.end():]
             match = self.pattern.search(text)
-        return text.split("\n")
+        return text.split('\n')
 
     def _escape(self, text):
         ''' basic html escaping, as per fenced_code.
