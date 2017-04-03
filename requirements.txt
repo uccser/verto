@@ -2,7 +2,7 @@
 markdown==2.6.8
 beautifulsoup4==4.5.3
 Jinja2==2.9.5
-python-slugify==1.2.1
+python-slugify==1.2.2
 
 # Required dependencies for building documentation
 sphinx==1.5.2
