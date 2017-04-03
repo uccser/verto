@@ -6,4 +6,4 @@ python-slugify==1.2.1
 
 # Required dependencies for building documentation
 sphinx==1.5.5
-sphinx_rtd_theme==0.1.9
+sphinx_rtd_theme==0.2.4
