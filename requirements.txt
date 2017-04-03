@@ -1,4 +1,4 @@
-# Required dependencies for Kordac (installed automatically in setup.py)
+# Required dependencies for Verto (installed automatically in setup.py)
 markdown==2.6.8
 beautifulsoup4==4.5.3
 Jinja2==2.9.5

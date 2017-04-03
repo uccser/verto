@@ -14,7 +14,7 @@ Required Tag Parameters
 
 - ``file-path`` - The path to the image.
 
-    - Each file-path provided is added to the ``images`` set in required files stored by Kordac. The set of filepaths can be accessed after conversion, see :ref:`accessing_kordac_data`.
+    - Each file-path provided is added to the ``images`` set in required files stored by Verto. The set of filepaths can be accessed after conversion, see :ref:`accessing_verto_data`.
     - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered with a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}`` This can be overriden, see the override section below.
 
 Optional Tag Parameters
@@ -29,17 +29,17 @@ Optional Tag Parameters
 
 The default HTML for image is:
 
-.. literalinclude:: ../../../kordac/html-templates/image.html
+.. literalinclude:: ../../../verto/html-templates/image.html
     :language: css+jinja
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_basic_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_basic_usage_expected.html
     :language: html
 
 Overriding HTML for Images
@@ -58,24 +58,24 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
 The default HTML for relative images is:
 
-.. literalinclude:: ../../../kordac/html-templates/relative-file-link.html
+.. literalinclude:: ../../../verto/html-templates/relative-file-link.html
   :language: css+jinja
 
 **Example 1**
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_override_html_template.html
    :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_override_html_expected.html
    :language: html
 
 **Example 2**
@@ -84,20 +84,20 @@ If you know all relative images are located within a specific folder, you could 
 
 For example, providing the following HTML for ``image.html``:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_2_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_2_override_html_template.html
    :language: css+jinja
 
 and providing the following HTML for ``relative-file-link.html``:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_2_override_link_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_2_override_link_html_template.html
    :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_2_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_2_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/image/doc_example_2_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/image/doc_example_2_override_html_expected.html
    :language: html

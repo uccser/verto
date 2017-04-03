@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Kordac documentation build configuration file, created by
+# Verto documentation build configuration file, created by
 # sphinx-quickstart on Mon Jan 30 17:06:19 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -20,7 +20,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../'))
-from kordac import __version__
+from verto import __version__
 
 
 # -- General configuration ------------------------------------------------
@@ -47,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Kordac'
+project = 'Verto'
 copyright = '2017 University of Canterbury Computer Science Education Research Group'
 author = 'Hayley vas Waas, Jack Morgan, Hayden Jackson, Jordan Griffiths'
 
@@ -103,7 +103,7 @@ html_static_path = []
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Kordacdoc'
+htmlhelp_basename = 'Vertodoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -130,7 +130,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Kordac.tex', 'Kordac Documentation',
+    (master_doc, 'Verto.tex', 'Verto Documentation',
      'Hayley vas Waas, Jack Morgan', 'manual'),
 ]
 
@@ -140,7 +140,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'kordac', 'Kordac Documentation',
+    (master_doc, 'verto', 'Verto Documentation',
      [author], 1)
 ]
 
@@ -151,7 +151,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Kordac', 'Kordac Documentation',
-     author, 'Kordac', 'One line description of project.',
+    (master_doc, 'Verto', 'Verto Documentation',
+     author, 'Verto', 'One line description of project.',
      'Miscellaneous'),
 ]

@@ -1,23 +1,23 @@
-.. figure:: kordac/images/kordac-logo.png
-   :alt: Kordac Logo
+.. figure:: verto/images/verto-logo.png
+   :alt: Verto Logo
 
 |Build Status| |Code Climate Status|
 
-Kordac is an extension of the Python Markdown package, which allows
+Verto is an extension of the Python Markdown package, which allows
 authors to include complex HTML elements with simple text tags in their
 Markdown files.
 
 Documentation
 -------------
 
-Installation and usage documentation for Kordac can be found on
+Installation and usage documentation for Verto can be found on
 `ReadTheDocs`_, and can also be built from the documentation source
 within the ``docs/`` directory of the development distribution.
 
 License
 -------
 
-Kordac is licensed under the MIT License. Read the `license file`_ for
+Verto is licensed under the MIT License. Read the `license file`_ for
 more details.
 
 Bugs and feature requests
@@ -36,19 +36,19 @@ The changelog is available within the `documentation`_.
 
 **How do I install the development version as local package?**
 
-1. ``$ git clone https://github.com/uccser/kordac.git``
-2. ``$ cd kordac``
+1. ``$ git clone https://github.com/uccser/verto.git``
+2. ``$ cd verto``
 3. ``$ pip3 install .``
 
-.. _ReadTheDocs: http://kordac.readthedocs.io/en/latest/
-.. _documentation: http://kordac.readthedocs.io/en/latest/changelog.html
+.. _ReadTheDocs: http://verto.readthedocs.io/en/latest/
+.. _documentation: http://verto.readthedocs.io/en/latest/changelog.html
 .. _license file: LICENSE.md
-.. _existing and closed issues: https://github.com/uccser/kordac/issues
-.. _open a new issue: https://github.com/uccser/kordac/issues/new
+.. _existing and closed issues: https://github.com/uccser/verto/issues
+.. _open a new issue: https://github.com/uccser/verto/issues/new
 
-.. |Build Status| image:: https://travis-ci.org/uccser/kordac.svg?branch=master
-   :target: https://travis-ci.org/uccser/kordac
+.. |Build Status| image:: https://travis-ci.org/uccser/verto.svg?branch=master
+   :target: https://travis-ci.org/uccser/verto
 
-.. |Code Climate Status| image:: https://codeclimate.com/github/uccser/kordac/badges/gpa.svg
-  :target: https://codeclimate.com/github/uccser/kordac
+.. |Code Climate Status| image:: https://codeclimate.com/github/uccser/verto/badges/gpa.svg
+  :target: https://codeclimate.com/github/uccser/verto
   :alt: Code Climate

@@ -11,14 +11,14 @@ Interactives can be small examples to display within the text (for example:
 `animations comparing sorting algorithms`_) to larger interactives that require
 a whole page to view (for example: `viewing pixels of an image`_.).
 
-By using the interactive tag, Kordac can include or link to an interactive
-within a page. Kordac does not directly include the interactive, but creates
+By using the interactive tag, Verto can include or link to an interactive
+within a page. Verto does not directly include the interactive, but creates
 Django commands for a Django system to render the interactive or link to
 interactive as requested.
 
 You can include an interactive using the following text tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_in_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage.md
     :language: none
 
 Required Tag Parameters
@@ -70,13 +70,13 @@ Optional Tag Parameters
 
     This can be overriden, see the override section below.
   - Each ``thumbnail`` provided is added to the ``images`` set in required
-    files stored by Kordac.
+    files stored by Verto.
     The set of filepaths can be accessed after conversion,
-    see :ref:`accessing_kordac_data`.
+    see :ref:`accessing_verto_data`.
 
 The default HTML for button links is:
 
-.. literalinclude:: ../../../kordac/html-templates/interactive.html
+.. literalinclude:: ../../../verto/html-templates/interactive.html
     :language: css+jinja
 
 Examples
@@ -86,36 +86,36 @@ Examples
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_in_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_in_page_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage_expected.html
     :language: html
 
 **whole-page example**
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_whole_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_whole_page_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_whole_page_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_whole_page_usage_expected.html
     :language: html
 
 **iframe example**
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_iframe_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_iframe_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_iframe_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_iframe_usage_expected.html
     :language: html
 
 Overriding HTML for Interactives
@@ -133,7 +133,7 @@ When overriding the HTML for interactives, the following Jinja2 placeholders are
 If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
 The default HTML for relative images is:
 
-.. literalinclude:: ../../../kordac/html-templates/relative-file-link.html
+.. literalinclude:: ../../../verto/html-templates/relative-file-link.html
   :language: css+jinja
 
 **Example**
@@ -143,17 +143,17 @@ thumbnail.
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_template.html
    :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/interactive/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_expected.html
    :language: html
 
 .. _Computer Science Field Guide: https://github.com/uccser/cs-field-guide

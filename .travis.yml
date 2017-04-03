@@ -15,7 +15,7 @@ install:
 # Runs test suite
 script:
   - flake8
-  - python -m kordac.tests.start_tests --travis
+  - python -m verto.tests.start_tests --travis
 
 # Stop email notifications but post to organisation Slack channel
 notifications:

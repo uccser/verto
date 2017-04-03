@@ -7,7 +7,7 @@ Button Link
 
 You can create a link on a button using the following text tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_basic_usage.md
     :language: none
 
 Required Tag Parameters
@@ -28,31 +28,31 @@ Optional Tag Parameters
 
 The default HTML for button links is:
 
-.. literalinclude:: ../../../kordac/html-templates/button-link.html
+.. literalinclude:: ../../../verto/html-templates/button-link.html
     :language: css+jinja
 
 **Example 1**
 
 Using the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_basic_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_basic_usage_expected.html
     :language: html
 
 **Example 2**
 
 Using the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_file_usage.md
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_file_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_file_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_file_usage_expected.html
     :language: css+jinja
 
 Overriding HTML for Button Link
@@ -65,22 +65,22 @@ When overriding the HTML for button links, the following Jinja2 placeholders are
 
 If the ``file`` parameter is set to ``yes``, the link is passed through the ``relative-image-link.html`` template. The default HTML for relative images is:
 
-.. literalinclude:: ../../../kordac/html-templates/relative-file-link.html
+.. literalinclude:: ../../../verto/html-templates/relative-file-link.html
   :language: css+jinja
 
 **Example**
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_override_html_template.html
     :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_override_html.md
     :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/button-link/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/button-link/doc_example_override_html_expected.html
     :language: html
