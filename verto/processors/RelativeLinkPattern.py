@@ -1,5 +1,6 @@
 from markdown.inlinepatterns import Pattern
 from markdown.util import etree
+from html import escape
 import re
 
 
@@ -36,7 +37,7 @@ class RelativeLinkPattern(Pattern):
             An element tree node to be appended to the html tree.
         '''
         context = dict()
-        context['link_path'] = match.group('link_url')
+        context['link_path'] = escape(match.group('link_url'))
         context['text'] = match.group('link_text')
 
         html_string = self.template.render(context)

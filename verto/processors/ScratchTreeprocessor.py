@@ -1,7 +1,10 @@
 from markdown.treeprocessors import Treeprocessor
 from verto.processors.utils import etree
 from collections import namedtuple
+from functools import reduce
 from hashlib import sha256
+from random import shuffle
+import re
 
 
 class ScratchImageMetaData(namedtuple('ScratchImageMetaData', 'hash, text')):
@@ -27,6 +30,7 @@ class ScratchTreeprocessor(Treeprocessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = 'scratch'
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.template = ext.jinja_templates[self.processor]
         self.scratch_images = ext.required_files['scratch_images']
         self.fenced_compatibility = 'fenced_code_block' in ext.compatibility
@@ -53,7 +57,7 @@ class ScratchTreeprocessor(Treeprocessor):
                 if node is None:
                     continue
                 self.process_html(node)
-                html_string = etree.tostring(node, encoding="unicode", method="html")
+                html_string = etree.tostring(node, encoding='unicode', method='html')
                 self.markdown.htmlStash.rawHtmlBlocks[i] = html_string, safe
 
     def process_html(self, node):
@@ -64,19 +68,34 @@ class ScratchTreeprocessor(Treeprocessor):
             node: The possible pre node of a code block.
         '''
         children = list(node)
-        if (len(children) == 1 and children[0].tag == 'code'
-           and ((children[0].text.strip().startswith('scratch\n'))
-           or ('class' in children[0].attrib.keys() and children[0].attrib['class'] == 'scratch'))):
-                content = children[0].text.strip()
-                if content.startswith('scratch\n'):
-                    content = content[len('scratch\n'):]
-                content_hash = ScratchTreeprocessor.hash_content(content)
-                self.update_required_images(content_hash, content)
-                html_string = self.template.render({'hash': content_hash})
+        if (len(children) == 1 and children[0].tag == 'code'):
+            content = children[0].text.strip()
+            language = children[0].attrib.get('class', content)
+            language_in_content = 'class' not in children[0].attrib.keys()
+
+            match = self.pattern.search(language)
+            if match is not None:
+                options = list(filter(None, match.group('options').split(':')))
+                if language_in_content:
+                    content = content[match.end():]
+
+                content_blocks = list(filter(None, content.split('\n\n')))
+                if 'random' in options:
+                    shuffle(content_blocks)
+                if 'split' not in options:
+                    content_blocks = [reduce(lambda x, y: '\n\n'.join([x, y]), content_blocks)]
+
+                images = []
+                for block in content_blocks:
+                    content_hash = ScratchTreeprocessor.hash_content(block)
+                    self.update_required_images(content_hash, block)
+                    images.append(content_hash)
+
+                html_string = self.template.render({'images': images})
                 new_node = etree.fromstring(html_string)
 
-                node.tag = "remove"
-                node.text = ""
+                node.tag = 'remove'
+                node.text = ''
                 node.append(new_node)
                 node.remove(children[0])
 

@@ -1,6 +1,14 @@
 from markdown.preprocessors import Preprocessor
 import re
 
+# Enable support for | so that languages can be passed options
+FENCED_BLOCK_RE_OVERRIDE = re.compile(r'''(?P<fence>^(?:~{3,}|`{3,}))[ ]*
+(\{?\.?(?P<lang>[\w#.+-:]*))?[ ]*
+(hl_lines=(?P<quot>"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*
+}?[ ]*\n
+(?P<code>.*?)(?<=\n)
+(?P=fence)[ ]*$''', re.MULTILINE | re.DOTALL | re.VERBOSE)
+
 
 class ScratchCompatibilityPreprocessor(Preprocessor):
     '''Should only be active if using the scratch processor and the
@@ -21,6 +29,7 @@ class ScratchCompatibilityPreprocessor(Preprocessor):
         self.processor = 'scratch-compatibility'
 
         self.pattern = re.compile(ext.processor_info['scratch'][self.processor]['pattern'], re.DOTALL | re.MULTILINE)
+        self.CODE_FORMAT = '<pre><code class="scratch{1}">{0}</code></pre>'
 
     def run(self, lines):
         ''' Inherited from Preprocessor, removes scratch codeblocks
@@ -32,14 +41,14 @@ class ScratchCompatibilityPreprocessor(Preprocessor):
         Returns:
             Markdown document with scratch codeblocks removed.
         '''
-        text = "\n".join(lines)
+        text = '\n'.join(lines)
         match = self.pattern.search(text)
         while match is not None:
-            code = '<pre><code class="scratch">{0}</code></pre>'.format(self._escape(match.group('code')))
+            code = self.CODE_FORMAT.format(self._escape(match.group('code')), match.group('options'))
             placeholder = self.markdown.htmlStash.store(code, safe=True)
             text = text[:match.start()] + '\n' + placeholder + '\n' + text[match.end():]
             match = self.pattern.search(text)
-        return text.split("\n")
+        return text.split('\n')
 
     def _escape(self, text):
         ''' basic html escaping, as per fenced_code.

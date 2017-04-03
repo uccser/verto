@@ -156,6 +156,7 @@ The ``argument`` parameter is a dictionary (or object) containing argument name,
 
   - ``required``: ``true`` if the argument must be set or ``false`` otherwise.
   - (Optional) ``dependencies``: A list of argument-names that must also be set if this argument is used.
+  - (Optional) ``values``: A list of values of which the argument may take. If the argument does not have the value in this list the ArgumentValueError exception is raised.
 
 These arguments are transformed for use in the html-template by the ``template_parameters`` attribute. This attribute is similar to the ``argument`` attribute by containing parameter name, parameter-info pairs. Where the parameter-info contains the attributes:
 

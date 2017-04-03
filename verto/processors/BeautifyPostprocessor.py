@@ -27,7 +27,7 @@ class BeautifyPostprocessor(Postprocessor):
             A string of the converted document.
         '''
         text = self.store_non_pre_code_tags(text)
-        text = BeautifulSoup(text, 'html.parser').prettify(formatter="html")
+        text = BeautifulSoup(text, 'html.parser').prettify(formatter='html')
         text = self.restore_non_pre_code_tags(text)
         return text
 
@@ -80,7 +80,7 @@ class BeautifyPostprocessor(Postprocessor):
             replacements[self.html_stash.get_placeholder(i)] = html
 
         if len(replacements) > 0:
-            pattern = re.compile("|".join(re.escape(k) for k in replacements))
+            pattern = re.compile('|'.join(re.escape(k) for k in replacements))
             text = pattern.sub(lambda m: replacements[m.group(0)], text)
 
         return text

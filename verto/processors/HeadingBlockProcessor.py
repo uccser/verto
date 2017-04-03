@@ -69,11 +69,11 @@ class HeadingBlockProcessor(BlockProcessor):
 
         context = dict()
         context['heading_level'] = level
-        context['heading_type'] = "h{0}".format(level)
+        context['heading_type'] = 'h{0}'.format(level)
         context['title'] = heading
         context['title_slug'] = heading_slug
         for i, level_val in enumerate(level_trail):
-            context["level_{0}".format(i + 1)] = level_val
+            context['level_{0}'.format(i + 1)] = level_val
 
         html_string = self.template.render(context)
         node = etree.fromstring(html_string)

@@ -17,6 +17,7 @@ from verto.processors.JinjaPostprocessor import JinjaPostprocessor
 from verto.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from verto.processors.ScratchTreeprocessor import ScratchTreeprocessor
 from verto.processors.ScratchCompatibilityPreprocessor import ScratchCompatibilityPreprocessor
+from verto.processors.ScratchCompatibilityPreprocessor import FENCED_BLOCK_RE_OVERRIDE
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 
@@ -99,6 +100,10 @@ class VertoExtension(Extension):
 
         # Compatibility modules
         md.postprocessors['raw_html'].isblocklevel = lambda html: is_block_level(html, BLOCK_LEVEL_ELEMENTS)
+
+        if ('fenced_code_block' in self.compatibility
+           and 'scratch' in self.processors):
+                md.preprocessors['fenced_code_block'].FENCED_BLOCK_RE = FENCED_BLOCK_RE_OVERRIDE
 
         if ('hilite' in self.compatibility
            and 'fenced_code_block' in self.compatibility

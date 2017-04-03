@@ -7,8 +7,15 @@ from verto.processors.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class FrameTest(ProcessorTest):
+    '''The iframe processor inherits from the generic tag procesor.
+    The tests contained here test that arguments and the output
+    (html-template) work as expected.
+    '''
 
     def __init__(self, *args, **kwargs):
+        '''Sets up a generic tag to test that the matches are
+        occuring appropriately.
+        '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'iframe'
         self.ext = Mock()
@@ -17,6 +24,9 @@ class FrameTest(ProcessorTest):
         self.block_processor = GenericTagBlockProcessor(self.processor_name, self.ext, Mock())
 
     def test_example_no_link(self):
+        '''Tests that the text containing the processor name is
+        not matched.
+        '''
         test_string = self.read_test_file(self.processor_name, 'example_no_link.md')
         blocks = self.to_blocks(test_string)
 
@@ -30,6 +40,8 @@ class FrameTest(ProcessorTest):
     #~
 
     def test_doc_example_basic(self):
+        '''A generic example of common usage.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
         blocks = self.to_blocks(test_string)
 
@@ -40,6 +52,8 @@ class FrameTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_doc_example_override_html(self):
+        '''A example showing how to override the html template.
+        '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
 

@@ -3,7 +3,7 @@ import sys
 from verto import __version__
 
 if not sys.version_info[0] == 3:
-    sys.exit("Sorry, currently only Python 3 is supported.")
+    sys.exit('Sorry, currently only Python 3 is supported.')
 
 setup(
     name='verto',
