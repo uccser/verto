@@ -1,0 +1,84 @@
+<h1 id="example-title">
+ <span class="section_number">
+  1.0.0.0.0.0.
+ </span>
+ Example Title
+</h1>
+<p>
+ This is a sentence.
+</p>
+<h1 id="example-title-2">
+ <span class="section_number">
+  2.0.0.0.0.0.
+ </span>
+ Example Title 2
+</h1>
+<p>
+ Check out this
+ <a href="{{ base_path }}resource/134">
+  resource
+ </a>
+ .
+</p>
+<div class="panel panel-teacher-note">
+ <div class="panel-header">
+  <strong>
+   Teacher Note:
+  </strong>
+  Guides for Algorithms
+ </div>
+ <div class="panel-body">
+  <p>
+   This text is the panel's contents.
+  </p>
+ </div>
+</div>
+<div class="text-center">
+ <img class="rounded img-thumbnail" src="http://placehold.it/350x150"/>
+</div>
+<div class="card">
+ <div class="card-block">
+  <p>
+   <strong>
+    Computer Science Report for 2.44
+   </strong>
+  </p>
+  <p>
+   Put your introduction to what bits are here.
+  </p>
+ </div>
+</div>
+<a class="button" href="http://www.google.com">
+ Visit Google
+</a>
+{% if version == 'teacher' %}
+<p>
+ This is text that only teachers should see.
+</p>
+{% endif %}
+<p>
+ It's worth considering which
+ <a class="glossary-term" data-glossary-term="algorithm">
+  algorithms
+ </a>
+ should be used.
+</p>
+<iframe src="https://github.com/">
+ <p>
+  Your browser does not support iframes.
+ </p>
+</iframe>
+<iframe src="{% url 'interactive' name='binary-cards' %}?digits=5&amp;start=BBBBB">
+ <p>
+  Your browser does not support iframes.
+ </p>
+</iframe>
+<div class="scratch-inline-images">
+ <object data="{% static 'scratch-blocks-a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576.svg' %}" type="image/svg+xml">
+ </object>
+</div>
+{{ table_of_contents }}
+<div>
+ <iframe allowfullscreen="allowfullscreen" frameborder="0" src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0">
+ </iframe>
+</div>

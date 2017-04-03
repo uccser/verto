@@ -1,0 +1,22 @@
+[flake8]
+exclude =
+    # No need to traverse our git or venv directories
+    .git,
+    venv,
+
+    # Don't process our PyPi script
+    ./setup.py,
+
+    # There's no value in checking cache directories
+    __pycache__,
+
+    # This contains our documentation
+    docs,
+
+    # This contains tests that we don't want to check
+    verto/tests,
+
+show-source = True
+statistics = True
+count = True
+max-line-length=119

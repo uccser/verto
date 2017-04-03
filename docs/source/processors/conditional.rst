@@ -5,7 +5,7 @@ Conditional
 
 You can include an conditional using the following text tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_basic_usage.md
    :language: none
 
 .. note::
@@ -48,24 +48,24 @@ To create a set of conditional text tags, follow the following steps:
 
 Here is a more complicated example:
 
-.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_complex_usage.md
+.. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_complex_usage.md
    :language: none
 
 **Example**
 
 The default HTML for a conditional is:
 
-.. literalinclude:: ../../../kordac/html-templates/conditional.html
+.. literalinclude:: ../../../verto/html-templates/conditional.html
   :language: css+jinja
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_basic_usage.md
   :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_basic_usage_expected.html
   :language: html
 
 Overriding HTML for Conditional
@@ -83,15 +83,15 @@ When overriding the HTML for conditionals, the following Jinja2 placeholders are
 
 For example, if you wanted to output a mako template you would providing the following HTML:
 
-.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_override_html_template.html
     :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_override_html.md
     :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/conditional/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_override_html_expected.html
     :language: html

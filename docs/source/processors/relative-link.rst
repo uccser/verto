@@ -8,17 +8,17 @@ When the resulting HTML is rendered with Django, the Django system can insert th
 
 The default HTML for relative links is:
 
-.. literalinclude:: ../../../kordac/html-templates/relative-link.html
+.. literalinclude:: ../../../verto/html-templates/relative-link.html
    :language: css+jinja
 
 Using the following example tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/relative-link/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/relative-link/doc_example_basic_usage.md
    :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/relative-link/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/relative-link/doc_example_basic_usage_expected.html
    :language: html
 
 Overriding HTML for Relative Links
@@ -34,15 +34,15 @@ For this example, we wish to create HTML to be used in a static site system (not
 
 For example, providing the following HTML template:
 
-.. literalinclude:: ../../../kordac/tests/assets/relative-link/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/relative-link/doc_example_override_html_template.html
   :language: css+jinja
 
 with the following Markdown:
 
-.. literalinclude:: ../../../kordac/tests/assets/relative-link/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/relative-link/doc_example_override_html.md
   :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/relative-link/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/relative-link/doc_example_override_html_expected.html
   :language: html

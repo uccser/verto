@@ -1,0 +1,5 @@
+<div class="scratch-inline-images">
+  {% for hash in images -%}
+    <img class="scratch-blocks" src="scratch-blocks-{{ hash }}.svg" onerror="this.src='scratch-blocks-{{ hash }}.png'"/>
+  {% endfor -%}
+</div>

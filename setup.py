@@ -1,16 +1,16 @@
 from setuptools import setup, find_packages
 import sys
-from kordac import __version__
+from verto import __version__
 
 if not sys.version_info[0] == 3:
-    sys.exit("Sorry, currently only Python 3 is supported.")
+    sys.exit('Sorry, currently only Python 3 is supported.')
 
 setup(
-    name='kordac',
+    name='verto',
     version=__version__,
-    description='Kordac is an extension of the Python Markdown package, which allows authors to include complex HTML elements with simple text tags in their Markdown.',
+    description='Verto is an extension of the Python Markdown package, which allows authors to include complex HTML elements with simple text tags in their Markdown.',
     long_description=open('README.rst').read(),
-    url='https://github.com/uccser/kordac',
+    url='https://github.com/uccser/verto',
     author='University of Canterbury Computer Science Education Research Group',
     license='MIT',
     classifiers=[

@@ -12,24 +12,24 @@ This processor an ID to each heading which allows for linking to a heading, and 
 
 You may create a heading by using the following format:
 
-.. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/heading/doc_example_basic_usage.md
    :language: none
 
 The default HTML for headings is:
 
-.. literalinclude:: ../../../kordac/html-templates/heading.html
+.. literalinclude:: ../../../verto/html-templates/heading.html
    :language: css+jinja
 
 **Example**
 
 Using the following tag:
 
-.. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_basic_usage.md
+.. literalinclude:: ../../../verto/tests/assets/heading/doc_example_basic_usage.md
    :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_basic_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/heading/doc_example_basic_usage_expected.html
    :language: html
 
 
@@ -55,15 +55,15 @@ The ``level`` parameters are useful for generating levels trails so that users k
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/heading/doc_example_override_html_template.html
    :language: css+jinja
 
 with the following markdown:
 
-.. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/heading/doc_example_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../kordac/tests/assets/heading/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/heading/doc_example_override_html_expected.html
    :language: html

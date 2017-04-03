@@ -27,4 +27,4 @@ ratings:
    paths:
    - "**.py"
 exclude_paths:
-- "kordac/tests/*"
+- "verto/tests/*"
