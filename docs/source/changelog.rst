@@ -1,6 +1,30 @@
 Changelog
 #######################################
 
+0.4.0
+=======================================
+Fourth prerelease of the Verto converter.
+(The project was renamed to Verto from Kordac in release.)
+
+Adds support for the following processors:
+
+  - :doc:`processors/iframe`
+  - :doc:`processors/interactive`
+  - :doc:`processors/heading`
+  - :doc:`processors/scratch`
+  - :doc:`processors/table-of-contents`
+
+Features:
+
+  - The :doc:`processors/scratch` processor supports ``split`` and ``random`` options.
+
+Fixes:
+
+  - Scratch blocks work with other extensions.
+  - Glossary slugs are now added to the output of Verto.
+  - Processors are now ordered correctly.
+
+
 0.3.1
 =======================================
 Fixes:
