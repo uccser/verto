@@ -5,30 +5,23 @@ Remove
 
 **Processor name:** ``remove``
 
-The ``remove`` processor is a post-processor in Verto that allows for the creation of html that would not otherwise be possible by allowing for the use of a remove html tag (``<remove>...</remove>``) during processing, which is removed just before output.
+The ``remove`` processor is a post-processor that searches the document for remove html-elements (i.e. ``<remove>...</remove>``) and removes them from the document leaving the content unchanged. This is useful when creating html-templates as they can be used to add multiple siblings to a parent element that are not valid html, allowing the document to be parsed as a valid html-document up until their removal.
 
-The main use of the ``remove`` processor is for developers to create invalid html-templates to be formatted into the the html tree. For example this tag is useful for things like conditionals that need to place a combination of text and elements in the parent node while also remaining customisable and consistent with the overriding of other processors. When this processor is run only the tag is removed not the content, this means that html like:
+.. note::
 
-.. code-block:: html
+    The ``remove`` processor does not remove the content between the remove element tags, but instead only removes the tag itself. 
 
-  <body>
-   <h1>Example Heading</h1>
-   <p>Example paragraph.</p>
-   <div>
-    <remove>
-     <p>Example paragraph within a div.</p>
-    </remove>
-   </div>
-  </body>
+For example the :doc:`conditional` processors default html template, as follows, does not produce valid html and so is placed within a remove element so that Verto can add it to the element tree.
 
-Becomes:
+.. literalinclude:: ../../../verto/html-templates/conditional.html
+   :language: html+jinja
 
-.. code-block:: html
+Therefore a markdown document like:
 
-  <body>
-   <h1>Example Heading</h1>
-   <p>Example paragraph.</p>
-   <div>
-    <p>Example paragraph within a div.</p>
-   </div>
-  </body>
+.. literalinclude:: ../../../verto/tests/assets/remove/doc_example_basic_usage.md
+   :language: html+jinja
+
+When parsed with Verto will produce the output:
+
+.. literalinclude:: ../../../verto/tests/assets/remove/doc_example_basic_usage_expected.html
+  :language: html+jinja

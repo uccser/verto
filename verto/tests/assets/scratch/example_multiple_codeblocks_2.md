@@ -1,4 +1,4 @@
-Scratch is great for kids you can great simple code like:
+Scratch is great for kids you can create simple code like:
 
 ```scratch
 when flag clicked
