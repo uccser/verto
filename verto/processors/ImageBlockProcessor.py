@@ -1,5 +1,6 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from verto.processors.utils import etree, parse_arguments
+from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -73,5 +74,6 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
         context['hover_text'] = argument_values.get('hover-text', None)
 
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-        parent.append(node)
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        parent.append(parser.get_root())

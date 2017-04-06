@@ -1,7 +1,7 @@
-from html.parser import HTMLParser
+import html.parser
 from markdown.util import etree
 
-class VertoHtmlParser(HTMLParser):
+class HtmlParser(html.parser.HTMLParser):
     ''' Used to convert an HTML string into an ElementTree. Since this
     is not defaultly supported by fromstring (XML only).
     '''
@@ -25,6 +25,7 @@ class VertoHtmlParser(HTMLParser):
 
     def get_root(self):
         '''Gets the root element after parsing.
+
         Returns:
             An etree Element of the root node.
         Raises:
@@ -35,12 +36,27 @@ class VertoHtmlParser(HTMLParser):
             raise Exception("TODO")
         return self.root
 
+    def feed(self, data):
+        '''Feed some text to the parser.
+
+        Args:
+            data: The text to feed to the parser.
+        Returns:
+            Itself.
+        '''
+        super().feed(data)
+        return self
+
     def close(self):
         '''Force processing of all buffered data as if it were
         followed by an end-of-file mark.
+
+        Returns:
+            Itself.
         '''
         self.closed = True
         super().close()
+        return self
 
     def reset(self):
         '''Reset the instance. Loses all unprocessed data.
