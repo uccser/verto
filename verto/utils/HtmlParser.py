@@ -67,6 +67,22 @@ class HtmlParser(html.parser.HTMLParser):
         self.stack = []
         super().reset()
 
+    def add_element(self, element):
+        '''Adds an element to the element tree.
+
+        Args:
+            element: An etree Element to append to the element tree.
+        '''
+        if self.root == None and len(self.stack) <= 0:
+            self.root = element
+            self.stack.append(element)
+        elif self.root != None and len(self.stack) <= 0:
+            raise Exception("TODO")
+        else:
+            self.stack[-1].append(element)
+            if element.tag not in HtmlParser.VOID_ELEMENTS:
+                self.stack.append(element)
+
     def handle_starttag(self, tag, attrs):
         '''This method is called to handle the start of a tag
         (e.g. `<div id="main">`).
@@ -78,16 +94,7 @@ class HtmlParser(html.parser.HTMLParser):
               been removed.
         '''
         element = etree.Element(tag, dict(attrs))
-
-        if self.root == None and len(self.stack) <= 0:
-            self.root = element
-            self.stack.append(element)
-        elif self.root != None and len(self.stack) <= 0:
-            raise Exception("TODO")
-        else:
-            self.stack[-1].append(element)
-            if tag not in HtmlParser.VOID_ELEMENTS:
-                self.stack.append(element)
+        self.add_element(element)
 
     def handle_endtag(self, tag):
         '''This method is called to handle the end tag of an
@@ -96,19 +103,17 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             tag: The name of the tag (converted to lowercase).
         '''
-        if tag in HtmlParser.VOID_ELEMENTS: #TODO: Tidy
-            return
+        if tag not in HtmlParser.VOID_ELEMENTS:
+            found = False
+            while not found and len(self.stack) > 0:
+                element = self.stack.pop()
+                if element.tag == tag:
+                    found = True
+                elif element.tag not in HtmlParser.OPTIONALLY_CLOSE_ELEMENTS:
+                    raise Exception("TODO")
 
-        found = False
-        while not found and len(self.stack) > 0:
-            element = self.stack.pop()
-            if element.tag == tag:
-                found = True
-            elif element.tag not in HtmlParser.OPTIONALLY_CLOSE_ELEMENTS:
+            if not found:
                 raise Exception("TODO")
-
-        if not found:
-            raise Exception("TODO")
 
 
     def handle_startendtag(self, tag, attrs):
@@ -133,15 +138,14 @@ class HtmlParser(html.parser.HTMLParser):
             data: The content between the tags.
         '''
         if len(self.stack) <= 0:
-            if data.strip() == '': #TODO: Tidy
-                return
-            raise Exception(data)
-
-        sibling = list(self.stack[-1])[-1] if list(self.stack[-1]) else None
-        if sibling is not None:
-            sibling.tail = (sibling.tail or '') + data
+            if data.strip() != '':
+                raise Exception("TODO")
         else:
-            self.stack[-1].text = (self.stack[-1].text or '') + data
+            sibling = list(self.stack[-1])[-1] if list(self.stack[-1]) else None
+            if sibling is not None:
+                sibling.tail = (sibling.tail or '') + data
+            else:
+                self.stack[-1].text = (self.stack[-1].text or '') + data
 
     def handle_comment(self, data):
         '''This method is called when a comment is encountered
@@ -153,11 +157,8 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             data: The string of the comment.
         '''
-        if len(self.stack) <= 0:
-            raise Exception("TODO")
-
         element = etree.Comment(data)
-        self.stack[-1].append(data)
+        self.add_element(element)
 
     def handle_entityref(self, name):
         '''This method is called to process a named character reference
