@@ -5,7 +5,7 @@ Style
 
 **Processor name:** ``style``
 
-The ``style`` processor is a pre-processor that checks that the input markdown to enforce style rules. These rules include:
+The ``style`` processor is a pre-processor that checks that the input Markdown to enforce style rules. These rules include:
 
   - Processor tags have empty lines before and after.
   - Processor tags do not share a line with other text.

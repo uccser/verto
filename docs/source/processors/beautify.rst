@@ -5,7 +5,7 @@ Beautify
 
 **Processor name:** ``beautify``
 
-The ``beautify`` processor is a post-processor that tidies and prettifies the html to give consistent and predictable output. The processor works by applying the prettify function from the ``beautifulsoup4`` library just before the final output, this means HTML elements will be separated onto individual lines where children are indented by one space. For example given the follow document:
+The ``beautify`` processor is a post-processor that tidies and prettifies the HTML to give consistent and predictable output. The processor works by applying the prettify function from the ``beautifulsoup4`` library just before the final output, this means HTML elements will be separated onto individual lines where children are indented by one space. For example given the following document:
 
 .. literalinclude:: ../../../verto/tests/assets/beautify/doc_example_basic_usage.md
   :language: none
@@ -18,7 +18,7 @@ Verto will prettify it into:
 Special Case(s)
 ***************************************
 
-For example given the following markdown:
+For example given the following Markdown:
 
 .. literalinclude:: ../../../verto/tests/assets/beautify/example_inline_code.md
   :language: none

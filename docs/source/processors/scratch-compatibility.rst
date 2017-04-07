@@ -15,7 +15,7 @@ When both ``codehilite`` and ``fenced_code`` extensions are enabled the ``fenced
 
     We believe that an extension like these should produce predictable output and handle compatibility through inputs.
 
-For example if the following markdown document is processed using both the ``codehilite`` and ``fenced_code`` extensions
+For example if the following Markdown document is processed using both the ``codehilite`` and ``fenced_code`` extensions
 
 .. literalinclude:: ../../../verto/tests/assets/scratch/example_multiple_codeblocks_2.md
    :language: none

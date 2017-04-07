@@ -33,7 +33,7 @@ The following pages covers how to use the available processors within Markdown t
 Implicit Processors
 #######################################
 
-The following pages cover processors that do not require explicit use when authoring markdown:
+The following pages cover processors that do not require explicit use when authoring Markdown:
 
 .. toctree::
     :maxdepth: 1
