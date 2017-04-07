@@ -77,14 +77,12 @@ class HtmlParser(html.parser.HTMLParser):
               converted to lowercase and qoutes on the value have
               been removed.
         '''
-        print("Encountered start tag :", tag)
         element = etree.Element(tag, dict(attrs))
 
         if self.root == None and len(self.stack) <= 0:
             self.root = element
             self.stack.append(element)
         elif self.root != None and len(self.stack) <= 0:
-            print("Trying to add a second root.")
             raise Exception("TODO")
         else:
             self.stack[-1].append(element)
@@ -98,8 +96,6 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             tag: The name of the tag (converted to lowercase).
         '''
-        print("Encountered end tag :", tag)
-
         if tag in HtmlParser.VOID_ELEMENTS: #TODO: Tidy
             return
 
@@ -108,9 +104,10 @@ class HtmlParser(html.parser.HTMLParser):
             element = self.stack.pop()
             if element.tag == tag:
                 found = True
+            elif element.tag not in HtmlParser.OPTIONALLY_CLOSE_ELEMENTS:
+                raise Exception("TODO")
 
         if not found:
-            print("Trying to close a tag that does not exist.")
             raise Exception("TODO")
 
 
@@ -124,7 +121,6 @@ class HtmlParser(html.parser.HTMLParser):
               converted to lowercase and qoutes on the value have
               been removed.
         '''
-        print("Encountered startend tag :", tag)
         self.handle_starttag(tag, attrs)
         self.handle_endtag(tag)
 
@@ -136,7 +132,6 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             data: The content between the tags.
         '''
-        print("Encountered some data :", data)
         if len(self.stack) <= 0:
             if data.strip() == '': #TODO: Tidy
                 return
