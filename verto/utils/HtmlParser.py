@@ -22,6 +22,7 @@ class HtmlParser(html.parser.HTMLParser):
         super().__init__(convert_charrefs=True, *args, **kwargs)
         self.root = None
         self.closed = False
+        self.stack = []
 
     def get_root(self):
         '''Gets the root element after parsing.
@@ -63,6 +64,7 @@ class HtmlParser(html.parser.HTMLParser):
         '''
         self.root = None
         self.closed = False
+        self.stack = []
         super().reset()
 
     def handle_starttag(self, tag, attrs):
@@ -75,7 +77,19 @@ class HtmlParser(html.parser.HTMLParser):
               converted to lowercase and qoutes on the value have
               been removed.
         '''
-        print("Encountered a start tag :", tag)
+        print("Encountered start tag :", tag)
+        element = etree.Element(tag, dict(attrs))
+
+        if self.root == None and len(self.stack) <= 0:
+            self.root = element
+            self.stack.append(element)
+        elif self.root != None and len(self.stack) <= 0:
+            print("Trying to add a second root.")
+            raise Exception("TODO")
+        else:
+            self.stack[-1].append(element)
+            if tag not in HtmlParser.VOID_ELEMENTS:
+                self.stack.append(element)
 
     def handle_endtag(self, tag):
         '''This method is called to handle the end tag of an
@@ -84,7 +98,21 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             tag: The name of the tag (converted to lowercase).
         '''
-        print("Encountered an end tag :", tag)
+        print("Encountered end tag :", tag)
+
+        if tag in HtmlParser.VOID_ELEMENTS: #TODO: Tidy
+            return
+
+        found = False
+        while not found and len(self.stack) > 0:
+            element = self.stack.pop()
+            if element.tag == tag:
+                found = True
+
+        if not found:
+            print("Trying to close a tag that does not exist.")
+            raise Exception("TODO")
+
 
     def handle_startendtag(self, tag, attrs):
         '''Similar to handle_starttag(), but called when the parser
@@ -96,7 +124,7 @@ class HtmlParser(html.parser.HTMLParser):
               converted to lowercase and qoutes on the value have
               been removed.
         '''
-        print("Encountered an startend tag :", tag)
+        print("Encountered startend tag :", tag)
         self.handle_starttag(tag, attrs)
         self.handle_endtag(tag)
 
@@ -109,7 +137,14 @@ class HtmlParser(html.parser.HTMLParser):
             data: The content between the tags.
         '''
         print("Encountered some data :", data)
+        if len(self.stack) <= 0:
+            raise Exception("TODO")
 
+        sibling = list(self.stack[-1])[-1] if list(self.stack[-1]) else None
+        if sibling is not None:
+            sibling.tail = (sibling.tail or '') + data
+        else:
+            self.stack[-1].text = (self.stack[-1].text or '') + data
 
     def handle_comment(self, data):
         '''This method is called when a comment is encountered
@@ -121,7 +156,11 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             data: The string of the comment.
         '''
-        print("Encountered a comment tag :", data)
+        if len(self.stack) <= 0:
+            raise Exception("TODO")
+
+        element = etree.Comment(data)
+        self.stack[-1].append(data)
 
     def handle_entityref(self, name):
         '''This method is called to process a named character reference
@@ -156,7 +195,7 @@ class HtmlParser(html.parser.HTMLParser):
             data: The entire contents of the declaration inside
               the `<[!...]>` markup.
         '''
-        super().unknown_decl(data)
+        raise NotImplementedError("Unknown declarations are not supported.")
 
     def handle_decl(self, decl):
         '''This method is called to handle an HTML doctype declaration
