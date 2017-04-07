@@ -1,6 +1,7 @@
 from markdown.blockprocessors import BlockProcessor
 from verto.processors.errors.TagNotMatchedError import TagNotMatchedError
 from verto.processors.utils import etree, parse_arguments, parse_flag, blocks_to_string
+from verto.utils.HtmlParser import HtmlParser
 from collections import OrderedDict
 import re
 
@@ -108,8 +109,9 @@ class ConditionalProcessor(BlockProcessor):
 
         # Render template and compile into an element
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-        parent.append(node)
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        parent.append(parser.get_root())
 
     def get_content(self, blocks):
         ''' Recursively parses blocks into an element tree, returning

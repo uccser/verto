@@ -1,3 +1,4 @@
+from verto.utils.HtmlParser import HtmlParser
 from markdown.inlinepatterns import Pattern
 from markdown.util import etree
 from html import escape
@@ -41,6 +42,6 @@ class RelativeLinkPattern(Pattern):
         context['text'] = match.group('link_text')
 
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-
-        return node
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        return parser.get_root()

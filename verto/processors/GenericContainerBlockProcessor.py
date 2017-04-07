@@ -2,6 +2,7 @@ from markdown.blockprocessors import BlockProcessor
 from verto.processors.errors.TagNotMatchedError import TagNotMatchedError
 from verto.processors.errors.ArgumentValueError import ArgumentValueError
 from verto.processors.utils import etree, parse_arguments, process_parameters, blocks_to_string
+from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -107,5 +108,6 @@ class GenericContainerBlockProcessor(BlockProcessor):
         context = self.process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-        parent.append(node)
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        parent.append(parser.get_root())

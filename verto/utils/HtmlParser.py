@@ -138,7 +138,9 @@ class HtmlParser(html.parser.HTMLParser):
         '''
         print("Encountered some data :", data)
         if len(self.stack) <= 0:
-            raise Exception("TODO")
+            if data.strip() == '': #TODO: Tidy
+                return
+            raise Exception(data)
 
         sibling = list(self.stack[-1])[-1] if list(self.stack[-1]) else None
         if sibling is not None:

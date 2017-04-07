@@ -1,5 +1,6 @@
 from markdown.treeprocessors import Treeprocessor
 from verto.processors.utils import etree
+from verto.utils.HtmlParser import HtmlParser
 from collections import namedtuple
 from functools import reduce
 from hashlib import sha256
@@ -50,7 +51,8 @@ class ScratchTreeprocessor(Treeprocessor):
                 html_string, safe = self.markdown.htmlStash.rawHtmlBlocks[i]
                 node = None
                 try:
-                    node = etree.fromstring(html_string)
+                    parser = HtmlParser()
+                    node = parser.feed(html_string).close().get_root()
                 except etree.ParseError:
                     pass
 
@@ -92,7 +94,8 @@ class ScratchTreeprocessor(Treeprocessor):
                     images.append(content_hash)
 
                 html_string = self.template.render({'images': images})
-                new_node = etree.fromstring(html_string)
+                parser = HtmlParser()
+                new_node = parser.feed(html_string).close().get_root()
 
                 node.tag = 'remove'
                 node.text = ''

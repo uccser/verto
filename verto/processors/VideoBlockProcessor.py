@@ -2,6 +2,7 @@ from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from verto.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
 from verto.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from verto.processors.utils import etree, parse_arguments
+from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -74,8 +75,9 @@ class VideoBlockProcessor(GenericTagBlockProcessor):
                 context['video_url'] = self.vimeo_template.render(context)
 
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-        parent.append(node)
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        parent.append(parser.get_root())
 
     def extract_video_identifier(self, video_url):
         '''Extracts an identifier and service from a video url.

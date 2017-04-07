@@ -1,6 +1,7 @@
 from markdown.blockprocessors import BlockProcessor
 from markdown.util import etree
 from verto.utils.HeadingNode import DynamicHeadingNode
+from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -76,8 +77,10 @@ class HeadingBlockProcessor(BlockProcessor):
             context['level_{0}'.format(i + 1)] = level_val
 
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-        parent.append(node)
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        parent.append(parser.get_root())
+
         self.add_to_heading_tree(heading, heading_slug, level)
 
     def add_to_heading_tree(self, heading, heading_slug, level):

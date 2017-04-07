@@ -1,5 +1,6 @@
 from markdown.inlinepatterns import Pattern
 from verto.processors.utils import etree, parse_arguments
+from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -56,6 +57,6 @@ class GlossaryLinkPattern(Pattern):
             context['id'] = identifier
 
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-
-        return node
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        return parser.get_root()
