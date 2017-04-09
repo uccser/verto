@@ -1,7 +1,13 @@
 from verto.tests.BaseTest import BaseTest
 from verto.utils.HtmlParser import HtmlParser
+from verto.utils.HtmlSerializer import HtmlSerializer
 from markdown.util import etree
+
+
 class HtmlParserTest(BaseTest):
+    '''Tests that the HtmlParser and HtmlSerializer can be used to
+    take in an produce the same HTML string. 
+    '''
 
     def __init__(self, *args, **kwargs):
         '''Setup asset file directory.
@@ -32,7 +38,7 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        root_string = etree.tostring(root, encoding='unicode', method='html')
+        root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
     def test_example_simple_void_tag(self):
@@ -44,7 +50,7 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        root_string = etree.tostring(root, encoding='unicode', method='html')
+        root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
     def test_example_simple_closed_void_tag(self):
@@ -56,7 +62,7 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        root_string = etree.tostring(root, encoding='unicode', method='html')
+        root_string = HtmlSerializer.tostring(root)
         expected_text = self.read_test_file('example_simple_void_tag.html')
         self.assertEquals(expected_text, root_string)
 
@@ -68,7 +74,7 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        root_string = etree.tostring(root, encoding='unicode', method='html')
+        root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
     def test_example_comment_ie(self):
@@ -79,7 +85,7 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        root_string = etree.tostring(root, encoding='unicode', method='html')
+        root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
     def test_example_data_and_subelements(self):
@@ -90,7 +96,7 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        root_string = etree.tostring(root, encoding='unicode', method='html')
+        root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
     # ~
