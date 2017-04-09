@@ -1,5 +1,6 @@
 from verto.tests.BaseTest import BaseTest
-
+from verto.utils.HtmlParser import HtmlParser
+from markdown.util import etree
 class HtmlParserTest(BaseTest):
 
     def __init__(self, *args, **kwargs):
@@ -26,29 +27,71 @@ class HtmlParserTest(BaseTest):
     def test_example_basic_usage(self):
         '''Checks that the expected usecase works.
         '''
-        pass
+        input_text = self.read_test_file('example_basic_usage.html')
+        parser = HtmlParser()
+        parser.feed(input_text).close()
+        root = parser.get_root()
+
+        root_string = etree.tostring(root, encoding='unicode', method='html')
+        self.assertEquals(input_text, root_string)
 
     def test_example_simple_void_tag(self):
         '''Checks that a simple (unclosed) void tag is created without
         error.
         '''
-        pass
+        input_text = self.read_test_file('example_simple_void_tag.html')
+        parser = HtmlParser()
+        parser.feed(input_text).close()
+        root = parser.get_root()
+
+        root_string = etree.tostring(root, encoding='unicode', method='html')
+        self.assertEquals(input_text, root_string)
 
     def test_example_simple_closed_void_tag(self):
         '''Checks that a simple void tag with closing '\' is created
         without error.
         '''
-        pass
+        input_text = self.read_test_file('example_simple_closed_void_tag.html')
+        parser = HtmlParser()
+        parser.feed(input_text).close()
+        root = parser.get_root()
+
+        root_string = etree.tostring(root, encoding='unicode', method='html')
+        expected_text = self.read_test_file('example_simple_void_tag.html')
+        self.assertEquals(expected_text, root_string)
 
     def test_example_comment(self):
         '''Checks that comments are added unchanged.
         '''
-        pass
+        input_text = self.read_test_file('example_comment.html')
+        parser = HtmlParser()
+        parser.feed(input_text).close()
+        root = parser.get_root()
 
-    def test_example_ie_comment(self):
+        root_string = etree.tostring(root, encoding='unicode', method='html')
+        self.assertEquals(input_text, root_string)
+
+    def test_example_comment_ie(self):
         '''Checks that ie comments are added unchanged.
         '''
-        pass
+        input_text = self.read_test_file('example_comment_ie.html')
+        parser = HtmlParser()
+        parser.feed(input_text).close()
+        root = parser.get_root()
+
+        root_string = etree.tostring(root, encoding='unicode', method='html')
+        self.assertEquals(input_text, root_string)
+
+    def test_example_data_and_subelements(self):
+        '''Checks that data and subelements work together.
+        '''
+        input_text = self.read_test_file('example_data_and_subelements.html')
+        parser = HtmlParser()
+        parser.feed(input_text).close()
+        root = parser.get_root()
+
+        root_string = etree.tostring(root, encoding='unicode', method='html')
+        self.assertEquals(input_text, root_string)
 
     # ~
     # Invalid Examples
