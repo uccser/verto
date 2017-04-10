@@ -1,6 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
-from verto.processors.errors.TagNotMatchedError import TagNotMatchedError
-from verto.processors.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.TagNotMatchedError import TagNotMatchedError
+from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.processors.utils import etree, parse_arguments, process_parameters, blocks_to_string
 from verto.utils.HtmlParser import HtmlParser
 import re

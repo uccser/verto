@@ -3,9 +3,9 @@ from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
-from verto.processors.errors.NoSourceLinkError import NoSourceLinkError
-from verto.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
-from verto.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
+from verto.errors.NoSourceLinkError import NoSourceLinkError
+from verto.errors.NoVideoIdentifierError import NoVideoIdentifierError
+from verto.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from verto.tests.ProcessorTest import ProcessorTest
 
 

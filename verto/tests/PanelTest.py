@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
-from verto.processors.errors.TagNotMatchedError import TagNotMatchedError
-from verto.processors.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.TagNotMatchedError import TagNotMatchedError
+from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class PanelTest(ProcessorTest):

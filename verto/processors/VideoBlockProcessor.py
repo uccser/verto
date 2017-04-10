@@ -1,6 +1,6 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from verto.processors.errors.NoVideoIdentifierError import NoVideoIdentifierError
-from verto.processors.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
+from verto.errors.NoVideoIdentifierError import NoVideoIdentifierError
+from verto.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from verto.processors.utils import etree, parse_arguments
 from verto.utils.HtmlParser import HtmlParser
 import re

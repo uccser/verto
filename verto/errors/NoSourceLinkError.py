@@ -1,4 +1,4 @@
-from verto.processors.errors.Error import Error
+from verto.errors.Error import Error
 
 
 class NoSourceLinkError(Error):

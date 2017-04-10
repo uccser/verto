@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from verto.processors.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class FrameTest(ProcessorTest):

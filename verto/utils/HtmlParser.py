@@ -1,4 +1,5 @@
 import html.parser
+from verto.errors.HtmlParseError import HtmlParseError
 from markdown.util import etree
 
 class HtmlParser(html.parser.HTMLParser):
@@ -77,7 +78,8 @@ class HtmlParser(html.parser.HTMLParser):
             self.root = element
             self.stack.append(element)
         elif self.root != None and len(self.stack) <= 0:
-            raise Exception("TODO")
+            line, pos = self.getpos()
+            raise HtmlParseError(line, pos, "Secondary root node found.")
         else:
             self.stack[-1].append(element)
             if element.tag not in HtmlParser.VOID_ELEMENTS:
@@ -171,7 +173,7 @@ class HtmlParser(html.parser.HTMLParser):
             name: The string of entity with ampersand and semicolon
               removed.
         '''
-        super().handle_entityref(data)
+        super().handle_entityref(name)
 
     def handle_charref(self, name):
         '''This method is called to process decimal and hexadecimal
@@ -184,7 +186,7 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             name: The string of the decimal or hexadecimal of the char.
         '''
-        super().handle_charref(data)
+        super().handle_charref(name)
 
     def unknown_decl(self, data):
         '''This method is called when an unrecognized declaration is read by the parser.
