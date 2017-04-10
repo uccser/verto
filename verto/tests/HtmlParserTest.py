@@ -6,7 +6,7 @@ from markdown.util import etree
 
 class HtmlParserTest(BaseTest):
     '''Tests that the HtmlParser and HtmlSerializer can be used to
-    take in an produce the same HTML string. 
+    take in an produce the same HTML string.
     '''
 
     def __init__(self, *args, **kwargs):
@@ -37,6 +37,29 @@ class HtmlParserTest(BaseTest):
         parser = HtmlParser()
         parser.feed(input_text).close()
         root = parser.get_root()
+        self.assertEquals('html', root.tag)
+
+        elements = list(root)
+        self.assertEquals(1, len(elements))
+        self.assertEquals('body', elements[0].tag)
+
+        elements = list(elements[0])  # Open Body
+        self.assertEquals(3, len(elements))
+        self.assertEquals('h1', elements[0].tag)
+        self.assertEquals('p', elements[1].tag)
+        self.assertEquals('div', elements[2].tag)
+
+        elements = list(elements[2])  # Open Div
+        self.assertEquals(2, len(elements))
+        self.assertEquals('img', elements[0].tag)
+        self.assertEquals('a', elements[1].tag)
+
+        img = elements[0]
+        self.assertEquals('Example text.', img.get('alt'))
+        self.assertEquals('example.com/example.jpg', img.get('src'))
+
+        a = elements[1]
+        self.assertEquals('https://www.example.com', a.get('href'))
 
         root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
@@ -50,6 +73,10 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
+        self.assertEquals('img', root.tag)
+        self.assertEquals('Example text.', root.get('alt'))
+        self.assertEquals('example.com/example.jpg', root.get('src'))
+
         root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
@@ -61,6 +88,10 @@ class HtmlParserTest(BaseTest):
         parser = HtmlParser()
         parser.feed(input_text).close()
         root = parser.get_root()
+
+        self.assertEquals('img', root.tag)
+        self.assertEquals('Example text.', root.get('alt'))
+        self.assertEquals('example.com/example.jpg', root.get('src'))
 
         root_string = HtmlSerializer.tostring(root)
         expected_text = self.read_test_file('example_simple_void_tag.html')
@@ -74,6 +105,8 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
+        self.assertEquals(etree.Comment, root.tag)
+
         root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
@@ -85,6 +118,8 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
+        self.assertEquals(etree.Comment, root.tag)
+
         root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
 
@@ -95,6 +130,22 @@ class HtmlParserTest(BaseTest):
         parser = HtmlParser()
         parser.feed(input_text).close()
         root = parser.get_root()
+        self.assertEquals('html', root.tag)
+
+        elements = list(root)
+        self.assertEquals(1, len(elements))
+        self.assertEquals('body', elements[0].tag)
+
+        elements = list(elements[0])  # Open Body
+        self.assertEquals(2, len(elements))
+        self.assertEquals('h1', elements[0].tag)
+        self.assertEquals('p', elements[1].tag)
+
+        elements = list(elements[1])  # Open p
+        self.assertEquals(3, len(elements))
+        self.assertEquals('em', elements[0].tag)
+        self.assertEquals('b', elements[1].tag)
+        self.assertEquals('a', elements[2].tag)
 
         root_string = HtmlSerializer.tostring(root)
         self.assertEquals(input_text, root_string)
