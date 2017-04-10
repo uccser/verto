@@ -1,8 +1,5 @@
 import markdown
-from unittest.mock import Mock
-
 from verto.VertoExtension import VertoExtension
-from verto.processors.CommentPreprocessor import CommentPreprocessor
 from verto.tests.ProcessorTest import ProcessorTest
 
 class BeautifyTest(ProcessorTest):
@@ -15,6 +12,15 @@ class BeautifyTest(ProcessorTest):
         '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'beautify'
+
+    def test_doc_example_basic(self):
+        '''Checks that basic usecase works as expected.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_example_inline_code(self):
         '''Tests to see that inline code formatting is unchanged.

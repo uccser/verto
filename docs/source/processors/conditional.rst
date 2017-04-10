@@ -3,14 +3,14 @@ Conditional
 
 **Processor name:** ``conditional``
 
+.. danger::
+
+  Conditional blocks require an understanding of Python logical operators and expressions to function properly. The use of this tag requires co-ordination between authors and developers, as the variables used in the condition are expected when the result is rendered in a template engine.
+
 You can include an conditional using the following text tag:
 
 .. literalinclude:: ../../../verto/tests/assets/conditional/doc_example_basic_usage.md
    :language: none
-
-.. note::
-
-  Conditional blocks require an understanding of Python logical operators and expressions to function properly. The use of this tag requires co-ordination between authors and developers, as the variables used in the condition are expected when the result is rendered in a template engine.
 
 Tag Parameters
 ***************************************
