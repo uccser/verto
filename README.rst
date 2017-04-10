@@ -1,5 +1,4 @@
-.. figure:: verto/images/verto-logo.png
-   :alt: Verto Logo
+|Verto Image|
 
 |Build Status| |Code Climate Status|
 
@@ -52,3 +51,7 @@ The changelog is available within the `documentation`_.
 .. |Code Climate Status| image:: https://codeclimate.com/github/uccser/verto/badges/gpa.svg
   :target: https://codeclimate.com/github/uccser/verto
   :alt: Code Climate
+
+.. |Verto Image| image:: https://raw.githubusercontent.com/uccser/verto/master/verto/images/verto-logo.png
+  :target: https://github.com/uccser/verto
+  :alt: Verto GitHub
