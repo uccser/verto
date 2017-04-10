@@ -1,4 +1,5 @@
 import unittest, os, subprocess
+import pkg_resources
 from verto import Verto
 
 class SmokeDocsTest(unittest.TestCase):
@@ -9,7 +10,7 @@ class SmokeDocsTest(unittest.TestCase):
         self.maxDiff = None
         self.build_path = 'docs/build'
 
-    @unittest.skipIf(not os.path.isdir('docs') and os.name not in ['nt', 'posix'], 'Docs are not present')
+    @unittest.skipIf(not pkg_resources.resource_isdir('verto', 'docs') and os.name not in ['nt', 'posix'], 'Docs are not present')
     def test_compile_docs(self):
         '''This test is skipped if the docs directory is not found.
         '''
@@ -42,7 +43,7 @@ class SmokeFileTest(unittest.TestCase):
         unittest.TestCase.__init__(self, *args, **kwargs)
         self.maxDiff = None
         self.verto = None
-        self.assets_template = 'verto/tests/assets/smoke/{}'
+        self.assets_template = 'tests/assets/smoke/{}'
 
     def setUp(self):
         '''Run before any testcases.
@@ -58,14 +59,13 @@ class SmokeFileTest(unittest.TestCase):
         '''Tests that some example files are converted.
         '''
         for chapter in ['algorithms.md', 'introduction.md']:
-            with open(self.assets_template.format(chapter), 'r') as f:
-                text = f.read()
-                result = self.verto.convert(text)
+            text = pkg_resources.resource_string('verto', self.assets_template.format(chapter)).decode('utf-8')
+            result = self.verto.convert(text)
 
-                self.assertIsNot(result, None)
-                self.assertIsNot(result.title, None)
-                self.assertIsNot(result.html_string, None)
-                self.assertTrue(len(result.html_string) > 0)
+            self.assertIsNot(result, None)
+            self.assertIsNot(result.title, None)
+            self.assertIsNot(result.html_string, None)
+            self.assertTrue(len(result.html_string) > 0)
 
     def test_compile_files_custom(self):
         '''Tests that some example files are converted with custom
@@ -78,11 +78,10 @@ class SmokeFileTest(unittest.TestCase):
 
         verto = Verto(html_templates=custom_templates)
         for chapter in ['algorithms.md', 'introduction.md']:
-            with open(self.assets_template.format(chapter), 'r') as f:
-                text = f.read()
-                result = verto.convert(text)
+            text = pkg_resources.resource_string('verto', self.assets_template.format(chapter)).decode('utf-8')
+            result = verto.convert(text)
 
-                self.assertIsNot(result, None)
-                self.assertIsNot(result.title, None)
-                self.assertIsNot(result.html_string, None)
-                self.assertTrue(len(result.html_string) > 0)
+            self.assertIsNot(result, None)
+            self.assertIsNot(result.title, None)
+            self.assertIsNot(result.html_string, None)
+            self.assertTrue(len(result.html_string) > 0)
