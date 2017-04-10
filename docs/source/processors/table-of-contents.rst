@@ -3,6 +3,10 @@ Table of Contents
 
 **Processor name:** ``table-of-contents``
 
+.. danger::
+
+  The table-of-contents tag currently requires integration with other systems, use of this tag should accompany supervision of a developer.
+
 You can create a placeholder for a web framework (for example: Django) to
 insert a table of contents by using the following tag:
 

@@ -29,3 +29,17 @@ The following pages covers how to use the available processors within Markdown t
     scratch
     table-of-contents
     video
+
+Implicit Processors
+#######################################
+
+The following pages cover processors that do not require explicit use when authoring Markdown:
+
+.. toctree::
+    :maxdepth: 1
+
+    beautify
+    jinja
+    remove
+    scratch-compatibility
+    style
