@@ -12,6 +12,7 @@ setup(
     long_description=open('README.rst').read(),
     url='https://github.com/uccser/verto',
     author='University of Canterbury Computer Science Education Research Group',
+    author_email='csse-education-research@canterbury.ac.nz',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -25,13 +26,13 @@ setup(
         'Topic :: Text Processing :: Markup',
         'Topic :: Text Processing :: Markup :: HTML'
     ],
+    keywords='markdown verto development textbook converter media richtext interactive education html book author extension',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
         'markdown>=2.6.8',
-        'bs4>=0.0.1',
-        'Jinja2>=2.9.5',
-        'python-slugify>=1.2.1'
-    ],
-    zip_safe=False
+        'beautifulsoup4==4.5.3',
+        'Jinja2>=2.9.6',
+        'python-slugify>=1.2.2'
+    ]
 )
