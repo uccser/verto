@@ -2,6 +2,7 @@ import html.parser
 from verto.errors.HtmlParseError import HtmlParseError
 from markdown.util import etree
 
+
 class HtmlParser(html.parser.HTMLParser):
     ''' Used to convert an HTML string into an ElementTree. Since this
     is not defaultly supported by fromstring (XML only).
@@ -59,7 +60,8 @@ class HtmlParser(html.parser.HTMLParser):
         for element in self.stack:
             if element.tag not in HtmlParser.OPTIONALLY_CLOSE_ELEMENTS:
                 line, pos = self.getpos()
-                raise HtmlParseError(line, pos, "Trying to implicitly close a normal element ({}).".format(element.tag))
+                msg = "Trying to implicitly close a normal element ({}).".format(element.tag)
+                raise HtmlParseError(line, pos, msg)
         self.closed = True
         super().close()
         return self
@@ -78,9 +80,9 @@ class HtmlParser(html.parser.HTMLParser):
         Args:
             element: An etree Element to append to the element tree.
         '''
-        if self.root == None and len(self.stack) <= 0:
+        if self.root is None and len(self.stack) <= 0:
             self.root = element
-        elif self.root != None and len(self.stack) <= 0:
+        elif self.root is not None and len(self.stack) <= 0:
             line, pos = self.getpos()
             raise HtmlParseError(line, pos, "Secondary root node found.")
         else:
@@ -122,7 +124,6 @@ class HtmlParser(html.parser.HTMLParser):
             if not found:
                 line, pos = self.getpos()
                 raise HtmlParseError(line, pos, "Trying to close an unopened element.")
-
 
     def handle_startendtag(self, tag, attrs):
         '''Similar to handle_starttag(), but called when the parser

@@ -3,6 +3,7 @@ from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.processors.utils import etree, parse_arguments, process_parameters, blocks_to_string
 from verto.utils.HtmlParser import HtmlParser
+from verto.utils.HtmlSerializer import HtmlSerializer
 import re
 
 
@@ -98,7 +99,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
 
         content = ''
         for child in content_tree:
-            content += etree.tostring(child, encoding='unicode', method='html') + '\n'
+            content += HtmlSerializer.tostring(child) + '\n'
 
         if content.strip() == '':
             message = 'content cannot be blank.'

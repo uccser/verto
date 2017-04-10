@@ -19,6 +19,7 @@ class HtmlSerializer(object):
             A string of the serialized HTML tree.
         '''
         string = etree.tostring(root, encoding='unicode', method='html')
+
         def unescape_comment(matchobj):
             return r'<!--{}>{}<!{}-->'.format(
                 matchobj.group('start_condition'),

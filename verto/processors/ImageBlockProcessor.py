@@ -1,5 +1,5 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from verto.processors.utils import etree, parse_arguments
+from verto.processors.utils import parse_arguments
 from verto.utils.HtmlParser import HtmlParser
 import re
 

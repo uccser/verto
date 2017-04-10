@@ -1,5 +1,5 @@
 from markdown.blockprocessors import BlockProcessor
-from verto.processors.utils import etree, parse_arguments, process_parameters
+from verto.processors.utils import parse_arguments, process_parameters
 from verto.utils.HtmlParser import HtmlParser
 import re
 

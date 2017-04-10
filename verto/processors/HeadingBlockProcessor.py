@@ -1,5 +1,4 @@
 from markdown.blockprocessors import BlockProcessor
-from markdown.util import etree
 from verto.utils.HeadingNode import DynamicHeadingNode
 from verto.utils.HtmlParser import HtmlParser
 import re

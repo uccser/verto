@@ -2,6 +2,7 @@ from markdown.blockprocessors import BlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.processors.utils import etree, parse_arguments, parse_flag, blocks_to_string
 from verto.utils.HtmlParser import HtmlParser
+from verto.utils.HtmlSerializer import HtmlSerializer
 from collections import OrderedDict
 import re
 
@@ -187,5 +188,5 @@ class ConditionalProcessor(BlockProcessor):
         # Convert parsed element tree back into html text for rendering
         content = ''
         for child in content_tree:
-            content += etree.tostring(child, encoding='unicode', method='html')
+            content += HtmlSerializer.tostring(child)
         return content

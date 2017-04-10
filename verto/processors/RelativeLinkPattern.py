@@ -1,6 +1,5 @@
 from verto.utils.HtmlParser import HtmlParser
 from markdown.inlinepatterns import Pattern
-from markdown.util import etree
 from html import escape
 import re
 
