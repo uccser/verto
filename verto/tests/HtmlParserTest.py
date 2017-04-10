@@ -1,6 +1,7 @@
 from verto.tests.BaseTest import BaseTest
 from verto.utils.HtmlParser import HtmlParser
 from verto.utils.HtmlSerializer import HtmlSerializer
+from verto.errors.HtmlParseError import HtmlParseError
 from markdown.util import etree
 
 
@@ -154,32 +155,55 @@ class HtmlParserTest(BaseTest):
     # Invalid Examples
     # ~
 
+    def test_example_access_root_before_feed_error(self):
+        '''Checks that the AttributeError is raised is the root element
+        is accessed before it is created.
+        '''
+        parser = HtmlParser()
+        with self.assertRaises(AttributeError):
+            parser.get_root()
+
     def test_example_multiple_roots_error(self):
         '''Checks that when multiple roots are detected that an exception
         is raised.
         '''
-        pass
+        input_text = self.read_test_file('example_multiple_roots_error.html')
+        parser = HtmlParser()
+        with self.assertRaises(HtmlParseError):
+            parser.feed(input_text).close()
 
     def test_example_lone_end_tag_error(self):
         '''Checks that lone end tags cause an exception to be raised.
         '''
-        pass
+        input_text = self.read_test_file('example_lone_end_tag_error.html')
+        parser = HtmlParser()
+        with self.assertRaises(HtmlParseError):
+            parser.feed(input_text).close()
 
     def test_example_missing_end_tag_error(self):
         '''Checks that elements (that need to be closed) cause an
         exception to be raised.
         '''
-        pass
+        input_text = self.read_test_file('example_missing_end_tag_error.html')
+        parser = HtmlParser()
+        with self.assertRaises(HtmlParseError):
+            parser.feed(input_text).close()
 
     def test_example_missing_end_tag_implicit_error(self):
         '''Checks that elements (that need to be closed) cause an
         exception to be raised, when they are implicitly closed
         by an outer closing tag.
         '''
-        pass
+        input_text = self.read_test_file('example_missing_end_tag_implicit_error.html')
+        parser = HtmlParser()
+        with self.assertRaises(HtmlParseError):
+            parser.feed(input_text).close()
 
     def test_example_data_without_tags_error(self):
         '''Checks that data without a root tag causes an exception to
         be raised.
         '''
-        pass
+        input_text = self.read_test_file('example_data_without_tags_error.html')
+        parser = HtmlParser()
+        with self.assertRaises(HtmlParseError):
+            parser.feed(input_text).close()

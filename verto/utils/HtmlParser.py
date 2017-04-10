@@ -35,7 +35,7 @@ class HtmlParser(html.parser.HTMLParser):
               has not been closed yet.
         '''
         if self.root is None or not self.closed:
-            raise Exception("TODO")
+            raise AttributeError("Operations out of order: root accessed before created.")
         return self.root
 
     def feed(self, data):
@@ -56,6 +56,10 @@ class HtmlParser(html.parser.HTMLParser):
         Returns:
             Itself.
         '''
+        for element in self.stack:
+            if element.tag not in HtmlParser.OPTIONALLY_CLOSE_ELEMENTS:
+                line, pos = self.getpos()
+                raise HtmlParseError(line, pos, "Trying to implicitly close a normal element ({}).".format(element.tag))
         self.closed = True
         super().close()
         return self
@@ -76,14 +80,14 @@ class HtmlParser(html.parser.HTMLParser):
         '''
         if self.root == None and len(self.stack) <= 0:
             self.root = element
-            self.stack.append(element)
         elif self.root != None and len(self.stack) <= 0:
             line, pos = self.getpos()
             raise HtmlParseError(line, pos, "Secondary root node found.")
         else:
             self.stack[-1].append(element)
-            if element.tag not in HtmlParser.VOID_ELEMENTS:
-                self.stack.append(element)
+
+        if element.tag not in HtmlParser.VOID_ELEMENTS and element.tag != etree.Comment:
+            self.stack.append(element)
 
     def handle_starttag(self, tag, attrs):
         '''This method is called to handle the start of a tag
@@ -112,10 +116,12 @@ class HtmlParser(html.parser.HTMLParser):
                 if element.tag == tag:
                     found = True
                 elif element.tag not in HtmlParser.OPTIONALLY_CLOSE_ELEMENTS:
-                    raise Exception("TODO")
+                    line, pos = self.getpos()
+                    raise HtmlParseError(line, pos, "Trying to implicitly close a normal element.")
 
             if not found:
-                raise Exception("TODO")
+                line, pos = self.getpos()
+                raise HtmlParseError(line, pos, "Trying to close an unopened element.")
 
 
     def handle_startendtag(self, tag, attrs):
@@ -141,7 +147,8 @@ class HtmlParser(html.parser.HTMLParser):
         '''
         if len(self.stack) <= 0:
             if data.strip() != '':
-                raise Exception("TODO")
+                line, pos = self.getpos()
+                raise HtmlParseError(line, pos, "Data outside of the HTML tree.")
         else:
             sibling = list(self.stack[-1])[-1] if list(self.stack[-1]) else None
             if sibling is not None:

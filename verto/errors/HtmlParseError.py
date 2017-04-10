@@ -13,6 +13,6 @@ class HtmlParseError(Error):
 
     def __init__(self, line_num, offset, message):
         super().__init__(message)
-        self.line_nums = line_nums
-        self.lines = lines
+        self.line_num = line_num
+        self.offset = offset
         self.message = message
