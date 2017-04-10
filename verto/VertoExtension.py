@@ -32,6 +32,7 @@ import re
 import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
+import pkg_resources
 
 
 class VertoExtension(Extension):
@@ -204,7 +205,7 @@ class VertoExtension(Extension):
         Returns:
             The json object of the file where objects are ordered dictionaries.
         '''
-        json_data = open(os.path.join(os.path.dirname(__file__), 'processor-info.json')).read()
+        json_data = pkg_resources.resource_string('verto', 'processor-info.json').decode('utf-8')
         return json.loads(json_data, object_pairs_hook=OrderedDict)
 
     def get_heading_tree(self):

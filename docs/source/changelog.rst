@@ -1,8 +1,18 @@
 Changelog
 #######################################
 
+0.4.1
+=======================================
+
+Fixes:
+
+  - pypi configuration fixes.
+  - pyup configuration to use develop branch.
+  - Improved asset file loading for deployed package.
+
 0.4.0
 =======================================
+
 Fourth prerelease of the Verto converter.
 (The project was renamed to Verto from Kordac in release.)
 
@@ -27,6 +37,7 @@ Fixes:
 
 0.3.1
 =======================================
+
 Fixes:
 
   - Updated documentation and changelog.
