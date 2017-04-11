@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.ConditionalProcessor import ConditionalProcessor
-from verto.processors.errors.TagNotMatchedError import TagNotMatchedError
+from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.tests.ProcessorTest import ProcessorTest
 
 

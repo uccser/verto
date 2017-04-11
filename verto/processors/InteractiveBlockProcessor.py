@@ -1,5 +1,6 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from verto.processors.utils import etree, parse_arguments
+from verto.processors.utils import parse_arguments
+from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -84,5 +85,6 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             context['file_path'] = file_path
 
         html_string = self.template.render(context)
-        node = etree.fromstring(html_string)
-        parent.append(node)
+        parser = HtmlParser()
+        parser.feed(html_string).close()
+        parent.append(parser.get_root())

@@ -21,6 +21,7 @@ from verto.tests.StyleTest import StyleTest
 from verto.tests.TableOfContentsTest import TableOfContentsTest
 from verto.tests.ScratchTest import ScratchTest
 from verto.tests.BeautifyTest import BeautifyTest
+from verto.tests.HtmlParserTest import HtmlParserTest
 from verto.tests.JinjaTest import JinjaTest
 from verto.tests.RemoveTest import RemoveTest
 
@@ -79,6 +80,7 @@ def unit_suite():
         unittest.makeSuite(TableOfContentsTest),
         unittest.makeSuite(ScratchTest),
         unittest.makeSuite(BeautifyTest),
+        unittest.makeSuite(HtmlParserTest),
         unittest.makeSuite(JinjaTest),
         unittest.makeSuite(RemoveTest)
     ))
