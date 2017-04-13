@@ -1,4 +1,4 @@
-from verto.processors.errors.StyleError import StyleError
+from verto.errors.StyleError import StyleError
 from markdown.preprocessors import Preprocessor
 import re
 

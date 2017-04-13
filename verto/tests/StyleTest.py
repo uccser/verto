@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.StylePreprocessor import StylePreprocessor
-from verto.processors.errors.StyleError import StyleError
+from verto.errors.StyleError import StyleError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class StyleTest(ProcessorTest):

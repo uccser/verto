@@ -1,8 +1,8 @@
 import re
 from markdown.util import etree  # noqa: F401
 from collections import OrderedDict, defaultdict
-from verto.processors.errors.ArgumentMissingError import ArgumentMissingError
-from verto.processors.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.ArgumentValueError import ArgumentValueError
 
 
 def parse_argument(argument_key, arguments, default=None):

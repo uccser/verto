@@ -4,8 +4,8 @@ from collections import defaultdict
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.ImageBlockProcessor import ImageBlockProcessor
-from verto.processors.errors.ArgumentMissingError import ArgumentMissingError
-from verto.processors.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class ImageTest(ProcessorTest):
