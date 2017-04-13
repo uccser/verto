@@ -88,8 +88,6 @@ Below is a basic overview of the project structure:
 
 The items of interest are:
 
-- ``errors/`` - Contains all the errors exposed by the Verto module. Where an Error is an exception that is caused by user input. New errors should be created in here inheriting from the base ``Error`` class.
-
 - ``Verto()`` - The convertor object itself. This is what a user will use to create a Verto converter, and what is used to define a custom processor list, custom html templates and custom Markdown Extensions to use.
 
 - ``VertoResult()`` (found in ``Verto.py``) - The object returned by ``Verto()`` containing:
@@ -102,15 +100,17 @@ The items of interest are:
 
 - ``VertoExtension()`` - This is the main class of the project, and inherits the ``Extension`` class from Markdown. It loads all of the processor information, loads the template files and clears and populates the attributes to be returned by the ``VertoResult`` object.
 
+- ``processor-info.json`` - Every processor is listed in this file, and will at least contain a class determining whether it is custom or generic, where custom processors will have a pattern to match it's corresponding tag. Most will also define required and optional parameters, these correspond to arguments in the tag's html template.
+
 - ``processors/`` - There is a different processor for each tag. A processor uses it's corresponding description loaded from ``processor-info.json`` to find matches in the text, and uses the given arguments in the matched tag to populate and output it's html template.
 
 - ``html-templates/`` - The html templates (using the Jinja2 template engine) with variable arguments to be populated by processors.
 
-- ``processor-info.json`` - Every processor is listed in this file, and will at least contain a class determining whether it is custom or generic, where custom processors will have a pattern to match it's corresponding tag. Most will also define required and optional parameters, these correspond to arguments in the tag's html template.
-
-- ``tests/`` - explained in the Test Suite section further down the page.
+- ``errors/`` - Contains all the errors exposed by the Verto module. Where an Error is an exception that is caused by user input. New errors should be created in here inheriting from the base ``Error`` class.
 
 - ``utils/`` - Contains classes and methods not necessarily unique to Verto that are useful in any sub-module. This includes slugify handlers, html parsers and serialisers, and other utilities. The utilities should be used over external libraries as they are purposely built because of: compatibility reasons, licensing restrictions, and/or unavailability of require features.
+
+- ``tests/`` - explained in the Test Suite section further down the page.
 
 It is important to note that Verto is not just a Markdown Extension, it is a wrapper for Python Markdown. ``VertoExtension`` **is** an extension for Python Markdown. We have created a wrapper because we wanted to not only convert text, but also extract information from the text as it was being converted (recall ``VertoResult()`` listed above).
 
