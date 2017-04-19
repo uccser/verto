@@ -55,7 +55,7 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 - ``{{ caption_link }}`` - The URL for the caption link .
 - ``{{ source_link }}`` - The URL for the source .
 
-If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
+If the ``file_path`` provided is a relative link, the link is passed through the ``relative-file-link.html`` template.
 The default HTML for relative images is:
 
 .. literalinclude:: ../../../verto/html-templates/relative-file-link.html
