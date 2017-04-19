@@ -283,10 +283,12 @@ Each processor should try to be as independent of every other processor as possi
 
 The logic for each processor belongs in the ``processors/`` directory, and there are several other places where processors details need to be listed. These are:
 
-- The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``
-- If it should be a default processor, it should be added to the frozenset of ``DEFAULT_PROCESSORS`` in ``Verto.py``
-- The relevant list in ``extendMarkdown()`` in ``VertoExtension.py`` (see `OrderedDict in the Markdown API docs`_ for manipulating processor order)
-- The processor's template should be added to ``html-templates`` using the Jinja2 template engine syntax for variable parameters
+- The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``.
+- If it should be a default processor, it should be added to the frozenset of ``DEFAULT_PROCESSORS`` in ``Verto.py``.
+- The relevant list in ``extendMarkdown()`` in ``VertoExtension.py`` (see `OrderedDict in the Markdown API docs`_ for manipulating processor order).
+- The processor's template should be added to ``html-templates`` using the Jinja2 template engine syntax for variable parameters.
+- Any errors should have appropriate classes in the ``errors\`` directory, they should be well described by their class name such that for an expert knows immediately what to do to resolve the issue, otherwise a message should be used to describe the exact causation of the error for a novice.
+
 
 .. _the-test-suite:
 
