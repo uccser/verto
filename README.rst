@@ -6,6 +6,19 @@ Verto is an extension of the Python Markdown package, which allows
 authors to include complex HTML elements with simple text tags in their
 Markdown files.
 
+Basic Usage
+-----------
+
+While Verto has many configuration options it can be used immediately
+with little code. For example:
+
+.. code-block:: python
+
+  import verto
+  text = open('example.md', 'r')
+  converter = verto.Verto()
+  result = converter.convert(text)
+
 Documentation
 -------------
 
