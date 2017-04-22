@@ -14,7 +14,6 @@ The following pages covers how to use the available processors within Markdown t
     :maxdepth: 1
 
     boxed-text
-    button-link
     comment
     conditional
     iframe
