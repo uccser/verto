@@ -32,10 +32,13 @@ output to stdout:
 
 .. code-block:: python
 
-  import verto
+  from verto import Verto
+
   text = open('example.md', 'r')
-  converter = verto.Verto()
+  converter = Verto()
+
   result = converter.convert(text)
+
   print(result.html_string)
 
 Documentation
