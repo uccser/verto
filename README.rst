@@ -9,8 +9,26 @@ Markdown files.
 Basic Usage
 -----------
 
+Verto allows for an author to quickly include images and content and display
+them in a panel (similar to a Bootstrap Collapsible Panel) with the following
+markdown:
+
+.. code-block:: None
+
+  # Example Header
+
+  Example Paragraph
+
+  {panel type="example" title="Example Panel"}
+
+  {image file-path="http://placehold.it/350x150" caption="Example Image"}
+
+  {panel end}
+
 While Verto has many configuration options it can be used immediately
-with little code. For example:
+with little code. For example, if the previous markdown is saved in the file
+called ``example.md`` then the following would convert that file and print the
+output to stdout:
 
 .. code-block:: python
 
@@ -18,6 +36,7 @@ with little code. For example:
   text = open('example.md', 'r')
   converter = verto.Verto()
   result = converter.convert(text)
+  print(result.html_string)
 
 Documentation
 -------------
