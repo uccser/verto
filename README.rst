@@ -36,9 +36,8 @@ output to stdout:
 
   text = open('example.md', 'r')
   converter = Verto()
-
   result = converter.convert(text)
-
+  
   print(result.html_string)
 
 Documentation
