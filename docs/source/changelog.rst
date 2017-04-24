@@ -1,6 +1,21 @@
 Changelog
 #######################################
 
+0.5.0
+=======================================
+
+Fixes:
+
+  - A new more descriptive error when an argument is given and not readable.
+  - Custom HTML string parsing has been implemented, allowing for correct parsing of HTML and XHTML in templates.
+
+Documentation:
+
+  - Basic example in README.
+  - New contributing documentation.
+  - Fixed reference to incorrect file in the image processor documentation.
+  - Added new documentation for implicit processors.
+
 0.4.1
 =======================================
 
