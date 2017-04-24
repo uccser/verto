@@ -166,10 +166,10 @@ class VertoExtension(Extension):
             # Markdown overrides
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
             # Single line (in increasing complexity)
-            ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-            ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
+            ['interactive', InteractiveBlockProcessor(self, md.parser), '<paragraph'],
+            ['image', ImageBlockProcessor(self, md.parser), '<paragraph'],
+            ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
+            ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
             # Multiline
         ]
         self.inlinepatterns = [  # A special treeprocessor
