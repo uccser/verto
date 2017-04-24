@@ -4,6 +4,7 @@ from unittest.mock import Mock
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.ArgumentDefinitionError import ArgumentDefinitionError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class FrameTest(ProcessorTest):
@@ -34,6 +35,17 @@ class FrameTest(ProcessorTest):
 
         with self.assertRaises(ArgumentMissingError):
             markdown.markdown(test_string, extensions=[self.verto_extension])
+
+    def test_example_single_quote_argument_error(self):
+        '''Tests that single quotes as an argument raise the
+        ArgumentDefinitionError. This is a test that affects all
+        processors of the generic type (and any that use the
+        parse_argument function in utils).
+        '''
+        test_string = self.read_test_file(self.processor_name, 'example_single_quote_argument_error.md')
+
+        with self.assertRaises(ArgumentDefinitionError):
+            converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
 
     #~
     # Doc Tests
