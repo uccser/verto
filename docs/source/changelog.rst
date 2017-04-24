@@ -1,6 +1,13 @@
 Changelog
 #######################################
 
+0.5.1
+=======================================
+
+Fixes:
+
+  - Verto tags and custom tags, are now support embedding into markdown lists.
+
 0.5.0
 =======================================
 
