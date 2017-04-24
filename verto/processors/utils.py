@@ -1,6 +1,7 @@
 import re
 from markdown.util import etree  # noqa: F401
 from collections import OrderedDict, defaultdict
+from verto.errors.ArgumentDefinitionError import ArgumentDefinitionError
 from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.ArgumentValueError import ArgumentValueError
 
@@ -15,7 +16,16 @@ def parse_argument(argument_key, arguments, default=None):
     Returns:
         Value of an argument as a string if found, otherwise None.
     '''
-    result = re.search(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments)
+    is_argument = re.search(r'(^|\s+){}='.format(argument_key), arguments)
+    if not is_argument:
+        return default
+
+    result = re.match(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments[is_argument.start():])
+
+    if is_argument and result is None:
+        msg = "Argument found but value not contained in double quotes."
+        raise ArgumentDefinitionError(argument_key, msg)
+
     if result:
         argument_value = result.group(2).replace(r'\"', r'"')
     else:
