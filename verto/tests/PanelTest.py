@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
-from verto.processors.errors.TagNotMatchedError import TagNotMatchedError
-from verto.processors.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.TagNotMatchedError import TagNotMatchedError
+from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class PanelTest(ProcessorTest):
@@ -139,6 +139,20 @@ class PanelTest(ProcessorTest):
         self.assertListEqual([True, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_contains_inner_image(self):
+        '''Tests that other processors within a panel
+        still renders correctly.
+        '''
+        verto_extension = VertoExtension([self.processor_name, 'image'], {})
+        test_string = self.read_test_file(self.processor_name, 'contains_inner_image.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'contains_inner_image_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     #~
     # Doc Tests

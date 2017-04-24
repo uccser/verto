@@ -2,8 +2,7 @@
   <img src="{{ file_path }}"
     {% if alt %} alt="{{ alt }}" {% endif -%}
     {%- if hover_text %} title="{{ hover_text }}" {% endif -%}
-    class="{% if alignment == 'left' %}left-align{% elif alignment =='center' %}center-align{% elif alignment =='right' %}right-align{% endif %}"
-  />
+    class="{% if alignment == 'left' %}left-align{% elif alignment =='center' %}center-align{% elif alignment =='right' %}right-align{% endif %}">
   {%- if caption and caption_link -%}
   <p><a href="{{ caption_link }}">{{ caption }}</a></p>
   {%- elif caption -%}
