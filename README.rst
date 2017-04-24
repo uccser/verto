@@ -13,7 +13,7 @@ Verto allows for an author to quickly include images and content and display
 them in a panel (similar to a Bootstrap Collapsible Panel) with the following
 markdown:
 
-.. code-block:: None
+.. code-block::
 
   # Example Header
 
@@ -37,7 +37,7 @@ output to stdout:
   text = open('example.md', 'r')
   converter = Verto()
   result = converter.convert(text)
-  
+
   print(result.html_string)
 
 Documentation

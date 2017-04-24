@@ -306,6 +306,21 @@ class ImageTest(ProcessorTest):
 
         self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
+    def test_image_in_numbered_list(self):
+        '''Basic example of common usage.'''
+        test_string = self.read_test_file(self.processor_name, 'image_in_numbered_list.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, False, True, False], [ImageBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'image_in_numbered_list_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = self.verto_extension.required_files['images']
+        expected_images = set()
+        self.assertSetEqual(expected_images, images)
+
     #~
     # Doc Tests
     #~

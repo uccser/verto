@@ -166,10 +166,10 @@ class VertoExtension(Extension):
             # Markdown overrides
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
             # Single line (in increasing complexity)
-            ['interactive', InteractiveBlockProcessor(self, md.parser), '_begin'],
-            ['image', ImageBlockProcessor(self, md.parser), '_begin'],
-            ['video', VideoBlockProcessor(self, md.parser), '_begin'],
-            ['conditional', ConditionalProcessor(self, md.parser), '_begin'],
+            ['interactive', InteractiveBlockProcessor(self, md.parser), '<paragraph'],
+            ['image', ImageBlockProcessor(self, md.parser), '<paragraph'],
+            ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
+            ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
             # Multiline
         ]
         self.inlinepatterns = [  # A special treeprocessor
@@ -194,10 +194,10 @@ class VertoExtension(Extension):
             processor_class = processor_info.get('class', None)
             if processor_class == 'generic_tag':
                 processor_object = GenericTagBlockProcessor(processor, self, md.parser)
-                self.blockprocessors.insert(0, [processor, processor_object, '_begin'])
+                self.blockprocessors.insert(0, [processor, processor_object, '<paragraph'])
             if processor_class == 'generic_container':
                 processor_object = GenericContainerBlockProcessor(processor, self, md.parser)
-                self.blockprocessors.append([processor, processor_object, '_begin'])
+                self.blockprocessors.append([processor, processor_object, '<paragraph'])
 
     def loadProcessorInfo(self):
         '''Loads processor descriptions from a json file.
