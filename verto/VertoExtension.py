@@ -194,10 +194,10 @@ class VertoExtension(Extension):
             processor_class = processor_info.get('class', None)
             if processor_class == 'generic_tag':
                 processor_object = GenericTagBlockProcessor(processor, self, md.parser)
-                self.blockprocessors.insert(0, [processor, processor_object, '_begin'])
+                self.blockprocessors.insert(0, [processor, processor_object, '<paragraph'])
             if processor_class == 'generic_container':
                 processor_object = GenericContainerBlockProcessor(processor, self, md.parser)
-                self.blockprocessors.append([processor, processor_object, '_begin'])
+                self.blockprocessors.append([processor, processor_object, '<paragraph'])
 
     def loadProcessorInfo(self):
         '''Loads processor descriptions from a json file.
