@@ -154,6 +154,29 @@ class PanelTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'contains_inner_image_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_panel_in_numbered_list(self):
+        '''Tests that panels and containers work within numbered lists.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'panel_in_numbered_list.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, False, True, False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'panel_in_numbered_list_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    # def test_panel_only_in_numbered_list(self):
+    #     '''Tests that panels and containers work within numbered lists.
+    #     '''
+    #     test_string = self.read_test_file(self.processor_name, 'panel_only_in_numbered_list.md')
+    #     blocks = self.to_blocks(test_string)
+    #
+    #     self.assertListEqual([False, False, False, False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+    #
+    #     converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+    #     expected_string = self.read_test_file(self.processor_name, 'panel_only_in_numbered_list_expected.html', strip=True)
+    #     self.assertEqual(expected_string, converted_test_string)
     #~
     # Doc Tests
     #~
