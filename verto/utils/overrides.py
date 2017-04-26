@@ -41,10 +41,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 '''
 
 import re
-from markdown.blockprocessors import ListIndentProcessor
 from markdown.blockprocessors import OListProcessor as DefaultOListProcessor
 from markdown.util import string_type, etree
-from math import floor
 
 BLOCK_LEVEL_ELEMENTS = [
     'address', 'article', 'aside', 'blockqoute', 'br', 'canvas', 'dd', 'div',
@@ -78,6 +76,7 @@ def is_block_level(html, block_level_elements):
         return False
     return False
 
+
 class OListProcessor(DefaultOListProcessor):
     '''Process ordered list blocks. Overrides the built-in
     markdown `OListProcessor` for compatibility with
@@ -104,8 +103,21 @@ class OListProcessor(DefaultOListProcessor):
             blocks: A list of strings of the document, where the
                 first block tests true.
         '''
-        items = self.get_items(blocks)
-        sibling = self.lastChild(parent)
+        is_tight, item_groups = self.get_items(blocks)
+
+        lst = etree.SubElement(parent, self.TAG)
+        if not self.parser.markdown.lazy_ol and self.STARTSWITH != '1':
+            lst.attrib['start'] = self.STARTSWITH
+
+        if is_tight:
+            self.parser.state.set('list')
+
+        for item_group in item_groups:
+            li = etree.SubElement(lst, 'li')
+            self.parser.parseBlocks(li, item_group)
+
+        if is_tight:
+            self.parser.state.reset()
 
     def get_items(self, blocks):
         """ Break a block into list items. """
@@ -115,41 +127,36 @@ class OListProcessor(DefaultOListProcessor):
             if bool(self.RE.match(block)):
                 relevant_block_groups.append([])
             elif not (block.startswith(' ' * self.tab_length)
-               or block.strip() == ''):
-                    blocks.insert(0, block)
-                    break
+                      or block.strip() == ''):
+                blocks.insert(0, block)
+                break
             relevant_block_groups[-1].append(block)
+        is_tight = len(list(filter(None, relevant_block_groups))) == 1
 
-        print(relevant_block_groups)
-        items = []
+        item_groups = []
         for block_group in relevant_block_groups:
             if len(block_group) <= 0:
                 continue
 
-            block = block_group[-1]
+            block = block_group.pop(0)
             for line in block.split('\n'):
-                m = self.CHILD_RE.match(line)
-                if m:
-                    # This is a new list item
-                    # Check first item for the start index
-                    if not items and self.TAG == 'ol':
-                        # Detect the integer value of first list item
+                match = self.CHILD_RE.match(line)
+                if match is not None:
+                    if not item_groups and self.TAG == 'ol':
                         INTEGER_RE = re.compile('(\d+)')
-                        self.STARTSWITH = INTEGER_RE.match(m.group(1)).group()
-                    # Append to the list
-                    items.append(m.group(3))
+                        self.STARTSWITH = INTEGER_RE.match(match.group(1)).group()
+                    item_groups.append([match.group(3)])
                 elif self.INDENT_RE.match(line):
-                    # This is an indented (possibly nested) item.
-                    if items[-1].startswith(' '*self.tab_length):
-                        # Previous item was indented. Append to that item.
-                        items[-1] = '%s\n%s' % (items[-1], line)
+                    if item_groups[-1][-1].startswith(' ' * self.tab_length):
+                        item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], line)
                     else:
-                        items.append(line)
+                        item_groups[-1].append(line)
                 else:
-                    # This is another line of previous item. Append to that item.
-                    items[-1] = '%s\n%s' % (items[-1], line)
-        print(items)
-        return items
+                    item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], line)
+            for block in block_group:
+                block = self.looseDetab(block)
+                item_groups[-1].append(block)
+        return is_tight, item_groups
 
 
 class UListProcessor(OListProcessor):
