@@ -130,7 +130,8 @@ class OListProcessor(DefaultOListProcessor):
         relevant_block_groups = []
         while len(blocks) > 0:
             block = blocks.pop(0)
-            if bool(self.RE.match(block)):
+            match = self.RE.match(block)
+            if match is not None:
                 relevant_block_groups.append([])
             elif not (block.startswith(' ' * self.tab_length)
                       or block.strip() == ''):
@@ -153,7 +154,7 @@ class OListProcessor(DefaultOListProcessor):
                         self.STARTSWITH = INTEGER_RE.match(match.group(1)).group()
                     item_groups.append([match.group(3)])
                 elif (self.INDENT_RE.match(line)
-                     and not self.INDENT_CONT_RE.match(item_groups[-1][-1])):
+                      and not self.INDENT_CONT_RE.match(item_groups[-1][-1])):
                     item_groups[-1].append(self.looseDetab(line))
                 elif self.INDENT_RE.match(line):
                     item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], self.looseDetab(line))
@@ -162,6 +163,7 @@ class OListProcessor(DefaultOListProcessor):
             for block in block_group:
                 block = self.looseDetab(block)
                 item_groups[-1].append(block)
+
         return is_tight, item_groups
 
 

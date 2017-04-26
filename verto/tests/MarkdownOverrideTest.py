@@ -3,8 +3,8 @@ from verto.tests.BaseTest import BaseTest
 from verto.VertoExtension import VertoExtension
 
 class MarkdownOverrideTest(BaseTest):
-    '''Tests that the HtmlParser and HtmlSerializer can be used to
-    take in an produce the same HTML string.
+    '''Tests that the overrides for built-in markdown packages
+    continue to work as normal markdown.
     '''
 
     def __init__(self, *args, **kwargs):
