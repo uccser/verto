@@ -46,6 +46,30 @@ class MarkdownOverrideTest(BaseTest):
         expected_string = self.read_test_file('unordered_list_asterisk_loose_expected.html')
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_unordered_list_tight_nested(self):
+        '''Check that tight unordered list with asterisks produces expected output.
+        '''
+        test_string = self.read_test_file('unordered_list_tight_nested.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file('unordered_list_tight_nested_expected.html')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_unordered_list_loose_nested(self):
+        '''Check that loose unordered list with asterisks produces expected output.
+        '''
+        test_string = self.read_test_file('unordered_list_loose_nested.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file('unordered_list_loose_nested_expected.html')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_unordered_list_mixed_nested(self):
+        '''Check that loose unordered list with asterisks produces expected output.
+        '''
+        test_string = self.read_test_file('unordered_list_mixed_nested.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file('unordered_list_mixed_nested_expected.html')
+        self.assertEqual(expected_string, converted_test_string)
+
     def test_ordered_list_tight(self):
         '''Check that tight ordered list with numbers produces expected output.
         '''

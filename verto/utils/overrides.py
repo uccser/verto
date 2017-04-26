@@ -91,6 +91,7 @@ class OListProcessor(DefaultOListProcessor):
         OListProcessor in the markdown.parser.
         '''
         super(OListProcessor, self).__init__(parser)
+        self.INDENT_CONT_RE = re.compile(r'^[ ]{0,%d}((\d+\.)|[*+-])[ ]+(.*)' % (self.tab_length - 1), re.DOTALL)
 
     def run(self, parent, blocks):
         ''' Overrides OListProcessor to force the content of single items
@@ -146,13 +147,13 @@ class OListProcessor(DefaultOListProcessor):
                         INTEGER_RE = re.compile('(\d+)')
                         self.STARTSWITH = INTEGER_RE.match(match.group(1)).group()
                     item_groups.append([match.group(3)])
+                elif (self.INDENT_RE.match(line)
+                     and not self.INDENT_CONT_RE.match(item_groups[-1][-1])):
+                    item_groups[-1].append(self.looseDetab(line))
                 elif self.INDENT_RE.match(line):
-                    if item_groups[-1][-1].startswith(' ' * self.tab_length):
-                        item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], line)
-                    else:
-                        item_groups[-1].append(line)
+                    item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], self.looseDetab(line))
                 else:
-                    item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], line)
+                    item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], self.looseDetab(line))
             for block in block_group:
                 block = self.looseDetab(block)
                 item_groups[-1].append(block)
