@@ -1,3 +1,45 @@
+'''
+Contents in this file makes modifications of the source code of the
+Python Markdown Project and therefore if used must abide by the
+licences imposed by that project.
+
+Python Markdown Project
+------------------------
+LICENCE:
+
+Copyright 2007, 2008 The Python Markdown Project (v. 1.7 and later)
+Copyright 2004, 2005, 2006 Yuri Takhteyev (v. 0.2-1.6b)
+Copyright 2004 Manfred Stienstra (the original version)
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
+  - Neither the name of the nor the names of its contributors may be
+    used to endorse or promote products derived from this software
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE PYTHON MARKDOWN PROJECT ''AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ANY CONTRIBUTORS TO THE
+PYTHON MARKDOWN PROJECT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+'''
+
 import re
 from markdown.blockprocessors import ListIndentProcessor
 from markdown.blockprocessors import OListProcessor as DefaultOListProcessor
@@ -39,7 +81,7 @@ def is_block_level(html, block_level_elements):
 class IndentProcessor(ListIndentProcessor):
     ''' Process children of list items. Overrides the built-in
     markdown `ListIndentProcessor` for compatibility by
-    gathering and processing .
+    gathering and processing multiple blocks.
     Example:
         *   Lipsum
             Lorem
@@ -50,9 +92,21 @@ class IndentProcessor(ListIndentProcessor):
     LIST_TYPES = ['ul', 'ol']
 
     def __init__(self, *args):
+        '''Create an IndentProcessor, should be used to override the
+        ListIndentProcessor in the markdown.parser.
+        '''
         super(IndentProcessor, self).__init__(*args)
 
     def run(self, parent, blocks):
+        ''' Overrides ListIndentProcessor to bulk process all
+        blocks of the same indent level.
+
+        Args:
+            parent: The parent node of the element tree that children
+                will reside in.
+            blocks: A list of strings of the document, where the
+                first block tests true.
+        '''
         block = blocks.pop(0)
         level, sibling = self.get_level(parent, block)
 
@@ -91,18 +145,43 @@ class IndentProcessor(ListIndentProcessor):
         self.parser.state.reset()
 
     def create_item(self, parent, blocks):
-        """ Create a new li and parse the block with it as the parent. """
+        '''Overrides ListIndentProcessor to parse mutliple blocks
+        to be added to a list item element.
+
+        Args:
+            parent: The parent node of the element tree that children
+                will reside in.
+            blocks: A list of strings of the document, where the
+                first block tests true.
+        '''
         li = etree.SubElement(parent, 'li')
         self.parser.parseBlocks(li, blocks)
 
 
 class OListProcessor(DefaultOListProcessor):
-    """ Process ordered list blocks. """
+    '''Process ordered list blocks. Overrides the built-in
+    markdown `OListProcessor` for compatibility with
+    verto container tags by forcing single item lists content
+    to be processed by the indent processor.
+    '''
 
     def __init__(self, parser):
+        '''Create an OListProcessor, should be used to override the
+        OListProcessor in the markdown.parser.
+        '''
         super(OListProcessor, self).__init__(parser)
 
     def run(self, parent, blocks):
+        ''' Overrides OListProcessor to force the content of single items
+        to be processed by the indent processor. This is because the may
+        be multiple block container tags.
+
+        Args:
+            parent: The parent node of the element tree that children
+                will reside in.
+            blocks: A list of strings of the document, where the
+                first block tests true.
+        '''
         block = blocks.pop(0)
         items = self.get_items(block)
         sibling = self.lastChild(parent)
@@ -111,10 +190,11 @@ class OListProcessor(DefaultOListProcessor):
         if len(items) != 1:
             blocks.insert(0, block)
             super(OListProcessor, self).run(parent, blocks)
+        # Otherwise we might have a container tag
         else:
             item = items[0]
 
-            # Need to do all the preprocessing the same as the original
+            # Need to do all the preprocessing the same
             # but don't add anything to the element tree
             if sibling is not None and sibling.tag in self.SIBLING_TAGS:
                 lst = sibling
@@ -136,7 +216,8 @@ class OListProcessor(DefaultOListProcessor):
                 if not self.parser.markdown.lazy_ol and self.STARTSWITH != '1':
                     lst.attrib['start'] = self.STARTSWITH
 
-            # Add to the element tree here based on the structure 
+            # Add to the element tree here based on the structure
+            # the IndentProcessor should add content to the element
             if item.startswith(' '*self.tab_length):
                 blocks.insert(0, item)
             else:
@@ -145,10 +226,18 @@ class OListProcessor(DefaultOListProcessor):
 
 
 class UListProcessor(OListProcessor):
-    """ Process unordered list blocks. """
+    '''Process ordered list blocks. Overrides the built-in
+    markdown `UListProcessor` for compatibility with
+    verto container tags by forcing single item lists content
+    to be processed by the indent processor.
+    '''
+
     TAG = 'ul'
 
     def __init__(self, parser):
+        '''Create an UListProcessor, should be used to override the
+        UListProcessor in the markdown.parser.
+        '''
         super(UListProcessor, self).__init__(parser)
         # Detect an item (``1. item``). ``group(1)`` contains contents of item.
         self.RE = re.compile(r'^[ ]{0,%d}[*+-][ ]+(.*)' % (self.tab_length - 1))
