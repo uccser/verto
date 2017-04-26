@@ -94,7 +94,7 @@ class OListProcessor(DefaultOListProcessor):
         self.INDENT_CONT_RE = re.compile(r'^[ ]{0,%d}((\d+\.)|[*+-])[ ]+(.*)' % (self.tab_length - 1), re.DOTALL)
 
     def run(self, parent, blocks):
-        ''' Overrides OListProcessor to force the content of single items
+        '''Overrides OListProcessor to force the content of single items
         to be processed by the indent processor. This is because the may
         be multiple block container tags.
 
@@ -121,7 +121,12 @@ class OListProcessor(DefaultOListProcessor):
             self.parser.state.reset()
 
     def get_items(self, blocks):
-        """ Break a block into list items. """
+        '''Collects all the blocks pertaining to the list. The
+        list is are broken into blocks of each item.
+
+        Args:
+            blocks: The blocks from which to draw the list from.
+        '''
         relevant_block_groups = []
         while len(blocks) > 0:
             block = blocks.pop(0)
