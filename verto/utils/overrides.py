@@ -1,5 +1,6 @@
 import re
 from markdown.blockprocessors import ListIndentProcessor
+from markdown.blockprocessors import OListProcessor as DefaultOListProcessor
 from markdown.util import string_type, etree
 
 BLOCK_LEVEL_ELEMENTS = [
@@ -93,3 +94,61 @@ class IndentProcessor(ListIndentProcessor):
         """ Create a new li and parse the block with it as the parent. """
         li = etree.SubElement(parent, 'li')
         self.parser.parseBlocks(li, blocks)
+
+
+class OListProcessor(DefaultOListProcessor):
+    """ Process ordered list blocks. """
+
+    def __init__(self, parser):
+        super(OListProcessor, self).__init__(parser)
+
+    def run(self, parent, blocks):
+        block = blocks.pop(0)
+        items = self.get_items(block)
+        sibling = self.lastChild(parent)
+
+        # If we have more than one item we cannot have a container tag
+        if len(items) != 1:
+            blocks.insert(0, block)
+            super(OListProcessor, self).run(parent, blocks)
+        else:
+            item = items[0]
+
+            # Need to do all the preprocessing the same as the original
+            # but don't add anything to the element tree
+            if sibling is not None and sibling.tag in self.SIBLING_TAGS:
+                lst = sibling
+                if lst[-1].text:
+                    p = etree.Element('p')
+                    p.text = lst[-1].text
+                    lst[-1].text = ''
+                    lst[-1].insert(0, p)
+                lch = self.lastChild(lst[-1])
+                if lch is not None and lch.tail:
+                    p = etree.SubElement(lst[-1], 'p')
+                    p.text = lch.tail.lstrip()
+                    lch.tail = ''
+
+            elif parent.tag in ['ol', 'ul']:
+                lst = parent
+            else:
+                lst = etree.SubElement(parent, self.TAG)
+                if not self.parser.markdown.lazy_ol and self.STARTSWITH != '1':
+                    lst.attrib['start'] = self.STARTSWITH
+
+            # Add to the element tree here based on the structure 
+            if item.startswith(' '*self.tab_length):
+                blocks.insert(0, item)
+            else:
+                etree.SubElement(lst, 'li')
+                blocks.insert(0, ' ' * self.tab_length + item)
+
+
+class UListProcessor(OListProcessor):
+    """ Process unordered list blocks. """
+    TAG = 'ul'
+
+    def __init__(self, parser):
+        super(UListProcessor, self).__init__(parser)
+        # Detect an item (``1. item``). ``group(1)`` contains contents of item.
+        self.RE = re.compile(r'^[ ]{0,%d}[*+-][ ]+(.*)' % (self.tab_length - 1))
