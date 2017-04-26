@@ -1,6 +1,6 @@
 '''
-Contents in this file makes modifications of the source code of the
-Python Markdown Project and therefore if used must abide by the
+Contents in this file makes use and modification of the source code of
+the Python Markdown Project and therefore if used must abide by the
 licences imposed by that project.
 
 Python Markdown Project
