@@ -44,6 +44,7 @@ import re
 from markdown.blockprocessors import ListIndentProcessor
 from markdown.blockprocessors import OListProcessor as DefaultOListProcessor
 from markdown.util import string_type, etree
+from math import floor
 
 BLOCK_LEVEL_ELEMENTS = [
     'address', 'article', 'aside', 'blockqoute', 'br', 'canvas', 'dd', 'div',
@@ -77,93 +78,14 @@ def is_block_level(html, block_level_elements):
         return False
     return False
 
-
-class IndentProcessor(ListIndentProcessor):
-    ''' Process children of list items. Overrides the built-in
-    markdown `ListIndentProcessor` for compatibility by
-    gathering and processing multiple blocks.
-    Example:
-        *   Lipsum
-            Lorem
-            Ipsem
-    '''
-
-    ITEM_TYPES = ['li']
-    LIST_TYPES = ['ul', 'ol']
-
-    def __init__(self, *args):
-        '''Create an IndentProcessor, should be used to override the
-        ListIndentProcessor in the markdown.parser.
-        '''
-        super(IndentProcessor, self).__init__(*args)
-
-    def run(self, parent, blocks):
-        ''' Overrides ListIndentProcessor to bulk process all
-        blocks of the same indent level.
-
-        Args:
-            parent: The parent node of the element tree that children
-                will reside in.
-            blocks: A list of strings of the document, where the
-                first block tests true.
-        '''
-        block = blocks.pop(0)
-        level, sibling = self.get_level(parent, block)
-
-        indent_blocks = [self.looseDetab(block, level)]
-        while len(blocks) > 0:
-            block = blocks.pop(0)
-            if self.test(parent, block):
-                # Check that block is the same indent_level
-                current_level, current_sibling = self.get_level(parent, block)
-                if current_level != level and current_sibling != sibling:
-                    blocks.insert(0, block)
-                    break
-                indent_blocks.append(self.looseDetab(block, level))
-            # Allow blank blocks within indent
-            elif block.strip() != '':
-                blocks.insert(0, block)
-                break
-
-        self.parser.state.set('detabbed')
-        if parent.tag in self.ITEM_TYPES:
-            if len(parent) and parent[-1].tag in self.LIST_TYPES:
-                self.parser.parseBlocks(parent[-1], indent_blocks)
-            else:
-                self.parser.parseBlocks(parent, indent_blocks)
-        elif sibling.tag in self.ITEM_TYPES:
-            self.parser.parseBlocks(sibling, indent_blocks)
-        elif len(sibling) and sibling[-1].tag in self.ITEM_TYPES:
-            if sibling[-1].text:
-                p = etree.Element('p')
-                p.text = sibling[-1].text
-                sibling[-1].text = ''
-                sibling[-1].insert(0, p)
-            self.parser.parseBlocks(sibling[-1], indent_blocks)
-        else:
-            self.create_item(sibling, indent_blocks)
-        self.parser.state.reset()
-
-    def create_item(self, parent, blocks):
-        '''Overrides ListIndentProcessor to parse mutliple blocks
-        to be added to a list item element.
-
-        Args:
-            parent: The parent node of the element tree that children
-                will reside in.
-            blocks: A list of strings of the document, where the
-                first block tests true.
-        '''
-        li = etree.SubElement(parent, 'li')
-        self.parser.parseBlocks(li, blocks)
-
-
 class OListProcessor(DefaultOListProcessor):
     '''Process ordered list blocks. Overrides the built-in
     markdown `OListProcessor` for compatibility with
     verto container tags by forcing single item lists content
     to be processed by the indent processor.
     '''
+
+    LIST_TYPES = ['ul', 'ol']
 
     def __init__(self, parser):
         '''Create an OListProcessor, should be used to override the
@@ -182,47 +104,52 @@ class OListProcessor(DefaultOListProcessor):
             blocks: A list of strings of the document, where the
                 first block tests true.
         '''
-        block = blocks.pop(0)
-        items = self.get_items(block)
+        items = self.get_items(blocks)
         sibling = self.lastChild(parent)
 
-        # If we have more than one item we cannot have a container tag
-        if len(items) != 1:
-            blocks.insert(0, block)
-            super(OListProcessor, self).run(parent, blocks)
-        # Otherwise we might have a container tag
-        else:
-            item = items[0]
+    def get_items(self, blocks):
+        """ Break a block into list items. """
+        relevant_block_groups = []
+        while len(blocks) > 0:
+            block = blocks.pop(0)
+            if bool(self.RE.match(block)):
+                relevant_block_groups.append([])
+            elif not (block.startswith(' ' * self.tab_length)
+               or block.strip() == ''):
+                    blocks.insert(0, block)
+                    break
+            relevant_block_groups[-1].append(block)
 
-            # Need to do all the preprocessing the same
-            # but don't add anything to the element tree
-            if sibling is not None and sibling.tag in self.SIBLING_TAGS:
-                lst = sibling
-                if lst[-1].text:
-                    p = etree.Element('p')
-                    p.text = lst[-1].text
-                    lst[-1].text = ''
-                    lst[-1].insert(0, p)
-                lch = self.lastChild(lst[-1])
-                if lch is not None and lch.tail:
-                    p = etree.SubElement(lst[-1], 'p')
-                    p.text = lch.tail.lstrip()
-                    lch.tail = ''
+        print(relevant_block_groups)
+        items = []
+        for block_group in relevant_block_groups:
+            if len(block_group) <= 0:
+                continue
 
-            elif parent.tag in ['ol', 'ul']:
-                lst = parent
-            else:
-                lst = etree.SubElement(parent, self.TAG)
-                if not self.parser.markdown.lazy_ol and self.STARTSWITH != '1':
-                    lst.attrib['start'] = self.STARTSWITH
-
-            # Add to the element tree here based on the structure
-            # the IndentProcessor should add content to the element
-            if item.startswith(' '*self.tab_length):
-                blocks.insert(0, item)
-            else:
-                etree.SubElement(lst, 'li')
-                blocks.insert(0, ' ' * self.tab_length + item)
+            block = block_group[-1]
+            for line in block.split('\n'):
+                m = self.CHILD_RE.match(line)
+                if m:
+                    # This is a new list item
+                    # Check first item for the start index
+                    if not items and self.TAG == 'ol':
+                        # Detect the integer value of first list item
+                        INTEGER_RE = re.compile('(\d+)')
+                        self.STARTSWITH = INTEGER_RE.match(m.group(1)).group()
+                    # Append to the list
+                    items.append(m.group(3))
+                elif self.INDENT_RE.match(line):
+                    # This is an indented (possibly nested) item.
+                    if items[-1].startswith(' '*self.tab_length):
+                        # Previous item was indented. Append to that item.
+                        items[-1] = '%s\n%s' % (items[-1], line)
+                    else:
+                        items.append(line)
+                else:
+                    # This is another line of previous item. Append to that item.
+                    items[-1] = '%s\n%s' % (items[-1], line)
+        print(items)
+        return items
 
 
 class UListProcessor(OListProcessor):

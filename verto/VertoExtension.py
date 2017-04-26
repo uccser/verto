@@ -24,7 +24,6 @@ from verto.processors.GenericContainerBlockProcessor import GenericContainerBloc
 from verto.utils.UniqueSlugify import UniqueSlugify
 from verto.utils.HeadingNode import HeadingNode
 from verto.utils.overrides import BLOCK_LEVEL_ELEMENTS, is_block_level
-from verto.utils.overrides import IndentProcessor
 from verto.utils.overrides import OListProcessor
 from verto.utils.overrides import UListProcessor
 
@@ -104,7 +103,6 @@ class VertoExtension(Extension):
 
         # Compatibility modules
         md.postprocessors['raw_html'].isblocklevel = lambda html: is_block_level(html, BLOCK_LEVEL_ELEMENTS)
-        md.parser.blockprocessors['indent'] = IndentProcessor(md.parser)
         md.parser.blockprocessors['olist'] = OListProcessor(md.parser)
         md.parser.blockprocessors['ulist'] = UListProcessor(md.parser)
 
