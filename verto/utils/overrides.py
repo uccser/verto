@@ -91,5 +91,5 @@ class IndentProcessor(ListIndentProcessor):
 
     def create_item(self, parent, blocks):
         """ Create a new li and parse the block with it as the parent. """
-        li = util.etree.SubElement(parent, 'li')
+        li = etree.SubElement(parent, 'li')
         self.parser.parseBlocks(li, blocks)
