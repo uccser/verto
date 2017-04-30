@@ -101,3 +101,19 @@ class MarkdownOverrideTest(BaseTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file('ordered_list_tight_nested_expected.html')
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_sane_list(self):
+        '''Check that nested tight ordered list with numbers produces expected output.
+        '''
+        test_string = self.read_test_file('sane_list.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file('sane_list_expected.html')
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_sane_list_python_markdown(self):
+        '''Check that nested tight ordered list with numbers produces expected output.
+        '''
+        test_string = self.read_test_file('sane_list_python_markdown.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file('sane_list_python_markdown_expected.html')
+        self.assertEqual(expected_string, converted_test_string)
