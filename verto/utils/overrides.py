@@ -91,8 +91,7 @@ class OListProcessor(DefaultOListProcessor):
         OListProcessor in the markdown.parser.
         '''
         super(OListProcessor, self).__init__(parser)
-        self.CHILD_RE = re.compile(r'^[ ]{0,%d}((\d+\.))[ ]+(.*)' %
-(self.tab_length - 1))
+        self.CHILD_RE = re.compile(r'^[ ]{0,%d}((\d+\.))[ ]+(.*)' % (self.tab_length - 1))
         self.INDENT_CONT_RE = re.compile(r'^[ ]{0,%d}((\d+\.)|[*+-])[ ]+(.*)' % (self.tab_length - 1), re.DOTALL)
 
     def run(self, parent, blocks):
@@ -185,5 +184,4 @@ class UListProcessor(OListProcessor):
         super(UListProcessor, self).__init__(parser)
         # Detect an item (``1. item``). ``group(1)`` contains contents of item.
         self.RE = re.compile(r'^[ ]{0,%d}[*+-][ ]+(.*)' % (self.tab_length - 1))
-        self.CHILD_RE = re.compile(r'^[ ]{0,%d}(([*+-]))[ ]+(.*)' %
-(self.tab_length - 1))
+        self.CHILD_RE = re.compile(r'^[ ]{0,%d}(([*+-]))[ ]+(.*)' % (self.tab_length - 1))
