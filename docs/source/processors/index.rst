@@ -40,6 +40,8 @@ The following pages cover processors that do not require explicit use when autho
 
     beautify
     jinja
+    orderedlist
     remove
     scratch-compatibility
     style
+    unorderedlist

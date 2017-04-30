@@ -68,3 +68,16 @@ class StyleTest(ProcessorTest):
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_block_valid.md')
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+
+    def test_doc_example_block_valid_in_list(self):
+        '''A valid example of using container tags.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_block_valid_in_list.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+
+    def test_doc_example_block_error_in_list(self):
+        '''A valid example of using container tags.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_block_error_in_list.md')
+        with self.assertRaises(StyleError):
+            converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
