@@ -1,4 +1,3 @@
 update: all
 branch: develop
-schedule: "every day"
 label_prs: update

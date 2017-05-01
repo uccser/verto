@@ -24,6 +24,8 @@ class StylePreprocessor(Preprocessor):
         self.block_strings = ext.processor_info[self.processor]['strings']['block']
         self.inline_strings = ext.processor_info[self.processor]['strings']['inline']
 
+        self.LIST_RE = re.compile('^[ ]*(\d+\.|[*+-])[ ]+(.*)')
+
     def run(self, lines):
         '''
         Validates lines and raising StyleErrors when rules are not upheld.
@@ -47,8 +49,12 @@ class StylePreprocessor(Preprocessor):
 
                     start_index, end_index = block_match.span()
                     rest = line[:start_index] + line[end_index+1:]
-                    for char in rest:
-                        if not char.isspace():
+
+                    if (self.LIST_RE.match(line[:start_index])
+                       and not all(map(lambda char: char.isspace(), line[end_index+1:]))):
+                            raise StyleError(line_nums, error_lines, 'Content after block in list.')
+                    elif (not self.LIST_RE.match(line[:start_index])
+                          and not all(map(lambda char: char.isspace(), rest))):
                             raise StyleError(line_nums, error_lines, 'Blocks must be the only thing on the line.')
 
         return lines
