@@ -64,7 +64,9 @@ class ConfigurationTest(BaseTest):
                             children=()
                         ),
                     ),
-                    required_glossary_terms=defaultdict(list)
+                    required_glossary_terms={
+                        'algorithm': []
+                    }
                 )
             ),
             ('some_processors.md',
@@ -116,6 +118,7 @@ class ConfigurationTest(BaseTest):
                         children=(),
                     ),),
                     required_glossary_terms={
+                        'hello': [],
                         'algorithm':
                             [('computer program', 'glossary-algorithm'),
                              ('algorithm cost', 'glossary-algorithm-2'),
@@ -126,15 +129,15 @@ class ConfigurationTest(BaseTest):
             )
         ]
 
-        for test in test_cases:
+        for filename, expected_result in test_cases:
             verto = Verto()
-            test_string = self.read_test_file(self.test_name, test[0])
+            test_string = self.read_test_file(self.test_name, filename)
             verto_result = verto.convert(test_string)
 
-            self.assertEqual(verto_result.title, test[1].title)
-            self.assertEqual(verto_result.required_files, test[1].required_files)
-            self.assertTupleEqual(verto_result.heading_tree, test[1].heading_tree)
-            self.assertDictEqual(verto_result.required_glossary_terms, test[1].required_glossary_terms)
+            self.assertEqual(verto_result.title, expected_result.title)
+            self.assertEqual(verto_result.required_files, expected_result.required_files)
+            self.assertTupleEqual(verto_result.heading_tree, expected_result.heading_tree)
+            self.assertDictEqual(verto_result.required_glossary_terms, expected_result.required_glossary_terms)
 
     def test_custom_processors_and_custom_templates_on_creation(self):
         '''Checks if custom processors and custom templates work
