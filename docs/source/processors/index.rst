@@ -38,7 +38,6 @@ The following pages cover processors that do not require explicit use when autho
 .. toctree::
     :maxdepth: 1
 
-    beautify
     jinja
     orderedlist
     remove
