@@ -79,7 +79,7 @@ class Verto(object):
 
     def clear_saved_data(self):
         '''Clears data that is saved between documents. This should be
-        called between conversions on unrelated documents. 
+        called between conversions on unrelated documents.
         '''
         self.verto_extension.clear_saved_data()
 
