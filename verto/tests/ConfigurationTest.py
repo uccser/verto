@@ -247,20 +247,26 @@ class ConfigurationTest(BaseTest):
         and used correctly.
         '''
         custom_templates = {
-            'image': '''<div class="text-center">
-                          <img src="{{ file_path }}" class="rounded img-thumbnail"/>
-                        </div>''',
-            'boxed-text': '''<div class="card">
-                               <div class="card-block">
-                                 {{ text }}
-                               </div>
-                             </div>''',
-            'heading': '''<{{ heading_type }} id="{{ title_slug }}">
-                            <span class="section_number">
-                              {{ level_1 }}.{{ level_2 }}.{{ level_3 }}.{{ level_4 }}.{{ level_5 }}.{{ level_6 }}.
-                            </span>
-                            {{ title }}
-                          </{{ heading_type }}>'''
+            'image': \
+'''<div class="text-center">
+<img src="{{ file_path }}" class="rounded img-thumbnail"/>
+</div>''',
+
+            'boxed-text': \
+'''<div class="card">
+<div class="card-block">
+{{ text }}
+</div>
+</div>''',
+
+            'heading': \
+'''<{{ heading_type }} id="{{ title_slug }}">
+<span class="section_number">
+{{ level_1 }}.{{ level_2 }}.{{ level_3 }}.{{ level_4 }}.{{ level_5 }}.{{ level_6 }}.
+</span>
+{{ title }}
+</{{ heading_type }}>'''
+
         }
 
         verto = Verto(html_templates=custom_templates)

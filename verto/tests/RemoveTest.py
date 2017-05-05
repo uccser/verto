@@ -3,8 +3,7 @@ from verto.VertoExtension import VertoExtension
 from verto.tests.ProcessorTest import ProcessorTest
 
 class RemoveTest(ProcessorTest):
-    '''The major concern with beautifying is that preformatted tags and
-    code blocks are unchanged. The tests here cover these cases.
+    '''Removes tags <remove> and </remove> from the document.
     '''
 
     def __init__(self, *args, **kwargs):
