@@ -124,7 +124,7 @@ class VertoExtension(Extension):
 
     def clear_saved_data(self):
         '''Clears stored information from processors, should be called
-        between runs.
+        between runs on unrelated documents.
         '''
         self.custom_slugify.clear()
         for key in self.required_files.keys():

@@ -78,8 +78,8 @@ class Verto(object):
         return result
 
     def clear_saved_data(self):
-        '''Wrapped for clearing the saved data of the verto
-        extension.
+        '''Clears data that is saved between documents. This should be
+        called between conversions on unrelated documents. 
         '''
         self.verto_extension.clear_saved_data()
 
