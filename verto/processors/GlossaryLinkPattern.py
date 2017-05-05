@@ -51,9 +51,10 @@ class GlossaryLinkPattern(Pattern):
             'text': text
         }
 
+        glossary_reference = self.ext_glossary_terms[term]
         if reference is not None:
             identifier = self.unique_slugify('glossary-' + term)
-            self.ext_glossary_terms[term].append((reference, identifier))
+            glossary_reference.append((reference, identifier))
             context['id'] = identifier
 
         html_string = self.template.render(context)
