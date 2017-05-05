@@ -4,7 +4,6 @@ from collections import defaultdict
 from verto.tests.ConfigurationTest import ConfigurationTest
 from verto.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
 
-from verto.tests.BeautifyTest import BeautifyTest
 from verto.tests.BoxedTextTest import BoxedTextTest
 from verto.tests.ButtonLinkTest import ButtonLinkTest
 from verto.tests.CommentTest import CommentTest
@@ -65,7 +64,7 @@ def unit_suite():
     '''Builds unittests. (Not really unittests).
     '''
     return unittest.TestSuite((
-        unittest.makeSuite(BeautifyTest),
+        # unittest.makeSuite(BeautifyTest),
         unittest.makeSuite(BoxedTextTest),
         unittest.makeSuite(ButtonLinkTest),
         unittest.makeSuite(CommentTest),
