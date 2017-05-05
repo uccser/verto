@@ -31,8 +31,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'markdown>=2.6.8',
-        'beautifulsoup4==4.5.3',
+        'beautifulsoup4>=4.5.3',
         'Jinja2>=2.9.6',
-        'python-slugify>=1.2.2'
+        'python-slugify>=1.2.4'
     ]
 )
