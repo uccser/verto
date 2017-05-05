@@ -66,7 +66,7 @@ class Verto(object):
         Returns:
             A VertoResult object.
         '''
-        self.verto_extension.clear_saved_data()
+        self.verto_extension.clear_document_data()
         html_string = self.converter.convert(text)
         result = VertoResult(
             html_string=html_string,
@@ -76,6 +76,12 @@ class Verto(object):
             required_glossary_terms=self.verto_extension.glossary_terms
         )
         return result
+
+    def clear_saved_data(self):
+        '''Wrapped for clearing the saved data of the verto
+        extension.
+        '''
+        self.verto_extension.clear_saved_data()
 
     def update_templates(self, html_templates):
         '''Update the template dictionary with the given dictionary

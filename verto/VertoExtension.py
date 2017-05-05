@@ -116,13 +116,17 @@ class VertoExtension(Extension):
                 processor = ScratchCompatibilityPreprocessor(self, md)
                 md.preprocessors.add('scratch-compatibility', processor, '<fenced_code_block')
 
+    def clear_document_data(self):
+        '''Clears information stored for a specific document.
+        '''
+        self.title = None
+        self.heading_tree = None
+
     def clear_saved_data(self):
         '''Clears stored information from processors, should be called
         between runs.
         '''
-        self.title = None
         self.custom_slugify.clear()
-        self.heading_tree = None
         for key in self.required_files.keys():
             self.required_files[key].clear()
 
