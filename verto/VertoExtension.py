@@ -9,7 +9,6 @@ from verto.processors.RelativeLinkPattern import RelativeLinkPattern
 from verto.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from verto.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
 from verto.processors.GlossaryLinkPattern import GlossaryLinkPattern
-from verto.processors.BeautifyPostprocessor import BeautifyPostprocessor
 from verto.processors.ConditionalProcessor import ConditionalProcessor
 from verto.processors.StylePreprocessor import StylePreprocessor
 from verto.processors.RemovePostprocessor import RemovePostprocessor
@@ -98,7 +97,6 @@ class VertoExtension(Extension):
 
         md.preprocessors.add('style', StylePreprocessor(self, md), '_begin')
         md.postprocessors.add('remove', RemovePostprocessor(md), '_end')
-        md.postprocessors.add('beautify', BeautifyPostprocessor(md), '_end')
         md.postprocessors.add('jinja', JinjaPostprocessor(md), '_end')
 
         # Compatibility modules

@@ -100,6 +100,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         content = ''
         for child in content_tree:
             content += HtmlSerializer.tostring(child) + '\n'
+        content = content.strip('\n')
 
         if content.strip() == '':
             message = 'content cannot be blank.'

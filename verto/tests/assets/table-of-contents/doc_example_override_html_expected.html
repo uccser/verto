@@ -1,14 +1,10 @@
 <div class="toc">
- <strong>
-  Table of Contents
- </strong>
- <ul>
-  {% for heading in headings %}
-  <li>
-   <a href="#{{ heading.id }}">
-    {{ heading.name }}
-   </a>
-  </li>
-  {% endfor %}
- </ul>
+<strong>Table of Contents</strong>
+<ul>
+{% for heading in headings %}
+<li>
+<a href="#{{ heading.id }}">{{ heading.name }}</a>
+</li>
+{% endfor %}
+</ul>
 </div>
