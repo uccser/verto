@@ -35,7 +35,9 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         glossary_terms = self.verto_extension.glossary_terms
-        expected_glossary_terms = dict()
+        expected_glossary_terms = {
+            'quicksort': []
+        }
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_multiple_word_term(self):
@@ -51,7 +53,9 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         glossary_terms = self.verto_extension.glossary_terms
-        expected_glossary_terms = dict()
+        expected_glossary_terms = {
+            'digital-signature': []
+        }
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_reference_text_given(self):
@@ -88,7 +92,9 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         glossary_terms = self.verto_extension.glossary_terms
-        expected_glossary_terms = dict()
+        expected_glossary_terms = {
+            'grammar': []
+        }
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_trailing_inline_text(self):
@@ -105,7 +111,9 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         glossary_terms = self.verto_extension.glossary_terms
-        expected_glossary_terms = dict()
+        expected_glossary_terms = {
+            'finite state automaton': []
+        }
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_leading_and_trailing_inline_text(self):
@@ -122,7 +130,9 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         glossary_terms = self.verto_extension.glossary_terms
-        expected_glossary_terms = dict()
+        expected_glossary_terms = {
+            'Regular expression': []
+        }
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_multiple_terms(self):
@@ -141,6 +151,8 @@ class GlossaryLinkTest(ProcessorTest):
 
         glossary_terms = self.verto_extension.glossary_terms
         expected_glossary_terms = {
+            'grammar': [],
+            'regular-expression': [],
             'finite-state-automaton':
                 [('Formal languages', 'glossary-finite-state-automaton')]
         }
@@ -162,6 +174,7 @@ class GlossaryLinkTest(ProcessorTest):
 
         glossary_terms = self.verto_extension.glossary_terms
         expected_glossary_terms = {
+            'hello': [],
             'algorithm':
                 [('computer program', 'glossary-algorithm'),
                  ('algorithm cost', 'glossary-algorithm-2'),
@@ -187,7 +200,9 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
         glossary_terms = self.verto_extension.glossary_terms
-        expected_glossary_terms = dict()
+        expected_glossary_terms = {
+            'algorithm': []
+        }
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_doc_example_override_html(self):

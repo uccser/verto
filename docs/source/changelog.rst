@@ -1,6 +1,16 @@
 Changelog
 #######################################
 
+0.5.3
+=======================================
+
+In this hotfix Verto result data for unique identifiers and required files is now only cleared when explicitly told. Result data that is per document such as title and heading tree are cleared per conversion.
+
+Fixes:
+
+  - Remove implicit Beautify processor, fixing white-spacing issues.
+  - All terms are added to glossary correctly now.
+
 0.5.2
 =======================================
 

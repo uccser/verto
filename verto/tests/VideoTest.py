@@ -162,6 +162,17 @@ class VideoTest(ProcessorTest):
 
         self.assertRaises(NoVideoIdentifierError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
+    def test_contains_multiple_videos(self):
+        '''Tests output of multiple video links.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'contains_multiple_videos.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, True, False, True, False, True, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_file_string = self.read_test_file(self.processor_name, 'contains_multiple_videos_expected.html', strip=True)
+        self.assertEqual(converted_test_string, expected_file_string)
     #~
     # Doc Tests
     #~

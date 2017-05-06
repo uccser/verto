@@ -3,8 +3,7 @@ from verto.VertoExtension import VertoExtension
 from verto.tests.ProcessorTest import ProcessorTest
 
 class JinjaTest(ProcessorTest):
-    '''The major concern with beautifying is that preformatted tags and
-    code blocks are unchanged. The tests here cover these cases.
+    '''Unescape special characters within Django blocks.
     '''
 
     def __init__(self, *args, **kwargs):

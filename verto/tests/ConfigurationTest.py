@@ -64,7 +64,9 @@ class ConfigurationTest(BaseTest):
                             children=()
                         ),
                     ),
-                    required_glossary_terms=defaultdict(list)
+                    required_glossary_terms={
+                        'algorithm': []
+                    }
                 )
             ),
             ('some_processors.md',
@@ -116,6 +118,7 @@ class ConfigurationTest(BaseTest):
                         children=(),
                     ),),
                     required_glossary_terms={
+                        'hello': [],
                         'algorithm':
                             [('computer program', 'glossary-algorithm'),
                              ('algorithm cost', 'glossary-algorithm-2'),
@@ -126,15 +129,108 @@ class ConfigurationTest(BaseTest):
             )
         ]
 
-        for test in test_cases:
-            verto = Verto()
-            test_string = self.read_test_file(self.test_name, test[0])
+        verto = Verto()
+        for filename, expected_result in test_cases:
+            test_string = self.read_test_file(self.test_name, filename)
             verto_result = verto.convert(test_string)
 
-            self.assertEqual(verto_result.title, test[1].title)
-            self.assertEqual(verto_result.required_files, test[1].required_files)
-            self.assertTupleEqual(verto_result.heading_tree, test[1].heading_tree)
-            self.assertDictEqual(verto_result.required_glossary_terms, test[1].required_glossary_terms)
+            self.assertEqual(verto_result.title, expected_result.title)
+            self.assertEqual(verto_result.required_files, expected_result.required_files)
+            self.assertTupleEqual(verto_result.heading_tree, expected_result.heading_tree)
+            self.assertDictEqual(verto_result.required_glossary_terms, expected_result.required_glossary_terms)
+            verto.clear_saved_data()
+
+    def test_multiple_calls_without_clearing(self):
+        '''Tests that if the verto extension is not cleared that
+        information such as required_files and slugs are persistant.
+        '''
+        filename = 'all_processors.md'
+        other_filename = 'otherfile.md'
+        expected_result = VertoResult(
+                                html_string=self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True),
+                                title='Example Title',
+                                required_files={
+                                    'interactives': {
+                                        'binary-cards'
+                                    },
+                                    'images': set(),
+                                    'page_scripts': set(),
+                                    'scratch_images': {
+                                        ScratchImageMetaData(
+                                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
+                                        ),
+                                    }
+                                },
+                                heading_tree=(HeadingNode(
+                                        title='Example Title',
+                                        title_slug='example-title',
+                                        level=1,
+                                        children=(),
+                                    ),
+                                    HeadingNode(
+                                        title='Example Title 2',
+                                        title_slug='example-title-2',
+                                        level=1,
+                                        children=()
+                                    ),
+                                ),
+                                required_glossary_terms={
+                                    'algorithm': []
+                                }
+                            )
+        expected_otherfile_result = VertoResult(
+                                html_string=self.read_test_file(self.test_name, 'otherfile_expected.html', strip=True),
+                                title='Example Title',
+                                required_files={
+                                    'interactives': {
+                                        'binary-cards'
+                                    },
+                                    'images': {
+                                        'pixel-diamond.png'
+                                    },
+                                    'page_scripts': set(),
+                                    'scratch_images': {
+                                        ScratchImageMetaData(
+                                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
+                                        ),
+                                        ScratchImageMetaData(
+                                            hash='b78bff524e54a18116e1e898a93e360827f874a8b0b508e1edc47d21516495ad',
+                                            text='never\ngoing\nto\ngive\nyou\nup'
+                                        ),
+                                    }
+                                },
+                                heading_tree=(HeadingNode(
+                                        title='Example Title',
+                                        title_slug='example-title-3',
+                                        level=1,
+                                        children=(),
+                                    ),
+                                ),
+                                required_glossary_terms={
+                                    'algorithm': []
+                                }
+                            )
+
+        verto = Verto()
+        # First file
+        test_string = self.read_test_file(self.test_name, filename)
+        verto_result = verto.convert(test_string)
+
+        self.assertEqual(verto_result.title, expected_result.title)
+        self.assertEqual(verto_result.required_files, expected_result.required_files)
+        self.assertTupleEqual(verto_result.heading_tree, expected_result.heading_tree)
+        self.assertDictEqual(verto_result.required_glossary_terms, expected_result.required_glossary_terms)
+
+        # Another file
+        test_string = self.read_test_file(self.test_name, other_filename)
+        verto_result = verto.convert(test_string)
+
+        self.assertEqual(verto_result.title, expected_otherfile_result.title)
+        self.assertEqual(verto_result.required_files, expected_otherfile_result.required_files)
+        self.assertTupleEqual(verto_result.heading_tree, expected_otherfile_result.heading_tree)
+        self.assertDictEqual(verto_result.required_glossary_terms, expected_otherfile_result.required_glossary_terms)
 
     def test_custom_processors_and_custom_templates_on_creation(self):
         '''Checks if custom processors and custom templates work
@@ -244,20 +340,26 @@ class ConfigurationTest(BaseTest):
         and used correctly.
         '''
         custom_templates = {
-            'image': '''<div class="text-center">
-                          <img src="{{ file_path }}" class="rounded img-thumbnail"/>
-                        </div>''',
-            'boxed-text': '''<div class="card">
-                               <div class="card-block">
-                                 {{ text }}
-                               </div>
-                             </div>''',
-            'heading': '''<{{ heading_type }} id="{{ title_slug }}">
-                            <span class="section_number">
-                              {{ level_1 }}.{{ level_2 }}.{{ level_3 }}.{{ level_4 }}.{{ level_5 }}.{{ level_6 }}.
-                            </span>
-                            {{ title }}
-                          </{{ heading_type }}>'''
+            'image': \
+'''<div class="text-center">
+<img src="{{ file_path }}" class="rounded img-thumbnail"/>
+</div>''',
+
+            'boxed-text': \
+'''<div class="card">
+<div class="card-block">
+{{ text }}
+</div>
+</div>''',
+
+            'heading': \
+'''<{{ heading_type }} id="{{ title_slug }}">
+<span class="section_number">
+{{ level_1 }}.{{ level_2 }}.{{ level_3 }}.{{ level_4 }}.{{ level_5 }}.{{ level_6 }}.
+</span>
+{{ title }}
+</{{ heading_type }}>'''
+
         }
 
         verto = Verto(html_templates=custom_templates)
