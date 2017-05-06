@@ -56,15 +56,14 @@ class VertoExtension(Extension):
             extensions: A list of extra extensions for compatibility.
         '''
         super().__init__(*args, **kwargs)
-        self.required_files = defaultdict(set)
-        self.title = None
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.processor_info = self.loadProcessorInfo()
         self.processors = processors
+        self.title = None
+        self.heading_tree = None
         self.custom_slugify = UniqueSlugify()
         self.glossary_terms = defaultdict(list)
-        self.heading_tree = None
-
+        self.required_files = defaultdict(set)
         self.compatibility = []
         for extension in extensions:
             if isinstance(extension, utils.string_type):
@@ -114,13 +113,18 @@ class VertoExtension(Extension):
                 processor = ScratchCompatibilityPreprocessor(self, md)
                 md.preprocessors.add('scratch-compatibility', processor, '<fenced_code_block')
 
-    def clear_saved_data(self):
-        '''Clears stored information from processors, should be called
-        between runs.
+    def clear_document_data(self):
+        '''Clears information stored for a specific document.
         '''
         self.title = None
-        self.custom_slugify.clear()
         self.heading_tree = None
+
+    def clear_saved_data(self):
+        '''Clears stored information from processors, should be called
+        between runs on unrelated documents.
+        '''
+        self.custom_slugify.clear()
+        self.glossary_terms.clear()
         for key in self.required_files.keys():
             self.required_files[key].clear()
 

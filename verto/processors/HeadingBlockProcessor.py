@@ -52,7 +52,6 @@ class HeadingBlockProcessor(BlockProcessor):
         '''
         block = blocks.pop(0)
         match = self.pattern.search(block)
-        assert match is not None  # If this is true how did we test successfully
 
         before = block[:match.start()]
         after = block[match.end():]
@@ -91,6 +90,7 @@ class HeadingBlockProcessor(BlockProcessor):
             level: the level of the heading
         '''
         if self.get_ext_tree() is None:  # We are likely on a new file
+            self.roots = []
             self.current_node = None
 
         # Who is our parent node
