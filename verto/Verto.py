@@ -16,6 +16,7 @@ DEFAULT_PROCESSORS = frozenset({
     'relative-link',
     'save-title',
     'scratch',
+    'scratch-inline',
     'table-of-contents',
     'video'
 })

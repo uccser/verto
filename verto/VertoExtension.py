@@ -15,6 +15,7 @@ from verto.processors.RemovePostprocessor import RemovePostprocessor
 from verto.processors.JinjaPostprocessor import JinjaPostprocessor
 from verto.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from verto.processors.ScratchTreeprocessor import ScratchTreeprocessor
+from verto.processors.ScratchInlineTreeprocessor import ScratchInlineTreeprocessor
 from verto.processors.ScratchCompatibilityPreprocessor import ScratchCompatibilityPreprocessor
 from verto.processors.ScratchCompatibilityPreprocessor import FENCED_BLOCK_RE_OVERRIDE
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
@@ -185,6 +186,7 @@ class VertoExtension(Extension):
         scratch_ordering = '>inline' if 'hilite' not in self.compatibility else '<hilite'
         self.treeprocessors = [
             ['scratch', ScratchTreeprocessor(self, md), scratch_ordering],
+            ['scratch-inline', ScratchInlineTreeprocessor(self, md), '>inline'],
         ]
         self.postprocessors = []
         self.buildGenericProcessors(md, md_globals)

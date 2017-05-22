@@ -3,7 +3,8 @@ from unittest.mock import Mock
 from collections import defaultdict
 
 from verto.VertoExtension import VertoExtension
-from verto.processors.ScratchInlineTest import ScratchInlineTest
+from verto.processors.ScratchTreeprocessor import ScratchImageMetaData
+from verto.processors.ScratchInlineTreeprocessor import ScratchInlineTreeprocessor
 from verto.tests.ProcessorTest import ProcessorTest
 
 class ScratchInlineTest(ProcessorTest):
@@ -31,7 +32,7 @@ class ScratchInlineTest(ProcessorTest):
         actual_scratch_images = self.verto_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
-                            hash='',
+                            hash='3dfa73663a21d295e1e5c1e5583d8d01edd68ec53ad3050597de126076c44ea5',
                             text='say [Hello] for (2) secs'
                         ),
                     }
@@ -51,7 +52,7 @@ class ScratchInlineTest(ProcessorTest):
         actual_scratch_images = verto_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
-                            hash='',
+                            hash='2f3ea223b778227287b8935bc5d209e25d3e8a25ef46ff85f6c44818159601d7',
                             text='when flag clicked'
                         ),
                     }
@@ -72,15 +73,15 @@ class ScratchInlineTest(ProcessorTest):
         actual_scratch_images = self.verto_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
-                            hash='',
+                            hash='3dfa73663a21d295e1e5c1e5583d8d01edd68ec53ad3050597de126076c44ea5',
                             text='say [Hello] for (2) secs'
                         ),
                         ScratchImageMetaData(
-                            hash='',
+                            hash='2f3ea223b778227287b8935bc5d209e25d3e8a25ef46ff85f6c44818159601d7',
                             text='when flag clicked'
                         ),
                         ScratchImageMetaData(
-                            hash='',
+                            hash='1c95862744e873cc87e4cadf6174257ce6e8a237b29b5c41f241e98e0d78eb14',
                             text='turn ccw (9) degrees'
                         ),
                     }
@@ -99,7 +100,7 @@ class ScratchInlineTest(ProcessorTest):
         actual_scratch_images = verto_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
-                            hash='',
+                            hash='9dabe0bac28bc3a143cfb19c2e5d7f46aae62b3d793166a56665a789d0df5bf7',
                             text='say [Hello]'
                         )
                     }
@@ -119,15 +120,15 @@ class ScratchInlineTest(ProcessorTest):
         actual_scratch_images = verto_extension.required_files['scratch_images']
         expected_scratch_images = {
                         ScratchImageMetaData(
-                            hash='',
+                            hash='3dfa73663a21d295e1e5c1e5583d8d01edd68ec53ad3050597de126076c44ea5',
                             text='say [Hello] for (2) secs'
                         ),
                         ScratchImageMetaData(
-                            hash='',
+                            hash='2f3ea223b778227287b8935bc5d209e25d3e8a25ef46ff85f6c44818159601d7',
                             text='when flag clicked'
                         ),
                         ScratchImageMetaData(
-                            hash='',
+                            hash='1c95862744e873cc87e4cadf6174257ce6e8a237b29b5c41f241e98e0d78eb14',
                             text='turn ccw (9) degrees'
                         ),
                     }
