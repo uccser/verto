@@ -104,7 +104,7 @@ The items of interest are:
 
 - ``processors/`` - There is a different processor for each tag. A processor uses it's corresponding description loaded from ``processor-info.json`` to find matches in the text, and uses the given arguments in the matched tag to populate and output it's html template.
 
-- ``html-templates/`` - The html templates (using the Jinja2 template engine) with variable arguments to be populated by processors. 
+- ``html-templates/`` - The html templates (using the Jinja2 template engine) with variable arguments to be populated by processors.
 
 - ``errors/`` - Contains all the errors exposed by the Verto module. Where an Error is an exception that is caused by user input. New errors should be created in here inheriting from the base ``Error`` class.
 
@@ -286,7 +286,7 @@ The logic for each processor belongs in the ``processors/`` directory, and there
 - The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``.
 - If it should be a default processor, it should be added to the frozenset of ``DEFAULT_PROCESSORS`` in ``Verto.py``.
 - The relevant list in ``extendMarkdown()`` in ``VertoExtension.py`` (see `OrderedDict in the Markdown API docs`_ for manipulating processor order).
-- The processor's template should be added to ``html-templates`` using the Jinja2 template engine syntax for variable parameters. A valid template will only have one root level node after rendering.
+- The processor's template should be added to ``html-templates`` using the Jinja2 template engine syntax for variable parameters. A valid template will only have one root level node after rendering, if more root nodes are necessary the remove tag can be used as the root node which will be removed later.
 - Any errors should have appropriate classes in the ``errors\`` directory, they should be well described by their class name such that for an expert knows immediately what to do to resolve the issue, otherwise a message should be used to describe the exact causation of the error for a novice.
 
 
