@@ -5,7 +5,7 @@ Inline Image
 
 .. note::
 
-    The inline image tag allows for the use of images inside tables, *etc* without causing style errors. The tag functions almost exactly the same as the ``image`` tag except for not excluding the alignment argument.
+    The inline image tag allows for the use of images inside tables, *etc* without causing style errors. The tag functions almost exactly the same as the ``image`` tag except for the alignment argument.
 
 You can include an inline image using the following text tag:
 
