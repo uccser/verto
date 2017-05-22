@@ -21,6 +21,7 @@ from verto.tests.RemoveTest import RemoveTest
 from verto.tests.RemoveTitleTest import RemoveTitleTest
 from verto.tests.SaveTitleTest import SaveTitleTest
 from verto.tests.ScratchTest import ScratchTest
+from verto.tests.ScratchInlineTest import ScratchInlineTest
 from verto.tests.StyleTest import StyleTest
 from verto.tests.TableOfContentsTest import TableOfContentsTest
 from verto.tests.VideoTest import VideoTest
@@ -79,6 +80,7 @@ def unit_suite():
         unittest.makeSuite(PanelTest),
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(ScratchTest),
+        unittest.makeSuite(ScratchInlineTest),
         unittest.makeSuite(StyleTest),
         unittest.makeSuite(RelativeLinkTest),
         unittest.makeSuite(RemoveTest),

@@ -43,7 +43,7 @@ You can also generate Scratch block text from a published Scratch project at
     See :ref:`accessing-scratch-image-data` section below.
 
 
-The default HTML for button links is:
+The default HTML for scratch blocks is:
 
 .. literalinclude:: ../../../verto/html-templates/scratch.html
     :language: css+jinja
@@ -119,7 +119,7 @@ Overriding HTML for Scratch
 
 When overriding the HTML for Scratch code, the following Jinja2 placeholders are available:
 
-- ``{{ hash }}`` - A list of hashes of the Scratch code-blocks used in the expected filename(s).
+- ``{{ images }}`` - A list of hashes of the Scratch code-blocks used in the expected filename(s).
 
 **Example**
 
