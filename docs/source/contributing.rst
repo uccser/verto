@@ -141,7 +141,7 @@ There are two types of generic processors:
   - tags (``generic_tag``): which match ``{<processor_name> <args>}`` in the markdown text replacing with the given html-template.
   - containers (``generic_container``): which are a pair of tags which capture the content between the tags for the html-template. A generic container's opening tag specifies the arguments, while the closing tag only has the ``end`` argument allowing for the content to contain generic containers.
 
-To create a new processor that uses the generic processors the processor must be added to the ``processor-info.json`` file and an associated html-template must be created. Where the template must only have one root level node after rendering.
+To create a new processor that uses the generic processors the processor must be added to the ``processor-info.json`` file and an associated html-template must be created. The template must only have one root level node after rendering.
 
 How to make a JSON Definition
 ++++++++++++++++++++++++++++++++++++++
