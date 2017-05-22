@@ -21,12 +21,14 @@ The following pages covers how to use the available processors within Markdown t
     glossary-link
     heading
     image
+    image-inline
     interactive
     panel
     relative-link
     remove-title
     save-title
     scratch
+    scratch-inline
     table-of-contents
     video
 

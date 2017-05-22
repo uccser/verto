@@ -1,6 +1,19 @@
 Changelog
 #######################################
 
+0.6.0
+=======================================
+
+Features:
+
+  - Added :doc:`processors/image-inline` processor, intended for use in tables.
+  - Added :doc:`processors/scratch-inline` processor for inline scratch support.
+
+Fixes:
+
+  - Removed ``beautifulsoup4`` dependency.
+  - Typo in VertoResult documentation (*heading_root* -> *heading_tree*).
+
 0.5.3
 =======================================
 
