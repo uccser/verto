@@ -44,7 +44,11 @@ class ScratchTreeprocessor(Treeprocessor):
         Args:
             root: The root of the document element tree.
         '''
-        for node in root.iter('pre'):
+        code_elements = []
+        for node in root.iterfind('.//pre'):  # A modified tree will leave the iterator undefined.
+            code_elements.append(node)
+
+        for node in code_elements:
             self.process_html(node)
 
         if self.fenced_compatibility:
