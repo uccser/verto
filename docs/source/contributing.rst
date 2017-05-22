@@ -141,7 +141,7 @@ There are two types of generic processors:
   - tags (``generic_tag``): which match ``{<processor_name> <args>}`` in the markdown text replacing with the given html-template.
   - containers (``generic_container``): which are a pair of tags which capture the content between the tags for the html-template. A generic container's opening tag specifies the arguments, while the closing tag only has the ``end`` argument allowing for the content to contain generic containers.
 
-To create a new processor that uses the generic processors the processor must be added to the ``processor-info.json`` file and an associated html-template must be created.
+To create a new processor that uses the generic processors the processor must be added to the ``processor-info.json`` file and an associated html-template must be created. The template must only have one root level node after rendering.
 
 How to make a JSON Definition
 ++++++++++++++++++++++++++++++++++++++
@@ -286,7 +286,7 @@ The logic for each processor belongs in the ``processors/`` directory, and there
 - The processor's relevant information (regex pattern, required parameters etc) should be included in ``processor-info.json``.
 - If it should be a default processor, it should be added to the frozenset of ``DEFAULT_PROCESSORS`` in ``Verto.py``.
 - The relevant list in ``extendMarkdown()`` in ``VertoExtension.py`` (see `OrderedDict in the Markdown API docs`_ for manipulating processor order).
-- The processor's template should be added to ``html-templates`` using the Jinja2 template engine syntax for variable parameters.
+- The processor's template should be added to ``html-templates`` using the Jinja2 template engine syntax for variable parameters. A valid template will only have one root level node after rendering, if more root nodes are necessary the remove tag can be used as the root node which will be removed later.
 - Any errors should have appropriate classes in the ``errors\`` directory, they should be well described by their class name such that for an expert knows immediately what to do to resolve the issue, otherwise a message should be used to describe the exact causation of the error for a novice.
 
 
