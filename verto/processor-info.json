@@ -155,6 +155,36 @@
           }
         }
     },
+    "image-inline": {
+        "class": "custom",
+        "pattern": "\\{image-inline (?P<args>[^\\}]*)\\}",
+        "arguments": {
+          "file-path": {
+            "required": true,
+            "dependencies": []
+          },
+          "alt": {
+            "required": false,
+            "dependencies": []
+          },
+          "caption": {
+            "required": false,
+            "dependencies": []
+          },
+          "caption-link": {
+            "required": false,
+            "dependencies": ["caption"]
+          },
+          "source": {
+            "required": false,
+            "dependencies": []
+          },
+          "hover-text": {
+            "required": false,
+            "dependencies": []
+          }
+        }
+    },
     "interactive": {
         "class": "custom",
         "arguments": {
@@ -234,10 +264,10 @@
     },
     "style": {
       "class": "custom",
-      "block_pattern": "\\{{{block} ?([^\\}}]*)\\}}",
-      "inline_pattern": "\\{{{inline} ?([^\\}}]*)\\}}",
+      "block_pattern": "\\{{{block}( ([^\\}}]*))?\\}}",
+      "inline_pattern": "\\{{{inline}( ([^\\}}]*))?\\}}",
       "strings": {
-        "inline": ["glossary-link"],
+        "inline": ["glossary-link", "image-inline"],
         "block": ["boxed-text", "button-link", "comment", "conditional", "iframe", "image", "interactive", "panel", "table-of-contents", "video"]
       }
     },

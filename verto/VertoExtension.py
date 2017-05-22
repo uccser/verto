@@ -3,6 +3,7 @@ import markdown.util as utils
 
 from verto.processors.CommentPreprocessor import CommentPreprocessor
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
+from verto.processors.ImageInlinePattern import ImageInlinePattern
 from verto.processors.ImageBlockProcessor import ImageBlockProcessor
 from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from verto.processors.RelativeLinkPattern import RelativeLinkPattern
@@ -181,6 +182,7 @@ class VertoExtension(Extension):
         self.inlinepatterns = [  # A special treeprocessor
             ['relative-link', RelativeLinkPattern(self, md), '_begin'],
             ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
+            ['image-inline', ImageInlinePattern(self, md), '_begin']
         ]
         scratch_ordering = '>inline' if 'hilite' not in self.compatibility else '<hilite'
         self.treeprocessors = [

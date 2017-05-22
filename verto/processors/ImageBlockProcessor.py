@@ -66,7 +66,6 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
         context = dict()
         context['file_path'] = file_path
         context['alt'] = argument_values.get('alt', None)
-        context['title'] = argument_values.get('title', None)
         context['caption'] = argument_values.get('caption', None)
         context['caption_link'] = argument_values.get('caption-link', None)
         context['source_link'] = argument_values.get('source', None)
