@@ -1,0 +1,13 @@
+<div>
+<img src="{{ file_path }}"
+{% if alt %} alt="{{ alt }}" {% endif -%}
+{%- if hover_text %} title="{{ hover_text }}" {% endif -%}>
+{% if caption and caption_link -%}
+<p><a href="{{ caption_link }}">{{ caption }}</a></p>
+{%- elif caption -%}
+<p>{{ caption }}</p>
+{%- endif -%}
+{%- if source_link -%}
+<p><a href="{{ source_link }}">Source</a></p>
+{%- endif -%}
+</div>

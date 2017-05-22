@@ -11,6 +11,7 @@ from verto.tests.ConditionalTest import ConditionalTest
 from verto.tests.FrameTest import FrameTest
 from verto.tests.GlossaryLinkTest import GlossaryLinkTest
 from verto.tests.HeadingTest import HeadingTest
+from verto.tests.ImageInlineTest import ImageInlineTest
 from verto.tests.ImageTest import ImageTest
 from verto.tests.JinjaTest import JinjaTest
 from verto.tests.InteractiveTest import InteractiveTest
@@ -20,6 +21,7 @@ from verto.tests.RemoveTest import RemoveTest
 from verto.tests.RemoveTitleTest import RemoveTitleTest
 from verto.tests.SaveTitleTest import SaveTitleTest
 from verto.tests.ScratchTest import ScratchTest
+from verto.tests.ScratchInlineTest import ScratchInlineTest
 from verto.tests.StyleTest import StyleTest
 from verto.tests.TableOfContentsTest import TableOfContentsTest
 from verto.tests.VideoTest import VideoTest
@@ -71,12 +73,14 @@ def unit_suite():
         unittest.makeSuite(FrameTest),
         unittest.makeSuite(GlossaryLinkTest),
         unittest.makeSuite(HeadingTest),
+        unittest.makeSuite(ImageInlineTest),
         unittest.makeSuite(ImageTest),
         unittest.makeSuite(InteractiveTest),
         unittest.makeSuite(JinjaTest),
         unittest.makeSuite(PanelTest),
         unittest.makeSuite(SaveTitleTest),
         unittest.makeSuite(ScratchTest),
+        unittest.makeSuite(ScratchInlineTest),
         unittest.makeSuite(StyleTest),
         unittest.makeSuite(RelativeLinkTest),
         unittest.makeSuite(RemoveTest),

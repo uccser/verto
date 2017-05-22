@@ -3,6 +3,7 @@ import markdown.util as utils
 
 from verto.processors.CommentPreprocessor import CommentPreprocessor
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
+from verto.processors.ImageInlinePattern import ImageInlinePattern
 from verto.processors.ImageBlockProcessor import ImageBlockProcessor
 from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from verto.processors.RelativeLinkPattern import RelativeLinkPattern
@@ -15,6 +16,7 @@ from verto.processors.RemovePostprocessor import RemovePostprocessor
 from verto.processors.JinjaPostprocessor import JinjaPostprocessor
 from verto.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from verto.processors.ScratchTreeprocessor import ScratchTreeprocessor
+from verto.processors.ScratchInlineTreeprocessor import ScratchInlineTreeprocessor
 from verto.processors.ScratchCompatibilityPreprocessor import ScratchCompatibilityPreprocessor
 from verto.processors.ScratchCompatibilityPreprocessor import FENCED_BLOCK_RE_OVERRIDE
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
@@ -181,10 +183,12 @@ class VertoExtension(Extension):
         self.inlinepatterns = [  # A special treeprocessor
             ['relative-link', RelativeLinkPattern(self, md), '_begin'],
             ['glossary-link', GlossaryLinkPattern(self, md), '_begin'],
+            ['image-inline', ImageInlinePattern(self, md), '_begin']
         ]
         scratch_ordering = '>inline' if 'hilite' not in self.compatibility else '<hilite'
         self.treeprocessors = [
             ['scratch', ScratchTreeprocessor(self, md), scratch_ordering],
+            ['scratch-inline', ScratchInlineTreeprocessor(self, md), '>inline'],
         ]
         self.postprocessors = []
         self.buildGenericProcessors(md, md_globals)

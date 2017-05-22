@@ -11,11 +11,13 @@ DEFAULT_PROCESSORS = frozenset({
     'heading',
     'iframe',
     'image',
+    'image-inline',
     'interactive',
     'panel',
     'relative-link',
     'save-title',
     'scratch',
+    'scratch-inline',
     'table-of-contents',
     'video'
 })
