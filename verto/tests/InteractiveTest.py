@@ -6,6 +6,7 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from verto.tests.ProcessorTest import ProcessorTest
 
+
 class InteractiveTest(ProcessorTest):
     '''The interactive processor is a simple tag with a complex
     output that relies on external systems.
@@ -37,7 +38,7 @@ class InteractiveTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        required_files={
+        required_files = {
             'interactives': {
                 'binary-cards'
             },
@@ -50,7 +51,7 @@ class InteractiveTest(ProcessorTest):
         self.assertEqual(self.verto_extension.required_files, required_files)
 
     def test_doc_example_whole_page(self):
-        '''Example of an whole-page interactive.
+        '''Example of a whole-page interactive.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage.md')
         blocks = self.to_blocks(test_string)
@@ -61,8 +62,8 @@ class InteractiveTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        required_files={
-            'interactives': set(),
+        required_files = {
+            'interactives': {"binary-cards"},
             'images': {
                 'binary-cards/thumbnail.png'
             },
@@ -83,7 +84,7 @@ class InteractiveTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        required_files={
+        required_files = {
             'interactives': {
                 'binary-cards'
             },
