@@ -62,10 +62,11 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         text = argument_values.get('text', None)
         parameters = argument_values.get('parameters', None)
 
+        # add to list of interactives
+        self.required.add(name)
+
         if interactive_type == 'in-page':
             self.scripts.add('interactive/{}/scripts.html'.format(name))
-        if interactive_type != 'whole-page':
-            self.required.add(name)
 
         context = dict()
         context['type'] = interactive_type

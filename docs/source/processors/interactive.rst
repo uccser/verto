@@ -74,7 +74,7 @@ Optional Tag Parameters
     The set of filepaths can be accessed after conversion,
     see :ref:`accessing_verto_data`.
 
-The default HTML for button links is:
+The default HTML for an interactive is:
 
 .. literalinclude:: ../../../verto/html-templates/interactive.html
     :language: css+jinja
