@@ -1,6 +1,14 @@
 Changelog
 #######################################
 
+0.6.1
+=======================================
+
+Fixes:
+
+  - Adds all interactives to required files.
+  - Typo in Interactive documentation.
+
 0.6.0
 =======================================
 
