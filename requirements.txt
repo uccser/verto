@@ -2,7 +2,7 @@
 markdown==2.6.8
 Jinja2==2.9.6
 python-slugify==1.2.4
-setuptools==36.1.0
+setuptools==36.2.1
 
 # Required dependencies for building documentation
 sphinx==1.6.3
