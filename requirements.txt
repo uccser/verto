@@ -1,6 +1,6 @@
 # Required dependencies for Verto (installed automatically in setup.py)
 markdown==2.6.9
-Jinja2==2.9.6
+Jinja2==2.10
 python-slugify==1.2.4
 setuptools==36.6.0
 
