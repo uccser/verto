@@ -212,12 +212,9 @@
         }
     },
     "panel": {
-        "class": "generic_container",
+        "class": "custom",
         "arguments": {
           "type": {
-            "required": true
-          },
-          "title": {
             "required": true
           },
           "subtitle": {
