@@ -24,6 +24,103 @@ class PanelTest(ProcessorTest):
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.block_processor = PanelBlockProcessor(self.ext, Mock())
 
+    def test_heading_no_subtitle(self):
+        '''Tests that a heading is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_no_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_heading_subtitle_false(self):
+        '''Tests that a heading is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_subtitle_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_heading_subtitle_false_h2_heading_in_panel(self):
+        '''Tests that a heading is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_subtitle_false_h2_heading_in_panel.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_heading_with_subtitle(self):
+        '''Tests that both a heading and subtitle is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_with_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_heading_with_subtitle_h2_heading_in_panel(self):
+        '''Tests that both a heading and subtitle is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_h2_heading_in_panel.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+
+    def test_missing_heading_with_subtitle(self):
+        '''Tests that correct error raised when heading is missing
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_heading_with_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_heading_missing_subtitle(self):
+        '''Tests that correct error raised when subtitle is missing
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_missing_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_missing_heading_missing_subtitle(self):
+        '''Tests that correct error raised when heading and subtitle are missing
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_heading_missing_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_incorrect_heading_no_subtitle(self):
+        '''Tests that correct error raised when heading is incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'incorrect_heading_no_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_incorrect_heading_with_subtitle(self):
+        '''Tests that correct error raised when heading is incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'incorrect_heading_with_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_heading_incorrect_subtitle(self):
+        '''Tests that correct error raised when subtitle is incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_incorrect_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+    def test_incorrect_heading_incorrect_subtitle(self):
+        '''Tests that correct error raised when heading and subtitle are incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'incorrect_heading_incorrect_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
     def test_parses_blank(self):
         '''Tests that a blank panel is processed with empty content.
         '''
