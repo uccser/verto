@@ -37,7 +37,6 @@ class PanelBlockProcessor(BlockProcessor):
         Returns:
             True if there are any start or end tags within the block.
         '''
-        # return
         return self.p_start.search(block) is not None or self.p_end.search(block) is not None
 
     def run(self, parent, blocks):
@@ -97,14 +96,17 @@ class PanelBlockProcessor(BlockProcessor):
         if title:
             argument_values[argument] = title
         else:
-            # TODO raise error for missing title
             raise ArgumentMissingError(self.processor, argument, '{} is a required argument.'.format(argument))
 
-        if argument_values.get('subtitle') == 'true':
+        argument = 'subtitle'
+        if argument_values.get(argument) == 'true':
             subtitle_r = re.compile(r'(^|\n)## ((\w| )*)(?P<args>)')
             subtitle = subtitle_r.search(content_blocks[1]).groups()[1]
-            argument_values['subtitle'] = subtitle
-            content_blocks = content_blocks[2:]
+            if subtitle:
+                argument_values[argument] = subtitle
+                content_blocks = content_blocks[2:]
+            else:
+                raise ArgumentMissingError(self.processor, argument, '{} is set to "true" but not supplied.'.format(argument))
         else:
             content_blocks = content_blocks[1:]
 
