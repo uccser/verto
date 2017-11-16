@@ -23,6 +23,16 @@ class GenericContainerBlockProcessor(BlockProcessor):
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
         self.process_parameters = lambda processor, parameters, argument_values: \
             process_parameters(ext, processor, parameters, argument_values)
+        self.blocks = None
+        self.block = None
+        self.start_tag = None
+        self.end_tag = None
+        self.argument_values = None
+        self.the_rest = ''
+        self.content_blocks = []
+        self.parent = None
+        self.inner_start_tags = 0
+        self.inner_end_tags = 0
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -46,56 +56,74 @@ class GenericContainerBlockProcessor(BlockProcessor):
             blocks: A list of strings of the document, where the
                 first block tests true.
         '''
-        block = blocks.pop(0)
+        self.blocks = blocks
+        self.block = self.blocks.pop(0)
+        self.parent = parent
+        self.start_tag = self.p_start.search(self.block)
+        self.end_tag = self.p_end.search(self.block)
 
-        start_tag = self.p_start.search(block)
-        end_tag = self.p_end.search(block)
+        self.get_content()
+        self.custom_parsing()
+        self.convert_to_html()
 
-        if ((start_tag is None and end_tag is not None)
-           or (start_tag and end_tag and start_tag.end() > end_tag.start())):
-            raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
+    def get_content(self):
+        '''Get arguments and content of block
+        '''
+        if ((self.start_tag is None and self.end_tag is not None)
+           or (self.start_tag and self.end_tag and self.start_tag.end() > self.end_tag.start())):
+            raise TagNotMatchedError(self.processor, self.block, 'end tag found before start tag')
 
-        before = block[:start_tag.start()]
-        after = block[start_tag.end():]
+        before = self.block[:self.start_tag.start()]
+        after = self.block[self.start_tag.end():]
 
         if before.strip() != '':
-            self.parser.parseChunk(parent, before)
+            self.parser.parseChunk(self.parent, before)
         if after.strip() != '':
-            blocks.insert(0, after)
+            self.blocks.insert(0, after)
 
-        argument_values = parse_arguments(self.processor, start_tag.group('args'), self.arguments)
+        self.argument_values = parse_arguments(self.processor, self.start_tag.group('args'), self.arguments)
 
-        content_blocks = []
-        the_rest = ''
-        inner_start_tags = 0
-        inner_end_tags = 0
+        self.content_blocks = []
+        self.the_rest = ''
+        self.inner_start_tags = 0
+        self.inner_end_tags = 0
 
-        while len(blocks) > 0:
-            block = blocks.pop(0)
-            inner_tag = self.p_start.search(block)
-            end_tag = self.p_end.search(block)
+        while len(self.blocks) > 0:
+            self.block = self.blocks.pop(0)
+            inner_tag = self.p_start.search(self.block)
+            self.end_tag = self.p_end.search(self.block)
 
-            if ((inner_tag and end_tag is None)
-               or (inner_tag and end_tag and inner_tag.start() < end_tag.end())):
-                inner_start_tags += 1
+            if ((inner_tag and self.end_tag is None)
+               or (inner_tag and self.end_tag and inner_tag.start() < self.end_tag.end())):
+                self.inner_start_tags += 1
 
-            if end_tag and inner_start_tags == inner_end_tags:
-                content_blocks.append(block[:end_tag.start()])
-                the_rest = block[end_tag.end():]
+            if self.end_tag and self.inner_start_tags == self.inner_end_tags:
+                self.content_blocks.append(self.block[:self.end_tag.start()])
+                self.the_rest = self.block[self.end_tag.end():]
                 break
-            elif end_tag:
-                inner_end_tags += 1
-                end_tag = None
-            content_blocks.append(block)
+            elif self.end_tag:
+                self.inner_end_tags += 1
+                self.end_tag = None
+            self.content_blocks.append(self.block)
 
-        if the_rest.strip() != '':
-            blocks.insert(0, the_rest)
+        if self.the_rest.strip() != '':
+            self.blocks.insert(0, self.the_rest)
 
-        if end_tag is None or inner_start_tags != inner_end_tags:
-            raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
+        if self.end_tag is None or self.inner_start_tags != self.inner_end_tags:
+            raise TagNotMatchedError(self.processor, self.block, 'no end tag found to close start tag')
+
+    def custom_parsing(self):
+        '''Method to be overriden by processors using GenericContainerBlockProcessor
+           but require further parsing of the content
+        '''
+        pass
+
+    def convert_to_html(self):
+        '''Convert the content to html element and render in template
+        '''
 
         content_tree = etree.Element('content')
-        self.parser.parseChunk(content_tree, blocks_to_string(content_blocks))
+        self.parser.parseChunk(content_tree, blocks_to_string(self.content_blocks))
 
         content = ''
         for child in content_tree:
@@ -106,10 +134,10 @@ class GenericContainerBlockProcessor(BlockProcessor):
             message = 'content cannot be blank.'
             raise ArgumentValueError(self.processor, 'content', content, message)
 
-        argument_values['content'] = content
-        context = self.process_parameters(self.processor, self.template_parameters, argument_values)
+        self.argument_values['content'] = content
+        context = self.process_parameters(self.processor, self.template_parameters, self.argument_values)
 
         html_string = self.template.render(context)
         parser = HtmlParser()
         parser.feed(html_string).close()
-        parent.append(parser.get_root())
+        self.parent.append(parser.get_root())
