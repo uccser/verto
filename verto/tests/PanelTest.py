@@ -237,9 +237,12 @@ class PanelTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'contains_multiple_panels_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_contains_inner_panel(self):
+    def test_contains_inner_panel(self):  # TODO problem test
         '''Tests that panels can contain other panels.
         '''
+        print()
+        print('inner')
+        print()
         test_string = self.read_test_file(self.processor_name, 'contains_inner_panel.md')
         blocks = self.to_blocks(test_string)
 
