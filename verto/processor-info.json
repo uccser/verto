@@ -218,7 +218,8 @@
             "required": true
           },
           "subtitle": {
-            "required": false
+            "required": false,
+            "values": ["true", "false"]
           },
           "expanded": {
             "required": false,

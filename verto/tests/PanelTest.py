@@ -5,7 +5,9 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
+
 
 class PanelTest(ProcessorTest):
     '''The panel processor inherits from the generic container.
@@ -56,6 +58,10 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_subtitle_false_h2_heading_in_panel_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     def test_heading_with_subtitle(self):
         '''Tests that both a heading and subtitle is parsed correctly
         '''
@@ -63,6 +69,10 @@ class PanelTest(ProcessorTest):
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_heading_with_subtitle_h2_heading_in_panel(self):
         '''Tests that both a heading and subtitle is parsed correctly
@@ -72,6 +82,9 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_h2_heading_in_panel_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_missing_heading_with_subtitle(self):
         '''Tests that correct error raised when heading is missing
@@ -81,6 +94,8 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
     def test_heading_missing_subtitle(self):
         '''Tests that correct error raised when subtitle is missing
         '''
@@ -88,6 +103,18 @@ class PanelTest(ProcessorTest):
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_heading_invalid_subtitle_argument(self):
+        '''Tests that correct error raised when incorrect valude givent for subtitle argument
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_invalid_subtitle_argument.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_missing_heading_missing_subtitle(self):
         '''Tests that correct error raised when heading and subtitle are missing
@@ -97,6 +124,8 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
     def test_incorrect_heading_no_subtitle(self):
         '''Tests that correct error raised when heading is incorrect
         '''
@@ -104,6 +133,8 @@ class PanelTest(ProcessorTest):
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_incorrect_heading_with_subtitle(self):
         '''Tests that correct error raised when heading is incorrect
@@ -113,6 +144,8 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
     def test_heading_incorrect_subtitle(self):
         '''Tests that correct error raised when subtitle is incorrect
         '''
@@ -120,6 +153,8 @@ class PanelTest(ProcessorTest):
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_incorrect_heading_incorrect_subtitle(self):
         '''Tests that correct error raised when heading and subtitle are incorrect
@@ -129,6 +164,8 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
     def test_parses_blank(self):
         '''Tests that a blank panel is processed with empty content.
         '''
@@ -137,7 +174,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]),test_string)
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_parses_no_blank_lines_single_paragraph(self):
         '''Tests that a block of text as content is added to the panel.
@@ -211,6 +248,16 @@ class PanelTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'contains_inner_panel_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_inner_panel_missing_subtitle(self):
+        '''Tests that panels can contain other panels and subtitles are rendered correctly.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'contains_inner_panel_missing_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True, False, False, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_missing_start_tag(self):
         '''Tests that TagNotMatchedErrors are thown when an end tag is

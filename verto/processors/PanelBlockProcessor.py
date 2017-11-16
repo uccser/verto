@@ -92,24 +92,26 @@ class PanelBlockProcessor(BlockProcessor):
 
         argument = 'title'
         title_r = re.compile(r'(^|\n)# ((\w| )*)(?P<args>)')
-        title = title_r.search(content_blocks[0]).groups()[1]
+        title = title_r.search(content_blocks[0])
         if title:
-            argument_values[argument] = title
+            argument_values[argument] = title.groups()[1]
         else:
             raise ArgumentMissingError(self.processor, argument, '{} is a required argument.'.format(argument))
 
         argument = 'subtitle'
         if argument_values.get(argument) == 'true':
             subtitle_r = re.compile(r'(^|\n)## ((\w| )*)(?P<args>)')
-            subtitle = subtitle_r.search(content_blocks[1]).groups()[1]
+            subtitle = subtitle_r.search(content_blocks[1])
             if subtitle:
-                argument_values[argument] = subtitle
+                argument_values[argument] = subtitle.groups()[1]
                 content_blocks = content_blocks[2:]
             else:
                 raise ArgumentMissingError(self.processor, argument, '{} is set to "true" but not supplied.'.format(argument))
+        elif argument_values.get(argument) == 'false':  # false
+            del argument_values[argument]  # delete from argument dict so as to not be included in template
+            content_blocks = content_blocks[1:]
         else:
             content_blocks = content_blocks[1:]
-
 
         if the_rest.strip() != '':
             blocks.insert(0, the_rest)
