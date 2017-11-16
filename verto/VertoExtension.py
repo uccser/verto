@@ -179,7 +179,7 @@ class VertoExtension(Extension):
             ['image', ImageBlockProcessor(self, md.parser), '<paragraph'],
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
             ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
-            ['panel', PanelBlockProcessor(self, md.parser), '<paragraph'], # TODO check order
+            ['panel', PanelBlockProcessor(self, md.parser), '<paragraph'],
             # Multiline
         ]
         self.inlinepatterns = [  # A special treeprocessor

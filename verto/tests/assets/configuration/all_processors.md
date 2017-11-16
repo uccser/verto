@@ -8,7 +8,11 @@ This is a sentence.
 
 Check out this [resource](resource/134).
 
-{panel type="teacher-note" title="Teacher Note" subtitle="Guides for Algorithms"}
+{panel type="teacher-note" subtitle="true"}
+
+# Teacher Note
+
+## Guides for Algorithms
 
 This text is the panel's contents.
 

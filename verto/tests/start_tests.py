@@ -1,5 +1,4 @@
 import sys, unittest, optparse
-from collections import defaultdict
 
 from verto.tests.ConfigurationTest import ConfigurationTest
 from verto.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
@@ -29,6 +28,7 @@ from verto.tests.VideoTest import VideoTest
 from verto.tests.HtmlParserTest import HtmlParserTest
 from verto.tests.MarkdownOverrideTest import MarkdownOverrideTest
 
+
 def parse_args():
     '''Parses the arguments for running the test suite, these are
     useful for developing when parts of verto are known to fail.
@@ -47,6 +47,7 @@ def parse_args():
 
     return options, arguments
 
+
 def smoke_suite():
     '''Builds the smoke tests.
     '''
@@ -55,6 +56,7 @@ def smoke_suite():
         unittest.makeSuite(SmokeFileTest),
     ))
 
+
 def system_suite():
     '''Builds specific system tests.
     '''
@@ -62,35 +64,37 @@ def system_suite():
         unittest.makeSuite(ConfigurationTest)
     ))
 
+
 def unit_suite():
     '''Builds unittests. (Not really unittests).
     '''
     return unittest.TestSuite((
-        # unittest.makeSuite(BoxedTextTest),
-        # unittest.makeSuite(ButtonLinkTest),
-        # unittest.makeSuite(CommentTest),
-        # unittest.makeSuite(ConditionalTest),
-        # unittest.makeSuite(FrameTest),
-        # unittest.makeSuite(GlossaryLinkTest),
-        # unittest.makeSuite(HeadingTest),
-        # unittest.makeSuite(ImageInlineTest),
-        # unittest.makeSuite(ImageTest),
-        # unittest.makeSuite(InteractiveTest),
-        # unittest.makeSuite(JinjaTest),
+        unittest.makeSuite(BoxedTextTest),
+        unittest.makeSuite(ButtonLinkTest),
+        unittest.makeSuite(CommentTest),
+        unittest.makeSuite(ConditionalTest),
+        unittest.makeSuite(FrameTest),
+        unittest.makeSuite(GlossaryLinkTest),
+        unittest.makeSuite(HeadingTest),
+        unittest.makeSuite(ImageInlineTest),
+        unittest.makeSuite(ImageTest),
+        unittest.makeSuite(InteractiveTest),
+        unittest.makeSuite(JinjaTest),
         unittest.makeSuite(PanelTest),
-        # unittest.makeSuite(SaveTitleTest),
-        # unittest.makeSuite(ScratchTest),
-        # unittest.makeSuite(ScratchInlineTest),
-        # unittest.makeSuite(StyleTest),
-        # unittest.makeSuite(RelativeLinkTest),
-        # unittest.makeSuite(RemoveTest),
-        # unittest.makeSuite(RemoveTitleTest),
-        # unittest.makeSuite(TableOfContentsTest),
-        # unittest.makeSuite(VideoTest),
+        unittest.makeSuite(SaveTitleTest),
+        unittest.makeSuite(ScratchTest),
+        unittest.makeSuite(ScratchInlineTest),
+        unittest.makeSuite(StyleTest),
+        unittest.makeSuite(RelativeLinkTest),
+        unittest.makeSuite(RemoveTest),
+        unittest.makeSuite(RemoveTitleTest),
+        unittest.makeSuite(TableOfContentsTest),
+        unittest.makeSuite(VideoTest),
 
-        # unittest.makeSuite(HtmlParserTest),
-        # unittest.makeSuite(MarkdownOverrideTest),
+        unittest.makeSuite(HtmlParserTest),
+        unittest.makeSuite(MarkdownOverrideTest),
     ))
+
 
 if __name__ == '__main__':
     options, arguments = parse_args()
