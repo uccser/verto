@@ -23,9 +23,8 @@ class GenericContainerBlockProcessor(BlockProcessor):
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
         self.process_parameters = lambda processor, parameters, argument_values: \
             process_parameters(ext, processor, parameters, argument_values)
-        # self.argument_values = None
-        # self.content_blocks = []
-        # self.parent = None
+        self.argument_values = None
+        self.content_blocks = None
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -49,16 +48,8 @@ class GenericContainerBlockProcessor(BlockProcessor):
             blocks: A list of strings of the document, where the
                 first block tests true.
         '''
-        self.parent = parent
-
-        self.get_content(blocks)
-        self.custom_parsing()
-        self.convert_to_html()
-
-    def get_content(self, blocks):
-        '''Get arguments and content of block
-        '''
         block = blocks.pop(0)
+
         start_tag = self.p_start.search(block)
         end_tag = self.p_end.search(block)
 
@@ -70,7 +61,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         after = block[start_tag.end():]
 
         if before.strip() != '':
-            self.parser.parseChunk(self.parent, before)
+            self.parser.parseChunk(parent, before)
         if after.strip() != '':
             blocks.insert(0, after)
 
@@ -99,21 +90,13 @@ class GenericContainerBlockProcessor(BlockProcessor):
                 end_tag = None
             self.content_blocks.append(block)
 
+        self.custom_parsing()
+
         if the_rest.strip() != '':
             blocks.insert(0, the_rest)
 
         if end_tag is None or inner_start_tags != inner_end_tags:
             raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
-
-    def custom_parsing(self):
-        '''Method to be overriden by processors using GenericContainerBlockProcessor
-           but require further parsing of the content
-        '''
-        pass
-
-    def convert_to_html(self):
-        '''Convert the content to html element and render in template
-        '''
 
         content_tree = etree.Element('content')
         self.parser.parseChunk(content_tree, blocks_to_string(self.content_blocks))
@@ -133,4 +116,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
         html_string = self.template.render(context)
         parser = HtmlParser()
         parser.feed(html_string).close()
-        self.parent.append(parser.get_root())
+        parent.append(parser.get_root())
+
+    def custom_parsing(self):
+        pass

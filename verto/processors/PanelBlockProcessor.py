@@ -10,9 +10,10 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
             ext: An instance of the Verto Extension.
         '''
         self.processor = 'panel'
-        super().__init__('panel', *args, **kwargs)
+        super().__init__(self.processor, *args, **kwargs)
 
     def custom_parsing(self):
+        print('custom')
         argument = 'title'
         title_r = re.compile(r'(^|\n)# ((\w| )*)(?P<args>)')
         title = title_r.search(self.content_blocks[0])
