@@ -18,16 +18,12 @@ Required Tag Parameters
 
     - The type is saved as a CCS class (with ``panel-`` prefix) in the panel (this allows colouring of all the same types of panels).
 
-- ``title`` - Text to display as the panel's title.
-
-    - This is not given as a parameter within the ``{panel}`` tag, but rather as the first line of the panel with a Level 1 Heading.
-
 Optional Tag Parameters
 ***************************************
 
-- ``subtitle`` - Text to display as the panel's subtitle after the title.
+- ``subtitle`` - Boolean flag to indicate whether the panel should display a subtitle.
 
-    - If given as set 'true' then the subtitle is the first Level 2 Heading within the panel.
+    - If given as set 'true', then the subtitle is the first Level 2 Heading within the panel.
 
 - ``expanded`` - A value to state the panel's state:
 

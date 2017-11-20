@@ -13,6 +13,15 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
         super().__init__(self.processor, *args, **kwargs)
 
     def custom_parsing(self, content_blocks, argument_values):
+        '''
+        Extracts the title and subtitle of panel block's contents.
+
+        Args:
+            content_blocks: List of strings to either be parsed or inserted as content in template.
+            argument_values: Dictionary of values to be inserted in template.
+        Returns:
+            Tuple containing blocks and extra_args to update the content_blocks list and argument_values dict.
+        '''
         extra_args = {}
         blocks = []
 

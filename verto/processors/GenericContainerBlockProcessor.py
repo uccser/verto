@@ -118,4 +118,15 @@ class GenericContainerBlockProcessor(BlockProcessor):
         parent.append(parser.get_root())
 
     def custom_parsing(self, content_blocks, argument_values):
+        '''
+        This serves as a placeholder method, to be used by processes that use the
+        GenericContainerVBlockProcessor but need to carry out further parsing of
+        the block's contents.
+
+        Args:
+            content_blocks: List of strings to either be parsed or inserted as content in template.
+            argument_values: Dictionary of values to be inserted in template.
+        Returns:
+            Tuple containing content_blocks and argument_values, unchanged.
+        '''
         return (content_blocks, argument_values)
