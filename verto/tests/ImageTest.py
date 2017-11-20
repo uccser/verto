@@ -29,6 +29,33 @@ class ImageTest(ProcessorTest):
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.required_files = defaultdict(set)
 
+    def test_caption_true_not_provided(self): # throw error
+        pass
+
+    def test_caption_true_missing_end_tag(self): # throw error
+        pass
+
+    def test_caption_false_end_tag_provided(self): # throw error
+        pass
+
+    def test_alt_hover_caption(self):
+        pass
+
+    def test_caption_true_numbered_list(self):
+        pass
+
+    def test_caption_true_not_provided_numbered_list(self): # throw error
+        pass
+
+    def test_caption_true_numbered_list_missing_end_tag(self): # throw error
+        pass
+
+    def test_image_in_image_tag(self): # throw error
+        pass
+
+    def test_multiple_images_captions_true(self):
+        pass
+
     def test_internal_image(self):
         '''Tests to ensure that an internally reference image
         produces the desired output, including changing the
@@ -100,6 +127,9 @@ class ImageTest(ProcessorTest):
             'finite-state-automata-trap-added-extreme-example.png'
         }
         self.assertSetEqual(expected_images, images)
+
+    def test_multiple_images_after_eachother(self):
+        pass
 
     def test_text_contains_the_word_image(self):
         '''Tests that text containing the processor name is

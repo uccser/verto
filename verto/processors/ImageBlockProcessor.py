@@ -42,6 +42,7 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
             blocks: A list of strings of the document, where the
                 first block tests true.
         '''
+        print(blocks)
         block = blocks.pop(0)
 
         match = self.pattern.match(block)

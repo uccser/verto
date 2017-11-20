@@ -1,12 +1,6 @@
 Imagine we have the following simple black and white image.
 
-{image file-path="pixel-diamond.png" alt="A diamond shape made out of pixels"}
-
-{image file-path="Lipsum.png" alt="A diamond shape made out of pixels"}
-
-{image file-path="pixel-diamond.png" caption="true" alt="A diamond shape made out of pixels"}
-
-Caption caption caption, I am a caption.
+{image file-path="pixel-diamond.png" alt="A diamond shape made out of pixels" caption="true"}
 
 {image end}
 
