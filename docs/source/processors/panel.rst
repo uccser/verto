@@ -8,6 +8,9 @@ You can include an panel using the following text tag:
 .. literalinclude:: ../../../verto/tests/assets/panel/doc_example_basic_usage.md
     :language: none
 
+The title and subtitle are the first Level 1 and Level 2 Headings within the panel.
+They are within the panel rather than given as parameters to make in-context translation simpler and more user friendly.
+
 Required Tag Parameters
 ***************************************
 
@@ -17,10 +20,15 @@ Required Tag Parameters
 
 - ``title`` - Text to display as the panel's title.
 
+    - This is not given as a parameter within the ``{panel}`` tag, but rather as the first line of the panel with a Level 1 Heading.
+
 Optional Tag Parameters
 ***************************************
 
 - ``subtitle`` - Text to display as the panel's subtitle after the title.
+
+    - If given as set 'true' then the subtitle is the first Level 2 Heading within the panel.
+
 - ``expanded`` - A value to state the panel's state:
 
     - If given as 'true', the panel contains the CSS class ``panel-expanded`` to state it should be expanded on load.
