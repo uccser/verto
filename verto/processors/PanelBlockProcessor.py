@@ -12,27 +12,31 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
         self.processor = 'panel'
         super().__init__(self.processor, *args, **kwargs)
 
-    def custom_parsing(self):
-        print('custom')
+    def custom_parsing(self, content_blocks, argument_values):
+        extra_args = {}
+        blocks = []
+
         argument = 'title'
         title_r = re.compile(r'(^|\n)# ((\w| )*)(?P<args>)')
-        title = title_r.search(self.content_blocks[0])
+        title = title_r.search(content_blocks[0])
         if title:
-            self.argument_values[argument] = title.groups()[1]
+            extra_args[argument] = title.groups()[1]
         else:
             raise ArgumentMissingError(self.processor, argument, '{} is a required argument.'.format(argument))
 
         argument = 'subtitle'
-        if self.argument_values.get(argument) == 'true':
+        if argument_values.get(argument) == 'true':
             subtitle_r = re.compile(r'(^|\n)## ((\w| )*)(?P<args>)')
-            subtitle = subtitle_r.search(self.content_blocks[1])
+            subtitle = subtitle_r.search(content_blocks[1])
             if subtitle:
-                self.argument_values[argument] = subtitle.groups()[1]
-                self.content_blocks = self.content_blocks[2:]
+                extra_args[argument] = subtitle.groups()[1]
+                blocks = content_blocks[2:]
             else:
-                raise ArgumentMissingError(self.processor, argument, '{} is set to "true" but not supplied.'.format(argument))
-        elif self.argument_values.get(argument) == 'false':  # false
-            del self.argument_values[argument]  # delete from argument dict so as to not be included in template
-            self.content_blocks = self.content_blocks[1:]
+                raise ArgumentMissingError(self.processor, argument, '{} is set to "true" but not supplied.'.format(argument))  # noqa: E501
+        elif argument_values.get(argument) == 'false':
+            del argument_values[argument]  # delete from argument dict so as to not be included in template
+            blocks = content_blocks[1:]
         else:
-            self.content_blocks = self.content_blocks[1:]
+            blocks = content_blocks[1:]
+
+        return (blocks, extra_args)

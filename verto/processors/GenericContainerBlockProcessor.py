@@ -23,8 +23,6 @@ class GenericContainerBlockProcessor(BlockProcessor):
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
         self.process_parameters = lambda processor, parameters, argument_values: \
             process_parameters(ext, processor, parameters, argument_values)
-        self.argument_values = None
-        self.content_blocks = None
 
     def test(self, parent, block):
         ''' Tests a block to see if the run method should be applied.
@@ -65,9 +63,9 @@ class GenericContainerBlockProcessor(BlockProcessor):
         if after.strip() != '':
             blocks.insert(0, after)
 
-        self.argument_values = parse_arguments(self.processor, start_tag.group('args'), self.arguments)
+        argument_values = parse_arguments(self.processor, start_tag.group('args'), self.arguments)
 
-        self.content_blocks = []
+        content_blocks = []
         the_rest = ''
         inner_start_tags = 0
         inner_end_tags = 0
@@ -82,15 +80,16 @@ class GenericContainerBlockProcessor(BlockProcessor):
                 inner_start_tags += 1
 
             if end_tag and inner_start_tags == inner_end_tags:
-                self.content_blocks.append(block[:end_tag.start()])
+                content_blocks.append(block[:end_tag.start()])
                 the_rest = block[end_tag.end():]
                 break
             elif end_tag:
                 inner_end_tags += 1
                 end_tag = None
-            self.content_blocks.append(block)
+            content_blocks.append(block)
 
-        self.custom_parsing()
+        content_blocks, extra_args = self.custom_parsing(content_blocks, argument_values)
+        argument_values.update(extra_args)
 
         if the_rest.strip() != '':
             blocks.insert(0, the_rest)
@@ -99,7 +98,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
             raise TagNotMatchedError(self.processor, block, 'no end tag found to close start tag')
 
         content_tree = etree.Element('content')
-        self.parser.parseChunk(content_tree, blocks_to_string(self.content_blocks))
+        self.parser.parseChunk(content_tree, blocks_to_string(content_blocks))
 
         content = ''
         for child in content_tree:
@@ -110,13 +109,13 @@ class GenericContainerBlockProcessor(BlockProcessor):
             message = 'content cannot be blank.'
             raise ArgumentValueError(self.processor, 'content', content, message)
 
-        self.argument_values['content'] = content
-        context = self.process_parameters(self.processor, self.template_parameters, self.argument_values)
+        argument_values['content'] = content
+        context = self.process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
         parser = HtmlParser()
         parser.feed(html_string).close()
         parent.append(parser.get_root())
 
-    def custom_parsing(self):
-        pass
+    def custom_parsing(self, content_blocks, argument_values):
+        return (content_blocks, argument_values)
