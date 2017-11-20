@@ -1,8 +1,8 @@
 from verto.errors.Error import Error
 
 
-class ArgumentMissingError(Error):
-    '''Exception raised when a required or dependent argument is not found.
+class PanelMissingTitleError(Error):
+    '''Exception raised when a panel is missing a title.
 
     Attributes:
         tag: tag which was not matched

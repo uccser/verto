@@ -6,6 +6,8 @@ from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.PanelMissingTitleError import PanelMissingTitleError
+from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
@@ -94,7 +96,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_heading_missing_subtitle(self):
         '''Tests that correct error raised when subtitle is missing
@@ -104,7 +106,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingSubtitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_heading_invalid_subtitle_argument(self):
         '''Tests that correct error raised when incorrect valude givent for subtitle argument
@@ -124,7 +126,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_incorrect_heading_no_subtitle(self):
         '''Tests that correct error raised when heading is incorrect
@@ -134,7 +136,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_incorrect_heading_with_subtitle(self):
         '''Tests that correct error raised when heading is incorrect
@@ -144,7 +146,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_heading_incorrect_subtitle(self):
         '''Tests that correct error raised when subtitle is incorrect
@@ -154,7 +156,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingSubtitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_incorrect_heading_incorrect_subtitle(self):
         '''Tests that correct error raised when heading and subtitle are incorrect
@@ -164,7 +166,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_parses_blank(self):
         '''Tests that a blank panel is processed with empty content.
@@ -257,7 +259,7 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True, False, False, False, True, False, False, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(PanelMissingSubtitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_missing_start_tag(self):
         '''Tests that TagNotMatchedErrors are thown when an end tag is

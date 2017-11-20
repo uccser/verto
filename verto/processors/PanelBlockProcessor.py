@@ -1,5 +1,6 @@
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
-from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.PanelMissingTitleError import PanelMissingTitleError
+from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
 import re
 
 
@@ -21,6 +22,9 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
             argument_values: Dictionary of values to be inserted in template.
         Returns:
             Tuple containing blocks and extra_args to update the content_blocks list and argument_values dict.
+        Raises:
+            PanelMissingTitleError: If no title can be found in a panel.
+            PanelMissingSubtitleError: If no subtitle can be found in a panel where it is expected.
         '''
         extra_args = {}
         blocks = []
@@ -31,7 +35,7 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
         if title:
             extra_args[argument] = title.groups()[1]
         else:
-            raise ArgumentMissingError(self.processor, argument, '{} is a required argument.'.format(argument))
+            raise PanelMissingTitleError(self.processor, argument, 'Panel missing title (required).')
 
         argument = 'subtitle'
         if argument_values.get(argument) == 'true':
@@ -41,7 +45,7 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
                 extra_args[argument] = subtitle.groups()[1]
                 blocks = content_blocks[2:]
             else:
-                raise ArgumentMissingError(self.processor, argument, '{} is set to "true" but not supplied.'.format(argument))  # noqa: E501
+                raise PanelMissingSubtitleError(self.processor, argument, '\'subtitle\' is \'True\' but not supplied.')
         elif argument_values.get(argument) == 'false':
             del argument_values[argument]  # delete from argument dict so as to not be included in template
             blocks = content_blocks[1:]

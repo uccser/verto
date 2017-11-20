@@ -9,7 +9,7 @@ You can include an panel using the following text tag:
     :language: none
 
 The title and subtitle are the first Level 1 and Level 2 Headings within the panel.
-They are within the panel rather than given as parameters to make in-context translation simpler and more user friendly.
+They are within the panel rather than given as parameters to allow translation systems to easily identify which text should be translated.
 
 Required Tag Parameters
 ***************************************
