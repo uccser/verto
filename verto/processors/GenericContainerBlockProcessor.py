@@ -127,6 +127,6 @@ class GenericContainerBlockProcessor(BlockProcessor):
             content_blocks: List of strings to either be parsed or inserted as content in template.
             argument_values: Dictionary of values to be inserted in template.
         Returns:
-            Tuple containing content_blocks and argument_values, unchanged.
+            Tuple containing content_blocks (unchanged) and empty dictionary.
         '''
-        return (content_blocks, argument_values)
+        return (content_blocks, {})
