@@ -35,7 +35,7 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
         if title:
             extra_args[argument] = title.groups()[1]
         else:
-            raise PanelMissingTitleError(self.processor, argument, 'Panel missing title (required).')
+            raise PanelMissingTitleError(self.processor, argument)
 
         argument = 'subtitle'
         if argument_values.get(argument) == 'true':
@@ -45,7 +45,7 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
                 extra_args[argument] = subtitle.groups()[1]
                 blocks = content_blocks[2:]
             else:
-                raise PanelMissingSubtitleError(self.processor, argument, '\'subtitle\' is \'True\' but not supplied.')
+                raise PanelMissingSubtitleError(self.processor, argument)
         elif argument_values.get(argument) == 'false':
             del argument_values[argument]  # delete from argument dict so as to not be included in template
             blocks = content_blocks[1:]

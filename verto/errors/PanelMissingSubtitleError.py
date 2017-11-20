@@ -8,11 +8,10 @@ class PanelMissingSubtitleError(Error):
         tag: tag which was not matched
         block: block where tag was not matched
         argument: the argument that was not found
-        message: explanation of why error was thrown
     '''
 
-    def __init__(self, tag, argument, message):
-        super().__init__(message)
+    def __init__(self, tag, argument):
         self.tag = tag
         self.argument = argument
-        self.message = message
+        self.message = '\'subtitle\' is \'True\' but not supplied.'
+        super().__init__(self.message)
