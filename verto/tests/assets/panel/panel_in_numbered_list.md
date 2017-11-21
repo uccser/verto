@@ -6,7 +6,11 @@
 
 2.  Lorem
 
-    {panel type="teacher-note" title="Teacher Note" subtitle="Curriculum guides for Algorithms"}
+    {panel type="teacher-note" subtitle="true"}
+
+    # Teacher Note
+
+    ## Curriculum guides for Algorithms
 
     This text is the panel's contents.
 

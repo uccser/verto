@@ -21,6 +21,7 @@ from verto.processors.ScratchCompatibilityPreprocessor import ScratchCompatibili
 from verto.processors.ScratchCompatibilityPreprocessor import FENCED_BLOCK_RE_OVERRIDE
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
+from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 
 from verto.utils.UniqueSlugify import UniqueSlugify
 from verto.utils.HeadingNode import HeadingNode
@@ -178,6 +179,7 @@ class VertoExtension(Extension):
             ['image', ImageBlockProcessor(self, md.parser), '<paragraph'], # TODO check order
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
             ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
+            ['panel', PanelBlockProcessor(self, md.parser), '<paragraph'],
             # Multiline
         ]
         self.inlinepatterns = [  # A special treeprocessor

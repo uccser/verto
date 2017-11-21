@@ -45,6 +45,9 @@ class GenericContainerBlockProcessor(BlockProcessor):
                 will reside in.
             blocks: A list of strings of the document, where the
                 first block tests true.
+        Raises:
+            ArgumentValueError: If value for a given argument is incorrect.
+            TagNotMatchedError: If end tag is not found for corresponding start tag.
         '''
         block = blocks.pop(0)
 
@@ -88,6 +91,9 @@ class GenericContainerBlockProcessor(BlockProcessor):
                 end_tag = None
             content_blocks.append(block)
 
+        content_blocks, extra_args = self.custom_parsing(content_blocks, argument_values)
+        argument_values.update(extra_args)
+
         if the_rest.strip() != '':
             blocks.insert(0, the_rest)
 
@@ -113,3 +119,17 @@ class GenericContainerBlockProcessor(BlockProcessor):
         parser = HtmlParser()
         parser.feed(html_string).close()
         parent.append(parser.get_root())
+
+    def custom_parsing(self, content_blocks, argument_values):
+        '''
+        This serves as a placeholder method, to be used by processes that use the
+        GenericContainerVBlockProcessor but need to carry out further parsing of
+        the block's contents.
+
+        Args:
+            content_blocks: List of strings to either be parsed or inserted as content in template.
+            argument_values: Dictionary of values to be inserted in template.
+        Returns:
+            Tuple containing content_blocks (unchanged) and empty dictionary.
+        '''
+        return (content_blocks, {})
