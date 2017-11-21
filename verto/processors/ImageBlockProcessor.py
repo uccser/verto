@@ -1,10 +1,39 @@
+from markdown.blockprocessors import BlockProcessor
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
+from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 from verto.processors.utils import parse_arguments
 from verto.utils.HtmlParser import HtmlParser
 import re
 
 
-class ImageBlockProcessor(GenericTagBlockProcessor):
+'''
+class ImageBlockProcessor(BlockProcessor):
+
+    def __init__(self, ext, *args, **kwargs):
+        self.ext = ext
+        self.pattern = re.compile(r'(^|\n) *\{image (?P<before>[^\}]*) (caption="true") (?P<after>[^\}]*)\} *(\n|$)')
+
+    def test(self, parent, block):
+        match = self.pattern.search(block) is not None
+        if match:
+            return true
+        else:
+            tag = ImageTag(ext, *args, **kwargs)
+
+    def run(self, parent, blocks):
+        # print(blocks)
+        block = blocks.pop(0)
+        # print(self.pattern.search(block).group(3))
+        return
+
+
+class ImageBlock(GenericContainerBlockProcessor):
+    def __init__():
+        pass
+'''
+
+
+class ImageTag(GenericContainerBlockProcessor, GenericTagBlockProcessor):
     ''' Searches a Document for image tags e.g. {image file-path="<condition>"}
     adding any internal images to the verto extension final result.
     '''
@@ -16,7 +45,8 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
                 reside in.
         '''
         super().__init__('image', ext, *args, **kwargs)
-        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
+        # self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
+        self.container_pattern = re.compile(r'(^|\n) *\{image (?P<before>[^\}]*) (caption="true") (?P<after>[^\}]*)\} *(\n|$)')
         self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
 
@@ -42,7 +72,6 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
             blocks: A list of strings of the document, where the
                 first block tests true.
         '''
-        print(blocks)
         block = blocks.pop(0)
 
         match = self.pattern.match(block)
@@ -56,6 +85,8 @@ class ImageBlockProcessor(GenericTagBlockProcessor):
 
         arguments = match.group('args')
         argument_values = parse_arguments(self.processor, arguments, self.arguments)
+
+        print(argument_values)
 
         # check if internal or external image
         file_path = argument_values['file-path']
