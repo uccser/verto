@@ -4,7 +4,8 @@ import markdown.util as utils
 from verto.processors.CommentPreprocessor import CommentPreprocessor
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
 from verto.processors.ImageInlinePattern import ImageInlinePattern
-from verto.processors.ImageBlockProcessor import ImageBlockProcessor
+from verto.processors.ImageTagBlockProcessor import ImageTagBlockProcessor
+from verto.processors.ImageContainerBlockProcessor import ImageContainerBlockProcessor
 from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from verto.processors.RelativeLinkPattern import RelativeLinkPattern
 from verto.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
@@ -176,7 +177,8 @@ class VertoExtension(Extension):
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
             # Single line (in increasing complexity)
             ['interactive', InteractiveBlockProcessor(self, md.parser), '<paragraph'],
-            ['image', ImageBlockProcessor(self, md.parser), '<paragraph'], # TODO check order
+            ['image', ImageContainerBlockProcessor(self, md.parser), '<paragraph'], # TODO check order
+            ['image-tag', ImageTagBlockProcessor(self, md.parser), '<paragraph'], # TODO check order
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
             ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
             ['panel', PanelBlockProcessor(self, md.parser), '<paragraph'],

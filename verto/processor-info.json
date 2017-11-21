@@ -120,9 +120,46 @@
           }
         }
     },
-    "image": {
+    "image_tag": {
         "class": "custom",
         "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)\\} *(\\n|$)",
+        "template_name": "image",
+        "arguments": {
+          "file-path": {
+            "required": true,
+            "dependencies": []
+          },
+          "alt": {
+            "required": false,
+            "dependencies": []
+          },
+          "caption": {
+            "required": false,
+            "dependencies": []
+          },
+          "caption-link": {
+            "required": false,
+            "dependencies": ["caption"]
+          },
+          "source": {
+            "required": false,
+            "dependencies": []
+          },
+          "alignment": {
+            "required": false,
+            "dependencies": [],
+            "values": ["left", "center", "right"]
+          },
+          "hover-text": {
+            "required": false,
+            "dependencies": []
+          }
+        }
+    },
+    "image_container": {
+        "class": "custom",
+        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)\\} *(\\n|$)",
+        "template_name": "image",
         "arguments": {
           "file-path": {
             "required": true,
