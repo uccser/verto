@@ -1,5 +1,4 @@
 import sys, unittest, optparse
-from collections import defaultdict
 
 from verto.tests.ConfigurationTest import ConfigurationTest
 from verto.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
@@ -29,6 +28,7 @@ from verto.tests.VideoTest import VideoTest
 from verto.tests.HtmlParserTest import HtmlParserTest
 from verto.tests.MarkdownOverrideTest import MarkdownOverrideTest
 
+
 def parse_args():
     '''Parses the arguments for running the test suite, these are
     useful for developing when parts of verto are known to fail.
@@ -47,6 +47,7 @@ def parse_args():
 
     return options, arguments
 
+
 def smoke_suite():
     '''Builds the smoke tests.
     '''
@@ -55,12 +56,14 @@ def smoke_suite():
         unittest.makeSuite(SmokeFileTest),
     ))
 
+
 def system_suite():
     '''Builds specific system tests.
     '''
     return unittest.TestSuite((
         unittest.makeSuite(ConfigurationTest)
     ))
+
 
 def unit_suite():
     '''Builds unittests. (Not really unittests).
@@ -91,6 +94,7 @@ def unit_suite():
         unittest.makeSuite(HtmlParserTest),
         unittest.makeSuite(MarkdownOverrideTest),
     ))
+
 
 if __name__ == '__main__':
     options, arguments = parse_args()

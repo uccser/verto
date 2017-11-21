@@ -2,10 +2,14 @@ import markdown
 from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
-from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
+from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.PanelMissingTitleError import PanelMissingTitleError
+from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
 from verto.tests.ProcessorTest import ProcessorTest
+
 
 class PanelTest(ProcessorTest):
     '''The panel processor inherits from the generic container.
@@ -22,7 +26,147 @@ class PanelTest(ProcessorTest):
         self.ext = Mock()
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
-        self.block_processor = GenericContainerBlockProcessor(self.processor_name, self.ext, Mock())
+        self.block_processor = PanelBlockProcessor(self.ext, Mock())
+
+    def test_heading_no_subtitle(self):
+        '''Tests that a heading is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_no_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_no_subtitle_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_heading_subtitle_false(self):
+        '''Tests that a heading is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_subtitle_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_subtitle_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_heading_subtitle_false_h2_heading_in_panel(self):
+        '''Tests that a heading is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_subtitle_false_h2_heading_in_panel.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_subtitle_false_h2_heading_in_panel_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_heading_with_subtitle(self):
+        '''Tests that both a heading and subtitle is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_with_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_heading_with_subtitle_h2_heading_in_panel(self):
+        '''Tests that both a heading and subtitle is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_h2_heading_in_panel.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_h2_heading_in_panel_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_missing_heading_with_subtitle(self):
+        '''Tests that correct error raised when heading is missing
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_heading_with_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_heading_missing_subtitle(self):
+        '''Tests that correct error raised when subtitle is missing
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_missing_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingSubtitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_heading_invalid_subtitle_argument(self):
+        '''Tests that correct error raised when incorrect valude givent for subtitle argument
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_invalid_subtitle_argument.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_missing_heading_missing_subtitle(self):
+        '''Tests that correct error raised when heading and subtitle are missing
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_heading_missing_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_incorrect_heading_no_subtitle(self):
+        '''Tests that correct error raised when heading is incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'incorrect_heading_no_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_incorrect_heading_with_subtitle(self):
+        '''Tests that correct error raised when heading is incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'incorrect_heading_with_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_heading_incorrect_subtitle(self):
+        '''Tests that correct error raised when subtitle is incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_incorrect_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingSubtitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_incorrect_heading_incorrect_subtitle(self):
+        '''Tests that correct error raised when heading and subtitle are incorrect
+        '''
+        test_string = self.read_test_file(self.processor_name, 'incorrect_heading_incorrect_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_parses_blank(self):
         '''Tests that a blank panel is processed with empty content.
@@ -30,9 +174,9 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'parses_blank.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]),test_string)
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_parses_no_blank_lines_single_paragraph(self):
         '''Tests that a block of text as content is added to the panel.
@@ -40,7 +184,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'parses_no_blank_lines_single_paragraph.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'parses_no_blank_lines_single_paragraph_expected.html', strip=True)
@@ -52,7 +196,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'parses_expanded_panel.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'parses_expanded_panel_expected.html', strip=True)
@@ -64,7 +208,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'parses_always_expanded_panel.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'parses_always_expanded_panel_expected.html', strip=True)
@@ -77,7 +221,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'parses_blank_lines_multiple_paragraphs.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, False, False, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, False, False, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'parses_blank_lines_multiple_paragraphs_expected.html', strip=True)
@@ -89,7 +233,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'contains_multiple_panels.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, False, True, True, False, True, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, True, True, False, False, False, True, True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'contains_multiple_panels_expected.html', strip=True)
@@ -101,11 +245,21 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'contains_inner_panel.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True, False, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, True, False, False, False, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'contains_inner_panel_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_contains_inner_panel_missing_subtitle(self):
+        '''Tests that panels can contain other panels and subtitles are rendered correctly.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'contains_inner_panel_missing_subtitle.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True, False, False, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(PanelMissingSubtitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_missing_start_tag(self):
         '''Tests that TagNotMatchedErrors are thown when an end tag is
@@ -114,7 +268,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'missing_start_tag.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
@@ -125,7 +279,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'missing_end_tag.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
@@ -136,19 +290,17 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'missing_tag_inner.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_contains_inner_image(self):
-        '''Tests that other processors within a panel
-        still renders correctly.
-        '''
+        '''Tests that other processors within a panel still renders correctly.'''
         verto_extension = VertoExtension([self.processor_name, 'image'], {})
         test_string = self.read_test_file(self.processor_name, 'contains_inner_image.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'contains_inner_image_expected.html', strip=True)
@@ -160,7 +312,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'panel_in_numbered_list.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([False, False, False, True, False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, False, True, False, False, False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'panel_in_numbered_list_expected.html', strip=True)
@@ -172,7 +324,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'panel_only_in_numbered_list.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([False, False, False, False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, False, False, False, False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'panel_only_in_numbered_list_expected.html', strip=True)
@@ -188,7 +340,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
@@ -200,7 +352,7 @@ class PanelTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
