@@ -1,4 +1,5 @@
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
+from verto.errors.ImageMissingCaptionError import ImageMissingCaptionError
 import re
 
 
@@ -28,7 +29,11 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         '''
         '''
         extra_args = {}
-        extra_args['caption'] = content_blocks[0]
+
+        argument = 'caption'
+        if len(content_blocks) == 0 or content_blocks[0] == '':
+            raise ImageMissingCaptionError(self.processor, argument)
+        extra_args[argument] = content_blocks[0]
 
         file_path = argument_values['file-path']
         external_path_match = re.search(r'^http', file_path)
