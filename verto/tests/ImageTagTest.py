@@ -23,7 +23,7 @@ class ImageTagTest(ProcessorTest):
         self.processor_name = 'image-tag'
         self.ext = Mock()
         self.ext.jinja_templates = {
-            self.processor_name: ProcessorTest.loadJinjaTemplate(self, 'image'),
+            'image': ProcessorTest.loadJinjaTemplate(self, 'image'),
             'relative-file-link': ProcessorTest.loadJinjaTemplate(self, 'relative-file-link')
         }
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
@@ -35,7 +35,7 @@ class ImageTagTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'no_caption.md')
         blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([False, True, False, True, False, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'no_caption_expected.html', strip=True)

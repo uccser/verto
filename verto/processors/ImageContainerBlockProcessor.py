@@ -24,7 +24,7 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
     def test(self, parent, block):
         '''
         '''
-        return self.pattern.search(block) is not None
+        return self.pattern.search(block) is not None or self.p_end.search(block) is not None
 
 
     def custom_parsing(self, content_blocks, argument_values):
@@ -33,8 +33,7 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         extra_args = {}
         print('image container custom parsing')
 
-        extra_args['caption'] = content_blocks[0] # assuming caption is provided
-        # content_blocks = content_blocks[1:]
+        extra_args['caption'] = content_blocks[0] # TODO error handling, assumes caption is provided
 
         file_path = argument_values['file-path']
         external_path_match = re.search(r'^http', file_path)

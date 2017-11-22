@@ -23,7 +23,7 @@ class ImageContainerTest(ProcessorTest):
         self.processor_name = 'image-container'
         self.ext = Mock()
         self.ext.jinja_templates = {
-            self.processor_name: ProcessorTest.loadJinjaTemplate(self, 'image'),
+            'image': ProcessorTest.loadJinjaTemplate(self, 'image'),
             'relative-file-link': ProcessorTest.loadJinjaTemplate(self, 'relative-file-link')
         }
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
@@ -35,7 +35,7 @@ class ImageContainerTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'caption_true.md')
         blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([False, True, False, True, False, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False, True, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'caption_true_expected.html', strip=True)
@@ -46,6 +46,18 @@ class ImageContainerTest(ProcessorTest):
             'cats.png'
         }
         self.assertSetEqual(expected_images, images)
+
+    def test_caption_false(self):
+        '''
+        '''
+        test_string = self.read_test_file(self.processor_name, 'caption_false.md')
+        blocks = self.to_blocks(test_string)
+
+        # self.assertListEqual([False, True, False, True, False, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'caption_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     # def test_alt_hover_caption(self):
         # '''

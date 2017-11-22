@@ -51,7 +51,6 @@ class GenericContainerBlockProcessor(BlockProcessor):
             TagNotMatchedError: If end tag is not found for corresponding start tag.
         '''
         block = blocks.pop(0)
-        # print(blocks)
 
         start_tag = self.p_start.search(block)
         end_tag = self.p_end.search(block)
