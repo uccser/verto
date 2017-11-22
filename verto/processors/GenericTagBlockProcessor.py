@@ -15,7 +15,8 @@ class GenericTagBlockProcessor(BlockProcessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = processor
-        self.pattern = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)\}} *(\n|$)'.format(self.processor))
+        tag_argument = ext.processor_info[self.processor].get('tag_argument', self.processor)
+        self.pattern = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)\}} *(\n|$)'.format(tag_argument))
         self.arguments = ext.processor_info[self.processor]['arguments']
         template_name = ext.processor_info[self.processor].get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
@@ -57,6 +58,10 @@ class GenericTagBlockProcessor(BlockProcessor):
             blocks.insert(0, after)
 
         argument_values = parse_arguments(self.processor, match.group('args'), self.arguments)
+
+        extra_args = self.custom_parsing(argument_values)
+        argument_values.update(extra_args)
+
         context = self.process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
