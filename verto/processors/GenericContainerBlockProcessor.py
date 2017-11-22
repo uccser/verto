@@ -15,8 +15,9 @@ class GenericContainerBlockProcessor(BlockProcessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = processor
-        self.p_start = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)'.format(self.processor))
-        self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)'.format(self.processor))
+        tag_argument = ext.processor_info[self.processor].get('tag_argument', self.processor)
+        self.p_start = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)'.format(tag_argument))
+        self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)'.format(tag_argument))
         self.arguments = ext.processor_info[self.processor]['arguments']
         template_name = ext.processor_info[self.processor].get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
@@ -50,6 +51,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
             TagNotMatchedError: If end tag is not found for corresponding start tag.
         '''
         block = blocks.pop(0)
+        # print(blocks)
 
         start_tag = self.p_start.search(block)
         end_tag = self.p_end.search(block)

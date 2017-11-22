@@ -20,7 +20,7 @@ class ImageContainerTest(ProcessorTest):
         '''Set processor name in class for file names.
         '''
         ProcessorTest.__init__(self, *args, **kwargs)
-        self.processor_name = 'image_container'
+        self.processor_name = 'image-container'
         self.ext = Mock()
         self.ext.jinja_templates = {
             self.processor_name: ProcessorTest.loadJinjaTemplate(self, 'image'),

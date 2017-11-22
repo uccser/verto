@@ -120,7 +120,7 @@
           }
         }
     },
-    "image_tag": {
+    "image-tag": {
         "class": "custom",
         "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)\\} *(\\n|$)",
         "template_name": "image",
@@ -156,9 +156,10 @@
           }
         }
     },
-    "image_container": {
+    "image-container": {
         "class": "custom",
-        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)\\} *(\\n|$)",
+        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)?(?P<caption>caption=\"true\")(?P<arg>[^\\}]*)?\\} *(\\n|$)",
+        "tag_argument": "image",
         "template_name": "image",
         "arguments": {
           "file-path": {
@@ -189,6 +190,29 @@
           "hover-text": {
             "required": false,
             "dependencies": []
+          }
+        },
+        "template_parameters": {
+          "file_path": {
+            "argument": "file-path"
+          },
+          "alt": {
+            "argument": "alt"
+          },
+          "caption": {
+            "argument": "caption"
+          },
+          "caption_link": {
+            "argument": "caption-link"
+          },
+          "source": {
+            "argument": "source"
+          },
+          "alignment": {
+            "argument": "alignment"
+          },
+          "hover_text": {
+            "argument": "hover-text"
           }
         }
     },

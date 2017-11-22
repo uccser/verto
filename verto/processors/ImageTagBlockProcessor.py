@@ -15,7 +15,7 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
             ext: The parent node of the element tree that children will
                 reside in.
         '''
-        self.processor = 'image_tag'
+        self.processor = 'image-tag'
         super().__init__(self.processor, ext, *args, **kwargs)
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.relative_image_template = ext.jinja_templates['relative-file-link']
@@ -31,8 +31,6 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         Returns:
             True if the block matches the pattern regex of a HeadingBlock.
         '''
-        print(block)
-        print(self.pattern.search(block))
         return self.pattern.search(block) is not None
 
     def run(self, parent, blocks):
