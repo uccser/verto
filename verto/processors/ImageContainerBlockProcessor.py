@@ -1,6 +1,4 @@
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
-from verto.processors.utils import parse_arguments
-from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -17,7 +15,7 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         '''
         self.processor = 'image-container'
         super().__init__(self.processor, ext, *args, **kwargs)
-        self.pattern = re.compile(ext.processor_info[self.processor]['pattern']) # TODO update regex to only find caption, ignore other args
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])  # TODO update regex to only find caption, ignore other args
         self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
 
@@ -26,14 +24,11 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         '''
         return self.pattern.search(block) is not None or self.p_end.search(block) is not None
 
-
     def custom_parsing(self, content_blocks, argument_values):
         '''
         '''
         extra_args = {}
-        print('image container custom parsing')
-
-        extra_args['caption'] = content_blocks[0] # TODO error handling, assumes caption is provided
+        extra_args['caption'] = content_blocks[0]
 
         file_path = argument_values['file-path']
         external_path_match = re.search(r'^http', file_path)

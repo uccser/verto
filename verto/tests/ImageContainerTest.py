@@ -53,27 +53,39 @@ class ImageContainerTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'caption_false.md')
         blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([False, True, False, True, False, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'caption_false_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    # def test_alt_hover_caption(self):
-        # '''
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'alt_hover_caption.md')
-        # blocks = self.to_blocks(test_string)
+    def test_no_caption(self):
+        '''
+        '''
+        test_string = self.read_test_file(self.processor_name, 'no_caption.md')
+        blocks = self.to_blocks(test_string)
 
-        # # self.assertListEqual([False, True, False, True, False, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, False, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'alt_hover_caption_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'no_caption_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # images = self.verto_extension.required_files['images']
-        # expected_images = {
-            # 'finite-state-automata-no-trap-example.png',
-            # 'finite-state-automata-trap-added-example.png'
-        # }
-        # self.assertSetEqual(expected_images, images)
+    def test_alt_hover_caption(self):
+        '''
+        '''
+        test_string = self.read_test_file(self.processor_name, 'alt_hover_caption.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False, True, False, True, False, True, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'alt_hover_caption_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = self.verto_extension.required_files['images']
+        expected_images = {
+            'finite-state-automata-no-trap-example.png',
+            'finite-state-automata-trap-added-example.png'
+        }
+        self.assertSetEqual(expected_images, images)

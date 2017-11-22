@@ -25,6 +25,12 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         '''
         extra_args = {}
 
+        argument = 'caption'
+        # if caption is anything other than "true", image has no caption
+        # TODO should raise and error if not "true" or "false" - invalid argument?
+        if argument_values.get('caption'):
+            del argument_values[argument]  # delete from dictionary so as to not be included in template
+
         # check if internal or external image
         file_path = argument_values['file-path']
         external_path_match = re.search(r'^http', file_path)

@@ -29,6 +29,24 @@ class ImageTagTest(ProcessorTest):
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.required_files = defaultdict(set)
 
+    def test_caption_false(self):
+        '''
+        '''
+        test_string = self.read_test_file(self.processor_name, 'caption_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'caption_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = self.verto_extension.required_files['images']
+        expected_images = {
+            'cats.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
     def test_no_caption(self):
         '''
         '''
