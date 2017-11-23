@@ -169,7 +169,7 @@
             "argument": "caption-link"
           },
           "source": {
-            "argument": "source"
+            "argument": "source_link"
           },
           "alignment": {
             "argument": "alignment"
@@ -228,7 +228,7 @@
           "caption_link": {
             "argument": "caption-link"
           },
-          "source": {
+          "source_link": {
             "argument": "source"
           },
           "alignment": {
