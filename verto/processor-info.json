@@ -168,8 +168,8 @@
           "caption_link": {
             "argument": "caption-link"
           },
-          "source": {
-            "argument": "source_link"
+          "source_link": {
+            "argument": "source"
           },
           "alignment": {
             "argument": "alignment"

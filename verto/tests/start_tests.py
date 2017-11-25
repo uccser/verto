@@ -1,5 +1,4 @@
 import sys, unittest, optparse
-
 from verto.tests.ConfigurationTest import ConfigurationTest
 from verto.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
 
