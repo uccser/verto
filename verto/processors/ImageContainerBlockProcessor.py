@@ -1,5 +1,6 @@
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 from verto.errors.ImageMissingCaptionError import ImageMissingCaptionError
+from verto.errors.ImageCaptionContainsImageError import ImageCaptionContainsImageError
 import re
 
 
@@ -28,6 +29,10 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
     def custom_parsing(self, content_blocks, argument_values):
         '''
         '''
+        for block in content_blocks:
+            if self.p_start.search(block):
+                raise ImageCaptionContainsImageError(self.processor)
+
         extra_args = {}
 
         argument = 'caption'

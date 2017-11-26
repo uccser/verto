@@ -105,26 +105,25 @@ class ImageTagTest(ProcessorTest):
         }
         self.assertSetEqual(expected_images, images)
 
-    # def test_multiple_images_captions_false(self):  # problem test
-        # '''Tests to ensure that multiple internally reference images produce the desired output.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'multiple_images_captions_false.md')
-        # blocks = self.to_blocks(test_string)
+    def test_multiple_images_captions_false(self):
+        '''Tests to ensure that multiple internally reference images produce the desired output.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'multiple_images_captions_false.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([False, True, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # print(converted_test_string)
-        # expected_string = self.read_test_file(self.processor_name, 'multiple_images_captions_false_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'multiple_images_captions_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # images = self.verto_extension.required_files['images']
-        # expected_images = {
-            # 'the-first-image.png',
-            # 'Lipsum.png',
-            # 'pixel-diamond.png'
-        # }
-        # self.assertSetEqual(expected_images, images)
+        images = self.verto_extension.required_files['images']
+        expected_images = {
+            'the-first-image.png',
+            'Lipsum.png',
+            'pixel-diamond.png'
+        }
+        self.assertSetEqual(expected_images, images)
 
     def test_external_image(self):
         '''Tests that external images are processed and that the expected images are unchanged.
@@ -302,7 +301,7 @@ class ImageTagTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    def test_doc_example_override_html(self): # problem test
+    def test_doc_example_override_html(self):
         '''Basic example showing how to override the html-template.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
@@ -321,23 +320,22 @@ class ImageTagTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    # def test_doc_example_2_override_html(self):
-        # '''Basic example showing how to override the html-template for relative files in a specific file only.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html.md')
-        # blocks = self.to_blocks(test_string)
+    def test_doc_example_2_override_html(self):
+        '''Basic example showing how to override the html-template for relative files in a specific file only.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # html_template = self.read_test_file(self.processor_name, 'doc_example_2_override_html_template.html', strip=True)
-        # link_template = self.read_test_file(self.processor_name, 'doc_example_2_override_link_html_template.html', strip=True)
-        # verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template, 'relative-file-link': link_template})
+        html_template = self.read_test_file(self.processor_name, 'doc_example_2_override_html_template.html', strip=True)
+        link_template = self.read_test_file(self.processor_name, 'doc_example_2_override_link_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={self.tag_argument: html_template, 'relative-file-link': link_template})
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
-        # print(converted_test_string)
-        # expected_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # images = self.verto_extension.required_files['images']
-        # expected_images = set()
-        # self.assertSetEqual(expected_images, images)
+        images = self.verto_extension.required_files['images']
+        expected_images = set()
+        self.assertSetEqual(expected_images, images)

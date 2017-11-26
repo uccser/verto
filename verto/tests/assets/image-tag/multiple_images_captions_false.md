@@ -4,7 +4,7 @@ Imagine we have the following simple black and white image.
 
 {image file-path="Lipsum.png" caption="false" alt="A diamond shape made out of pixels"}
 
-This is the second caption.
+My castle crumbled overnight.
 
 {image file-path="pixel-diamond.png" alt="A diamond shape made out of pixels" caption="false"}
 

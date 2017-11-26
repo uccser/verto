@@ -18,7 +18,7 @@ class GenericTagBlockProcessor(BlockProcessor):
         tag_argument = ext.processor_info[self.processor].get('tag_argument', self.processor)
         self.pattern = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)\}} *(\n|$)'.format(tag_argument))
         self.arguments = ext.processor_info[self.processor]['arguments']
-        template_name = ext.processor_info[self.processor].get('template_name', self.processor)
+        template_name = ext.processor_info[self.processor].get('template_name', tag_argument)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
         self.process_parameters = lambda processor, parameters, argument_values: \
