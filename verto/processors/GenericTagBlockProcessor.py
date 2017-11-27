@@ -68,3 +68,16 @@ class GenericTagBlockProcessor(BlockProcessor):
         parser = HtmlParser()
         parser.feed(html_string).close()
         parent.append(parser.get_root())
+
+    def custom_parsing(self, argument_values):
+        '''
+        This serves as a placeholder method, to be used by processes that use the
+        GenericTagBlockProcessor but need to carry out further parsing of
+        the block's contents.
+
+        Args:
+            argument_values: Dictionary of values to be inserted in template.
+        Returns:
+            Tuple containing content_blocks (unchanged) and empty dictionary.
+        '''
+        return {}

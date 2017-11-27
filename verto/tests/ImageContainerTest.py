@@ -61,7 +61,6 @@ class ImageContainerTest(ProcessorTest):
         self.assertListEqual([False, False, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        print(converted_test_string)
         expected_string = self.read_test_file(self.processor_name, 'caption_false_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
@@ -74,7 +73,6 @@ class ImageContainerTest(ProcessorTest):
         self.assertListEqual([False, False, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        print(converted_test_string)
         expected_string = self.read_test_file(self.processor_name, 'no_caption_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 

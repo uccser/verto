@@ -125,7 +125,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
     def custom_parsing(self, content_blocks, argument_values):
         '''
         This serves as a placeholder method, to be used by processes that use the
-        GenericContainerVBlockProcessor but need to carry out further parsing of
+        GenericContainerBlockProcessor but need to carry out further parsing of
         the block's contents.
 
         Args:

@@ -236,7 +236,7 @@ class ConfigurationTest(BaseTest):
         '''Checks if custom processors and custom templates work
         together on creation of verto.
         '''
-        processors = {'image', 'boxed-text'}
+        processors = {'image-tag', 'boxed-text'}
         verto = Verto(processors=processors, html_templates=self.custom_templates)
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
         converted_test_string = verto.convert(test_string).html_string
@@ -269,7 +269,7 @@ class ConfigurationTest(BaseTest):
     def test_custom_processors_on_creation(self):
         '''Checks if system only uses specified processors.
         '''
-        processors = {'panel', 'image'}
+        processors = {'panel', 'image-container'}
         verto = Verto(processors=processors)
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
         converted_test_string = verto.convert(test_string).html_string
