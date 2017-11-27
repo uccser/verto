@@ -177,8 +177,8 @@ class VertoExtension(Extension):
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
             # Single line (in increasing complexity)
             ['interactive', InteractiveBlockProcessor(self, md.parser), '<paragraph'],
-            ['image-container', ImageContainerBlockProcessor(self, md.parser), '<paragraph'], # TODO check order
-            ['image-tag', ImageTagBlockProcessor(self, md.parser), '<paragraph'], # TODO check order
+            ['image-container', ImageContainerBlockProcessor(self, md.parser), '<paragraph'],
+            ['image-tag', ImageTagBlockProcessor(self, md.parser), '<paragraph'],
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
             ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
             ['panel', PanelBlockProcessor(self, md.parser), '<paragraph'],

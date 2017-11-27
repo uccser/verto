@@ -30,8 +30,7 @@ class ConfigurationTest(BaseTest):
         }
 
     def test_multiple_calls(self):
-        '''Checks all fields of VertoResult are correct for multiple
-        Verto calls.
+        '''Checks all fields of VertoResult are correct for multiple Verto calls.
         '''
         test_cases = [
             ('all_processors.md',
@@ -141,8 +140,7 @@ class ConfigurationTest(BaseTest):
             verto.clear_saved_data()
 
     def test_multiple_calls_without_clearing(self):
-        '''Tests that if the verto extension is not cleared that
-        information such as required_files and slugs are persistant.
+        '''Tests that if the verto extension is not cleared that information such as required_files and slugs are persistant.
         '''
         filename = 'all_processors.md'
         other_filename = 'otherfile.md'
@@ -255,8 +253,7 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_default_processors_on_creation(self):
-        '''Checks if all expected default processors work on default
-        creation.
+        '''Checks if all expected default processors work on default creation.
         '''
         verto = Verto()
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
@@ -291,8 +288,7 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_unique_custom_processors(self):
-        '''Checks if unique processors are stored when duplicates
-        provided.
+        '''Checks if unique processors are stored when duplicates provided.
         '''
         processors = ['comment', 'comment', 'comment']
         verto = Verto(processors=processors)
@@ -334,8 +330,7 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_multiline_custom_templates(self):
-        '''Checks that multiple multiline custom templates are loaded
-        and used correctly.
+        '''Checks that multiple multiline custom templates are loaded and used correctly.
         '''
         custom_templates = {
             'image': \

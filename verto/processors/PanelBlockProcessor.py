@@ -29,8 +29,6 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
         extra_args = {}
         blocks = []
 
-        # TODO this should be updated to work in a similar method to the image container block
-            # - use a test() method to check that a title is given?
         argument = 'title'
         title_r = re.compile(r'(^|\n)# ((\w| )*)(?P<args>)')
         title = title_r.search(content_blocks[0])

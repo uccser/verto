@@ -278,7 +278,7 @@ class ImageTagTest(ProcessorTest):
         self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_image_in_numbered_list(self):
-        '''Basic example of common usage.
+        '''Test image rendered correctly in numbered list.
         '''
         test_string = self.read_test_file(self.processor_name, 'image_in_numbered_list.md')
         blocks = self.to_blocks(test_string)
@@ -332,7 +332,7 @@ class ImageTagTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    def test_doc_example_2_override_html(self):  # TODO check docstring
+    def test_doc_example_2_override_html(self):
         '''Basic example showing how to override the html-template for relative files in a specific file only.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html.md')
