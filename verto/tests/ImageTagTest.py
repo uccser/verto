@@ -79,6 +79,16 @@ class ImageTagTest(ProcessorTest):
         }
         self.assertSetEqual(expected_images, images)
 
+    def test_invalide_caption_parameter(self):
+        '''Tests that ArgumentValueError is raised when caption-link argument is give but a caption is not provided.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'invalid_caption_error.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
     def test_source_hover_no_caption(self):
         '''Tests that multiple arguments are rendered correctly when no caption argument is included and expected images are updated.
         '''

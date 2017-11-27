@@ -1,4 +1,5 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
+from verto.errors.ArgumentValueError import ArgumentValueError
 import re
 
 
@@ -15,7 +16,7 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         '''
         self.processor = 'image-tag'
         super().__init__(self.processor, ext, *args, **kwargs)
-        self.caption_pattern = re.compile(ext.processor_info[self.processor]['pattern'])  # TODO update regex to only find caption, ignore other args
+        self.caption_pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
 
@@ -29,6 +30,9 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
 
         Returns:
             True if there are any start or end tags within the block.
+
+        Raises:
+            ArgumentValueError: If value for a given argument is incorrect.
         '''
         return self.caption_pattern.search(block) is None and self.pattern.search(block) is not None
 
@@ -47,8 +51,12 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         argument = 'caption'
         # if caption is anything other than "true", image has no caption
         # TODO should raise and error if not "true" or "false" - invalid argument?
-        if argument_values.get('caption'):
+        caption_value = argument_values.get(argument)
+        if  caption_value == False:
             del argument_values[argument]  # delete from dictionary so as to not be included in template
+        else:
+            message = 'Caption can only be "true" or "false".'
+            raise ArgumentValueError(self.processor, argument, caption_value, message)
 
         # check if internal or external image
         file_path = argument_values['file-path']

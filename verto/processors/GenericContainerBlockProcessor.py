@@ -46,6 +46,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
                 will reside in.
             blocks: A list of strings of the document, where the
                 first block tests true.
+
         Raises:
             ArgumentValueError: If value for a given argument is incorrect.
             TagNotMatchedError: If end tag is not found for corresponding start tag.
