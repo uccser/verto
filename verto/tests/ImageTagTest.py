@@ -10,7 +10,7 @@ from verto.tests.ProcessorTest import ProcessorTest
 
 
 class ImageTagTest(ProcessorTest):
-    '''The image processor is a simple tag with a multitude of
+    '''The image tag processor is a simple tag with a multitude of
     different possible arguments that modify output slightly.
     Internally linked file features need to be considered
     when testing images, such that required files are modified
@@ -18,7 +18,7 @@ class ImageTagTest(ProcessorTest):
     '''
 
     def __init__(self, *args, **kwargs):
-        '''Set processor name in class for file names.
+        '''Set processor name and tag argument in class for file names.
         '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'image-tag'
@@ -32,7 +32,7 @@ class ImageTagTest(ProcessorTest):
         self.ext.required_files = defaultdict(set)
 
     def test_no_caption(self):
-        '''
+        '''Tests to ensure that an image with no caption is rendered correctly and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'no_caption.md')
         blocks = self.to_blocks(test_string)
@@ -50,7 +50,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_caption_false(self):
-        '''
+        '''Tests caption argument is ignored when set to false and that expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'caption_false.md')
         blocks = self.to_blocks(test_string)
@@ -68,7 +68,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_source_hover_no_caption(self):
-        '''
+        '''Tests that multiple arguments are rendered correctly when no caption argument is included and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'source_hover_no_caption.md')
         blocks = self.to_blocks(test_string)
@@ -87,7 +87,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_alt_hover_caption_false(self):
-        '''
+        '''Tests that multiple arguments are rendered correctly when caption argument is false and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'alt_hover_caption_false.md')
         blocks = self.to_blocks(test_string)
@@ -106,7 +106,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_multiple_images_captions_false(self):
-        '''Tests to ensure that multiple internally reference images produce the desired output.
+        '''Tests to ensure that multiple internally reference images produce the desired output and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'multiple_images_captions_false.md')
         blocks = self.to_blocks(test_string)
@@ -138,7 +138,7 @@ class ImageTagTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_hover_text(self):
-        '''Tests that argument for hover-text produces expected output.
+        '''Tests that argument for hover-text produces expected output and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'contains_hover_text.md')
         blocks = self.to_blocks(test_string)
@@ -156,7 +156,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_contains_alt(self):
-        '''Tests that argument for alt produces expected output.
+        '''Tests that argument for alt produces expected output and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'contains_alt.md')
         blocks = self.to_blocks(test_string)
@@ -174,7 +174,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_contains_source(self):
-        '''Tests that argument for source produces expected output.
+        '''Tests that argument for source produces expected output and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'contains_source.md')
         blocks = self.to_blocks(test_string)
@@ -192,7 +192,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_align_left(self):
-        '''Tests that argument for align produces expected output when set to left.
+        '''Tests that argument for align produces expected output when set to left and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'align_left.md')
         blocks = self.to_blocks(test_string)
@@ -210,7 +210,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_align_right(self):
-        '''Tests that argument for align produces expected output when set to right.
+        '''Tests that argument for align produces expected output when set to right and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'align_right.md')
         blocks = self.to_blocks(test_string)
@@ -228,7 +228,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_align_center(self):
-        '''Tests that argument for align produces expected output when set to center.
+        '''Tests that argument for align produces expected output when set to center and expected images are updated.
         '''
         test_string = self.read_test_file(self.processor_name, 'align_center.md')
         blocks = self.to_blocks(test_string)
@@ -246,7 +246,7 @@ class ImageTagTest(ProcessorTest):
         self.assertSetEqual(expected_images, images)
 
     def test_caption_link_error(self):
-        '''Tests that the argument for caption-link throws the ArgumentMissingError when caption is not provided.
+        '''Tests that ArgumentMissingError is raised when caption-link argument is give but a caption is not provided.
         '''
         test_string = self.read_test_file(self.processor_name, 'caption_link_error.md')
         blocks = self.to_blocks(test_string)
@@ -256,7 +256,7 @@ class ImageTagTest(ProcessorTest):
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_align_undefined_error(self):
-        '''Tests that undefined align value produces the ArgumentValueError.
+        '''Tests that ArgumentValueError is raised when undefined align value is given.
         '''
         test_string = self.read_test_file(self.processor_name, 'align_undefined_error.md')
         blocks = self.to_blocks(test_string)
@@ -320,7 +320,7 @@ class ImageTagTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    def test_doc_example_2_override_html(self):
+    def test_doc_example_2_override_html(self):  # TODO check docstring
         '''Basic example showing how to override the html-template for relative files in a specific file only.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_2_override_html.md')

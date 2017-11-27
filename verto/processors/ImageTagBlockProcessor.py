@@ -20,6 +20,13 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
 
     def custom_parsing(self, argument_values):
         '''
+        Extracts the caption of an image block and creates file path based on whether internal or external image.
+
+        Args:
+            content_blocks: List of strings to either be parsed or inserted as caption in template.
+        Returns:
+            extra_args: dictionary to update the agument_values dict.
+        Raise:
         '''
         extra_args = {}
 

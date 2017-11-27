@@ -5,7 +5,6 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
-from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.PanelMissingTitleError import PanelMissingTitleError
 from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
 from verto.tests.ProcessorTest import ProcessorTest
