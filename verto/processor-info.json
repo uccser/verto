@@ -122,6 +122,7 @@
     },
     "image-tag": {
         "class": "custom",
+        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)?(?P<caption>caption=\"true\")(?P<arg>[^\\}]*)?\\} *(\\n|$)",
         "tag_argument": "image",
         "template_name": "image",
         "arguments": {

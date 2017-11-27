@@ -42,7 +42,7 @@ def parse_flag(argument_key, arguments, default=False):
         arguments: A string of the argument inputs.
         default: The default value if not found.
     Returns:
-        Value of an argument as a string if found, otherwise None.
+        True if argument is found, otherwise None.
     '''
     result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
     if result:

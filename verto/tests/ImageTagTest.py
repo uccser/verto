@@ -31,6 +31,18 @@ class ImageTagTest(ProcessorTest):
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.required_files = defaultdict(set)
 
+    def test_caption(self):  # should not be matched
+        '''Tests to ensure that an image with a caption is ignored.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'caption.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, False, False, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'caption_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     def test_no_caption(self):
         '''Tests to ensure that an image with no caption is rendered correctly and expected images are updated.
         '''

@@ -15,8 +15,22 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         '''
         self.processor = 'image-tag'
         super().__init__(self.processor, ext, *args, **kwargs)
+        self.caption_pattern = re.compile(ext.processor_info[self.processor]['pattern'])  # TODO update regex to only find caption, ignore other args
         self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
+
+    def test(self, parent, block):
+        ''' Tests a block to see if the run method should be applied.
+
+        Args:
+            parent: The parent node of the element tree that children
+                will reside in.
+            block: The block to be tested.
+
+        Returns:
+            True if there are any start or end tags within the block.
+        '''
+        return self.caption_pattern.search(block) is None and self.pattern.search(block) is not None
 
     def custom_parsing(self, argument_values):
         '''

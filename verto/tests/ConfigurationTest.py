@@ -233,8 +233,7 @@ class ConfigurationTest(BaseTest):
         self.assertDictEqual(verto_result.required_glossary_terms, expected_otherfile_result.required_glossary_terms)
 
     def test_custom_processors_and_custom_templates_on_creation(self):
-        '''Checks if custom processors and custom templates work
-        together on creation of verto.
+        '''Checks if custom processors and custom templates work together on creation of verto.
         '''
         processors = {'image-tag', 'boxed-text'}
         verto = Verto(processors=processors, html_templates=self.custom_templates)
@@ -244,10 +243,9 @@ class ConfigurationTest(BaseTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_processors_and_custom_templates_after_creation(self):
-        '''Checks if custom processors and custom templates work
-        together after creation of verto.
+        '''Checks if custom processors and custom templates work together after creation of verto.
         '''
-        processors = {'image', 'boxed-text'}
+        processors = {'image-tag', 'boxed-text'}
         verto = Verto()
         verto.update_processors(processors)
         verto.update_templates(self.custom_templates)
