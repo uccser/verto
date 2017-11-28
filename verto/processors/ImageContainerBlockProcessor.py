@@ -17,7 +17,7 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         '''
         self.processor = 'image-container'
         super().__init__(self.processor, ext, *args, **kwargs)
-        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])  # TODO update regex to only find caption, ignore other args
+        self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
 
