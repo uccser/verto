@@ -140,7 +140,7 @@ class ConfigurationTest(BaseTest):
             verto.clear_saved_data()
 
     def test_multiple_calls_without_clearing(self):
-        '''Tests that if the verto extension is not cleared that information such as required_files and slugs are persistant.
+        '''Tests that if the verto extension is not cleared that information such as required_files and slugs are persistent.
         '''
         filename = 'all_processors.md'
         other_filename = 'otherfile.md'

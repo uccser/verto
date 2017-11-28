@@ -115,7 +115,6 @@ class GenericContainerBlockProcessor(BlockProcessor):
             raise ArgumentValueError(self.processor, 'content', content, message)
 
         argument_values['content'] = content
-# think there is something wrong here
         context = self.process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
