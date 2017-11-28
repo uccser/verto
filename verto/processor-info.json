@@ -136,7 +136,8 @@
           },
           "caption": {
             "required": false,
-            "dependencies": []
+            "dependencies": [],
+            "values": ["true", "false"]
           },
           "caption-link": {
             "required": false,
@@ -196,7 +197,8 @@
           },
           "caption": {
             "required": false,
-            "dependencies": []
+            "dependencies": [],
+            "values": ["true", "false"]
           },
           "caption-link": {
             "required": false,

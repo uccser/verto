@@ -1,5 +1,4 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from verto.errors.ArgumentValueError import ArgumentValueError
 import re
 
 
@@ -29,10 +28,7 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
             block: The block to be tested.
 
         Returns:
-            True if there are any start or end tags within the block.
-
-        Raises:
-            ArgumentValueError: If value for a given argument is incorrect.
+            True if there are any start tags within the block.
         '''
         return self.caption_pattern.search(block) is None and self.pattern.search(block) is not None
 
@@ -44,19 +40,13 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
             content_blocks: List of strings to either be parsed or inserted as caption in template.
         Returns:
             extra_args: dictionary to update the agument_values dict.
-        Raise:
         '''
         extra_args = {}
 
         argument = 'caption'
-        # if caption is anything other than "true", image has no caption
-        # TODO should raise and error if not "true" or "false" - invalid argument?
         caption_value = argument_values.get(argument)
-        if  caption_value == False:
+        if caption_value:
             del argument_values[argument]  # delete from dictionary so as to not be included in template
-        else:
-            message = 'Caption can only be "true" or "false".'
-            raise ArgumentValueError(self.processor, argument, caption_value, message)
 
         # check if internal or external image
         file_path = argument_values['file-path']

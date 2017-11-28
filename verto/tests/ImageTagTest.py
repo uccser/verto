@@ -79,8 +79,8 @@ class ImageTagTest(ProcessorTest):
         }
         self.assertSetEqual(expected_images, images)
 
-    def test_invalide_caption_parameter(self):
-        '''Tests that ArgumentValueError is raised when caption-link argument is give but a caption is not provided.
+    def test_invalid_caption_parameter(self):
+        '''Tests that ArgumentValueError is raised when aaption-link argument is give but a caption is not provided.
         '''
         test_string = self.read_test_file(self.processor_name, 'invalid_caption_error.md')
         blocks = self.to_blocks(test_string)
