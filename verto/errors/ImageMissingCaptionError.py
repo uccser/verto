@@ -6,7 +6,6 @@ class ImageMissingCaptionError(Error):
 
     Attributes:
         tag: tag which was not matched
-        block: block where tag was not matched
         argument: the argument that was not found
     '''
 

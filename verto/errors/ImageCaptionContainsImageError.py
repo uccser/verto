@@ -6,8 +6,6 @@ class ImageCaptionContainsImageError(Error):
 
     Attributes:
         tag: tag which was not matched
-        block:
-        argument:
     '''
 
     def __init__(self, tag):
