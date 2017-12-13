@@ -1,13 +1,27 @@
 Image
 #######################################
 
-**Processor name:** ``image``
+**Processor name:** ``image-tag`` and ``image-container``
 
 You can include an image using the following text tag:
 
 .. code-block:: none
 
-    {image file-path="http://placehold.it/350x150"}
+    {image file-path="http://placehold.it/350x150" caption="true"}
+
+    This is the caption text.
+
+    {image end}
+
+The caption is the first block of text within the image block.
+It is within the block rather than given as a parameter to allow translation systems to easily identify which text should be translated.
+
+If a caption is not needed, an end tag is not required (see example below).
+
+.. code-block:: none
+
+    {image file-path="http://placehold.it/350x150" caption="false"}
+
 
 Required Tag Parameters
 ***************************************
@@ -21,10 +35,17 @@ Optional Tag Parameters
 ***************************************
 
 - ``alt`` - Description text of the image used when an image is not displayed, or can be read when using a screen reader (for those with reading difficulties).
-- ``caption`` - Lists the given text as a caption under the image.
+
+- ``caption`` - Boolean flag to indicate whether the image should display a caption.
+
+    - If given as ``true``, the the subtitle is the first block of text with the image block.
+
 - ``caption-link`` (requires caption parameter) - Converts the caption text into a link to the given caption link URL.
+
 - ``source`` (optional) - Adds the text 'Source' under the image with a link to the given source URL. Displays after the caption if a caption is given.
+
 - ``alignment`` - Valid values are 'left', 'center', or 'right'. Providing one of these values Will add CSS classes to the image for alignment.
+
 - ``hover-text`` - Additional text to be displayed when the user hovers their cursor over the image (note this won't appear on touch devices so use sparingly).
 
 The default HTML for image is:

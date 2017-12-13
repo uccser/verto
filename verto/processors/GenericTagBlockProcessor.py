@@ -15,9 +15,10 @@ class GenericTagBlockProcessor(BlockProcessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = processor
-        self.pattern = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)\}} *(\n|$)'.format(self.processor))
+        tag_argument = ext.processor_info[self.processor].get('tag_argument', self.processor)
+        self.pattern = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)'.format(tag_argument))
         self.arguments = ext.processor_info[self.processor]['arguments']
-        template_name = ext.processor_info.get('template_name', self.processor)
+        template_name = ext.processor_info[self.processor].get('template_name', tag_argument)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
         self.process_parameters = lambda processor, parameters, argument_values: \
@@ -57,9 +58,26 @@ class GenericTagBlockProcessor(BlockProcessor):
             blocks.insert(0, after)
 
         argument_values = parse_arguments(self.processor, match.group('args'), self.arguments)
+
+        extra_args = self.custom_parsing(argument_values)
+        argument_values.update(extra_args)
+
         context = self.process_parameters(self.processor, self.template_parameters, argument_values)
 
         html_string = self.template.render(context)
         parser = HtmlParser()
         parser.feed(html_string).close()
         parent.append(parser.get_root())
+
+    def custom_parsing(self, argument_values):
+        '''
+        This serves as a placeholder method, to be used by processes that use the
+        GenericTagBlockProcessor but need to carry out further parsing of
+        the block's contents.
+
+        Args:
+            argument_values: Dictionary of values to be inserted in template.
+        Returns:
+            Tuple containing content_blocks (unchanged) and empty dictionary.
+        '''
+        return {}

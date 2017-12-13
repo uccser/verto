@@ -5,7 +5,6 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
-from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.PanelMissingTitleError import PanelMissingTitleError
 from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
 from verto.tests.ProcessorTest import ProcessorTest
@@ -296,11 +295,11 @@ class PanelTest(ProcessorTest):
 
     def test_contains_inner_image(self):
         '''Tests that other processors within a panel still renders correctly.'''
-        verto_extension = VertoExtension([self.processor_name, 'image'], {})
+        verto_extension = VertoExtension([self.processor_name, 'image-container'], {})
         test_string = self.read_test_file(self.processor_name, 'contains_inner_image.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, False, False, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'contains_inner_image_expected.html', strip=True)
