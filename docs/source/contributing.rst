@@ -152,7 +152,7 @@ The json description of a generic processor must contain the attributes:
   - ``arguments``: An object describing arguments passed to the tag.
   - ``template_parameters``: An object describing template parameters.
   - (Optional) ``template_name``: A custom name for the html-template to use. Defaults to the processor name otherwise.
-  - (Optional) ``tag_argument``: The text given at the beginning of a tag (e.g. the tag argument for ``{image file-path="example.png"}`` is ``image``). This is only necessary for processors with different names sharing the same resources (e.g. both ``image-container`` and ``image-tag`` share the ``image.html`` template).
+  - (Optional) ``tag_argument``: The text given at the beginning of a tag (e.g. the tag argument for ``{image file-path="example.png"}`` is ``image``). This is only necessary for processors with different names sharing the same resources (e.g. both ``image-container`` and ``image-tag`` share the ``tag_argument``).
 
 The ``argument`` parameter is a dictionary (or object) containing argument name, argument-info pairs. Where the argument-info contains the attributes:
 
