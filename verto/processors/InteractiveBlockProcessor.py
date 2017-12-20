@@ -16,7 +16,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             ext: An instance of the Verto Extension.
         '''
         super().__init__('interactive', ext, *args, **kwargs)
-        self.relative_file_template = ext.jinja_templates['relative-file-link']
+        self.interactive_thumbnail_path_template = ext.jinja_templates['interactive-thumbnail-path']
         self.scripts = ext.required_files['page_scripts']
         self.required = ext.required_files['interactives']
         self.required_images = ext.required_files['images']
@@ -77,12 +77,12 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         if interactive_type == 'whole-page':
             file_path = argument_values.get('thumbnail', None)
             if file_path is None:
-                file_path = '{}/thumbnail.png'.format(name)
+                file_path = 'thumbnail.png'.format(name)
 
             external_path_match = re.search(r'^http', file_path)
             if external_path_match is None:  # internal image
                 self.required_images.add(file_path)
-                file_path = self.relative_file_template.render({'file_path': file_path})
+                file_path = self.interactive_thumbnail_path_template.render({'file_path': file_path})
             context['file_path'] = file_path
 
         html_string = self.template.render(context)
