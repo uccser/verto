@@ -283,7 +283,9 @@ class InteractiveTest(ProcessorTest):
         self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
-        verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
+        thumbnail_path = self.read_test_file(self.processor_name, 'doc_example_thumbnail_path_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template, 'interactive-thumbnail-path': thumbnail_path})
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
-        # TODO test not complete?
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
