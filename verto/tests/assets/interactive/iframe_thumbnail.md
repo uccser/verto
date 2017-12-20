@@ -1,1 +1,1 @@
-{interactive name="binary-cards" type="iframe" parameters="digits=5&start=BBBBB"}
+{interactive name="binary-cards" type="iframe" thumbnail="binarycards.png"}
