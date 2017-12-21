@@ -277,6 +277,8 @@ class InteractiveTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
+    # TODO split this into two tests
+    # This test's override html does not use the thumbnail
     def test_doc_example_override_html(self):
         '''Example showing overriding the html-template.
         '''

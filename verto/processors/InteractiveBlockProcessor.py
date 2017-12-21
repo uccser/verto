@@ -75,16 +75,11 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         context['parameters'] = parameters
 
         if interactive_type == 'whole-page':
-            file_path = argument_values.get('thumbnail', None)  # default to thumbnail.png?
-            if file_path is None:
-                file_path = 'thumbnail.png'
+            file_path = argument_values.get('thumbnail', 'thumbnail.png')
+            external_path_match = re.search(r'^http', file_path)
+            if external_path_match is None:  # internal image
                 self.required_images.add(file_path)
                 file_path = self.interactive_thumbnail_path_template.render({'file_path': file_path})
-            else:
-                external_path_match = re.search(r'^http', file_path)
-                if external_path_match is None:  # internal image
-                    self.required_images.add(file_path)
-                    file_path = self.interactive_thumbnail_path_template.render({'file_path': file_path})
             context['file_path'] = file_path
 
         html_string = self.template.render(context)
