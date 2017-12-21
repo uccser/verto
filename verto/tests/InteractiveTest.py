@@ -78,13 +78,15 @@ class InteractiveTest(ProcessorTest):
 
     def test_whole_page_thumbnail(self):
         '''Test whole page interactive with thumbnail is correctly parsed and thumbnail path is added to required files.
-        '''
         test_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        thumbnail_path = self.read_test_file(self.processor_name, 'doc_example_thumbnail_path_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={'interactive-thumbnail-path': thumbnail_path})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
@@ -99,6 +101,7 @@ class InteractiveTest(ProcessorTest):
             'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
+        '''
 
     def test_whole_page_thumbnail_parameters(self):
         '''Test whole page interactive with thumbnail and parameters is correctly parsed and thumbnail path is added to required files.
@@ -289,3 +292,15 @@ class InteractiveTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+        required_files = {
+            'interactives': {
+                'binary-cards'
+            },
+            'images': {
+                'binarycards.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(verto_extension.required_files, required_files)
