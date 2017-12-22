@@ -15,74 +15,35 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         Args:
             ext: An instance of the Verto Extension.
         '''
-        super().__init__('interactive', ext, *args, **kwargs)
+        self.processor = 'interactive'
+        super().__init__(self.processor, ext, *args, **kwargs)
         self.interactive_thumbnail_path_template = ext.jinja_templates['interactive-thumbnail-path']
         self.scripts = ext.required_files['page_scripts']
-        self.required = ext.required_files['interactives']
+        self.required_interactives = ext.required_files['interactives']
         self.required_images = ext.required_files['images']
 
-    def test(self, parent, block):
-        ''' Tests a block to see if the run method should be applied.
-
-        Args:
-            parent: The parent node of the element tree that children
-                will reside in.
-            block: The block to be tested.
-        Returns:
-            True if the block matches the pattern regex of a HeadingBlock.
-        '''
-        return self.pattern.match(block) is not None
-
-    def run(self, parent, blocks):
+    def custom_parsing(self, argument_values):
         ''' Processes the block matching the heading and adding to the
         html tree and the verto heading tree.
 
         Args:
-            parent: The parent node of the element tree that children
-                will reside in.
-            blocks: A list of strings of the document, where the
-                first block tests true.
+            argument_values:
         '''
-        block = blocks.pop(0)
-
-        match = self.pattern.match(block)
-        before = block[:match.start()]
-        after = block[match.end():]
-
-        if before.strip() != '':
-            self.parser.parseChunk(parent, before)
-        if after.strip() != '':
-            blocks.insert(0, after)
-
-        arguments = match.group('args')
-        argument_values = parse_arguments(self.processor, arguments, self.arguments)
-
-        name = argument_values['name']
+        extra_args = {}
         interactive_type = argument_values['type']
-        text = argument_values.get('text', None)
-        parameters = argument_values.get('parameters', None)
+        name = argument_values['name']
 
         # add to list of interactives
-        self.required.add(name)
+        self.required_interactives.add(name)
 
         if interactive_type == 'in-page':
             self.scripts.add('interactive/{}/scripts.html'.format(name))
-
-        context = dict()
-        context['type'] = interactive_type
-        context['name'] = name
-        context['text'] = text
-        context['parameters'] = parameters
-
-        if interactive_type == 'whole-page':
-            file_path = argument_values.get('thumbnail', 'thumbnail.png')
-            external_path_match = re.search(r'^http', file_path)
+        elif interactive_type == 'whole-page':
+            thumbnail_path = argument_values.get('thumbnail', 'thumbnail.png')
+            external_path_match = re.search(r'^http', thumbnail_path)
             if external_path_match is None:  # internal image
-                self.required_images.add(file_path)
-                file_path = self.interactive_thumbnail_path_template.render({'file_path': file_path, 'name': name})
-            context['file_path'] = file_path
+                self.required_images.add(thumbnail_path)
+                file_path = self.interactive_thumbnail_path_template.render({'file_path': thumbnail_path, 'name': name})
+            extra_args['file-path'] = file_path
 
-        html_string = self.template.render(context)
-        parser = HtmlParser()
-        parser.feed(html_string).close()
-        parent.append(parser.get_root())
+        return extra_args

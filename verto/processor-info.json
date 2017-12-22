@@ -296,6 +296,23 @@
             "required": false,
             "dependencies": []
           }
+        },
+        "template_parameters": {
+          "type": {
+            "argument": "type"
+          },
+          "name": {
+            "argument": "name"
+          },
+          "text": {
+            "argument": "text"
+          },
+          "parameters": {
+            "argument": "parameters"
+          },
+          "file_path": {
+            "argument": "file-path"
+          }
         }
     },
     "panel": {
