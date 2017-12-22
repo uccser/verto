@@ -52,7 +52,7 @@ Optional Tag Parameters
   the ``?`` at the start, as this is already included in the output.
 - ``thumbnail`` (optional - used with ``whole-page`` value) - Displays an
   alternative thumbnail for the interactive. When not provided, it defaults to
-  the ``thumbnail.png`` image within the interactive's folder.
+  ``thumbnail.png``.
 
   - If the ``thumbnail`` value provided is an relative link (a link that
     doesn't start with ``http:``), the link will be rendered with a Django
@@ -60,13 +60,13 @@ Optional Tag Parameters
 
     .. code-block:: none
 
-      binary-cards/thumbnail-2.png
+      thumbnail-2.png
 
     would be rendered as:
 
     .. code-block:: none
 
-      {% static 'binary-cards/thumbnail-2.png' %}
+      {% static 'thumbnail-2.png' %}
 
     This can be overriden, see the override section below.
   - Each ``thumbnail`` provided is added to the ``images`` set in required
@@ -130,10 +130,11 @@ When overriding the HTML for interactives, the following Jinja2 placeholders are
 - ``{{ parameters }}`` - GET parameters to append to the interactive link.
 - ``{{ file_path }}`` - The location for the path to the thumbnail image.
 
-If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
-The default HTML for relative images is:
+If the ``file_path`` is not provided, the default thumbnail image is ``thumbnail.png``.
+The ``file_path`` is passed through the ``interactive-thumbnail-path.html`` template.
+The default HTML for the interactive thumbnail path is:
 
-.. literalinclude:: ../../../verto/html-templates/relative-file-link.html
+.. literalinclude:: ../../../verto/html-templates/interactive-thumbnail-path.html
   :language: css+jinja
 
 **Example**
@@ -154,6 +155,25 @@ with the following tag:
 would result in:
 
 .. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_expected.html
+   :language: html
+
+**Example 2**
+
+This example creates a link to a ``whole-page`` interactive with a thumbnail.
+
+For example, providing the following HTML for ``interactive-thumbnail-path.html``:
+
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_thumbnail_path_html_template.html
+   :language: css+jinja
+
+with the following tag:
+
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_thumbnail_html.md
+   :language: none
+
+would result in:
+
+.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_thumbnail_html_expected.html
    :language: html
 
 .. _Computer Science Field Guide: https://github.com/uccser/cs-field-guide
