@@ -79,7 +79,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             external_path_match = re.search(r'^http', file_path)
             if external_path_match is None:  # internal image
                 self.required_images.add(file_path)
-                file_path = self.interactive_thumbnail_path_template.render({'file_path': file_path})
+                file_path = self.interactive_thumbnail_path_template.render({'file_path': file_path, 'name': name})
             context['file_path'] = file_path
 
         html_string = self.template.render(context)

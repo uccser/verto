@@ -277,8 +277,6 @@ class InteractiveTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
-    # TODO split this into two tests
-    # This test's override html does not use the thumbnail
     def test_doc_example_override_html(self):
         '''Example showing overriding the html-template.
         '''
@@ -288,11 +286,37 @@ class InteractiveTest(ProcessorTest):
         self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
-        thumbnail_path = self.read_test_file(self.processor_name, 'doc_example_thumbnail_path_html_template.html', strip=True)
-        verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template, 'interactive-thumbnail-path': thumbnail_path})
+        verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        required_files = {
+            'interactives': {
+                'binary-cards'
+            },
+            'images': {
+                'binarycards.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(verto_extension.required_files, required_files)
+
+    def test_doc_example_override_thumbnail_html(self):
+        '''Example showing overriding the thumbnail html-template.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_override_thumbnail_html.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        thumbnail_path = self.read_test_file(self.processor_name, 'doc_example_thumbnail_path_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={'interactive-thumbnail-path': thumbnail_path})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_thumbnail_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
         required_files = {
