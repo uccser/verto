@@ -42,7 +42,8 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
             content_blocks (list): List of strings to either be parsed or inserted as caption in template.
             argument_values (dict): Dictionary of arguments and values provided in tag block.
         Returns:
-            Tuple containing blocks (list) and extra_args (dict) to update the content_blocks list and agument_values dict.
+            Tuple containing blocks (list) and extra_args (dict) to update the content_blocks list and
+                agument_values dict.
         Raises:
             ImageCaptionContainsImageError: If the first line of an image block is another image block.
             ImageMissingCaptionError: If no caption can be found in the image block.

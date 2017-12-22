@@ -1,6 +1,4 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
-from verto.processors.utils import parse_arguments
-from verto.utils.HtmlParser import HtmlParser
 import re
 
 
@@ -44,7 +42,10 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             external_path_match = re.search(r'^http', thumbnail_path)
             if external_path_match is None:  # internal image
                 self.required_images.add(thumbnail_path)
-                file_path = self.interactive_thumbnail_path_template.render({'file_path': thumbnail_path, 'name': name})
+                file_path = self.interactive_thumbnail_path_template.render({
+                    'file_path': thumbnail_path,
+                    'name': name
+                })
             extra_args['file-path'] = file_path
 
         return extra_args
