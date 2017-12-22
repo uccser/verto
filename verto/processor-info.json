@@ -120,9 +120,11 @@
           }
         }
     },
-    "image": {
+    "image-tag": {
         "class": "custom",
-        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)\\} *(\\n|$)",
+        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)?(?P<caption>caption=\"true\")(?P<arg>[^\\}]*)?\\} *(\\n|$)",
+        "tag_argument": "image",
+        "template_name": "image",
         "arguments": {
           "file-path": {
             "required": true,
@@ -134,7 +136,8 @@
           },
           "caption": {
             "required": false,
-            "dependencies": []
+            "dependencies": [],
+            "values": ["true", "false"]
           },
           "caption-link": {
             "required": false,
@@ -152,6 +155,90 @@
           "hover-text": {
             "required": false,
             "dependencies": []
+          }
+        },
+        "template_parameters": {
+          "file_path": {
+            "argument": "file-path"
+          },
+          "alt": {
+            "argument": "alt"
+          },
+          "caption": {
+            "argument": "caption"
+          },
+          "caption_link": {
+            "argument": "caption-link"
+          },
+          "source_link": {
+            "argument": "source"
+          },
+          "alignment": {
+            "argument": "alignment"
+          },
+          "hover_text": {
+            "argument": "hover-text"
+          }
+        }
+    },
+    "image-container": {
+        "class": "custom",
+        "pattern": "(^|\\n) *\\{image (?P<args>[^\\}]*)?(?P<caption>caption=\"true\")(?P<arg>[^\\}]*)?\\} *(\\n|$)",
+        "tag_argument": "image",
+        "template_name": "image",
+        "arguments": {
+          "file-path": {
+            "required": true,
+            "dependencies": []
+          },
+          "alt": {
+            "required": false,
+            "dependencies": []
+          },
+          "caption": {
+            "required": false,
+            "dependencies": [],
+            "values": ["true", "false"]
+          },
+          "caption-link": {
+            "required": false,
+            "dependencies": ["caption"]
+          },
+          "source": {
+            "required": false,
+            "dependencies": []
+          },
+          "alignment": {
+            "required": false,
+            "dependencies": [],
+            "values": ["left", "center", "right"]
+          },
+          "hover-text": {
+            "required": false,
+            "dependencies": []
+          }
+        },
+        "template_parameters": {
+          "file_path": {
+            "argument": "file-path"
+          },
+          "alt": {
+            "argument": "alt"
+          },
+          "caption": {
+            "argument": "caption"
+          },
+          "caption_link": {
+            "argument": "caption-link"
+          },
+          "source_link": {
+            "argument": "source"
+          },
+          "alignment": {
+            "argument": "alignment"
+          },
+          "hover_text": {
+            "argument": "hover-text"
           }
         }
     },

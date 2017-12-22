@@ -23,7 +23,7 @@ Optional Tag Parameters
 
 - ``subtitle`` - Boolean flag to indicate whether the panel should display a subtitle.
 
-    - If given as set 'true', then the subtitle is the first Level 2 Heading within the panel.
+    - If given as ``true``, then the subtitle is the first Level 2 Heading within the panel.
 
 - ``expanded`` - A value to state the panel's state:
 

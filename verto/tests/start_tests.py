@@ -1,5 +1,4 @@
 import sys, unittest, optparse
-
 from verto.tests.ConfigurationTest import ConfigurationTest
 from verto.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
 
@@ -11,7 +10,8 @@ from verto.tests.FrameTest import FrameTest
 from verto.tests.GlossaryLinkTest import GlossaryLinkTest
 from verto.tests.HeadingTest import HeadingTest
 from verto.tests.ImageInlineTest import ImageInlineTest
-from verto.tests.ImageTest import ImageTest
+from verto.tests.ImageTagTest import ImageTagTest
+from verto.tests.ImageContainerTest import ImageContainerTest
 from verto.tests.JinjaTest import JinjaTest
 from verto.tests.InteractiveTest import InteractiveTest
 from verto.tests.PanelTest import PanelTest
@@ -77,7 +77,8 @@ def unit_suite():
         unittest.makeSuite(GlossaryLinkTest),
         unittest.makeSuite(HeadingTest),
         unittest.makeSuite(ImageInlineTest),
-        unittest.makeSuite(ImageTest),
+        unittest.makeSuite(ImageTagTest),
+        unittest.makeSuite(ImageContainerTest),
         unittest.makeSuite(InteractiveTest),
         unittest.makeSuite(JinjaTest),
         unittest.makeSuite(PanelTest),
