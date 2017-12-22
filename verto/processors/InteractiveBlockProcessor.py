@@ -23,11 +23,12 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         self.required_images = ext.required_files['images']
 
     def custom_parsing(self, argument_values):
-        ''' Processes the block matching the heading and adding to the
-        html tree and the verto heading tree.
+        '''Determines the file path to use for an interactive's thumbnail.
 
         Args:
-            argument_values:
+            argument_values (dict): Dictionary of arguments and values provided in tag block.
+        Returns:
+            extra_args (dict): dictionary to update the agument_values dict.
         '''
         extra_args = {}
         interactive_type = argument_values['type']

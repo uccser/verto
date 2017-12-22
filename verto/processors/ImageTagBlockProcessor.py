@@ -37,9 +37,9 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         Extracts the caption of an image block and creates file path based on whether internal or external image.
 
         Args:
-            content_blocks: List of strings to either be parsed or inserted as caption in template.
+            argument_values (dict): Dictionary of arguments and values provided in tag block.
         Returns:
-            extra_args: dictionary to update the agument_values dict.
+            extra_args (dict): dictionary to update the agument_values dict.
         '''
         extra_args = {}
 

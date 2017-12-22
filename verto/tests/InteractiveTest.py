@@ -207,6 +207,10 @@ class InteractiveTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
+    #~
+    # Doc Tests
+    #~
+
     def test_doc_example_in_page(self):
         '''Example of an in-page interactive.
         '''
