@@ -338,7 +338,7 @@
     },
     "relative-link": {
         "class": "custom",
-        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
+        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\?\\)]+)(\\?(?P<link_query>[^\\)]*))?\\)"
     },
     "scratch": {
         "class": "custom",
