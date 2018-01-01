@@ -1,6 +1,7 @@
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 from verto.errors.ImageMissingCaptionError import ImageMissingCaptionError
 from verto.errors.ImageCaptionContainsImageError import ImageCaptionContainsImageError
+from verto.utils.image_file_name_components import image_file_name_components
 import re
 
 
@@ -18,7 +19,6 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         self.processor = 'image-container'
         super().__init__(self.processor, ext, *args, **kwargs)
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
-        self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
 
     def test(self, parent, block):
@@ -41,7 +41,7 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         Args:
             content_blocks: List of strings to either be parsed or inserted as caption in template.
         Returns:
-            Tuple containing blocks and extra_args to update the content_blocks list and agument_values dict.
+            Tuple containing blocks and extra_args to update the content_blocks list and argument_values dict.
         Raises:
             ImageCaptionContainsImageError: If the first line of an image block is another image block.
             ImageMissingCaptionError: If no caption can be found in the image block.
@@ -58,11 +58,15 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         extra_args[argument] = content_blocks[0]
 
         file_path = argument_values['file-path']
+        del(argument_values['file-path'])
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None:  # internal image
             self.required.add(file_path)
-            file_path = self.relative_image_template.render({'file_path': file_path})
-
-        extra_args['file-path'] = file_path
+            file_relative = True
+            extra_args.update(image_file_name_components(file_path))
+        else:
+            file_relative = False
+        extra_args['full_file_path'] = file_path
+        extra_args['file_relative'] = file_relative
 
         return (content_blocks, extra_args)

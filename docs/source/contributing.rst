@@ -162,7 +162,7 @@ The ``argument`` parameter is a dictionary (or object) containing argument name,
 
 These arguments are transformed for use in the html-template by the ``template_parameters`` attribute. This attribute is similar to the ``argument`` attribute by containing parameter name, parameter-info pairs. Where the parameter-info contains the attributes:
 
-  - ``argument``: The name of the argument to retrieve the value of to  use/transform into the parameter value.
+  - ``argument``: The name of the argument to retrieve the value of to use/transform into the parameter value.
   - (Optional) ``default``: The value the parameter defaults to if the argument is not given otherwise defaults to ``None``.
   - (Optional) ``transform``: The name of the transform to modify the argument value by or defaults to null for no transformation. The avaliable transforms are detailed below.
   - (Optional) ``transform_condition``: A function that takes the context after parameters are set but before transformation (The transformations are done in order they appear in the json document). If the function returns ``True`` then the transformation is applied.
