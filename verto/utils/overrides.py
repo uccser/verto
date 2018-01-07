@@ -134,8 +134,7 @@ class OListProcessor(DefaultOListProcessor):
             match = self.RE.match(block)
             if match is not None:
                 relevant_block_groups.append([])
-            elif not (block.startswith(' ' * self.tab_length)
-                      or block.strip() == ''):
+            elif not (block.startswith(' ' * self.tab_length) or block.strip() == ''):
                 blocks.insert(0, block)
                 break
             relevant_block_groups[-1].append(block)
@@ -154,8 +153,7 @@ class OListProcessor(DefaultOListProcessor):
                         INTEGER_RE = re.compile('(\d+)')
                         self.STARTSWITH = INTEGER_RE.match(match.group(1)).group()
                     item_groups.append([match.group(3)])
-                elif (self.INDENT_RE.match(line)
-                      and not self.INDENT_CONT_RE.match(item_groups[-1][-1])):
+                elif (self.INDENT_RE.match(line) and not self.INDENT_CONT_RE.match(item_groups[-1][-1])):
                     item_groups[-1].append(self.looseDetab(line))
                 elif self.INDENT_RE.match(line):
                     item_groups[-1][-1] = '{}\n{}'.format(item_groups[-1][-1], self.looseDetab(line))
