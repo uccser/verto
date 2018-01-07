@@ -1,3 +1,4 @@
+<div>
 <img
 {% autoescape false -%}
 {%- if file_relative %}
@@ -12,3 +13,4 @@ src="{{ "{% static '" }}{{ full_file_path }}{{ "' %}" }}"
 src="{{ full_file_path }}"
 {%- endif -%}
 {%- endautoescape -%}>
+</div>
