@@ -353,12 +353,15 @@ class ImageContainerTest(ProcessorTest):
         '''
         test_string = self.read_test_file(self.processor_name, 'file_width_value.md')
         blocks = self.to_blocks(test_string)
+
         self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
         html_template = self.read_test_file(self.processor_name, 'file_width_value_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.tag_argument: html_template})
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'file_width_value_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
         images = self.verto_extension.required_files['images']
         expected_images = set()
         self.assertSetEqual(expected_images, images)
@@ -368,12 +371,15 @@ class ImageContainerTest(ProcessorTest):
         '''
         test_string = self.read_test_file(self.processor_name, 'file_width_value_no_units.md')
         blocks = self.to_blocks(test_string)
+
         self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
         html_template = self.read_test_file(self.processor_name, 'file_width_value_no_units_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.tag_argument: html_template})
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'file_width_value_no_units_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
         images = self.verto_extension.required_files['images']
         expected_images = set()
         self.assertSetEqual(expected_images, images)
@@ -383,12 +389,15 @@ class ImageContainerTest(ProcessorTest):
         '''
         test_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_1.md')
         blocks = self.to_blocks(test_string)
+
         self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
         html_template = self.read_test_file(self.processor_name, 'file_invalid_width_value_1_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.tag_argument: html_template})
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_1_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
         images = self.verto_extension.required_files['images']
         expected_images = set()
         self.assertSetEqual(expected_images, images)
@@ -398,12 +407,15 @@ class ImageContainerTest(ProcessorTest):
         '''
         test_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_2.md')
         blocks = self.to_blocks(test_string)
+
         self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
         html_template = self.read_test_file(self.processor_name, 'file_invalid_width_value_2_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.tag_argument: html_template})
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_2_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
         images = self.verto_extension.required_files['images']
         expected_images = set()
         self.assertSetEqual(expected_images, images)
@@ -413,12 +425,15 @@ class ImageContainerTest(ProcessorTest):
         '''
         test_string = self.read_test_file(self.processor_name, 'file_width_value_external_image.md')
         blocks = self.to_blocks(test_string)
+
         self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
         html_template = self.read_test_file(self.processor_name, 'file_width_value_external_image_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.tag_argument: html_template})
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'file_width_value_external_image_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
         images = self.verto_extension.required_files['images']
         expected_images = set()
         self.assertSetEqual(expected_images, images)
