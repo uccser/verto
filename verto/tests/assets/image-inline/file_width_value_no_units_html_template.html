@@ -1,0 +1,16 @@
+<div>
+<img
+{% autoescape false -%}
+{%- if file_relative %}
+{%- if file_width_value -%}
+srcset="{% if file_width_value > 200 %}{{ "{% static '" }}{{ file_path }}@200px{{ file_extension }}{{ "' %}" }} 200w{% endif -%}
+{% if file_width_value > 400 %}, {{ "{% static '" }}{{ file_path }}@400px{{ file_extension }}{{ "' %}" }} 400w{% endif -%}
+{% if file_width_value > 600 %}, {{ "{% static '" }}{{ file_path }}@600px{{ file_extension }}{{ "' %}" }} 600w{% endif -%}
+{% if file_width_value > 800 %}, {{ "{% static '" }}{{ file_path }}@800px{{ file_extension }}{{ "' %}" }} 800w{% endif -%}"
+{%- endif -%}
+src="{{ "{% static '" }}{{ full_file_path }}{{ "' %}" }}"
+{%- else -%}
+src="{{ full_file_path }}"
+{%- endif -%}
+{%- endautoescape -%}>
+</div>

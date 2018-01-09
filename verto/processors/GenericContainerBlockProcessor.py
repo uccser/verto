@@ -56,8 +56,8 @@ class GenericContainerBlockProcessor(BlockProcessor):
         start_tag = self.p_start.search(block)
         end_tag = self.p_end.search(block)
 
-        if ((start_tag is None and end_tag is not None)
-           or (start_tag and end_tag and start_tag.end() > end_tag.start())):
+        if ((start_tag is None and end_tag is not None) or
+           (start_tag and end_tag and start_tag.end() > end_tag.start())):
             raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
 
         before = block[:start_tag.start()]
@@ -80,8 +80,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
             inner_tag = self.p_start.search(block)
             end_tag = self.p_end.search(block)
 
-            if ((inner_tag and end_tag is None)
-               or (inner_tag and end_tag and inner_tag.start() < end_tag.end())):
+            if ((inner_tag and end_tag is None) or (inner_tag and end_tag and inner_tag.start() < end_tag.end())):
                 inner_start_tags += 1
 
             if end_tag and inner_start_tags == inner_end_tags:

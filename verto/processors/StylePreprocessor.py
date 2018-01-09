@@ -43,18 +43,18 @@ class StylePreprocessor(Preprocessor):
                     important_lines = (list(enumerate(lines))[max(0, i - 1): i + 2])
                     line_nums, error_lines = zip(*map(lambda x: (x[0] + 1, x[1].strip()), important_lines))
 
-                    # Remove all empty lines Should only be one line left
+                    # Remove all empty lines, should only be one line left
                     if len([line for line in error_lines if line != '']) != 1:
                         raise StyleError(line_nums, error_lines, 'Blocks must be separated by whitespace.')
 
                     start_index, end_index = block_match.span()
                     rest = line[:start_index] + line[end_index+1:]
 
-                    if (self.LIST_RE.match(line[:start_index])
-                       and not all(map(lambda char: char.isspace(), line[end_index+1:]))):
+                    if (self.LIST_RE.match(line[:start_index]) and
+                       not all(map(lambda char: char.isspace(), line[end_index+1:]))):
                             raise StyleError(line_nums, error_lines, 'Content after block in list.')
-                    elif (not self.LIST_RE.match(line[:start_index])
-                          and not all(map(lambda char: char.isspace(), rest))):
+                    elif (not self.LIST_RE.match(line[:start_index]) and
+                          not all(map(lambda char: char.isspace(), rest))):
                             raise StyleError(line_nums, error_lines, 'Blocks must be the only thing on the line.')
 
         return lines
