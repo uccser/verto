@@ -1,6 +1,6 @@
 |Verto Image|
 
-|Build Status| |Code Climate Status|
+|Build Status|
 
 Verto is an extension of the Python Markdown package, which allows
 authors to include complex HTML elements with simple text tags in their
@@ -81,10 +81,6 @@ The changelog is available within the `documentation`_.
 
 .. |Build Status| image:: https://travis-ci.org/uccser/verto.svg?branch=master
    :target: https://travis-ci.org/uccser/verto
-
-.. |Code Climate Status| image:: https://codeclimate.com/github/uccser/verto/badges/gpa.svg
-  :target: https://codeclimate.com/github/uccser/verto
-  :alt: Code Climate
 
 .. |Verto Image| image:: https://raw.githubusercontent.com/uccser/verto/master/verto/images/verto-logo.png
   :target: https://github.com/uccser/verto
