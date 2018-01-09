@@ -1,3 +1,7 @@
-{panel type="extra-for-experts" title="Extra For Experts" subtitle="Something About Love"}
+{panel type="extra-for-experts" subtitle="true"}
+
+# Extra For Experts
+
+## Something About Love
 
 {panel end}

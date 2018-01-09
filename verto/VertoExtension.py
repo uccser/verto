@@ -4,7 +4,8 @@ import markdown.util as utils
 from verto.processors.CommentPreprocessor import CommentPreprocessor
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
 from verto.processors.ImageInlinePattern import ImageInlinePattern
-from verto.processors.ImageBlockProcessor import ImageBlockProcessor
+from verto.processors.ImageTagBlockProcessor import ImageTagBlockProcessor
+from verto.processors.ImageContainerBlockProcessor import ImageContainerBlockProcessor
 from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
 from verto.processors.RelativeLinkPattern import RelativeLinkPattern
 from verto.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
@@ -21,6 +22,7 @@ from verto.processors.ScratchCompatibilityPreprocessor import ScratchCompatibili
 from verto.processors.ScratchCompatibilityPreprocessor import FENCED_BLOCK_RE_OVERRIDE
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
+from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 
 from verto.utils.UniqueSlugify import UniqueSlugify
 from verto.utils.HeadingNode import HeadingNode
@@ -105,15 +107,13 @@ class VertoExtension(Extension):
         md.parser.blockprocessors['olist'] = OListProcessor(md.parser)
         md.parser.blockprocessors['ulist'] = UListProcessor(md.parser)
 
-        if ('fenced_code_block' in self.compatibility
-           and 'scratch' in self.processors):
-                md.preprocessors['fenced_code_block'].FENCED_BLOCK_RE = FENCED_BLOCK_RE_OVERRIDE
+        if ('fenced_code_block' in self.compatibility and 'scratch' in self.processors):
+            md.preprocessors['fenced_code_block'].FENCED_BLOCK_RE = FENCED_BLOCK_RE_OVERRIDE
 
-        if ('hilite' in self.compatibility
-           and 'fenced_code_block' in self.compatibility
-           and 'scratch' in self.processors):
-                processor = ScratchCompatibilityPreprocessor(self, md)
-                md.preprocessors.add('scratch-compatibility', processor, '<fenced_code_block')
+        if ('hilite' in self.compatibility and 'fenced_code_block' in self.compatibility and
+           'scratch' in self.processors):
+            processor = ScratchCompatibilityPreprocessor(self, md)
+            md.preprocessors.add('scratch-compatibility', processor, '<fenced_code_block')
 
     def clear_document_data(self):
         '''Clears information stored for a specific document.
@@ -175,9 +175,11 @@ class VertoExtension(Extension):
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
             # Single line (in increasing complexity)
             ['interactive', InteractiveBlockProcessor(self, md.parser), '<paragraph'],
-            ['image', ImageBlockProcessor(self, md.parser), '<paragraph'],
+            ['image-container', ImageContainerBlockProcessor(self, md.parser), '<paragraph'],
+            ['image-tag', ImageTagBlockProcessor(self, md.parser), '<paragraph'],
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
             ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
+            ['panel', PanelBlockProcessor(self, md.parser), '<paragraph'],
             # Multiline
         ]
         self.inlinepatterns = [  # A special treeprocessor

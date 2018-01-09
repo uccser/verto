@@ -1,4 +1,6 @@
-{panel type="lipsum" title="Lipsum Lorem"}
+{panel type="lipsum"}
+
+# Lipsum Lorem
 
 {comment This is a comment for other authors to read}
 

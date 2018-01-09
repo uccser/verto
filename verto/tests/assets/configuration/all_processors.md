@@ -8,13 +8,23 @@ This is a sentence.
 
 Check out this [resource](resource/134).
 
-{panel type="teacher-note" title="Teacher Note" subtitle="Guides for Algorithms"}
+{panel type="teacher-note" subtitle="true"}
+
+# Teacher Note
+
+## Guides for Algorithms
 
 This text is the panel's contents.
 
 {panel end}
 
-{image file-path="http://placehold.it/350x150" caption="Placeholder image" source="https://placehold.it/" hover-text="This is hover text" alignment="left"}
+{image file-path="http://placehold.it/350x150" caption="true" source="https://placehold.it/" hover-text="This is hover text" alignment="left"}
+
+Dancing with our hands tied.
+
+{image end}
+
+{image file-path="http://placehold.it/250x50" caption="false" source="https://placehold.it/" hover-text="This is hover text" alignment="left"}
 
 {boxed-text}
 

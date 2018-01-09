@@ -27,6 +27,7 @@ Overriding HTML for Relative Links
 When overriding the HTML for relative links, the following Jinja2 placeholders are available:
 
 - ``{{ link_path }}`` - The given link URL.
+- ``{{ link_query }}`` - The given link query parameters.
 
 **Example**
 

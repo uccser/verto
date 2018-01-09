@@ -42,7 +42,7 @@ def parse_flag(argument_key, arguments, default=False):
         arguments: A string of the argument inputs.
         default: The default value if not found.
     Returns:
-        Value of an argument as a string if found, otherwise None.
+        True if argument is found, otherwise None.
     '''
     result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
     if result:
@@ -77,8 +77,8 @@ def parse_arguments(processor, inputs, arguments):
         elif not is_required and (is_arg or is_flag):
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
-                if (parse_argument(other_argument, inputs, None) is None
-                   and parse_flag(other_argument, inputs, None) is None):
+                if (parse_argument(other_argument, inputs, None) is None and
+                   parse_flag(other_argument, inputs, None) is None):
                         message = '{} is a required argument because {} exists.'.format(other_argument, argument)
                         raise ArgumentMissingError(processor, argument, message)
 

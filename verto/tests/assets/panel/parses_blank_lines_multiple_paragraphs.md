@@ -1,4 +1,8 @@
-{panel type="extra-for-experts" title="Lorem ipsum" subtitle="Nunc non accumsan"}
+{panel type="extra-for-experts" subtitle="true"}
+
+# Lorem ipsum
+
+## Nunc non accumsan
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean blandit, eros a tristique laoreet, massa enim vehicula sapien, ut convallis eros leo consectetur nunc. Praesent eu arcu nec elit maximus gravida. Proin volutpat blandit ipsum, ac ullamcorper est hendrerit a. Sed quis commodo enim, quis ornare nunc. Donec convallis nibh in tellus tempor, vitae molestie nisl commodo. Phasellus in odio ac ligula dapibus rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla pretium tellus vitae leo pretium, id sollicitudin sem laoreet. Duis egestas cursus dui et volutpat. Suspendisse malesuada sed nisl a eleifend. Donec mattis metus erat, volutpat luctus purus maximus ut. Donec porttitor nibh viverra dui scelerisque lobortis. Cras at tincidunt lorem. Duis imperdiet rutrum mi, non molestie velit. Nunc eget lobortis libero, at vulputate risus. Maecenas posuere ante mi, eu interdum libero vestibulum vel.
 

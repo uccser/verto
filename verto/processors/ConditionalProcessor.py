@@ -103,8 +103,7 @@ class ConditionalProcessor(BlockProcessor):
         context['has_else'] = has_else
         context['else_content'] = else_content
 
-        if (next_tag is None
-           or (next_tag is not None and not parse_flag('end', next_tag.group('args')))):
+        if (next_tag is None or (next_tag is not None and not parse_flag('end', next_tag.group('args')))):
             msg = 'end conditional not found'
             raise TagNotMatchedError(self.processor, block, msg)
 

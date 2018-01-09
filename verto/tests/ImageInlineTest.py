@@ -198,6 +198,75 @@ class ImageInlineTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
+    def test_image_width_value(self):
+        '''Test image rendered correctly with width value.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'file_width_value.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+        html_template = self.read_test_file(self.processor_name, 'file_width_value_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'file_width_value_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+        images = verto_extension.required_files['images']
+        expected_images = {'path/to/image@500px.png'}
+        self.assertSetEqual(expected_images, images)
+
+    def test_image_width_value_no_units(self):
+        '''Test image rendered correctly with width value with no units.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'file_width_value_no_units.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+        html_template = self.read_test_file(self.processor_name, 'file_width_value_no_units_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'file_width_value_no_units_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+        images = verto_extension.required_files['images']
+        expected_images = {'path/to/image@900.png'}
+        self.assertSetEqual(expected_images, images)
+
+    def test_image_invalid_width_value_1(self):
+        '''Test image rendered correctly with width value.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_1.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_1_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+        images = self.verto_extension.required_files['images']
+        expected_images = {'path/to/image@.png'}
+        self.assertSetEqual(expected_images, images)
+
+    def test_image_invalid_width_value_2(self):
+        '''Test image rendered correctly with width value.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_2.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'file_invalid_width_value_2_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+        images = self.verto_extension.required_files['images']
+        expected_images = {'path/to/image@em20.png'}
+        self.assertSetEqual(expected_images, images)
+
+    def test_image_width_value_external_image(self):
+        '''Test image rendered correctly with width value.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'file_width_value_external_image.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'file_width_value_external_image_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+        images = self.verto_extension.required_files['images']
+        expected_images = set()
+        self.assertSetEqual(expected_images, images)
+
     #~
     # Embed test.
     #~

@@ -1,0 +1,3 @@
+So it goes...
+
+{image caption="false" file-path="computer-studying-turing-test.png" source="example.com"}

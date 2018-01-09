@@ -15,10 +15,11 @@ class GenericContainerBlockProcessor(BlockProcessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = processor
-        self.p_start = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)'.format(self.processor))
-        self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)'.format(self.processor))
+        tag_argument = ext.processor_info[self.processor].get('tag_argument', self.processor)
+        self.p_start = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)'.format(tag_argument))
+        self.p_end = re.compile(r'(^|\n) *\{{{0} end\}} *(\n|$)'.format(tag_argument))
         self.arguments = ext.processor_info[self.processor]['arguments']
-        template_name = ext.processor_info.get('template_name', self.processor)
+        template_name = ext.processor_info[self.processor].get('template_name', self.processor)
         self.template = ext.jinja_templates[template_name]
         self.template_parameters = ext.processor_info[self.processor].get('template_parameters', None)
         self.process_parameters = lambda processor, parameters, argument_values: \
@@ -45,14 +46,18 @@ class GenericContainerBlockProcessor(BlockProcessor):
                 will reside in.
             blocks: A list of strings of the document, where the
                 first block tests true.
+
+        Raises:
+            ArgumentValueError: If value for a given argument is incorrect.
+            TagNotMatchedError: If end tag is not found for corresponding start tag.
         '''
         block = blocks.pop(0)
 
         start_tag = self.p_start.search(block)
         end_tag = self.p_end.search(block)
 
-        if ((start_tag is None and end_tag is not None)
-           or (start_tag and end_tag and start_tag.end() > end_tag.start())):
+        if ((start_tag is None and end_tag is not None) or
+           (start_tag and end_tag and start_tag.end() > end_tag.start())):
             raise TagNotMatchedError(self.processor, block, 'end tag found before start tag')
 
         before = block[:start_tag.start()]
@@ -75,8 +80,7 @@ class GenericContainerBlockProcessor(BlockProcessor):
             inner_tag = self.p_start.search(block)
             end_tag = self.p_end.search(block)
 
-            if ((inner_tag and end_tag is None)
-               or (inner_tag and end_tag and inner_tag.start() < end_tag.end())):
+            if ((inner_tag and end_tag is None) or (inner_tag and end_tag and inner_tag.start() < end_tag.end())):
                 inner_start_tags += 1
 
             if end_tag and inner_start_tags == inner_end_tags:
@@ -87,6 +91,9 @@ class GenericContainerBlockProcessor(BlockProcessor):
                 inner_end_tags += 1
                 end_tag = None
             content_blocks.append(block)
+
+        content_blocks, extra_args = self.custom_parsing(content_blocks, argument_values)
+        argument_values.update(extra_args)
 
         if the_rest.strip() != '':
             blocks.insert(0, the_rest)
@@ -113,3 +120,17 @@ class GenericContainerBlockProcessor(BlockProcessor):
         parser = HtmlParser()
         parser.feed(html_string).close()
         parent.append(parser.get_root())
+
+    def custom_parsing(self, content_blocks, argument_values):
+        '''
+        This serves as a placeholder method, to be used by processes that use the
+        GenericContainerBlockProcessor but need to carry out further parsing of
+        the block's contents.
+
+        Args:
+            content_blocks: List of strings to either be parsed or inserted as content in template.
+            argument_values: Dictionary of values to be inserted in template.
+        Returns:
+            Tuple containing content_blocks (unchanged) and empty dictionary.
+        '''
+        return (content_blocks, {})
