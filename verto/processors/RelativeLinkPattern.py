@@ -38,6 +38,9 @@ class RelativeLinkPattern(Pattern):
         '''
         context = dict()
         context['link_path'] = escape(match.group('link_url'))
+        link_query = match.group('link_query')
+        if link_query:
+            context['link_query'] = link_query
         context['text'] = match.group('link_text')
 
         html_string = self.template.render(context)
