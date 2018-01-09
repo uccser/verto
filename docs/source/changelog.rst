@@ -1,26 +1,43 @@
 Changelog
 #######################################
 
+0.7.0
+=======================================
+
+Fixes:
+
+- :doc:`processors/relative-link` processor will now handle query parameters.
+- Modify :doc:`processors/panel` processor for translating subtitles, by requiring subtitle text as second level heading.
+- Modify :doc:`processors/image` processor for translating captions, by requiring caption text between start and end tags.
+- Modify :doc:`processors/image` processor to allow finer control of output, in particular when dealing with image with width values.
+- Add new tag configuration value ``tag_argument`` to override tag name.
+- Dependency updates:
+
+  - Update ``markdown`` to 2.6.10.
+  - Update ``Jinja2`` to 2.10.
+  - Update ``setuptools`` to 38.2.5.
+  - Update ``sphinx`` to 1.6.5.
+
 0.6.1
 =======================================
 
 Fixes:
 
-  - Adds all interactives to required files.
-  - Typo in Interactive documentation.
+- Adds all interactives to required files.
+- Typo in interactive tag documentation.
 
 0.6.0
 =======================================
 
 Features:
 
-  - Added :doc:`processors/image-inline` processor, intended for use in tables.
-  - Added :doc:`processors/scratch-inline` processor for inline scratch support.
+- Added :doc:`processors/image-inline` processor, intended for use in tables.
+- Added :doc:`processors/scratch-inline` processor for inline scratch support.
 
 Fixes:
 
-  - Removed ``beautifulsoup4`` dependency.
-  - Typo in VertoResult documentation (*heading_root* -> *heading_tree*).
+- Removed ``beautifulsoup4`` dependency.
+- Typo in VertoResult documentation (*heading_root* -> *heading_tree*).
 
 0.5.3
 =======================================
@@ -29,46 +46,46 @@ In this hotfix Verto result data for unique identifiers and required files is no
 
 Fixes:
 
-  - Remove implicit Beautify processor, fixing white-spacing issues.
-  - All terms are added to glossary correctly now.
+- Remove implicit Beautify processor, fixing white-spacing issues.
+- All terms are added to glossary correctly now.
 
 0.5.2
 =======================================
 
 Fixes:
 
-  - Verto container tags, are now supported in markdown lists.
+- Verto container tags, are now supported in markdown lists.
 
 0.5.1
 =======================================
 
 Fixes:
 
-  - Verto tags and custom tags, are now support embedding into markdown lists.
+- Verto tags and custom tags, are now support embedding into markdown lists.
 
 0.5.0
 =======================================
 
 Fixes:
 
-  - A new more descriptive error when an argument is given and not readable.
-  - Custom HTML string parsing has been implemented, allowing for correct parsing of HTML and XHTML in templates.
+- A new more descriptive error when an argument is given and not readable.
+- Custom HTML string parsing has been implemented, allowing for correct parsing of HTML and XHTML in templates.
 
 Documentation:
 
-  - Basic example in README.
-  - New contributing documentation.
-  - Fixed reference to incorrect file in the image processor documentation.
-  - Added new documentation for implicit processors.
+- Basic example in README.
+- New contributing documentation.
+- Fixed reference to incorrect file in the image processor documentation.
+- Added new documentation for implicit processors.
 
 0.4.1
 =======================================
 
 Fixes:
 
-  - pypi configuration fixes.
-  - pyup configuration to use develop branch.
-  - Improved asset file loading for deployed package.
+- pypi configuration fixes.
+- pyup configuration to use develop branch.
+- Improved asset file loading for deployed package.
 
 0.4.0
 =======================================
@@ -78,21 +95,21 @@ Fourth prerelease of the Verto converter.
 
 Adds support for the following processors:
 
-  - :doc:`processors/iframe`
-  - :doc:`processors/interactive`
-  - :doc:`processors/heading`
-  - :doc:`processors/scratch`
-  - :doc:`processors/table-of-contents`
+- :doc:`processors/iframe`
+- :doc:`processors/interactive`
+- :doc:`processors/heading`
+- :doc:`processors/scratch`
+- :doc:`processors/table-of-contents`
 
 Features:
 
-  - The :doc:`processors/scratch` processor supports ``split`` and ``random`` options.
+- The :doc:`processors/scratch` processor supports ``split`` and ``random`` options.
 
 Fixes:
 
-  - Scratch blocks work with other extensions.
-  - Glossary slugs are now added to the output of Verto.
-  - Processors are now ordered correctly.
+- Scratch blocks work with other extensions.
+- Glossary slugs are now added to the output of Verto.
+- Processors are now ordered correctly.
 
 
 0.3.1
@@ -100,7 +117,7 @@ Fixes:
 
 Fixes:
 
-  - Updated documentation and changelog.
+- Updated documentation and changelog.
 
 0.3.0
 =======================================
@@ -109,17 +126,17 @@ Third prerelease of the Verto converter.
 
 Adds support for the following processors:
 
-  - :doc:`processors/heading`
-  - :doc:`processors/iframe`
-  - :doc:`processors/interactive`
-  - :doc:`processors/scratch`
-  - :doc:`processors/table-of-contents`
+- :doc:`processors/heading`
+- :doc:`processors/iframe`
+- :doc:`processors/interactive`
+- :doc:`processors/scratch`
+- :doc:`processors/table-of-contents`
 
 Fixes:
 
-  - Verto now orders tags correctly in the markdown pipeline.
-  - System tests for multiple calls to Verto and for multi-line templates.
-  - Glossary tags now correctly store slugs for the Verto result as per documentation.
+- Verto now orders tags correctly in the markdown pipeline.
+- System tests for multiple calls to Verto and for multi-line templates.
+- Glossary tags now correctly store slugs for the Verto result as per documentation.
 
 0.2.0
 =======================================
