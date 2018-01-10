@@ -1,10 +1,13 @@
 Changelog
 #######################################
 
-0.7.0
+0.7.1
 =======================================
 
-Fixes:
+- :doc:`processors/save-title` and :doc:`processors/remove-title` processors now only search first line.
+
+0.7.0
+=======================================
 
 - :doc:`processors/relative-link` processor will now handle query parameters.
 - Modify :doc:`processors/panel` processor for translating subtitles, by requiring subtitle text as second level heading.
