@@ -107,6 +107,18 @@ class RemoveTitleTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'no_space_title_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_heading_not_first_line(self):
+        '''Tests that the all the heading is removed if spaces
+        are present.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_not_first_line.md')
+
+        processor = RemoveTitlePreprocessor(self.ext, self.md.parser)
+        self.assertFalse(processor.test(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_not_first_line_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
 
     # SYSTEM TESTS
 
