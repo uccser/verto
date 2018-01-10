@@ -21,22 +21,21 @@ class RemoveTitlePreprocessor(Preprocessor):
 
         Args:
             lines: A string of the document text.
+
         Result:
             True if a match is found.
         '''
         return self.pattern.search(lines) is not None
 
     def run(self, lines):
-        '''If the title is found on a line, remove the line.
+        '''If the title is found on the first line, remove the line.
 
         Args:
             lines: A list of strings that form the document.
+
         Returns:
-            The document with the first title removed.
+            List of lines of document.
         '''
-        title_found = False
-        for i, line in enumerate(lines):
-            if not title_found and self.pattern.search(line) is not None:
-                lines[i] = ''
-                title_found = True
+        if self.pattern.search(lines[0]) is not None:
+            lines[0] = ''
         return lines

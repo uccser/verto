@@ -98,6 +98,18 @@ class SaveTitleTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'no_space_title_expected.html', strip=True).strip()
         self.assertEqual(expected_string, self.verto_extension.title)
 
+    def test_heading_not_first_line(self):
+        '''Tests that space in the title does not
+        change the saving behaviour.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_not_first_line.md')
+
+        processor = SaveTitlePreprocessor(self.ext, self.md.parser)
+        self.assertFalse(processor.test(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        self.assertIsNone(self.verto_extension.title)
+
     # SYSTEM TESTS
 
     def test_no_result_processor_off(self):
