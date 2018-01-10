@@ -3,9 +3,9 @@ Remove Title
 
 **Processor name:** ``remove-title``
 
-This preprocessor runs before any conversion of Markdown and searches for the first heading in the provided Markdown text.
+This preprocessor runs before any conversion of Markdown and searches for a heading in the first line of provided Markdown text.
+If a heading is found on the first line, it deletes that line of text.
 This preprocessor runs after the ``save-title`` preprocessor if present.
-Once it finds a heading on a line, it deletes that line of text.
 
 This preprocessor is **not** turned on by default.
 To use ``remove-title``, it needs to be explicity provided in the ``processors`` parameter when creating the Verto converter, or given in the ``update_processors`` method (see example below).
