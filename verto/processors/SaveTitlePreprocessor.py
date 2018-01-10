@@ -22,23 +22,22 @@ class SaveTitlePreprocessor(Preprocessor):
 
         Args:
             lines: A string of the document text.
+
         Result:
             True if a match is found.
         '''
         return self.pattern.search(lines) is not None
 
     def run(self, lines):
-        ''' Finds the first title and saves it to the
-        VertoExtension for the final result.
+        '''Saves title on first line to the VertoExtension.
 
         Args:
             lines: A list of strings that form the document.
+
         Returns:
-            The original document.
+            The original list of strings of document.
         '''
-        for line in lines:
-            match = self.pattern.search(line)
-            if match is not None:
-                self.ext.title = match.group(1)
-                break
+        match = self.pattern.search(lines[0])
+        if match is not None:
+            self.ext.title = match.group(1)
         return lines
