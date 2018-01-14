@@ -39,16 +39,16 @@ class PanelTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'heading_no_subtitle_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_heading_with_punctation(self):
+    def test_heading_with_punctuation(self):
         '''Tests that a heading is parsed correctly
         '''
-        test_string = self.read_test_file(self.processor_name, 'heading_with_punctation.md')
+        test_string = self.read_test_file(self.processor_name, 'heading_with_punctuation.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        expected_string = self.read_test_file(self.processor_name, 'heading_with_punctation_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_punctuation_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
     def test_heading_subtitle_false(self):
@@ -87,16 +87,16 @@ class PanelTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_heading_with_subtitle_with_punctation(self):
+    def test_heading_with_subtitle_with_punctuation(self):
         '''Tests that both a heading and subtitle is parsed correctly
         '''
-        test_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_with_punctation.md')
+        test_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_with_punctuation.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_with_punctation_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_with_punctuation_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
     def test_heading_with_subtitle_h2_heading_in_panel(self):

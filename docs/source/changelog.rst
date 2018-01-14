@@ -4,7 +4,7 @@ Changelog
 0.7.2
 =======================================
 
-- Fix bug where :doc:`processors/panel` processor does not handle punctation characters in titles and subtitles.
+- Fix bug where :doc:`processors/panel` processor does not handle punctuation characters in titles and subtitles.
 - Dependency updates:
 
   - Update ``markdown`` to 2.6.11.
