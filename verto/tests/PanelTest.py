@@ -39,6 +39,18 @@ class PanelTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'heading_no_subtitle_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_heading_with_punctation(self):
+        '''Tests that a heading is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_with_punctation.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_punctation_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     def test_heading_subtitle_false(self):
         '''Tests that a heading is parsed correctly
         '''
@@ -73,6 +85,18 @@ class PanelTest(ProcessorTest):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_heading_with_subtitle_with_punctation(self):
+        '''Tests that both a heading and subtitle is parsed correctly
+        '''
+        test_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_with_punctation.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_with_subtitle_with_punctation_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
     def test_heading_with_subtitle_h2_heading_in_panel(self):
@@ -157,15 +181,18 @@ class PanelTest(ProcessorTest):
 
         self.assertRaises(PanelMissingSubtitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
-    def test_incorrect_heading_incorrect_subtitle(self):
-        '''Tests that correct error raised when heading and subtitle are incorrect
+    def test_heading_subtitle_no_whitespace(self):
+        '''Tests that heading and subtitle render correctly when no
+        whitespace is given between heading level and text.
         '''
-        test_string = self.read_test_file(self.processor_name, 'incorrect_heading_incorrect_subtitle.md')
+        test_string = self.read_test_file(self.processor_name, 'heading_subtitle_no_whitespace.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'heading_subtitle_no_whitespace_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_parses_blank(self):
         '''Tests that a blank panel is processed with empty content.
