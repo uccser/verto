@@ -1,6 +1,16 @@
 Changelog
 #######################################
 
+0.7.2
+=======================================
+
+- Fix bug where :doc:`processors/panel` processor does not handle punctuation characters in titles and subtitles.
+- Dependency updates:
+
+  - Update ``markdown`` to 2.6.11.
+  - Update ``setuptools`` to 38.4.0.
+  - Update ``sphinx`` to 1.6.6.
+
 0.7.1
 =======================================
 
