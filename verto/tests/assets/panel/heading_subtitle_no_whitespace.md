@@ -4,6 +4,6 @@
 
 ##Subtitle
 
-This panel does have a subtitle...but both headings are incorrect
+Panel text.
 
 {panel end}

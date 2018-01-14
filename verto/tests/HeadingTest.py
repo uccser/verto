@@ -40,6 +40,41 @@ class HeadingTest(ProcessorTest):
         tree = self.verto_extension.get_heading_tree()
         self.assertIsNone(tree)
 
+    def test_no_whitespace(self):
+        '''An example of usage with no whitespace between heading level and text.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'no_whitespace.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, True, True], [HeadingBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'no_whitespace_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        tree = self.verto_extension.get_heading_tree()
+        expected_tree = (HeadingNode(title='This is an H1',
+                                    title_slug='this-is-an-h1',
+                                    level=1,
+                                    children=(
+                                        HeadingNode(
+                                            title='This is an H2',
+                                            title_slug='this-is-an-h2',
+                                            level=2,
+                                            children=(
+                                                HeadingNode(
+                                                    title='This is an H6',
+                                                    title_slug='this-is-an-h6',
+                                                    level=6,
+                                                    children=()
+                                                ),
+                                            )
+                                        ),
+                                    )
+                        ),
+                    )
+        self.assertTupleEqual(tree, expected_tree)
+
     def test_single_heading(self):
         '''Checks the simplist case of a single heading.
         '''
@@ -127,7 +162,7 @@ class HeadingTest(ProcessorTest):
     #~
 
     def test_doc_example_basic(self):
-        '''An example of simplistic useage.
+        '''An example of simplistic usage.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
         blocks = self.to_blocks(test_string)
@@ -163,7 +198,7 @@ class HeadingTest(ProcessorTest):
 
 
     def test_doc_example_override_html(self):
-        '''An example of complex useage, involving multiple H1s
+        '''An example of complex usage, involving multiple H1s
         and shows html overriding.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
