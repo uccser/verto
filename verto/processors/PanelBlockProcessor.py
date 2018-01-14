@@ -30,19 +30,19 @@ class PanelBlockProcessor(GenericContainerBlockProcessor):
         blocks = []
 
         argument = 'title'
-        title_r = re.compile(r'(^|\n)# ((\w| )*)(?P<args>)')
+        title_r = re.compile(r'^#(?!#+)\s?(?P<title>.*?)$')
         title = title_r.search(content_blocks[0])
         if title:
-            extra_args[argument] = title.groups()[1]
+            extra_args[argument] = title.group(argument)
         else:
             raise PanelMissingTitleError(self.processor, argument)
 
         argument = 'subtitle'
         if argument_values.get(argument) == 'true':
-            subtitle_r = re.compile(r'(^|\n)## ((\w| )*)(?P<args>)')
+            subtitle_r = re.compile(r'^##(?!#+)\s?(?P<subtitle>.*?)$')
             subtitle = subtitle_r.search(content_blocks[1])
             if subtitle:
-                extra_args[argument] = subtitle.groups()[1]
+                extra_args[argument] = subtitle.group(argument)
                 blocks = content_blocks[2:]
             else:
                 raise PanelMissingSubtitleError(self.processor, argument)
