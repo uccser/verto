@@ -49,9 +49,10 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         if caption_value:
             del argument_values[argument]  # delete from dictionary so as to not be included in template
 
-        # check if internal or external image
         file_path = argument_values['file-path']
-        del(argument_values['file-path'])
+        del argument_values['file-path']
+
+        # check if internal or external image
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None:  # internal image
             self.required.add(file_path)

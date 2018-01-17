@@ -15,7 +15,6 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         '''
         self.processor = 'interactive'
         super().__init__(self.processor, ext, *args, **kwargs)
-        self.interactive_thumbnail_path_template = ext.jinja_templates['interactive-thumbnail-path']
         self.scripts = ext.required_files['page_scripts']
         self.required_interactives = ext.required_files['interactives']
         self.required_images = ext.required_files['images']
@@ -38,14 +37,22 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         if interactive_type == 'in-page':
             self.scripts.add('interactive/{}/scripts.html'.format(name))
         elif interactive_type == 'whole-page':
-            thumbnail_path = argument_values.get('thumbnail', 'thumbnail.png')
-            external_path_match = re.search(r'^http', thumbnail_path)
+            argument = 'thumbnail'
+            thumbnail_file_path = argument_values.get(argument, None)
+
+            if thumbnail_file_path is not None:
+                del argument_values[argument]
+            else:
+                thumbnail_file_path = 'interactives/{}/img/thumbnail.png'.format(name)
+
+            external_path_match = re.search(r'^http', thumbnail_file_path)
             if external_path_match is None:  # internal image
-                self.required_images.add(thumbnail_path)
-                file_path = self.interactive_thumbnail_path_template.render({
-                    'file_path': thumbnail_path,
-                    'name': name
-                })
-            extra_args['file-path'] = file_path
+                thumbnail_file_relative = True
+                self.required_images.add(thumbnail_file_path)
+            else:
+                thumbnail_file_relative = False
+
+            extra_args['thumbnail_file_path'] = thumbnail_file_path
+            extra_args['thumbnail_file_relative'] = thumbnail_file_relative
 
         return extra_args

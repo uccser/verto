@@ -28,6 +28,28 @@ class InteractiveTest(ProcessorTest):
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name), 'interactive-thumbnail-path': ProcessorTest.loadJinjaTemplate(self, 'interactive-thumbnail-path')}
         self.ext.required_files = defaultdict(set)
 
+    def test_whole_page_external_thumbnail(self):
+        '''Test external image for image thumbnail.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'whole_page_external_thumbnail.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'whole_page_external_thumbnail_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        required_files = {
+            'interactives': {
+                "binary-cards"
+            },
+            'images': set(),
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
+
     def test_whole_page_text(self):
         '''Test whole page interactive with text is correctly parsed.
         '''
@@ -45,7 +67,7 @@ class InteractiveTest(ProcessorTest):
                 "binary-cards"
             },
             'images': {
-                'thumbnail.png'
+                'interactives/binary-cards/img/thumbnail.png'
             },
             'page_scripts': set(),
             'scratch_images': set()
@@ -69,7 +91,7 @@ class InteractiveTest(ProcessorTest):
                 "binary-cards"
             },
             'images': {
-                'thumbnail.png'
+                'interactives/binary-cards/img/thumbnail.png'
             },
             'page_scripts': set(),
             'scratch_images': set()
@@ -84,10 +106,7 @@ class InteractiveTest(ProcessorTest):
 
         self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        thumbnail_path = self.read_test_file(self.processor_name, 'doc_example_thumbnail_path_html_template.html', strip=True)
-        verto_extension = VertoExtension([self.processor_name], html_templates={'interactive-thumbnail-path': thumbnail_path})
-
-        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
@@ -96,12 +115,12 @@ class InteractiveTest(ProcessorTest):
                 "binary-cards"
             },
             'images': {
-                'binarycards.png'
+                'interactives/binary-cards/img/binarycards.png'
             },
             'page_scripts': set(),
             'scratch_images': set()
         }
-        self.assertEqual(verto_extension.required_files, required_files)
+        self.assertEqual(self.verto_extension.required_files, required_files)
 
 
     def test_whole_page_thumbnail_parameters(self):
@@ -253,7 +272,7 @@ class InteractiveTest(ProcessorTest):
                 "binary-cards"
             },
             'images': {
-                'thumbnail.png'
+                'interactives/binary-cards/img/thumbnail.png'
             },
             'page_scripts': set(),
             'scratch_images': set()
@@ -295,33 +314,6 @@ class InteractiveTest(ProcessorTest):
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
-        self.assertEqual(expected_string, converted_test_string)
-
-        required_files = {
-            'interactives': {
-                'binary-cards'
-            },
-            'images': {
-                'binarycards.png'
-            },
-            'page_scripts': set(),
-            'scratch_images': set()
-        }
-        self.assertEqual(verto_extension.required_files, required_files)
-
-    def test_doc_example_override_thumbnail_html(self):
-        '''Example showing overriding the thumbnail html-template.
-        '''
-        test_string = self.read_test_file(self.processor_name, 'doc_example_override_thumbnail_html.md')
-        blocks = self.to_blocks(test_string)
-
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
-
-        thumbnail_path = self.read_test_file(self.processor_name, 'doc_example_thumbnail_path_html_template.html', strip=True)
-        verto_extension = VertoExtension([self.processor_name], html_templates={'interactive-thumbnail-path': thumbnail_path})
-
-        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
-        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_thumbnail_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
         required_files = {
