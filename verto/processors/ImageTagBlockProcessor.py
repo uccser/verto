@@ -1,4 +1,5 @@
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
+from verto.utils.image_file_name_components import image_file_name_components
 import re
 
 
@@ -16,7 +17,6 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         self.processor = 'image-tag'
         super().__init__(self.processor, ext, *args, **kwargs)
         self.caption_pattern = re.compile(ext.processor_info[self.processor]['pattern'])
-        self.relative_image_template = ext.jinja_templates['relative-file-link']
         self.required = ext.required_files['images']
 
     def test(self, parent, block):
@@ -38,6 +38,7 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
 
         Args:
             argument_values (dict): Dictionary of arguments and values provided in tag block.
+
         Returns:
             extra_args (dict): dictionary to update the agument_values dict.
         '''
@@ -50,11 +51,14 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
 
         # check if internal or external image
         file_path = argument_values['file-path']
+        del(argument_values['file-path'])
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None:  # internal image
             self.required.add(file_path)
-            file_path = self.relative_image_template.render({'file_path': file_path})
-
-        extra_args['file-path'] = file_path
-
+            file_relative = True
+            extra_args.update(image_file_name_components(file_path))
+        else:
+            file_relative = False
+        extra_args['full_file_path'] = file_path
+        extra_args['file_relative'] = file_relative
         return extra_args

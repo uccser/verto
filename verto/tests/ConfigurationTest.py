@@ -335,7 +335,7 @@ class ConfigurationTest(BaseTest):
         custom_templates = {
             'image': \
 '''<div class="text-center">
-<img src="{{ file_path }}" class="rounded img-thumbnail"/>
+<img src="{{ full_file_path }}" class="rounded img-thumbnail"/>
 </div>''',
 
             'boxed-text': \

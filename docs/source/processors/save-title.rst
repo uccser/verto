@@ -3,8 +3,8 @@ Save Title
 
 **Tag name:** ``save-title``
 
-This preprocessor runs before any conversion of Markdown and searches for the first heading in the provided Markdown text.
-Once it finds a heading, it saves the text for that heading in the ``title`` attribute of the ``VertoResult`` object.
+This preprocessor runs before any conversion of Markdown and searches for a heading in the first line of provided Markdown text.
+If a heading is found on the first line, it saves the text for that heading in the ``title`` attribute of the ``VertoResult`` object.
 
 **Example**
 

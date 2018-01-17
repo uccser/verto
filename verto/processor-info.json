@@ -158,8 +158,23 @@
           }
         },
         "template_parameters": {
+          "full_file_path": {
+            "argument": "full_file_path"
+          },
           "file_path": {
-            "argument": "file-path"
+            "argument": "file_path"
+          },
+          "file_width_value": {
+            "argument": "file_width_value"
+          },
+          "file_width_unit": {
+            "argument": "file_width_unit"
+          },
+          "file_extension": {
+            "argument": "file_extension"
+          },
+          "file_relative": {
+            "argument": "file_relative"
           },
           "alt": {
             "argument": "alt"
@@ -219,8 +234,23 @@
           }
         },
         "template_parameters": {
+          "full_file_path": {
+            "argument": "full_file_path"
+          },
           "file_path": {
-            "argument": "file-path"
+            "argument": "file_path"
+          },
+          "file_width_value": {
+            "argument": "file_width_value"
+          },
+          "file_width_unit": {
+            "argument": "file_width_unit"
+          },
+          "file_extension": {
+            "argument": "file_extension"
+          },
+          "file_relative": {
+            "argument": "file_relative"
           },
           "alt": {
             "argument": "alt"
@@ -355,7 +385,7 @@
     },
     "relative-link": {
         "class": "custom",
-        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\)]+)\\)"
+        "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?!(https?|ftps?|mailto|news):)(?P<link_url>[^\\?\\)]+)(?P<link_query>\\?[^\\)]*)?\\)"
     },
     "scratch": {
         "class": "custom",

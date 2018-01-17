@@ -107,15 +107,13 @@ class VertoExtension(Extension):
         md.parser.blockprocessors['olist'] = OListProcessor(md.parser)
         md.parser.blockprocessors['ulist'] = UListProcessor(md.parser)
 
-        if ('fenced_code_block' in self.compatibility
-           and 'scratch' in self.processors):
-                md.preprocessors['fenced_code_block'].FENCED_BLOCK_RE = FENCED_BLOCK_RE_OVERRIDE
+        if ('fenced_code_block' in self.compatibility and 'scratch' in self.processors):
+            md.preprocessors['fenced_code_block'].FENCED_BLOCK_RE = FENCED_BLOCK_RE_OVERRIDE
 
-        if ('hilite' in self.compatibility
-           and 'fenced_code_block' in self.compatibility
-           and 'scratch' in self.processors):
-                processor = ScratchCompatibilityPreprocessor(self, md)
-                md.preprocessors.add('scratch-compatibility', processor, '<fenced_code_block')
+        if ('hilite' in self.compatibility and 'fenced_code_block' in self.compatibility and
+           'scratch' in self.processors):
+            processor = ScratchCompatibilityPreprocessor(self, md)
+            md.preprocessors.add('scratch-compatibility', processor, '<fenced_code_block')
 
     def clear_document_data(self):
         '''Clears information stored for a specific document.

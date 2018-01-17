@@ -1,5 +1,6 @@
 from verto.utils.HtmlParser import HtmlParser
 from verto.processors.utils import parse_arguments
+from verto.utils.image_file_name_components import image_file_name_components
 from markdown.inlinepatterns import Pattern
 import re
 
@@ -34,15 +35,18 @@ class ImageInlinePattern(Pattern):
         arguments = match.group('args')
         argument_values = parse_arguments(self.processor, arguments, self.arguments)
 
+        context = dict()
         # check if internal or external image
         file_path = argument_values['file-path']
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None:  # internal image
             self.required.add(file_path)
-            file_path = self.relative_image_template.render({'file_path': file_path})
-
-        context = dict()
-        context['file_path'] = file_path
+            file_relative = True
+            context.update(image_file_name_components(file_path))
+        else:
+            file_relative = False
+        context['full_file_path'] = file_path
+        context['file_relative'] = file_relative
         context['alt'] = argument_values.get('alt', None)
         context['caption'] = argument_values.get('caption', None)
         context['caption_link'] = argument_values.get('caption-link', None)
