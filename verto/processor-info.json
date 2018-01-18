@@ -326,6 +326,26 @@
             "required": false,
             "dependencies": []
           }
+        },
+        "template_parameters": {
+          "type": {
+            "argument": "type"
+          },
+          "name": {
+            "argument": "name"
+          },
+          "text": {
+            "argument": "text"
+          },
+          "parameters": {
+            "argument": "parameters"
+          },
+          "thumbnail_file_path": {
+            "argument": "thumbnail_file_path"
+          },
+          "thumbnail_file_relative": {
+            "argument": "thumbnail_file_relative"
+          }
         }
     },
     "panel": {

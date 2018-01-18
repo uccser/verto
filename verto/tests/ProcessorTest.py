@@ -1,11 +1,10 @@
-import unittest
 import pkg_resources
 import json
 import markdown
 from verto.VertoExtension import VertoExtension
-from markdown.extensions import Extension
 from jinja2 import Environment, PackageLoader, select_autoescape
 from verto.tests.BaseTest import BaseTest
+
 
 class ProcessorTest(BaseTest):
     '''A base test class for individual test classes.
@@ -28,9 +27,9 @@ class ProcessorTest(BaseTest):
             A jinja template.
         '''
         env = Environment(
-                loader=PackageLoader('verto', 'html-templates'),
-                autoescape=select_autoescape(['html'])
-                )
+            loader=PackageLoader('verto', 'html-templates'),
+            autoescape=select_autoescape(['html'])
+        )
         jinja_template = env.get_template(template + '.html')
         return jinja_template
 

@@ -37,9 +37,10 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         Extracts the caption of an image block and creates file path based on whether internal or external image.
 
         Args:
-            content_blocks: List of strings to either be parsed or inserted as caption in template.
+            argument_values (dict): Dictionary of arguments and values provided in tag block.
+
         Returns:
-            extra_args: dictionary to update the argument_values dict.
+            extra_args (dict): dictionary to update the agument_values dict.
         '''
         extra_args = {}
 
@@ -48,9 +49,10 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         if caption_value:
             del argument_values[argument]  # delete from dictionary so as to not be included in template
 
-        # check if internal or external image
         file_path = argument_values['file-path']
-        del(argument_values['file-path'])
+        del argument_values['file-path']
+
+        # check if internal or external image
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None:  # internal image
             self.required.add(file_path)
