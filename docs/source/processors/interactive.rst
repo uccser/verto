@@ -36,7 +36,7 @@ Required Tag Parameters
       on a separate page). The link shows a thumbnail of the interactive with
       text (the text is set using the ``text`` parameter).
       By default, the thumbnail should be a ``thumbnail.png`` file found
-      within the interactive folder.
+      within the interactive's img folder.
     - ``iframe`` - The interactive is included in the page by embedding using
       an iframe. This is used if the interactive is included multiple times on
       the page to avoid conflicts in JavaScript/CSS.
@@ -52,23 +52,23 @@ Optional Tag Parameters
   the ``?`` at the start, as this is already included in the output.
 - ``thumbnail`` (optional - used with ``whole-page`` value) - Displays an
   alternative thumbnail for the interactive. When not provided, it defaults to
-  the ``thumbnail.png`` image within the interactive's folder.
+  ``interactives/interactive-name/img/thumbnail.png``, where ``interactive-name`` is the
+  value given for the ``name`` tag parameter (see above).
 
-  - If the ``thumbnail`` value provided is an relative link (a link that
+  - If the ``thumbnail`` value provided is a relative link (a link that
     doesn't start with ``http:``), the link will be rendered with a Django
     static command. For example, the link:
 
     .. code-block:: none
 
-      binary-cards/thumbnail-2.png
+      thumbnail-2.png
 
     would be rendered as:
 
     .. code-block:: none
 
-      {% static 'binary-cards/thumbnail-2.png' %}
+      {% static 'thumbnail-2.png' %}
 
-    This can be overriden, see the override section below.
   - Each ``thumbnail`` provided is added to the ``images`` set in required
     files stored by Verto.
     The set of filepaths can be accessed after conversion,
@@ -128,13 +128,8 @@ When overriding the HTML for interactives, the following Jinja2 placeholders are
 - ``{{ text }}`` - The text to to display to a link to a ``whole-page``
   interactive.
 - ``{{ parameters }}`` - GET parameters to append to the interactive link.
-- ``{{ file_path }}`` - The location for the path to the thumbnail image.
-
-If the ``file_path`` provided is an relative link, the link is passed through the ``relative-image-link.html`` template.
-The default HTML for relative images is:
-
-.. literalinclude:: ../../../verto/html-templates/relative-file-link.html
-  :language: css+jinja
+- ``{{ thumbnail_file_path }}`` - The location for the path to the thumbnail image.
+- ``{{ thumbnail_file_relative }}`` - If the ``thumbnail_file_path`` is a relative link, this is the boolean value ``True``, otherwise ``False``.
 
 **Example**
 
@@ -155,6 +150,7 @@ would result in:
 
 .. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_expected.html
    :language: html
+
 
 .. _Computer Science Field Guide: https://github.com/uccser/cs-field-guide
 .. _animations comparing sorting algorithms: http://www.csfieldguide.org.nz/en/interactives/sorting-algorithm-comparison/index.html
