@@ -25,7 +25,7 @@ class InteractiveTest(ProcessorTest):
         self.processor_name = 'interactive'
         self.ext = Mock()
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
-        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name), 'interactive-thumbnail-path': ProcessorTest.loadJinjaTemplate(self, 'interactive-thumbnail-path')}
+        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
         self.ext.required_files = defaultdict(set)
 
     def test_whole_page_external_thumbnail(self):
