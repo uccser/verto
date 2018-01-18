@@ -1,6 +1,11 @@
 Changelog
 #######################################
 
+0.7.3
+=======================================
+
+- Modified :doc:`processors/interactive` processor to change interactive template depending on the type of file path given for the thumbnail image of whole page interactives (external or internal) as well as changed the default path for the thumbnail.
+
 0.7.2
 =======================================
 
