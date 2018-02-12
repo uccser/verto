@@ -24,7 +24,8 @@ You can include an interactive using the following text tag:
 Required Tag Parameters
 ***************************************
 
-- ``name`` - The name to the interactive to include/link to.
+- ``name`` - The name to the interactive to include/link to, given in slug format.
+  This name is added to the list of interactives in ``required_files``.
 - ``type`` - Sets the way the interactive is included in the page. Must be set
   to one of the following values:
 
@@ -33,12 +34,14 @@ Required Tag Parameters
       page).
     - ``whole-page`` - Creates a link to the interactive displayed on a
       separate page (this is the preferred method for including an interactive
-      on a separate page). The link shows a thumbnail of the interactive with
-      text (the text is set using the ``text`` parameter).
+      on a separate page).
+      The link shows a thumbnail of the interactive with text (the text is set using the
+      ``text`` parameter).
       By default, the thumbnail should be a ``thumbnail.png`` file found
       within the interactive's img folder.
     - ``iframe`` - The interactive is included in the page by embedding using
-      an iframe. This is used if the interactive is included multiple times on
+      an iframe.
+      This is used if the interactive is included multiple times on
       the page to avoid conflicts in JavaScript/CSS.
 
 Optional Tag Parameters
@@ -48,8 +51,9 @@ Optional Tag Parameters
   link. If no text is given, the link uses the text ``Click to load
   {{ name }}``.
 - ``parameters`` (used with ``whole-page`` and ``iframe`` values) - Adds the parameters
-  to interactive link. For example: ``digits=5&start=BBBBB``. Do not include
-  the ``?`` at the start, as this is already included in the output.
+  to interactive link. 
+  For example: ``digits=5&start=BBBBB``.
+  Do not include the ``?`` at the start, as this is already included in the output.
 - ``thumbnail`` (optional - used with ``whole-page`` value) - Displays an
   alternative thumbnail for the interactive. When not provided, it defaults to
   ``interactives/interactive-name/img/thumbnail.png``, where ``interactive-name`` is the
