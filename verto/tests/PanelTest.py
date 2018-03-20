@@ -7,6 +7,7 @@ from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.errors.PanelMissingTitleError import PanelMissingTitleError
 from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
+from verto.errors.StyleError import StyleError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
@@ -364,13 +365,11 @@ class PanelTest(ProcessorTest):
 
         self.assertListEqual([True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # self.assertRaises(PanelMissingTitleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(StyleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
-
-    #~
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''Example of the common usecase.
