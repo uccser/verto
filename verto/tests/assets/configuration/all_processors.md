@@ -46,7 +46,7 @@ It's worth considering which {glossary-link term="algorithm"}algorithms{glossary
 
 {iframe link="https://github.com/"}
 
-{interactive name="binary-cards" type="iframe" parameters="digits=5&start=BBBBB"}
+{interactive slug="binary-cards" type="iframe" parameters="digits=5&start=BBBBB"}
 
     scratch
     when flag clicked

@@ -1,1 +1,1 @@
-{interactive name="binary-cards" type="in-page"}
+{interactive slug="binary-cards" type="in-page"}

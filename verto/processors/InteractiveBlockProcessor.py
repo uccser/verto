@@ -4,7 +4,7 @@ import re
 
 class InteractiveBlockProcessor(GenericTagBlockProcessor):
     '''Searches a Document for interactive tags:
-        e.g. {interactive name='example' type='in-page'}
+        e.g. {interactive slug='example' type='in-page'}
         These are then replaced with the html template.
     '''
 
@@ -29,13 +29,13 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         '''
         extra_args = {}
         interactive_type = argument_values['type']
-        name = argument_values['name']
+        slug = argument_values['slug']
 
         # add to list of interactives
-        self.required_interactives.add(name)
+        self.required_interactives.add(slug)
 
         if interactive_type == 'in-page':
-            self.scripts.add('interactive/{}/scripts.html'.format(name))
+            self.scripts.add('interactive/{}/scripts.html'.format(slug))
         elif interactive_type == 'whole-page':
             argument = 'thumbnail'
             thumbnail_file_path = argument_values.get(argument, None)
@@ -43,7 +43,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
             if thumbnail_file_path is not None:
                 del argument_values[argument]
             else:
-                thumbnail_file_path = 'interactives/{}/img/thumbnail.png'.format(name)
+                thumbnail_file_path = 'interactives/{}/img/thumbnail.png'.format(slug)
 
             external_path_match = re.search(r'^http', thumbnail_file_path)
             if external_path_match is None:  # internal image
