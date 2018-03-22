@@ -45,7 +45,7 @@ They both have the same functionality (they can do the same calculations), but w
 
 (This book has many interactives like this. If the calculators don't work properly, you may need to use a more recent browser. The interactive material in this book works in most recent browsers; Google Chrome is a particularly safe bet.)
 
-{interactive name="awful-calculator" type="in-page"}
+{interactive slug="awful-calculator" type="in-page"}
 
 The second calculator above is slower, and that can be frustrating.
 But it has a fancier interface --- buttons expand when you point to them to highlight what you're doing.
