@@ -24,8 +24,8 @@ You can include an interactive using the following text tag:
 Required Tag Parameters
 ***************************************
 
-- ``name`` - The name to the interactive to include/link to, given in slug format.
-  This name is added to the list of interactives in ``required_files``.
+- ``slug`` - The slug to the interactive to include/link to.
+  This slug is added to the list of interactives in ``required_files``.
 - ``type`` - Sets the way the interactive is included in the page. Must be set
   to one of the following values:
 
@@ -49,15 +49,15 @@ Optional Tag Parameters
 
 - ``text`` (used with ``whole-page`` value) - Sets the text for the interactive
   link. If no text is given, the link uses the text ``Click to load
-  {{ name }}``.
+  {{ slug }}``.
 - ``parameters`` (used with ``whole-page`` and ``iframe`` values) - Adds the parameters
   to interactive link. 
   For example: ``digits=5&start=BBBBB``.
   Do not include the ``?`` at the start, as this is already included in the output.
 - ``thumbnail`` (optional - used with ``whole-page`` value) - Displays an
   alternative thumbnail for the interactive. When not provided, it defaults to
-  ``interactives/interactive-name/img/thumbnail.png``, where ``interactive-name`` is the
-  value given for the ``name`` tag parameter (see above).
+  ``interactives/interactive-slug/img/thumbnail.png``, where ``interactive-slug`` is the
+  value given for the ``slug`` tag parameter (see above).
 
   - If the ``thumbnail`` value provided is a relative link (a link that
     doesn't start with ``http:``), the link will be rendered with a Django
@@ -128,7 +128,7 @@ Overriding HTML for Interactives
 When overriding the HTML for interactives, the following Jinja2 placeholders are available:
 
 - ``{{ type }}`` - The type of the interactive.
-- ``{{ name }}`` - The slug name of the interactive to include/link to.
+- ``{{ slug }}`` - The slug of the interactive to include/link to.
 - ``{{ text }}`` - The text to to display to a link to a ``whole-page``
   interactive.
 - ``{{ parameters }}`` - GET parameters to append to the interactive link.
