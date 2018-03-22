@@ -19,7 +19,9 @@ markdown:
 
   Example Paragraph
 
-  {panel type="example" title="Example Panel"}
+  {panel type="example"}
+
+  # Example Panel
 
   {image file-path="http://placehold.it/350x150" caption="Example Image"}
 
