@@ -177,23 +177,15 @@ class ImageTagTest(ProcessorTest):
         }
         self.assertSetEqual(expected_images, images)
 
-    def test_contains_alt(self):
-        '''Tests that argument for alt produces expected output and expected images are updated.
+    def test_missing_alt_parameter(self):
+        '''Tests that missing alt argument produces correct error.
         '''
-        test_string = self.read_test_file(self.processor_name, 'contains_alt.md')
+        test_string = self.read_test_file(self.processor_name, 'missing_alt_parameter.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        expected_string = self.read_test_file(self.processor_name, 'contains_alt_expected.html', strip=True)
-        self.assertEqual(expected_string, converted_test_string)
-
-        images = self.verto_extension.required_files['images']
-        expected_images = {
-            'computer-studying-turing-test.png'
-        }
-        self.assertSetEqual(expected_images, images)
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_contains_source(self):
         '''Tests that argument for source produces expected output and expected images are updated.
