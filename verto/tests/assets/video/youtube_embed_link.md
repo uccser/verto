@@ -1,6 +1,6 @@
 ## Run Length Encoding
 
-{video url="https://www.youtube.com/embed/uaV2RuAJTjQ?rel=0"}
+{video url="https://www.youtube.com/embed/uaV2RuAJTjQ"}
 
 Run length encoding (RLE) is a technique that isn't so widely used these days, but it's a great way to get a feel for some of the issues around using compression.
 

@@ -1,10 +1,8 @@
-import unittest
 from verto.Verto import Verto, VertoResult
 from verto.processors.ScratchTreeprocessor import ScratchImageMetaData
 from verto.utils.HeadingNode import HeadingNode
-import jinja2
 from verto.tests.BaseTest import BaseTest
-from collections import defaultdict
+
 
 class ConfigurationTest(BaseTest):
     '''Test configuration methods of Verto
@@ -26,107 +24,108 @@ class ConfigurationTest(BaseTest):
         self.maxDiff = None
         self.custom_templates = {
             'image': '<img class=\'test\'/>',
-            'boxed-text': '<div class=\'box\'>{% autoescape false %}{{ text }}{% endautoescape %}</div>'
+            'boxed-text': '<div class=\'box\'>{% autoescape false %}{{ text }}{% endautoescape %}</div>',
+            'video-youtube': 'https://www.youtube.com/embed/{{ identifier  }}?rel=0'
         }
 
     def test_multiple_calls(self):
         '''Checks all fields of VertoResult are correct for multiple Verto calls.
         '''
-        test_cases = [
-            ('all_processors.md',
-                VertoResult(
-                    html_string=self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True),
-                    title='Example Title',
-                    required_files={
-                        'interactives': {
-                            'binary-cards'
-                        },
-                        'images': set(),
-                        'page_scripts': set(),
-                        'scratch_images': {
-                            ScratchImageMetaData(
-                                hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
-                                text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
-                            ),
-                        }
+        test_cases = [(
+            'all_processors.md',
+            VertoResult(
+                html_string=self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True),
+                title='Example Title',
+                required_files={
+                    'interactives': {
+                        'binary-cards'
                     },
-                    heading_tree=(HeadingNode(
-                            title='Example Title',
-                            title_slug='example-title',
-                            level=1,
-                            children=(),
+                    'images': set(),
+                    'page_scripts': set(),
+                    'scratch_images': {
+                        ScratchImageMetaData(
+                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
                         ),
-                        HeadingNode(
-                            title='Example Title 2',
-                            title_slug='example-title-2',
-                            level=1,
-                            children=()
-                        ),
-                    ),
-                    required_glossary_terms={
-                        'algorithm': []
                     }
-                )
-            ),
-            ('some_processors.md',
-                VertoResult(
-                    html_string=self.read_test_file(self.test_name, 'some_processors_expected.html', strip=True),
-                    title='Another Example Title',
-                    required_files={
-                        'interactives': set(),
-                        'images': {'totally-legit-image.png'},
-                        'page_scripts': set(),
-                        'scratch_images': set()
-                    },
-                    heading_tree=(HeadingNode(
-                        title='Another Example Title',
-                        title_slug='another-example-title',
-                        level=1,
-                        children=(HeadingNode(
-                            title='This is an H2',
-                            title_slug='this-is-an-h2',
-                            level=2,
-                            children=()
-                        ),),
-                    ),),
-                    required_glossary_terms={
-                        'chomsky-hierarchy':
-                            [('Formal languages', 'glossary-chomsky-hierarchy')]
-                    }
-                )
-            ),
-            ('some_processors_2.md',
-                VertoResult(
-                    html_string=self.read_test_file(self.test_name, 'some_processors_2_expected.html', strip=True),
-                    title='Another Example Title',
-                    required_files={
-                        'interactives': set(),
-                        'images': {
-                            'totally-legit-image.png',
-                            'finite-state-automata-no-trap-example.png',
-                            'finite-state-automata-trap-added-example.png',
-                            'finite-state-automata-trap-added-extreme-example.png',
-                            },
-                        'page_scripts': set(),
-                        'scratch_images': set()
-                    },
-                    heading_tree=(HeadingNode(
-                        title='Another Example Title',
-                        title_slug='another-example-title',
+                },
+                heading_tree=(
+                    HeadingNode(
+                        title='Example Title',
+                        title_slug='example-title',
                         level=1,
                         children=(),
-                    ),),
-                    required_glossary_terms={
-                        'hello': [],
-                        'algorithm':
-                            [('computer program', 'glossary-algorithm'),
-                             ('algorithm cost', 'glossary-algorithm-2'),
-                             ('searching algorithms', 'glossary-algorithm-3'),
-                             ('sorting algorithms', 'glossary-algorithm-4')]
-                    }
-                )
+                    ),
+                    HeadingNode(
+                        title='Example Title 2',
+                        title_slug='example-title-2',
+                        level=1,
+                        children=()
+                    ),
+                ),
+                required_glossary_terms={
+                    'algorithm': []
+                }
             )
-        ]
+        ), (
+            'some_processors.md',
+            VertoResult(
+                html_string=self.read_test_file(self.test_name, 'some_processors_expected.html', strip=True),
+                title='Another Example Title',
+                required_files={
+                    'interactives': set(),
+                    'images': {'totally-legit-image.png'},
+                    'page_scripts': set(),
+                    'scratch_images': set()
+                },
+                heading_tree=(HeadingNode(
+                    title='Another Example Title',
+                    title_slug='another-example-title',
+                    level=1,
+                    children=(HeadingNode(
+                        title='This is an H2',
+                        title_slug='this-is-an-h2',
+                        level=2,
+                        children=()
+                    ),),
+                ),),
+                required_glossary_terms={
+                    'chomsky-hierarchy':
+                        [('Formal languages', 'glossary-chomsky-hierarchy')]
+                }
+            )
+        ), (
+            'some_processors_2.md',
+            VertoResult(
+                html_string=self.read_test_file(self.test_name, 'some_processors_2_expected.html', strip=True),
+                title='Another Example Title',
+                required_files={
+                    'interactives': set(),
+                    'images': {
+                        'totally-legit-image.png',
+                        'finite-state-automata-no-trap-example.png',
+                        'finite-state-automata-trap-added-example.png',
+                        'finite-state-automata-trap-added-extreme-example.png',
+                    },
+                    'page_scripts': set(),
+                    'scratch_images': set()
+                },
+                heading_tree=(HeadingNode(
+                    title='Another Example Title',
+                    title_slug='another-example-title',
+                    level=1,
+                    children=(),
+                ),),
+                required_glossary_terms={
+                    'hello': [],
+                    'algorithm':
+                        [('computer program', 'glossary-algorithm'),
+                         ('algorithm cost', 'glossary-algorithm-2'),
+                         ('searching algorithms', 'glossary-algorithm-3'),
+                         ('sorting algorithms', 'glossary-algorithm-4')]
+                }
+            )
+        )]
 
         verto = Verto()
         for filename, expected_result in test_cases:
@@ -145,71 +144,72 @@ class ConfigurationTest(BaseTest):
         filename = 'all_processors.md'
         other_filename = 'otherfile.md'
         expected_result = VertoResult(
-                                html_string=self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True),
-                                title='Example Title',
-                                required_files={
-                                    'interactives': {
-                                        'binary-cards'
-                                    },
-                                    'images': set(),
-                                    'page_scripts': set(),
-                                    'scratch_images': {
-                                        ScratchImageMetaData(
-                                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
-                                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
-                                        ),
-                                    }
-                                },
-                                heading_tree=(HeadingNode(
-                                        title='Example Title',
-                                        title_slug='example-title',
-                                        level=1,
-                                        children=(),
-                                    ),
-                                    HeadingNode(
-                                        title='Example Title 2',
-                                        title_slug='example-title-2',
-                                        level=1,
-                                        children=()
-                                    ),
-                                ),
-                                required_glossary_terms={
-                                    'algorithm': []
-                                }
-                            )
+            html_string=self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True),
+            title='Example Title',
+            required_files={
+                'interactives': {
+                    'binary-cards'
+                },
+                'images': set(),
+                'page_scripts': set(),
+                'scratch_images': {
+                    ScratchImageMetaData(
+                        hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                        text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
+                    ),
+                }
+            },
+            heading_tree=(
+                HeadingNode(
+                    title='Example Title',
+                    title_slug='example-title',
+                    level=1,
+                    children=(),
+                ),
+                HeadingNode(
+                    title='Example Title 2',
+                    title_slug='example-title-2',
+                    level=1,
+                    children=()
+                ),
+            ),
+            required_glossary_terms={
+                'algorithm': []
+            }
+        )
         expected_otherfile_result = VertoResult(
-                                html_string=self.read_test_file(self.test_name, 'otherfile_expected.html', strip=True),
-                                title='Example Title',
-                                required_files={
-                                    'interactives': {
-                                        'binary-cards'
-                                    },
-                                    'images': {
-                                        'pixel-diamond.png'
-                                    },
-                                    'page_scripts': set(),
-                                    'scratch_images': {
-                                        ScratchImageMetaData(
-                                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
-                                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
-                                        ),
-                                        ScratchImageMetaData(
-                                            hash='b78bff524e54a18116e1e898a93e360827f874a8b0b508e1edc47d21516495ad',
-                                            text='never\ngoing\nto\ngive\nyou\nup'
-                                        ),
-                                    }
-                                },
-                                heading_tree=(HeadingNode(
-                                        title='Example Title',
-                                        title_slug='example-title-3',
-                                        level=1,
-                                        children=(),
-                                    ),
-                                ),
-                                required_glossary_terms={
-                                    'algorithm': []
-                                }
-                            )
+            html_string=self.read_test_file(self.test_name, 'otherfile_expected.html', strip=True),
+            title='Example Title',
+            required_files={
+                'interactives': {
+                    'binary-cards'
+                },
+                'images': {
+                    'pixel-diamond.png'
+                },
+                'page_scripts': set(),
+                'scratch_images': {
+                    ScratchImageMetaData(
+                        hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
+                        text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
+                    ),
+                    ScratchImageMetaData(
+                        hash='b78bff524e54a18116e1e898a93e360827f874a8b0b508e1edc47d21516495ad',
+                        text='never\ngoing\nto\ngive\nyou\nup'
+                    ),
+                }
+            },
+            heading_tree=(HeadingNode(
+                title='Example Title',
+                title_slug='example-title-3',
+                level=1,
+                children=(),
+            ),
+            ),
+            required_glossary_terms={
+                'algorithm': []
+            }
+        )
 
         verto = Verto()
         # First file
