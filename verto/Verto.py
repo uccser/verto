@@ -47,6 +47,14 @@ class Verto(object):
         self.processors = set(processors)
         self.html_templates = dict(html_templates)
         self.extensions = list(extensions)
+        ### WIP
+        # Overwrite processor-info file with any rules given here
+        self.custom_rules = {
+            'image': {
+                'alt': False
+            }
+        }
+        ###
         self.create_converter()
 
     def create_converter(self):
