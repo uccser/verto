@@ -44,9 +44,14 @@ def parse_flag(argument_key, arguments, default=False):
     Returns:
         True if argument is found, otherwise None.
     '''
+    print()
+    print(argument_key)
+    # print(arguments)
     result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
+    print(result)
     if result:
         argument_value = True
+        # print(argument_value)
     else:
         argument_value = default
     return argument_value
@@ -68,6 +73,7 @@ def parse_arguments(processor, inputs, arguments):
     '''
     argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
+        # print(argument)
         is_required = argument_info['required']
         is_arg = parse_argument(argument, inputs, None) is not None
         is_flag = parse_flag(argument, inputs)
@@ -106,12 +112,19 @@ def process_parameters(ext, processor, parameters, argument_values):
     Returns:
         A dictionary of parameter to converted values.
     '''
+    # for i in parameters:
+        # print(i)
+    # print()
+    # for i in argument_values:
+        # print(i)
+    # print()
     context = dict()
     transformations = OrderedDict()
     for parameter, parameter_info in parameters.items():
         argument_name = parameter_info['argument']
         parameter_default = parameter_info.get('default', None)
         argument_value = argument_values.get(argument_name, parameter_default)
+        # print(argument_name, argument_value)
 
         parameter_value = argument_value
         if parameter_info.get('transform', None):

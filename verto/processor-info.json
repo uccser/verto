@@ -207,7 +207,7 @@
             "dependencies": []
           },
           "alt": {
-            "required": false,
+            "required": true,
             "dependencies": []
           },
           "caption": {
@@ -281,7 +281,7 @@
             "dependencies": []
           },
           "alt": {
-            "required": false,
+            "required": true,
             "dependencies": []
           },
           "caption": {
