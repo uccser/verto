@@ -60,7 +60,6 @@ class GenericTagBlockProcessor(BlockProcessor):
         # print(match.group('args'))
         print('here')
         argument_values = parse_arguments(self.processor, match.group('args'), self.arguments)
-        print(argument_values)
 
         extra_args = self.custom_parsing(argument_values)
         argument_values.update(extra_args)

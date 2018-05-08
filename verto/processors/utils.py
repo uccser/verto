@@ -46,12 +46,14 @@ def parse_flag(argument_key, arguments, default=False):
     '''
     print()
     print(argument_key)
-    # print(arguments)
-    result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
-    print(result)
+    print(arguments)
+    # result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
+    # result = re.search(r'(^|\s+){}(=".*?")'.format(argument_key), arguments)
+    test = re.compile(r'(^|\s+){0}(=".*?")'.format(argument_key))
+    print(test)
+    result = test.search(arguments)
     if result:
         argument_value = True
-        # print(argument_value)
     else:
         argument_value = default
     return argument_value
@@ -71,12 +73,18 @@ def parse_arguments(processor, inputs, arguments):
         ArgumentMissingError: If any required arguments are missing or
         an argument an optional argument is dependent on is missing.
     '''
+    print()
+    print('parse_arguments')
     argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
-        # print(argument)
+        print(argument, end=" ")
         is_required = argument_info['required']
+        print(is_required, end=' ')
         is_arg = parse_argument(argument, inputs, None) is not None
+        print(is_arg, end=' ')
         is_flag = parse_flag(argument, inputs)
+        print(is_flag)
+        print()
 
         if is_required and not (is_arg or is_flag):
             raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))

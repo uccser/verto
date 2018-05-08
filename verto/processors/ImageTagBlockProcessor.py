@@ -42,7 +42,6 @@ class ImageTagBlockProcessor(GenericTagBlockProcessor):
         Returns:
             extra_args (dict): dictionary to update the agument_values dict.
         '''
-        print('cats')
         extra_args = {}
 
         argument = 'caption'
