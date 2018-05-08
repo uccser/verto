@@ -6,6 +6,10 @@
             "required": false,
             "dependencies": [],
             "values": ["yes", "no"]
+          },
+          "type": {
+            "required": false,
+            "dependencies": []
           }
         },
         "template_name": "boxed-text",
@@ -17,6 +21,10 @@
           "text": {
             "argument": "content",
             "transform": null
+          },
+          "type": {
+            "argument": "type",
+            "transform": "str.lower"
           }
         }
     },
@@ -305,7 +313,7 @@
     "interactive": {
         "class": "custom",
         "arguments": {
-          "name": {
+          "slug": {
             "required": true,
             "dependencies": []
           },
@@ -331,8 +339,8 @@
           "type": {
             "argument": "type"
           },
-          "name": {
-            "argument": "name"
+          "slug": {
+            "argument": "slug"
           },
           "text": {
             "argument": "text"

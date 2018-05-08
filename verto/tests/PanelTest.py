@@ -7,6 +7,7 @@ from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.errors.PanelMissingTitleError import PanelMissingTitleError
 from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
+from verto.errors.StyleError import StyleError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
@@ -356,9 +357,19 @@ class PanelTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'panel_only_in_numbered_list_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    #~
+    def test_panel_block_missing_whitespace(self):
+        '''Tests that panels and containers work within numbered lists.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'panel_block_missing_whitespace.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(StyleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''Example of the common usecase.
