@@ -1,6 +1,20 @@
 Changelog
 #######################################
 
+0.7.4
+=======================================
+
+- Modify :doc:`processors/interactive` processor to use ``slug`` rather than ``name`` to identify interactives
+- Modify :doc:`processors/video` processor template for youtube videos
+- Modify :doc:`processors/boxed-text` processor to have optional type parameter
+- Update style error message to inclue line numbers
+- Dependency updates:
+
+  - Update ``python-slugify`` to 1.2.5.
+  - Update ``setuptools`` to 39.1.0.
+  - Update ``sphinx`` to 1.6.6.
+  - Update ``sphinx_rtx_theme`` to 0.3.0.
+
 0.7.3
 =======================================
 
