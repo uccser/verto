@@ -47,11 +47,8 @@ def parse_flag(argument_key, arguments, default=False):
     print()
     print(argument_key)
     print(arguments)
-    # result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
-    # result = re.search(r'(^|\s+){}(=".*?")'.format(argument_key), arguments)
-    test = re.compile(r'(^|\s+){0}(=".*?")'.format(argument_key))
-    print(test)
-    result = test.search(arguments)
+    result = re.search(r'(^|\s+){}(.+?".*?")'.format(argument_key), arguments)
+    print(result)
     if result:
         argument_value = True
     else:
