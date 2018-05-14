@@ -17,7 +17,7 @@ def parse_argument(argument_key, arguments, default=None):
         Value of an argument as a string if found, otherwise None.
     '''
     is_argument = re.search(r'(^|\s+){}='.format(argument_key), arguments)
-    if not is_argument:
+    if not is_argument: # if not found in string, return default
         return default
 
     result = re.match(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments[is_argument.start():])
@@ -28,32 +28,46 @@ def parse_argument(argument_key, arguments, default=None):
 
     if result:
         argument_value = result.group(2).replace(r'\"', r'"')
+        return argument_value
     else:
-        argument_value = default
-    return argument_value
+        return default
 
 
 def parse_flag(argument_key, arguments, default=False):
-    '''Search for the given argument in a string of all arguments,
+    '''search for the given argument in a string of all arguments,
     treating the argument as a flag only.
 
-    Args:
-        argument_key: The name of the argument.
-        arguments: A string of the argument inputs.
-        default: The default value if not found.
-    Returns:
-        True if argument is found, otherwise None.
+    args:
+        argument_key: the name of the argument.
+        arguments: a string of the argument inputs.
+        default: the default value if not found.
+    returns:
+        true if argument is found, otherwise none.
     '''
-    print()
-    print(argument_key)
-    print(arguments)
     result = re.search(r'(^|\s+){}(.+?".*?")'.format(argument_key), arguments)
-    print(result)
+    # result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
     if result:
-        argument_value = True
+        return True
     else:
-        argument_value = default
-    return argument_value
+        return default
+
+def tag_starts_with(argument_key, arguments, default=False):
+    '''search for the given argument in a string of all arguments,
+    treating the argument as a flag only.
+
+    args:
+        argument_key: the name of the argument.
+        arguments: a string of the argument inputs.
+        default: the default value if not found.
+    returns:
+        true if argument is found, otherwise none.
+    '''
+    # result = re.search(r'(^|\s+){}(.+?".*?")'.format(argument_key), arguments)
+    result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
+    if result:
+        return True
+    else:
+        return default
 
 
 def parse_arguments(processor, inputs, arguments):
@@ -70,22 +84,14 @@ def parse_arguments(processor, inputs, arguments):
         ArgumentMissingError: If any required arguments are missing or
         an argument an optional argument is dependent on is missing.
     '''
-    print()
-    print('parse_arguments')
     argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
-        print(argument, end=" ")
         is_required = argument_info['required']
-        print(is_required, end=' ')
-        is_arg = parse_argument(argument, inputs, None) is not None
-        print(is_arg, end=' ')
-        is_flag = parse_flag(argument, inputs)
-        print(is_flag)
-        print()
+        is_arg = parse_argument(argument, inputs, None) is not None # true when argument is found
 
-        if is_required and not (is_arg or is_flag):
+        if is_required and not is_arg:
             raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))
-        elif not is_required and (is_arg or is_flag):
+        elif not is_required and is_arg:
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
                 if (parse_argument(other_argument, inputs, None) is None and
@@ -93,9 +99,7 @@ def parse_arguments(processor, inputs, arguments):
                         message = '{} is a required argument because {} exists.'.format(other_argument, argument)
                         raise ArgumentMissingError(processor, argument, message)
 
-        if is_flag:
-            argument_values[argument] = True
-        elif is_arg:
+        if is_arg:
             value = parse_argument(argument, inputs, None)
             if value and value.strip() == '':
                 message = '{} cannot be blank.'.format(argument)
@@ -117,19 +121,12 @@ def process_parameters(ext, processor, parameters, argument_values):
     Returns:
         A dictionary of parameter to converted values.
     '''
-    # for i in parameters:
-        # print(i)
-    # print()
-    # for i in argument_values:
-        # print(i)
-    # print()
     context = dict()
     transformations = OrderedDict()
     for parameter, parameter_info in parameters.items():
         argument_name = parameter_info['argument']
         parameter_default = parameter_info.get('default', None)
         argument_value = argument_values.get(argument_name, parameter_default)
-        # print(argument_name, argument_value)
 
         parameter_value = argument_value
         if parameter_info.get('transform', None):

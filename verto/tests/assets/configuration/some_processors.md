@@ -2,7 +2,7 @@
 
 ## This is an H2
 
-{image file-path="totally-legit-image.png"}
+{image alt="This is alt text" file-path="totally-legit-image.png"}
 
 This is a sentence.
 

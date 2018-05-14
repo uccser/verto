@@ -57,8 +57,6 @@ class GenericTagBlockProcessor(BlockProcessor):
         if after.strip() != '':
             blocks.insert(0, after)
 
-        # print(match.group('args'))
-        print('here')
         argument_values = parse_arguments(self.processor, match.group('args'), self.arguments)
 
         extra_args = self.custom_parsing(argument_values)
