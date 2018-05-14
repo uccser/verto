@@ -45,29 +45,11 @@ def parse_flag(argument_key, arguments, default=False):
         true if argument is found, otherwise none.
     '''
     result = re.search(r'(^|\s+){}(.+?".*?")'.format(argument_key), arguments)
-    # result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
     if result:
         return True
     else:
         return default
 
-def tag_starts_with(argument_key, arguments, default=False):
-    '''search for the given argument in a string of all arguments,
-    treating the argument as a flag only.
-
-    args:
-        argument_key: the name of the argument.
-        arguments: a string of the argument inputs.
-        default: the default value if not found.
-    returns:
-        true if argument is found, otherwise none.
-    '''
-    # result = re.search(r'(^|\s+){}(.+?".*?")'.format(argument_key), arguments)
-    result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
-    if result:
-        return True
-    else:
-        return default
 
 
 def parse_arguments(processor, inputs, arguments):

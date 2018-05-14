@@ -1,6 +1,6 @@
 Imagine we have the following simple black and white image.
 
-{image file-path="the-first-image.png" caption="true"}
+{image file-path="the-first-image.png" alt="Alt text for an image" caption="true"}
 
 This is the first caption.
 
