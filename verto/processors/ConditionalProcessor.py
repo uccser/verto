@@ -69,7 +69,7 @@ class ConditionalProcessor(BlockProcessor):
             elif tag_starts_with('end', start_tag.group('args')):
                 'end'
             else:
-                string='unrecognised'
+                string = 'unrecognised'
 
             msg = '{} conditional found before if'.format(string)
             raise TagNotMatchedError(self.processor, block, msg)

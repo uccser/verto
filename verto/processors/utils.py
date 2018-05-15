@@ -17,7 +17,7 @@ def parse_argument(argument_key, arguments, default=None):
         Value of an argument as a string if found, otherwise None.
     '''
     is_argument = re.search(r'(^|\s+){}='.format(argument_key), arguments)
-    if not is_argument: # if not found in string, return default
+    if not is_argument:
         return default
 
     result = re.match(r'(^|\s+){}="([^"]*("(?<=\\")[^"]*)*)"'.format(argument_key), arguments[is_argument.start():])
@@ -51,7 +51,6 @@ def parse_flag(argument_key, arguments, default=False):
         return default
 
 
-
 def parse_arguments(processor, inputs, arguments):
     '''Parses the arguments of a given input and ensures
     they meet the defined requirements.
@@ -69,7 +68,7 @@ def parse_arguments(processor, inputs, arguments):
     argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
         is_required = argument_info['required']
-        is_arg = parse_argument(argument, inputs, None) is not None # true when argument is found
+        is_arg = parse_argument(argument, inputs, None) is not None
 
         if is_required and not is_arg:
             raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))
