@@ -1,1 +1,1 @@
-An inline image: {image-inline file-path="img/example.png"}.
+An inline image: {image-inline alt="alt text" file-path="img/example.png"}.

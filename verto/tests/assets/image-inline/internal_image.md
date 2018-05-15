@@ -1,1 +1,1 @@
-An internal image: {image-inline file-path="img/example.png"}.
+An internal image: {image-inline alt="alt text" file-path="img/example.png"}.
