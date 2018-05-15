@@ -135,6 +135,16 @@ class ImageContainerTest(ProcessorTest):
 
         self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
+    def test_missing_alt_parameter(self):
+        '''Tests that missing alt argument produces correct error.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_alt_parameter.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
     def test_image_in_image_tag(self):
         '''Test that ImageCaptionContainsImageError is raised when the first line in an image container block is another image container block.
         '''

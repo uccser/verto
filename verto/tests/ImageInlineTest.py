@@ -4,6 +4,7 @@ from unittest.mock import Mock
 from collections import defaultdict
 from verto.VertoExtension import VertoExtension
 from verto.processors.ImageInlinePattern import ImageInlinePattern
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
 
 class ImageInlineTest(ProcessorTest):
@@ -123,20 +124,14 @@ class ImageInlineTest(ProcessorTest):
     # Argument tests
     #~
 
-    def test_argument_alt(self):
-        '''Test that the alt argument is correctly rendered.'''
-        test_string = self.read_test_file(self.processor_name, 'argument_alt.md')
+    def test_missing_argument_alt(self):
+        '''Test that ArgumentMissingError is thrown when alt argument is missing'''
+        test_string = self.read_test_file(self.processor_name, 'missing_argument_alt.md')
 
         processor = ImageInlinePattern(self.ext, self.md.parser)
         self.assertIsNotNone(re.search(processor.compiled_re, test_string))
 
-        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        expected_string = self.read_test_file(self.processor_name, 'argument_alt_expected.html', strip=True).strip()
-        self.assertEqual(expected_string, converted_test_string)
-
-        images = self.verto_extension.required_files['images']
-        expected_images = set()
-        self.assertSetEqual(expected_images, images)
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_argument_caption(self):
         '''Test that the caption argument is correctly rendered.'''
