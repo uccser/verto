@@ -29,7 +29,7 @@ class Verto(object):
     to HTML.
     '''
 
-    def __init__(self, processors=DEFAULT_PROCESSORS, html_templates={}, extensions=[]):
+    def __init__(self, processors=DEFAULT_PROCESSORS, html_templates={}, extensions=[], custom_rules={}):
         '''Creates a Verto object.
 
         Args:
@@ -50,7 +50,7 @@ class Verto(object):
         ### WIP
         # Overwrite processor-info file with any rules given here
         self.custom_rules = {
-            'image': {
+            'image-container': {
                 'alt': False
             }
         }
@@ -62,7 +62,8 @@ class Verto(object):
         self.verto_extension = VertoExtension(
             processors=self.processors,
             html_templates=self.html_templates,
-            extensions=self.extensions
+            extensions=self.extensions,
+            custom_rules=self.custom_rules,
         )
         all_extensions = self.extensions + [self.verto_extension]
         self.converter = markdown.Markdown(extensions=all_extensions)
