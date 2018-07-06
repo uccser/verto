@@ -46,7 +46,7 @@ class VertoExtension(Extension):
     the Verto converter.
     '''
 
-    def __init__(self, processors=[], html_templates={}, extensions=[], custom_rules={}, *args, **kwargs):
+    def __init__(self, processors=[], html_templates={}, extensions=[], custom_argument_rules={}, *args, **kwargs):
         '''
         Args:
             processors: A set of processor names given as strings for which
@@ -61,7 +61,7 @@ class VertoExtension(Extension):
         '''
         super().__init__(*args, **kwargs)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
-        self.custom_rules = custom_rules
+        self.custom_argument_rules = custom_argument_rules
         self.processor_info = self.loadProcessorInfo()
         # print(self.processor_info)
         self.processors = processors
@@ -221,8 +221,13 @@ class VertoExtension(Extension):
         '''
         json_data = pkg_resources.resource_string('verto', 'processor-info.json').decode('utf-8')
         json_data = json.loads(json_data, object_pairs_hook=OrderedDict)
-        if len(self.custom_rules) != 0:
+        if len(self.custom_argument_rules) != 0:
             self.modify_rules(json_data)
+        x = json_data["image-container"]
+        for i in x['arguments']:
+            print(i)
+        print(x['arguments']['alt'])
+        print()
         return json_data
 
     def get_heading_tree(self):
@@ -248,7 +253,7 @@ class VertoExtension(Extension):
 
     # refactor to modify_required_arguments
     def modify_rules(self, json_data):
-        for processor, arguments_to_modify in self.custom_rules.items():
+        for processor, arguments_to_modify in self.custom_argument_rules.items():
             for argument in arguments_to_modify.items():
                 new_required = str(argument[1]).lower()
                 json_data[processor]['arguments'][argument[0]]['required'] = new_required
