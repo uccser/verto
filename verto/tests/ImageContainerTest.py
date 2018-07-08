@@ -38,9 +38,11 @@ class ImageContainerTest(ProcessorTest):
     def test_custom_arguments_alt_false(self):
         '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
         '''
+        # WIP problem is with defining the booleon values
+        # this could be it's own json file?
         custom_argument_rules = {
             'image-container': {
-                'alt': False
+                'alt': false
             }
         }
         test_string = self.read_test_file(self.processor_name, 'alt_false.md')
@@ -51,7 +53,6 @@ class ImageContainerTest(ProcessorTest):
 
         self.assertListEqual([False, True, False, True, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         converted_test_string = verto.convert(test_string).html_string
         expected_string = self.read_test_file(self.processor_name, 'alt_false_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)

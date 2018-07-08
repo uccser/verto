@@ -224,10 +224,10 @@ class VertoExtension(Extension):
         if len(self.custom_argument_rules) != 0:
             self.modify_rules(json_data)
         x = json_data["image-container"]
-        for i in x['arguments']:
-            print(i)
-        print(x['arguments']['alt'])
-        print()
+        # for i in x['arguments']:
+            # print(i)
+        # print(x['arguments']['alt'])
+        # print()
         return json_data
 
     def get_heading_tree(self):

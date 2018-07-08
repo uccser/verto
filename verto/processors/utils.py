@@ -65,14 +65,16 @@ def parse_arguments(processor, inputs, arguments):
         ArgumentMissingError: If any required arguments are missing or
         an argument an optional argument is dependent on is missing.
     '''
-    print('parse_arguments')
     argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
-        print(argument, argument_info)
         is_required = argument_info['required']
         is_arg = parse_argument(argument, inputs, None) is not None
+        print('cats')
+        print(argument, argument_info)
+        print(is_required, is_arg) # false, false
 
         if is_required and not is_arg:
+            print('ducks')
             raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))
         elif not is_required and is_arg:
             dependencies = argument_info.get('dependencies', [])
@@ -80,6 +82,7 @@ def parse_arguments(processor, inputs, arguments):
                 if (parse_argument(other_argument, inputs, None) is None and
                    parse_flag(other_argument, inputs, None) is None):
                         message = '{} is a required argument because {} exists.'.format(other_argument, argument)
+                        print('dogs')
                         raise ArgumentMissingError(processor, argument, message)
 
         if is_arg:
