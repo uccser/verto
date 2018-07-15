@@ -68,12 +68,13 @@ def parse_arguments(processor, inputs, arguments):
     argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
         is_required = argument_info['required']
-        is_arg = parse_argument(argument, inputs, None) is not None
+        is_arg = parse_argument(argument, inputs, None) is not None  # True if in line
         print('cats')
         print(argument, argument_info)
-        print(is_required, is_arg) # false, false
+        print(is_required, is_arg)  # false, false
+        print(not is_arg)  # False means was in line
 
-        if is_required and not is_arg:
+        if is_required and not is_arg:  # false
             print('ducks')
             raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))
         elif not is_required and is_arg:

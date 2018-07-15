@@ -255,7 +255,6 @@ class VertoExtension(Extension):
     def modify_rules(self, json_data):
         for processor, arguments_to_modify in self.custom_argument_rules.items():
             for argument in arguments_to_modify.items():
-                new_required = str(argument[1]).lower()
+                new_required = str(argument[1])  # .lower()
                 json_data[processor]['arguments'][argument[0]]['required'] = new_required
         return json_data
-

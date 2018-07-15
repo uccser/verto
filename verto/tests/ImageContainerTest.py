@@ -1,6 +1,9 @@
 import markdown
 from unittest.mock import Mock
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
+import json
+import pkg_resources
+import os.path
 
 from verto.Verto import Verto
 from verto.VertoExtension import VertoExtension
@@ -40,15 +43,18 @@ class ImageContainerTest(ProcessorTest):
         '''
         # WIP problem is with defining the booleon values
         # this could be it's own json file?
-        custom_argument_rules = {
-            'image-container': {
-                'alt': false
-            }
-        }
+        # custom_argument_rules = {
+            # 'image-container': {
+                # 'alt': false
+            # }
+        # }
+        # custom_argument_rules_path = os.path.join(os.path.dirname(__file__), 'verto/tests/assets/image-container/alt_false_custom_argument_rules.json')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-container/alt_false_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        # custom_argument_rules = json.loads(custom_argument_rules_path, object_pairs_hook=OrderedDict)
         test_string = self.read_test_file(self.processor_name, 'alt_false.md')
         blocks = self.to_blocks(test_string)
 
-        print('here')
         verto = Verto(custom_argument_rules=custom_argument_rules)
 
         self.assertListEqual([False, True, False, True, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
