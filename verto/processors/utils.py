@@ -69,13 +69,8 @@ def parse_arguments(processor, inputs, arguments):
     for argument, argument_info in arguments.items():
         is_required = argument_info['required']
         is_arg = parse_argument(argument, inputs, None) is not None  # True if in line
-        print('cats')
-        print(argument, argument_info)
-        print(is_required, is_arg)  # false, false
-        print(not is_arg)  # False means was in line
 
-        if is_required and not is_arg:  # false
-            print('ducks')
+        if is_required and not is_arg:  # required argument and not in line
             raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))
         elif not is_required and is_arg:
             dependencies = argument_info.get('dependencies', [])
@@ -83,7 +78,6 @@ def parse_arguments(processor, inputs, arguments):
                 if (parse_argument(other_argument, inputs, None) is None and
                    parse_flag(other_argument, inputs, None) is None):
                         message = '{} is a required argument because {} exists.'.format(other_argument, argument)
-                        print('dogs')
                         raise ArgumentMissingError(processor, argument, message)
 
         if is_arg:

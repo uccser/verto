@@ -63,7 +63,6 @@ class VertoExtension(Extension):
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.custom_argument_rules = custom_argument_rules
         self.processor_info = self.loadProcessorInfo()
-        # print(self.processor_info)
         self.processors = processors
         self.title = None
         self.heading_tree = None
@@ -223,11 +222,6 @@ class VertoExtension(Extension):
         json_data = json.loads(json_data, object_pairs_hook=OrderedDict)
         if len(self.custom_argument_rules) != 0:
             self.modify_rules(json_data)
-        x = json_data["image-container"]
-        # for i in x['arguments']:
-            # print(i)
-        # print(x['arguments']['alt'])
-        # print()
         return json_data
 
     def get_heading_tree(self):
@@ -255,6 +249,6 @@ class VertoExtension(Extension):
     def modify_rules(self, json_data):
         for processor, arguments_to_modify in self.custom_argument_rules.items():
             for argument in arguments_to_modify.items():
-                new_required = str(argument[1])  # .lower()
+                new_required = argument[1]  # .lower()
                 json_data[processor]['arguments'][argument[0]]['required'] = new_required
         return json_data

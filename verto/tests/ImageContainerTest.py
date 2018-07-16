@@ -41,29 +41,23 @@ class ImageContainerTest(ProcessorTest):
     def test_custom_arguments_alt_false(self):
         '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
         '''
-        # WIP problem is with defining the booleon values
-        # this could be it's own json file?
-        # custom_argument_rules = {
-            # 'image-container': {
-                # 'alt': false
-            # }
-        # }
-        # custom_argument_rules_path = os.path.join(os.path.dirname(__file__), 'verto/tests/assets/image-container/alt_false_custom_argument_rules.json')
         json_data = pkg_resources.resource_string('verto', 'tests/assets/image-container/alt_false_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
-        # custom_argument_rules = json.loads(custom_argument_rules_path, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
         test_string = self.read_test_file(self.processor_name, 'alt_false.md')
         blocks = self.to_blocks(test_string)
 
-        verto = Verto(custom_argument_rules=custom_argument_rules)
-
         self.assertListEqual([False, True, False, True, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        converted_test_string = verto.convert(test_string).html_string
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
         expected_string = self.read_test_file(self.processor_name, 'alt_false_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-        images = self.verto_extension.required_files['images']
+        images = verto_extension_custom_rules.required_files['images']
         expected_images = {
             'cats.png'
         }
