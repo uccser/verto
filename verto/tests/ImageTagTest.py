@@ -1,6 +1,8 @@
 import markdown
 from unittest.mock import Mock
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
+import json
+import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.ImageTagBlockProcessor import ImageTagBlockProcessor
@@ -389,9 +391,102 @@ class ImageTagTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    #~
+    def test_custom_arguments_alt_false(self):
+        '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/alt_false_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alt_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'alt_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'pixel-diamond.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_hover_true(self):
+        '''Tests to ensure that image tag is rendered correctly when hover argument is required and expected images are updated.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/hover_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'hover_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'hover_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'computer-studying-turing-test.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_alt_false_source_true(self):
+        '''Tests to ensure that image tag is rendered correctly when alt argument is not required and source argument is required and expected images are updated.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/alt_false_source_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alt_false_source_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False, True, False], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'alt_false_source_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'finite-state-automata-trap-added-example.png',
+            'finite-state-automata-no-trap-example.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_hover_true_not_provided(self):
+        '''Tests to ensure that correct error is raised when hover text is required and not provided.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/hover_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'hover_true_not_provided.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [ImageTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
+
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''Basic example of common usage.

@@ -93,7 +93,7 @@ def unit_suite():
         # unittest.makeSuite(GlossaryLinkTest),
         # unittest.makeSuite(HeadingTest),
         # unittest.makeSuite(ImageInlineTest),
-        # unittest.makeSuite(ImageTagTest),
+        unittest.makeSuite(ImageTagTest),
         unittest.makeSuite(ImageContainerTest),
         # unittest.makeSuite(InteractiveTest),
         # unittest.makeSuite(JinjaTest),
