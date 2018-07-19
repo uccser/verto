@@ -1,11 +1,15 @@
 import markdown
 import re
 from unittest.mock import Mock
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
+import json
+import pkg_resources
+
 from verto.VertoExtension import VertoExtension
 from verto.processors.ImageInlinePattern import ImageInlinePattern
 from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
+
 
 class ImageInlineTest(ProcessorTest):
     '''Tests to check the 'image-inline' pattern works as intended.'''
@@ -39,7 +43,6 @@ class ImageInlineTest(ProcessorTest):
         }
         self.assertSetEqual(expected_images, images)
 
-
     def test_doc_example_override_html(self):
         '''Basic example showing how to override the html-template.'''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
@@ -58,9 +61,9 @@ class ImageInlineTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    #~
+    # ~
     # Image locations tests
-    #~
+    # ~
 
     def test_internal_image(self):
         '''Test to ensure that an internally reference image produces
@@ -120,9 +123,9 @@ class ImageInlineTest(ProcessorTest):
         }
         self.assertSetEqual(expected_images, images)
 
-    #~
+    # ~
     # Argument tests
-    #~
+    # ~
 
     def test_missing_argument_alt(self):
         '''Test that ArgumentMissingError is thrown when alt argument is missing'''
@@ -262,9 +265,9 @@ class ImageInlineTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    #~
+    # ~
     # Embed test.
-    #~
+    # ~
 
     def test_numbered_list(self):
         '''Test that image-inline functions within a numbered list.'''
@@ -298,3 +301,95 @@ class ImageInlineTest(ProcessorTest):
             'img/example2.png'
         }
         self.assertSetEqual(expected_images, images)
+
+    # ~
+    # custom arguments tests.
+    # ~
+
+    def test_custom_arguments_alt_false(self):
+        '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-inline/alt_false_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alt_false.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'alt_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'img/example.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_hover_true(self):
+        '''Tests to ensure that image tag is rendered correctly when hover argument is required and expected images are updated.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-inline/hover_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'hover_true.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'hover_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'img/example.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_alt_false_source_true(self):
+        '''Tests to ensure that image tag is rendered correctly when alt argument is not required and source argument is required and expected images are updated.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-inline/alt_false_source_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alt_false_source_true.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'alt_false_source_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'img/example.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_hover_true_not_provided(self):
+        '''Tests to ensure that correct error is raised when hover text is required and not provided.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-inline/hover_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'hover_true_not_provided.md')
+        processor = ImageInlinePattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
