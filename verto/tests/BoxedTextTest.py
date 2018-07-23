@@ -28,8 +28,7 @@ class BoxedTextTest(ProcessorTest):
         self.block_processor = GenericContainerBlockProcessor(self.processor_name, self.ext, Mock())
 
     def test_no_boxed_text(self):
-        '''Tests that the text containing the processor name is
-        not matched.
+        '''Tests that the text containing the processor name is not matched.
         '''
         test_string = self.read_test_file(self.processor_name, 'no_boxed_text.md')
         blocks = self.to_blocks(test_string)
@@ -41,8 +40,7 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_single_boxed_text(self):
-        '''Tests that the most generic case of a single match is found
-        with generic content contained within.
+        '''Tests that the most generic case of a single match is found with generic content contained within.
         '''
         test_string = self.read_test_file(self.processor_name, 'single_boxed_text.md')
         blocks = self.to_blocks(test_string)
@@ -66,8 +64,7 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_multiple_boxed_text(self):
-        '''Tests that multiple different matches (that are not
-        within others) are matched and processed correctly.
+        '''Tests that multiple different matches (that are not within others) are matched and processed correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'multiple_boxed_text.md')
         blocks = self.to_blocks(test_string)
@@ -90,17 +87,17 @@ class BoxedTextTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'recursive_boxed_text_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    # def test_indentation_value_no(self):
-        # '''
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'indentation_value_no.md')
-        # blocks = self.to_blocks(test_string)
+    def test_indentation_value_no(self):
+        '''Tests that indentation class not added if indent value is "no".
+        '''
+        test_string = self.read_test_file(self.processor_name, 'indentation_value_no.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'indentation_value_no_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'indentation_value_no_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_custom_arguments_indented_true(self):
         '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
@@ -143,8 +140,7 @@ class BoxedTextTest(ProcessorTest):
     # ~
 
     def test_doc_example_basic(self):
-        '''Tests that the most generic case of a single match is found
-        with generic content contained within.
+        '''Tests that the most generic case of a single match is found with generic content contained within.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
         blocks = self.to_blocks(test_string)
@@ -155,9 +151,8 @@ class BoxedTextTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_doc_example_override_html(self):  # TODO check why verto_extension not used
-        '''Tests and shows example of overriding the html of the
-        processor.
+    def test_doc_example_override_html(self):
+        '''Tests and shows example of overriding the html of the processor.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
@@ -166,3 +161,7 @@ class BoxedTextTest(ProcessorTest):
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
