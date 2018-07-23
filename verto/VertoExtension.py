@@ -246,7 +246,7 @@ class VertoExtension(Extension):
         self.heading_tree = tree
 
     # refactor to modify_required_arguments
-    def modify_rules(self, json_data):
+    def modify_rules(self, json_data):  # TODO what if gives argument that does not exist
         for processor, arguments_to_modify in self.custom_argument_rules.items():
             for argument in arguments_to_modify.items():
                 new_required = argument[1]  # .lower()

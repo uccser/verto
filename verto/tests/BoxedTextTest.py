@@ -1,8 +1,12 @@
 import markdown
 from unittest.mock import Mock
+from collections import OrderedDict
+import json
+import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
@@ -75,9 +79,7 @@ class BoxedTextTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_recursive_boxed_text(self):
-        '''Tests that multiple different matches (that are
-        contained as content of eachother) are matched and
-        processed correctly.
+        '''Tests that multiple different matches (that are contained as content of eachother) are matched and processed correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'recursive_boxed_text.md')
         blocks = self.to_blocks(test_string)
@@ -88,9 +90,57 @@ class BoxedTextTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'recursive_boxed_text_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    #~
+    # def test_indentation_value_no(self):
+        # '''
+        # '''
+        # test_string = self.read_test_file(self.processor_name, 'indentation_value_no.md')
+        # blocks = self.to_blocks(test_string)
+
+        # self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        # expected_string = self.read_test_file(self.processor_name, 'indentation_value_no_expected.html', strip=True)
+        # self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_indented_true(self):
+        '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indentation_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'indentation_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [GenericContainerBlockProcessor(self.processor_name, self.ext, Mock()).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'indentation_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_indented_true_not_provided(self):
+        '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indentation_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'indentation_true_not_provided.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [GenericContainerBlockProcessor(self.processor_name, self.ext, Mock()).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
+
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''Tests that the most generic case of a single match is found
@@ -105,7 +155,7 @@ class BoxedTextTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_doc_example_override_html(self):
+    def test_doc_example_override_html(self):  # TODO check why verto_extension not used
         '''Tests and shows example of overriding the html of the
         processor.
         '''
@@ -116,7 +166,3 @@ class BoxedTextTest(ProcessorTest):
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
-
-        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
-        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
-        self.assertEqual(expected_string, converted_test_string)

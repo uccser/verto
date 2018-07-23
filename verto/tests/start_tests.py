@@ -85,7 +85,7 @@ def unit_suite():
     '''Builds unittests. (Not really unittests).
     '''
     return unittest.TestSuite((
-        # unittest.makeSuite(BoxedTextTest),
+        unittest.makeSuite(BoxedTextTest),
         # unittest.makeSuite(ButtonLinkTest),
         # unittest.makeSuite(CommentTest),
         # unittest.makeSuite(ConditionalTest),
