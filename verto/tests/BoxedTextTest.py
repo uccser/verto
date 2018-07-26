@@ -111,48 +111,103 @@ class BoxedTextTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'recursive_boxed_text_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_indentation_value_no(self):
-        '''Tests that indentation class not added if indent value is "no".
+    def test_indented_value_no(self):
+        '''Tests that indented class not added if indent value is "no".
         '''
-        test_string = self.read_test_file(self.processor_name, 'indentation_value_no.md')
+        test_string = self.read_test_file(self.processor_name, 'indented_value_no.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        expected_string = self.read_test_file(self.processor_name, 'indentation_value_no_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'indented_value_no_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_custom_arguments_indented_true(self):
+    def test_custom_arguments_indented_required(self):
         '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indentation_true_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_required_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
         )
 
-        test_string = self.read_test_file(self.processor_name, 'indentation_true.md')
+        test_string = self.read_test_file(self.processor_name, 'indented_required.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, True], [GenericContainerBlockProcessor(self.processor_name, self.ext, Mock()).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
-        expected_string = self.read_test_file(self.processor_name, 'indentation_true_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'indented_required_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_custom_arguments_indented_true_not_provided(self):
-        '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
+    def test_custom_arguments_type_required(self):
+        '''Tests to ensure that boxed text tag is rendered correctly when type argument is required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indentation_true_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/type_required_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
         )
 
-        test_string = self.read_test_file(self.processor_name, 'indentation_true_not_provided.md')
+        test_string = self.read_test_file(self.processor_name, 'type_required.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [GenericContainerBlockProcessor(self.processor_name, self.ext, Mock()).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'type_required_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_indented_and_type_required(self):
+        '''Tests to ensure that boxed text tag is rendered correctly when both indented and type arguments are required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_and_type_required_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'indented_and_type_required.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [GenericContainerBlockProcessor(self.processor_name, self.ext, Mock()).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'indented_and_type_required_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_indented_required_not_provided(self):
+        '''Tests to ensure that error is raised when indented argument is required and not given.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_required_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'indented_required_not_provided.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [GenericContainerBlockProcessor(self.processor_name, self.ext, Mock()).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
+
+    def test_custom_arguments_indented_and_type_required_type_not_provided(self):
+        '''Tests to ensure that error is raised when indented and type arguments are required and type is not given.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_and_type_required_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'indented_and_type_required_type_not_provided.md')
         blocks = self.to_blocks(test_string)
 
         self.assertListEqual([True, False, True], [GenericContainerBlockProcessor(self.processor_name, self.ext, Mock()).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
