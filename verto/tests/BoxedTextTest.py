@@ -51,6 +51,18 @@ class BoxedTextTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'single_boxed_text_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_boxed_text_type(self):
+        '''Tests that, when specified, type is added to class
+        '''
+        test_string = self.read_test_file(self.processor_name, 'boxed_text_type.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'boxed_text_type_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     def test_indented_boxed_text(self):
         '''Tests that the indented argument works as appropriate.
         '''
@@ -61,6 +73,18 @@ class BoxedTextTest(ProcessorTest):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'indented_boxed_text_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_indented_and_type_boxed_text(self):
+        '''Tests that the indented and type arguments work as expected when both used.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'indented_type_boxed_text.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'indented_type_boxed_text_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
     def test_multiple_boxed_text(self):
