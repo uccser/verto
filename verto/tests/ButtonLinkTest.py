@@ -17,8 +17,7 @@ class ButtonLinkTest(ProcessorTest):
     '''
 
     def __init__(self, *args, **kwargs):
-        '''Sets up a generic tag to test that the matches are
-        occuring appropriately.
+        '''Sets up a generic tag to test that the matches are occuring appropriately.
         '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'button-link'
@@ -28,8 +27,7 @@ class ButtonLinkTest(ProcessorTest):
         self.block_processor = GenericTagBlockProcessor(self.processor_name, self.ext, Mock())
 
     def test_no_button(self):
-        '''Tests that the text containing the processor name is
-        not matched.
+        '''Tests that the text containing the processor name is not matched.
         '''
         test_string = self.read_test_file(self.processor_name, 'no_button.md')
         blocks = self.to_blocks(test_string)
@@ -40,8 +38,7 @@ class ButtonLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_button(self):
-        '''Tests that the most generic case of a single match is found
-        with generic content contained within.
+        '''Tests that the most generic case of a single match is found with generic content contained within.
         '''
         test_string = self.read_test_file(self.processor_name, 'contains_button.md')
         blocks = self.to_blocks(test_string)
@@ -78,8 +75,7 @@ class ButtonLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_contains_file_link_button(self):
-        '''Tests that the file argument works are expected,
-        internally linking to a file.
+        '''Tests that the file argument works are expected, internally linking to a file.
         '''
         test_string = self.read_test_file(self.processor_name, 'contains_file_link_button.md')
         blocks = self.to_blocks(test_string)
@@ -92,97 +88,96 @@ class ButtonLinkTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
 # link text file
-    def test_custom_arguments_link_required(self):
+    def test_custom_arguments_link_false(self):
+        '''Tests to ensure that button link tag is rendered correctly when link argument is required.
         '''
-        '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/link_required_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/link_false_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
         )
 
-        test_string = self.read_test_file(self.processor_name, 'link_required.md')
+        test_string = self.read_test_file(self.processor_name, 'link_false.md')
         blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([False, False, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
-        expected_string = self.read_test_file(self.processor_name, 'link_required_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'link_false_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_custom_arguments_text_required(self):
+    def test_custom_arguments_text_false(self):
+        '''Tests to ensure that button link tag is rendered correctly when text argument is false.
         '''
-        '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/text_required_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/text_false_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
         )
 
-        test_string = self.read_test_file(self.processor_name, 'text_required.md')
+        test_string = self.read_test_file(self.processor_name, 'text_false.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
-        expected_string = self.read_test_file(self.processor_name, 'text_required_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'text_false_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_custom_arguments_file_required(self):
+    def test_custom_arguments_file_true(self):
+        '''Tests to ensure that button link tag is rendered correctly when file argument is true.
         '''
-        '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/file_required_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/file_true_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
         )
 
-        test_string = self.read_test_file(self.processor_name, 'file_required.md')
+        test_string = self.read_test_file(self.processor_name, 'file_true.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
-        expected_string = self.read_test_file(self.processor_name, 'file_required_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'file_true_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_custom_arguments_file_and_link_required(self):
+    def test_custom_arguments_text_false_file_true(self):
+        '''Tests to ensure that button link tag is rendered correctly when text argument is false and file argument is true.
         '''
-        '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/file_and_link_required_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/text_false_file_true_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
         )
 
-        test_string = self.read_test_file(self.processor_name, 'file_and_link_required.md')
+        test_string = self.read_test_file(self.processor_name, 'text_false_file_true.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
-        expected_string = self.read_test_file(self.processor_name, 'file_and_link_required_expected.html', strip=True)
+        expected_string = self.read_test_file(self.processor_name, 'text_false_file_true_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
-    def test_custom_arguments_file_and_link_required_file_not_provided(self):
+    def test_custom_arguments_file_true_not_provided(self):
+        '''Tests to ensure that error is raised when file argument is required and not given.
         '''
-        '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/file_and_link_required_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/file_true_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
         )
 
-        test_string = self.read_test_file(self.processor_name, 'file_and_link_required_file_not_provided.md')
+        test_string = self.read_test_file(self.processor_name, 'file_true_not_provided.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
 
