@@ -11,6 +11,11 @@ class FrameTest(ProcessorTest):
     '''The iframe processor inherits from the generic tag procesor.
     The tests contained here test that arguments and the output
     (html-template) work as expected.
+
+    Note:
+        - No tests for custom argument rules because there is only
+          one argument and does not make sense to have a tag with no
+          arguments.
     '''
 
     def __init__(self, *args, **kwargs):
