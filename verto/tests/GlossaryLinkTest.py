@@ -7,6 +7,7 @@ import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GlossaryLinkPattern import GlossaryLinkPattern
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
@@ -200,7 +201,7 @@ class GlossaryLinkTest(ProcessorTest):
     def test_custom_arguments_reference_text_true_not_provided(self):
         '''Tests to ensure that correct error is raised when reference text is required and not provided.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/glossary-link/referencee_text_true_custom_argument_rules.json').decode('utf-8')
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/glossary-link/reference_text_true_custom_argument_rules.json').decode('utf-8')
         custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
@@ -208,14 +209,14 @@ class GlossaryLinkTest(ProcessorTest):
         )
 
         test_string = self.read_test_file(self.processor_name, 'reference_text_true_not_provided.md')
-        processor = ImageInlinePattern(self.ext, self.md.parser)
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
         self.assertIsNotNone(re.search(processor.compiled_re, test_string))
 
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
 
-    #~
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''A basic example of common useage.
