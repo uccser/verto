@@ -1,8 +1,12 @@
 import markdown
 from unittest.mock import Mock
+from collections import OrderedDict
+import json
+import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.NoVideoIdentifierError import NoVideoIdentifierError
 from verto.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from verto.tests.ProcessorTest import ProcessorTest
@@ -172,6 +176,25 @@ class VideoTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_file_string = self.read_test_file(self.processor_name, 'contains_multiple_videos_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
+
+    def test_url_false_custom_argument_rules(self):
+        '''Tests to ensure that video tag is rendered correctly when url argument is not required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/video/url_false_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'url_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'url_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     # ~
     # Doc Tests

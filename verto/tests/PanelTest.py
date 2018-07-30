@@ -1,9 +1,13 @@
 import markdown
 from unittest.mock import Mock
+from collections import OrderedDict
+import json
+import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.PanelBlockProcessor import PanelBlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.errors.PanelMissingTitleError import PanelMissingTitleError
 from verto.errors.PanelMissingSubtitleError import PanelMissingSubtitleError
@@ -366,6 +370,82 @@ class PanelTest(ProcessorTest):
         self.assertListEqual([True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(StyleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+# type subtitle expanded
+    def test_custom_arguments_type_false(self):
+        '''Tests to ensure that panel tag is rendered correctly when type argument is not required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/panel/type_false_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'type_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'type_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_subtitle_true(self):
+        '''Tests to ensure that panel tag is rendered correctly when subtitle argument is required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/panel/subtitle_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'subtitle_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'subtitle_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_expanded_true(self):
+        '''Tests to ensure that panel tag is rendered correctly when expanded argument is required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/panel/expanded_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'expanded_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'expanded_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_subtitle_true_not_provided(self):
+        '''Tests to ensure that correct error is raised when subtitle is required and not provided.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/panel/subtitle_true_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'subtitle_true_not_provided.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
+
 
     # ~
     # Doc Tests
