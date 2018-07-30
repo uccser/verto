@@ -6,7 +6,6 @@ import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
-from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.NoVideoIdentifierError import NoVideoIdentifierError
 from verto.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from verto.tests.ProcessorTest import ProcessorTest

@@ -1,5 +1,8 @@
 import markdown
 from unittest.mock import Mock
+from collections import OrderedDict
+import json
+import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
@@ -7,15 +10,11 @@ from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.ArgumentDefinitionError import ArgumentDefinitionError
 from verto.tests.ProcessorTest import ProcessorTest
 
+
 class FrameTest(ProcessorTest):
     '''The iframe processor inherits from the generic tag procesor.
     The tests contained here test that arguments and the output
     (html-template) work as expected.
-
-    Note:
-        - No tests for custom argument rules because there is only
-          one argument and does not make sense to have a tag with no
-          arguments.
     '''
 
     def __init__(self, *args, **kwargs):
@@ -51,6 +50,25 @@ class FrameTest(ProcessorTest):
 
         with self.assertRaises(ArgumentDefinitionError):
             converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+
+    def test_custom_argument_rules_link_false(self):
+        '''Tests to ensure that iframe tag is rendered correctly when link argument is not required.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/iframe/link_false_custom_argument_rules.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'link_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'link_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
     #~
     # Doc Tests
