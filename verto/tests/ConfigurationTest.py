@@ -1,7 +1,14 @@
+import markdown
+from collections import OrderedDict
+import json
+import pkg_resources
+
 from verto.Verto import Verto, VertoResult
+from verto.VertoExtension import VertoExtension
 from verto.processors.ScratchTreeprocessor import ScratchImageMetaData
 from verto.utils.HeadingNode import HeadingNode
 from verto.tests.BaseTest import BaseTest
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 
 
 class ConfigurationTest(BaseTest):
@@ -360,3 +367,43 @@ class ConfigurationTest(BaseTest):
         converted_test_string = verto.convert(test_string).html_string
         expected_string = self.read_test_file(self.test_name, 'multiline_templates_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_rules_on_creation(self):
+        '''Checks if tag arguments are updated.
+        '''
+        custom_argument_rules = {
+            "image-tag": {
+                "alt": False
+            }
+        }
+        verto = Verto(custom_argument_rules=custom_argument_rules)
+        self.assertEqual(verto.verto_extension.custom_argument_rules, dict(custom_argument_rules))
+
+    def test_custom_argument_rules_for_multiple_tags(self):
+        '''Checks that md file is correctly parsed when multiple tags have custom argument rules.
+        '''
+        custom_argument_rules = {
+            "image-tag": {
+                "alt": False
+            },
+            "panel": {
+                "subtitle": True
+            }
+        }
+        verto = Verto(custom_argument_rules=custom_argument_rules)
+        self.assertEqual(verto.verto_extension.custom_argument_rules, dict(custom_argument_rules))
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = verto.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_argument_rules_for_multiple_tags_error(self):
+        '''Checks that error is raised when a tag's custom argument rules are not followed.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/configuration/custom_argument_rules_image_panel.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        processors = {'image-tag', 'panel', 'comment'}
+        verto = VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules)
+
+        test_string = self.read_test_file(self.test_name, 'custom_argument_rules_multiple_tags_error.md')
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto]), test_string)

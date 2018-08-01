@@ -371,7 +371,6 @@ class PanelTest(ProcessorTest):
 
         self.assertRaises(StyleError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
-# type subtitle expanded
     def test_custom_arguments_type_false(self):
         '''Tests to ensure that panel tag is rendered correctly when type argument is not required.
         '''

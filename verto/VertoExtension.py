@@ -145,9 +145,9 @@ class VertoExtension(Extension):
         '''
         templates = {}
         env = Environment(
-                loader=PackageLoader('verto', 'html-templates'),
-                autoescape=select_autoescape(['html'])
-                )
+            loader=PackageLoader('verto', 'html-templates'),
+            autoescape=select_autoescape(['html'])
+        )
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
             html_file = re.search(r'(.*?).html$', file)
             if html_file:
@@ -245,8 +245,10 @@ class VertoExtension(Extension):
         assert all(isinstance(child, HeadingNode) for child in tree)
         self.heading_tree = tree
 
-    # refactor to modify_required_arguments
     def modify_rules(self, json_data):  # TODO what if gives argument that does not exist
+        '''
+        # refactor to modify_required_arguments
+        '''
         for processor, arguments_to_modify in self.custom_argument_rules.items():
             for argument in arguments_to_modify.items():
                 new_required = argument[1]  # .lower()
