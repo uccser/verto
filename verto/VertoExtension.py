@@ -265,7 +265,7 @@ class VertoExtension(Extension):
                 new_required = argument[1]
                 try:
                     json_data[processor]['arguments'][argument[0]]['required'] = new_required
-                except:
+                except KeyError:
                     msg = '\'{}\' is not a valid argument for the \'{}\' processor.'.format(argument[0], processor)
                     raise CustomArgumentRulesError(argument[0], msg)
         return json_data
