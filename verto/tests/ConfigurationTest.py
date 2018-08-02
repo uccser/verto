@@ -9,6 +9,7 @@ from verto.processors.ScratchTreeprocessor import ScratchImageMetaData
 from verto.utils.HeadingNode import HeadingNode
 from verto.tests.BaseTest import BaseTest
 from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.CustomArgumentRulesError import CustomArgumentRulesError
 
 
 class ConfigurationTest(BaseTest):
@@ -407,3 +408,21 @@ class ConfigurationTest(BaseTest):
 
         test_string = self.read_test_file(self.test_name, 'custom_argument_rules_multiple_tags_error.md')
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto]), test_string)
+
+    def test_custom_argument_rules_incorrect_processor_error(self):
+        '''Checks that error is raised when a processor given in custom argument rules does not exist.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/configuration/custom_argument_rules_incorrect_processor.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        processors = {'image-tag', 'panel', 'comment'}
+
+        self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules))
+
+    def test_custom_argument_rules_incorrect_processor_argument_error(self):
+        '''Checks that error is raised when a processor given in custom argument rules does not exist.
+        '''
+        json_data = pkg_resources.resource_string('verto', 'tests/assets/configuration/custom_argument_rules_incorrect_processor_argument.json').decode('utf-8')
+        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        processors = {'image-tag', 'panel', 'comment'}
+
+        self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules))

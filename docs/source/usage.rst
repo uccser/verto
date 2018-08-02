@@ -51,6 +51,19 @@ Once the module is imported, you can create a Verto converter creating an Verto 
 
 - ``extensions`` -  A list of extra Markdown extensions to run in the converter. Details on how to use this parameter can be found on the :doc:`extensions` page.
 
+- ``custom_argument_rules`` - A json file to modify the default argument rules for each tag. The default rules can found by reading the documentation for each tag.
+
+  - *For example:* By default, the ``image-inline`` tag requires alt text to be given, to change this, the following custom argument rules file would be used:
+
+    .. code-block:: python
+
+      {
+        "image-inline": {
+          "alt": false
+        }
+      }
+
+
 Step 3: Convert Markdown with converter
 =======================================
 
