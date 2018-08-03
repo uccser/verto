@@ -310,8 +310,55 @@
           }
         }
     },
-    "interactive": {
+    "interactive-tag": {
         "class": "custom",
+        "tag_argument": "interactive",
+        "template_name": "interactive",
+        "arguments": {
+          "slug": {
+            "required": true,
+            "dependencies": []
+          },
+          "type": {
+            "required": true,
+            "dependencies": [],
+            "values": ["in-page", "whole-page", "iframe"]
+          },
+          "parameters": {
+            "required": false,
+            "dependencies": []
+          },
+          "thumbnail": {
+            "required": false,
+            "dependencies": []
+          }
+        },
+        "template_parameters": {
+          "type": {
+            "argument": "type"
+          },
+          "slug": {
+            "argument": "slug"
+          },
+          "text": {
+            "argument": "text"
+          },
+          "parameters": {
+            "argument": "parameters"
+          },
+          "thumbnail_file_path": {
+            "argument": "thumbnail_file_path"
+          },
+          "thumbnail_file_relative": {
+            "argument": "thumbnail_file_relative"
+          }
+        }
+    },
+    "interactive-container": {
+        "class": "custom",
+        "pattern": "(^|\\n) *\\{interactive (?P<args>[^\\}]*)?(?P<text>text=\"true\")(?P<arg>[^\\}]*)?\\} *(\\n|$)",
+        "tag_argument": "interactive",
+        "template_name": "interactive",
         "arguments": {
           "slug": {
             "required": true,
@@ -323,8 +370,9 @@
             "values": ["in-page", "whole-page", "iframe"]
           },
           "text": {
-            "required": false,
-            "dependencies": []
+            "required": true,
+            "dependencies": [],
+            "values": ["true", "false"]
           },
           "parameters": {
             "required": false,

@@ -2,7 +2,7 @@ from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
 import re
 
 
-class InteractiveBlockProcessor(GenericTagBlockProcessor):
+class InteractiveTagBlockProcessor(GenericTagBlockProcessor):
     '''Searches a Document for interactive tags:
         e.g. {interactive slug='example' type='in-page'}
         These are then replaced with the html template.
@@ -13,7 +13,7 @@ class InteractiveBlockProcessor(GenericTagBlockProcessor):
         Args:
             ext: An instance of the Verto Extension.
         '''
-        self.processor = 'interactive'
+        self.processor = 'interactive-tag'
         super().__init__(self.processor, ext, *args, **kwargs)
         self.scripts = ext.required_files['page_scripts']
         self.required_interactives = ext.required_files['interactives']

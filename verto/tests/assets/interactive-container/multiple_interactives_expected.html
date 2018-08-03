@@ -1,0 +1,13 @@
+<p>This is some text.</p>
+<a class="btn btn-interactive-link" href="{% url 'interactive' slug='binary-cards' %}?digits=5&amp;start=BBBBB">
+<img class="btn-interactive-link-image" src="{% static 'binarycards.png' %}" />
+<div class="btn-interactive-whole-page-text">
+Click to load binary-cards
+</div>
+</a><p>This is some more text.</p>
+<iframe src="{% url 'interactive' slug='arrows' %}?digits=5&amp;start=BBBBB">
+<p>Your browser does not support iframes.</p>
+</iframe>
+<p>And some more text again.</p>
+{% include 'interactive/flying-boxes/index.html' %}
+<p>Aaaaaaaaaaaaaaaannnnnd here's some more.</p>

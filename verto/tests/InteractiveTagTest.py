@@ -3,13 +3,13 @@ from unittest.mock import Mock
 from collections import defaultdict
 
 from verto.VertoExtension import VertoExtension
-from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
+from verto.processors.InteractiveTagBlockProcessor import InteractiveTagBlockProcessor
 from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.ArgumentValueError import ArgumentValueError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
-class InteractiveTest(ProcessorTest):
+class InteractiveTagTest(ProcessorTest):
     '''The interactive processor is a simple tag with a complex
     output that relies on external systems.
     When writing tests whether or not the thumbnail is externally
@@ -22,7 +22,7 @@ class InteractiveTest(ProcessorTest):
         '''Set processor name in class for file names.
         '''
         ProcessorTest.__init__(self, *args, **kwargs)
-        self.processor_name = 'interactive'
+        self.processor_name = 'interactive-tag'
         self.ext = Mock()
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
@@ -34,7 +34,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'whole_page_external_thumbnail.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_external_thumbnail_expected.html', strip=True)
@@ -56,7 +56,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'whole_page_text.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_text_expected.html', strip=True)
@@ -80,7 +80,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'whole_page_parameters.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_parameters_expected.html', strip=True)
@@ -104,7 +104,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_expected.html', strip=True)
@@ -129,7 +129,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_parameters.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_parameters_expected.html', strip=True)
@@ -153,7 +153,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'iframe_parameters.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'iframe_parameters_expected.html', strip=True)
@@ -175,7 +175,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'in_page_missing_name.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
@@ -185,7 +185,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'missing_type.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
@@ -195,7 +195,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'invalid_type.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
@@ -205,7 +205,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'multiple_interactives.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([False, True, False, True, False, True, False], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False, True, False, True, False], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'multiple_interactives_expected.html', strip=True)
@@ -237,7 +237,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage_expected.html', strip=True)
@@ -261,7 +261,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage_expected.html', strip=True)
@@ -285,7 +285,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage_expected.html', strip=True)
@@ -307,7 +307,7 @@ class InteractiveTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
         verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})

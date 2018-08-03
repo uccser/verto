@@ -378,9 +378,9 @@ class ImageTagTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    #~
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''Basic example of common usage.

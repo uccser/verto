@@ -14,7 +14,8 @@ from verto.tests.ImageInlineTest import ImageInlineTest
 from verto.tests.ImageTagTest import ImageTagTest
 from verto.tests.ImageContainerTest import ImageContainerTest
 from verto.tests.JinjaTest import JinjaTest
-from verto.tests.InteractiveTest import InteractiveTest
+from verto.tests.InteractiveTagTest import InteractiveTagTest
+from verto.tests.InteractiveContainerTest import InteractiveContainerTest
 from verto.tests.PanelTest import PanelTest
 from verto.tests.RelativeLinkTest import RelativeLinkTest
 from verto.tests.RemoveTest import RemoveTest
@@ -85,31 +86,32 @@ def unit_suite():
     '''Builds unittests. (Not really unittests).
     '''
     return unittest.TestSuite((
-        unittest.makeSuite(BoxedTextTest),
-        unittest.makeSuite(ButtonLinkTest),
-        unittest.makeSuite(CommentTest),
-        unittest.makeSuite(ConditionalTest),
-        unittest.makeSuite(FrameTest),
-        unittest.makeSuite(GlossaryLinkTest),
-        unittest.makeSuite(HeadingTest),
-        unittest.makeSuite(ImageInlineTest),
-        unittest.makeSuite(ImageTagTest),
-        unittest.makeSuite(ImageContainerTest),
-        unittest.makeSuite(InteractiveTest),
-        unittest.makeSuite(JinjaTest),
-        unittest.makeSuite(PanelTest),
-        unittest.makeSuite(SaveTitleTest),
-        unittest.makeSuite(ScratchTest),
-        unittest.makeSuite(ScratchInlineTest),
-        unittest.makeSuite(StyleTest),
-        unittest.makeSuite(RelativeLinkTest),
-        unittest.makeSuite(RemoveTest),
-        unittest.makeSuite(RemoveTitleTest),
-        unittest.makeSuite(TableOfContentsTest),
-        unittest.makeSuite(VideoTest),
+        # unittest.makeSuite(BoxedTextTest),
+        # unittest.makeSuite(ButtonLinkTest),
+        # unittest.makeSuite(CommentTest),
+        # unittest.makeSuite(ConditionalTest),
+        # unittest.makeSuite(FrameTest),
+        # unittest.makeSuite(GlossaryLinkTest),
+        # unittest.makeSuite(HeadingTest),
+        # unittest.makeSuite(ImageInlineTest),
+        # unittest.makeSuite(ImageTagTest),
+        # unittest.makeSuite(ImageContainerTest),
+        # unittest.makeSuite(InteractiveTagTest),
+        unittest.makeSuite(InteractiveContainerTest),
+        # unittest.makeSuite(JinjaTest),
+        # unittest.makeSuite(PanelTest),
+        # unittest.makeSuite(SaveTitleTest),
+        # unittest.makeSuite(ScratchTest),
+        # unittest.makeSuite(ScratchInlineTest),
+        # unittest.makeSuite(StyleTest),
+        # unittest.makeSuite(RelativeLinkTest),
+        # unittest.makeSuite(RemoveTest),
+        # unittest.makeSuite(RemoveTitleTest),
+        # unittest.makeSuite(TableOfContentsTest),
+        # unittest.makeSuite(VideoTest),
 
-        unittest.makeSuite(HtmlParserTest),
-        unittest.makeSuite(MarkdownOverrideTest),
+        # unittest.makeSuite(HtmlParserTest),
+        # unittest.makeSuite(MarkdownOverrideTest),
     ))
 
 

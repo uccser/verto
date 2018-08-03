@@ -6,7 +6,8 @@ from verto.processors.VideoBlockProcessor import VideoBlockProcessor
 from verto.processors.ImageInlinePattern import ImageInlinePattern
 from verto.processors.ImageTagBlockProcessor import ImageTagBlockProcessor
 from verto.processors.ImageContainerBlockProcessor import ImageContainerBlockProcessor
-from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
+from verto.processors.InteractiveTagBlockProcessor import InteractiveTagBlockProcessor
+from verto.processors.InteractiveContainerBlockProcessor import InteractiveContainerBlockProcessor
 from verto.processors.RelativeLinkPattern import RelativeLinkPattern
 from verto.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from verto.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
@@ -144,9 +145,9 @@ class VertoExtension(Extension):
         '''
         templates = {}
         env = Environment(
-                loader=PackageLoader('verto', 'html-templates'),
-                autoescape=select_autoescape(['html'])
-                )
+            loader=PackageLoader('verto', 'html-templates'),
+            autoescape=select_autoescape(['html'])
+        )
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
             html_file = re.search(r'(.*?).html$', file)
             if html_file:
@@ -174,7 +175,8 @@ class VertoExtension(Extension):
             # Markdown overrides
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
             # Single line (in increasing complexity)
-            ['interactive', InteractiveBlockProcessor(self, md.parser), '<paragraph'],
+            ['interactive-tag', InteractiveTagBlockProcessor(self, md.parser), '<paragraph'],
+            ['interactive-container', InteractiveContainerBlockProcessor(self, md.parser), '<paragraph'],
             ['image-container', ImageContainerBlockProcessor(self, md.parser), '<paragraph'],
             ['image-tag', ImageTagBlockProcessor(self, md.parser), '<paragraph'],
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
