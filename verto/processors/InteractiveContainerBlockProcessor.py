@@ -1,7 +1,6 @@
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
-# TODO implement the following errors
-# from verto.errors.InteractiveTextContainsInteractiveError import InteractiveTextContainsInteractiveError
-# from verto.errors.InteractiveMissingTextError import InteractiveMissingTextError
+from verto.errors.InteractiveTextContainsInteractiveError import InteractiveTextContainsInteractiveError
+from verto.errors.InteractiveMissingTextError import InteractiveMissingTextError
 
 import re
 
@@ -57,6 +56,12 @@ class InteractiveContainerBlockProcessor(GenericContainerBlockProcessor):
                 raise InteractiveTextContainsInteractiveError(self.processor)
 
         extra_args = {}
+
+        argument = 'text'
+        if len(content_blocks) == 0 or content_blocks[0] == '':
+            raise InteractiveMissingTextError(self.processor, argument)
+        extra_args[argument] = content_blocks[0]
+
         interactive_type = argument_values['type']
         slug = argument_values['slug']
 

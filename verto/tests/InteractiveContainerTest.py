@@ -6,6 +6,9 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.InteractiveContainerBlockProcessor import InteractiveContainerBlockProcessor
 from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.TagNotMatchedError import TagNotMatchedError
+from verto.errors.InteractiveTextContainsInteractiveError import InteractiveTextContainsInteractiveError
+from verto.errors.InteractiveMissingTextError import InteractiveMissingTextError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
@@ -23,9 +26,10 @@ class InteractiveContainerTest(ProcessorTest):
         '''
         ProcessorTest.__init__(self, *args, **kwargs)
         self.processor_name = 'interactive-container'
+        self.tag_argument = 'interactive'
         self.ext = Mock()
+        self.ext.jinja_templates = {'interactive': ProcessorTest.loadJinjaTemplate(self, 'interactive')}
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
-        self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, 'interactive')}
         self.ext.required_files = defaultdict(set)
 
     def test_whole_page_external_thumbnail(self):
@@ -34,7 +38,7 @@ class InteractiveContainerTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'whole_page_external_thumbnail.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'whole_page_external_thumbnail_expected.html', strip=True)
@@ -50,29 +54,92 @@ class InteractiveContainerTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
-    # def test_whole_page_text(self):
-        # '''Test whole page interactive with text is correctly parsed.
+    def test_text_true_not_provided(self):
+        '''Tests that InteractiveMissingTextError is thrown when text argument is true but not provided.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'text_true_not_provided.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, True, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(InteractiveMissingTextError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_text_true_missing_end_tag(self):
+        '''Tests that TagNotMatchedError is thrown when interactive tag is missing end tag.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'text_true_missing_end_tag.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_multiple_interactives_text_true(self):
+        '''Test multiple interactives in one file are all correctly parsed.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'multiple_interactives_text_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False, True, False, True, False, True, False, True, False, True, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'multiple_interactives_text_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        required_files = {
+            'interactives': {
+                'binary-cards',
+                'arrows',
+                'flying-boxes'
+            },
+            'images': {
+                'binarycards.png'
+            },
+            'page_scripts': {
+                'interactive/flying-boxes/scripts.html'
+            },
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
+
+    def test_contains_multiple_interactives_some_text(self):
+        '''Test multiple interactives in one file are all correctly parsed, and ignores those without text.
         # '''
-        # test_string = self.read_test_file(self.processor_name, 'whole_page_text.md')
-        # blocks = self.to_blocks(test_string)
+        test_string = self.read_test_file(self.processor_name, 'multiple_interactives_some_text.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False, True, False, True, False, False, False, False, False, False, False, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'whole_page_text_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'multiple_interactives_some_text_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # required_files = {
-            # 'interactives': {
-                # "binary-cards"
-            # },
-            # 'images': {
-                # 'interactives/binary-cards/img/thumbnail.png'
-            # },
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
+        required_files = {
+            'interactives': {
+                'binary-cards',
+            },
+            'images': {
+                'binarycards.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
+
+    # def test_text_false(self):
+        # '''Tests processor does not match interactive tag when text argument is not included.
+        # '''
+        # pass
+
+    # def test_no_text(self):
+        # '''Tests processor does not match interactive tag when text argument is not included.
+        # '''
+        # pass
+
+    # def test_interactive_in_interactive_tag(self):
+        # '''Test that InteractiveTextContainsInteractiveError is raised when the first line in an interactive container block is another interactive container block.
+        # '''
+        # pass
 
     # def test_whole_page_parameters(self):
         # '''Test whole page interactive with parameters is correctly parsed.
@@ -198,34 +265,6 @@ class InteractiveContainerTest(ProcessorTest):
         # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         # self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
-
-    # def test_multiple_interactives(self):
-        # '''Test multiple interactives in one file are all correctly parsed.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'multiple_interactives.md')
-        # blocks = self.to_blocks(test_string)
-
-        # self.assertListEqual([False, True, False, True, False, True, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
-
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'multiple_interactives_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
-
-        # required_files = {
-            # 'interactives': {
-                # 'binary-cards',
-                # 'arrows',
-                # 'flying-boxes'
-            # },
-            # 'images': {
-                # 'binarycards.png'
-            # },
-            # 'page_scripts': {
-                # 'interactive/flying-boxes/scripts.html'
-            # },
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
 
     # #~
     # # Doc Tests
