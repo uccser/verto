@@ -104,7 +104,7 @@ class InteractiveContainerTest(ProcessorTest):
 
     def test_contains_multiple_interactives_some_text(self):
         '''Test multiple interactives in one file are all correctly parsed, and ignores those without text.
-        # '''
+        '''
         test_string = self.read_test_file(self.processor_name, 'multiple_interactives_some_text.md')
         blocks = self.to_blocks(test_string)
 
@@ -126,93 +126,127 @@ class InteractiveContainerTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
-    # def test_text_false(self):
-        # '''Tests processor does not match interactive tag when text argument is not included.
-        # '''
-        # pass
+    def test_text_false(self):
+        '''Tests processor does not match interactive tag when text argument is false.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'text_false.md')
+        blocks = self.to_blocks(test_string)
 
-    # def test_no_text(self):
-        # '''Tests processor does not match interactive tag when text argument is not included.
-        # '''
-        # pass
+        self.assertListEqual([False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-    # def test_interactive_in_interactive_tag(self):
-        # '''Test that InteractiveTextContainsInteractiveError is raised when the first line in an interactive container block is another interactive container block.
-        # '''
-        # pass
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'text_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-    # def test_whole_page_parameters(self):
-        # '''Test whole page interactive with parameters is correctly parsed.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'whole_page_parameters.md')
-        # blocks = self.to_blocks(test_string)
+        required_files = {
+            'interactives': set(),
+            'images': set(),
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+    def test_no_text(self):
+        '''Tests processor does not match interactive tag when text argument is not included.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'no_text.md')
+        blocks = self.to_blocks(test_string)
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'whole_page_parameters_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        self.assertListEqual([False, False, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # required_files = {
-            # 'interactives': {
-                # "binary-cards"
-            # },
-            # 'images': {
-                # 'interactives/binary-cards/img/thumbnail.png'
-            # },
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'no_text_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-    # def test_whole_page_thumbnail(self):
-        # '''Test whole page interactive with thumbnail is correctly parsed and thumbnail path is added to required files.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail.md')
-        # blocks = self.to_blocks(test_string)
+        required_files = {
+            'interactives': set(),
+            'images': set(),
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+    def test_interactive_in_interactive_tag(self):
+        '''Test that InteractiveTextContainsInteractiveError is raised when the first line in an interactive container block is another interactive container block.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'interactive_in_interactive_tag.md')
+        blocks = self.to_blocks(test_string)
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        self.assertListEqual([False, True, False, True, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # required_files = {
-            # 'interactives': {
-                # "binary-cards"
-            # },
-            # 'images': {
-                # 'interactives/binary-cards/img/binarycards.png'
-            # },
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
+        self.assertRaises(InteractiveTextContainsInteractiveError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
+    def test_whole_page_parameters(self):
+        '''Test whole page interactive with parameters is correctly parsed.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'whole_page_parameters.md')
+        blocks = self.to_blocks(test_string)
 
-    # def test_whole_page_thumbnail_parameters(self):
-        # '''Test whole page interactive with thumbnail and parameters is correctly parsed and thumbnail path is added to required files.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_parameters.md')
-        # blocks = self.to_blocks(test_string)
+        self.assertListEqual([True, False, True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'whole_page_parameters_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_parameters_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        required_files = {
+            'interactives': {
+                "binary-cards"
+            },
+            'images': {
+                'interactives/binary-cards/img/thumbnail.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
 
-        # required_files = {
-            # 'interactives': {
-                # "binary-cards"
-            # },
-            # 'images': {
-                # 'binarycards.png'
-            # },
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
+    def test_whole_page_thumbnail(self):
+        '''Test whole page interactive with thumbnail is correctly parsed and thumbnail path is added to required files.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        required_files = {
+            'interactives': {
+                "binary-cards"
+            },
+            'images': {
+                'interactives/binary-cards/img/binarycards.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
+
+    def test_whole_page_thumbnail_parameters(self):
+        '''Test whole page interactive with thumbnail and parameters is correctly parsed and thumbnail path is added to required files.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_parameters.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True, False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'whole_page_thumbnail_parameters_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        required_files = {
+            'interactives': {
+                "binary-cards"
+            },
+            'images': {
+                'binarycards.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
 
     # def test_iframe_parameters(self):
         # '''Test iframe interactive with parameters is correctly parsed.
