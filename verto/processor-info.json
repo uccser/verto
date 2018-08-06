@@ -367,7 +367,7 @@
           "type": {
             "required": true,
             "dependencies": [],
-            "values": ["in-page", "whole-page", "iframe"]
+            "values": ["whole-page"]
           },
           "text": {
             "required": true,

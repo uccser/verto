@@ -68,9 +68,7 @@ class InteractiveContainerBlockProcessor(GenericContainerBlockProcessor):
         # add to list of interactives
         self.required_interactives.add(slug)
 
-        if interactive_type == 'in-page':
-            self.scripts.add('interactive/{}/scripts.html'.format(slug))
-        elif interactive_type == 'whole-page':
+        if interactive_type == 'whole-page':
             argument = 'thumbnail'
             thumbnail_file_path = argument_values.get(argument, None)
 

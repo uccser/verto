@@ -8,7 +8,7 @@ Swaying as the room burned down
 
 I'd hold you as the water rushes in
 
-{interactive slug="arrows" text="true" type="iframe" parameters="digits=5&start=BBBBB"}
+{interactive slug="arrows" text="true" type="whole-page" parameters="digits=5&start=BBBBB"}
 
 If I could dance with you again
 
@@ -16,7 +16,7 @@ If I could dance with you again
 
 I'd kiss you as the lights went out
 
-{interactive text="true" slug="flying-boxes" type="in-page"}
+{interactive text="true" slug="flying-boxes" type="whole-page"}
 
 Swaying as the room burned down
 

@@ -93,13 +93,14 @@ class InteractiveContainerTest(ProcessorTest):
                 'flying-boxes'
             },
             'images': {
-                'binarycards.png'
+                'binarycards.png',
+                'interactives/arrows/img/thumbnail.png',
+                'interactives/flying-boxes/img/thumbnail.png'
             },
-            'page_scripts': {
-                'interactive/flying-boxes/scripts.html'
-            },
+            'page_scripts': set(),
             'scratch_images': set()
         }
+
         self.assertEqual(self.verto_extension.required_files, required_files)
 
     def test_contains_multiple_interactives_some_text(self):
@@ -248,47 +249,35 @@ class InteractiveContainerTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
-    # def test_iframe_parameters(self):
-        # '''Test iframe interactive with parameters is correctly parsed.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'iframe_parameters.md')
-        # blocks = self.to_blocks(test_string)
+    def test_iframe_parameters(self):
+        '''Test iframe interactive is ignored.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'iframe.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'iframe_parameters_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'iframe_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # required_files = {
-            # 'interactives': {
-                # "binary-cards"
-            # },
-            # 'images': set(),
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
+        required_files = {
+            'interactives': set(),
+            'images': set(),
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
 
-    # def test_in_page_missing_name(self):
-        # '''Test ArgumentMissingError is raised when interactive name is not given.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'in_page_missing_name.md')
-        # blocks = self.to_blocks(test_string)
+    def test_missing_type(self):
+        '''Test ArgumentMissingError is raised when interactive type is not given.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_type.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
-
-    # def test_missing_type(self):
-        # '''Test ArgumentMissingError is raised when interactive type is not given.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'missing_type.md')
-        # blocks = self.to_blocks(test_string)
-
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
-
-        # self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     # def test_invalid_type(self):
         # '''Test ArgumentValueError is raised when interactive type is not valid.

@@ -1,1 +1,0 @@
-{interactive type="in-page"}
