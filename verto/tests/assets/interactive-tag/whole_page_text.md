@@ -1,1 +1,5 @@
-{interactive slug="binary-cards" type="whole-page" text="Binary Cards Interactive"}
+{interactive slug="binary-cards" type="whole-page" text="true"}
+
+Binary Cards Interactive
+
+{interactive end}

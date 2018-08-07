@@ -18,6 +18,20 @@ class InteractiveTagBlockProcessor(GenericTagBlockProcessor):
         self.scripts = ext.required_files['page_scripts']
         self.required_interactives = ext.required_files['interactives']
         self.required_images = ext.required_files['images']
+        self.text_pattern = re.compile(ext.processor_info[self.processor]['pattern'])
+
+    def test(self, parent, block):
+        ''' Tests a block to see if the run method should be applied.
+
+        Args:
+            parent: The parent node of the element tree that children
+                will reside in.
+            block: The block to be tested.
+
+        Returns:
+            True if there are any start or end tags within the block.
+        '''
+        return self.text_pattern.search(block) is None and self.pattern.search(block) is not None
 
     def custom_parsing(self, argument_values):
         '''Determines the file path to use for an interactive's thumbnail.

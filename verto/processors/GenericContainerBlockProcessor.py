@@ -69,7 +69,6 @@ class GenericContainerBlockProcessor(BlockProcessor):
             blocks.insert(0, after)
 
         argument_values = parse_arguments(self.processor, start_tag.group('args'), self.arguments)
-        print(argument_values)
 
         content_blocks = []
         the_rest = ''

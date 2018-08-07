@@ -313,6 +313,7 @@
     "interactive-tag": {
         "class": "custom",
         "tag_argument": "interactive",
+        "pattern": "(^|\\n) *\\{interactive (?P<args>[^\\}]*)?(?P<text>text=\"true\")(?P<arg>[^\\}]*)?\\} *(\\n|$)",
         "template_name": "interactive",
         "arguments": {
           "slug": {

@@ -249,7 +249,7 @@ class InteractiveContainerTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
-    def test_iframe_parameters(self):
+    def test_iframe(self):
         '''Test iframe interactive is ignored.
         '''
         test_string = self.read_test_file(self.processor_name, 'iframe.md')
@@ -275,117 +275,72 @@ class InteractiveContainerTest(ProcessorTest):
         test_string = self.read_test_file(self.processor_name, 'missing_type.md')
         blocks = self.to_blocks(test_string)
 
-        self.assertListEqual([False], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
-    # def test_invalid_type(self):
-        # '''Test ArgumentValueError is raised when interactive type is not valid.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'invalid_type.md')
-        # blocks = self.to_blocks(test_string)
+    def test_invalid_type(self):
+        '''Test ArgumentValueError is raised when interactive type is not valid.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'invalid_type.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+        self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
-    # #~
-    # # Doc Tests
-    # #~
+    # ~
+    # Doc Tests
+    # ~
 
-    # def test_doc_example_in_page(self):
-        # '''Example of an in-page interactive.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage.md')
-        # blocks = self.to_blocks(test_string)
+    def test_doc_example_whole_page(self):
+        '''Example of a whole-page interactive.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'doc_example_in_page_usage_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # required_files = {
-            # 'interactives': {
-                # 'binary-cards'
-            # },
-            # 'images': set(),
-            # 'page_scripts': {
-                # 'interactive/binary-cards/scripts.html'
-            # },
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
+        required_files = {
+            'interactives': {
+                "binary-cards"
+            },
+            'images': {
+                'interactives/binary-cards/img/thumbnail.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(self.verto_extension.required_files, required_files)
 
-    # def test_doc_example_whole_page(self):
-        # '''Example of a whole-page interactive.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage.md')
-        # blocks = self.to_blocks(test_string)
+    def test_doc_example_override_html(self):
+        '''Example showing overriding the html-template.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
+        blocks = self.to_blocks(test_string)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+        self.assertListEqual([True, False, True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'doc_example_whole_page_usage_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
+        html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={self.tag_argument: html_template})
 
-        # required_files = {
-            # 'interactives': {
-                # "binary-cards"
-            # },
-            # 'images': {
-                # 'interactives/binary-cards/img/thumbnail.png'
-            # },
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
 
-    # def test_doc_example_iframe(self):
-        # '''Example of an iframe interactive.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage.md')
-        # blocks = self.to_blocks(test_string)
+        self.assertEqual(expected_string, converted_test_string)
 
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
-
-        # converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'doc_example_iframe_usage_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
-
-        # required_files = {
-            # 'interactives': {
-                # 'binary-cards'
-            # },
-            # 'images': set(),
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(self.verto_extension.required_files, required_files)
-
-    # def test_doc_example_override_html(self):
-        # '''Example showing overriding the html-template.
-        # '''
-        # test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
-        # blocks = self.to_blocks(test_string)
-
-        # self.assertListEqual([True], [InteractiveContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
-
-        # html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
-        # verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
-
-        # converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
-        # expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
-        # self.assertEqual(expected_string, converted_test_string)
-
-        # required_files = {
-            # 'interactives': {
-                # 'binary-cards'
-            # },
-            # 'images': {
-                # 'binarycards.png'
-            # },
-            # 'page_scripts': set(),
-            # 'scratch_images': set()
-        # }
-        # self.assertEqual(verto_extension.required_files, required_files)
+        required_files = {
+            'interactives': {
+                'binary-cards'
+            },
+            'images': {
+                'binarycards.png'
+            },
+            'page_scripts': set(),
+            'scratch_images': set()
+        }
+        self.assertEqual(verto_extension.required_files, required_files)
