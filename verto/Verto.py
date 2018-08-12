@@ -43,6 +43,8 @@ class Verto(object):
                 eg: {'image': '<img src={{ source }}>'}
             extensions: A list of extra extensions to run on the
                 markdown package.
+            custom_argument_rules: A dictionary of rules for the processors to
+                override default processor rules.
         '''
         self.processors = set(processors)
         self.html_templates = dict(html_templates)
