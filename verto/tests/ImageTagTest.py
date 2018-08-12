@@ -1,8 +1,6 @@
 import markdown
 from unittest.mock import Mock
-from collections import defaultdict, OrderedDict
-import json
-import pkg_resources
+from collections import defaultdict
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.ImageTagBlockProcessor import ImageTagBlockProcessor
@@ -394,8 +392,11 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_alt_false(self):
         '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/alt_false_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "image-tag": {
+                "alt": False
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -419,8 +420,11 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_hover_true(self):
         '''Tests to ensure that image tag is rendered correctly when hover argument is required and expected images are updated.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/hover_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "image-tag": {
+                "hover-text": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -444,8 +448,12 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_alt_false_source_true(self):
         '''Tests to ensure that image tag is rendered correctly when alt argument is not required and source argument is required and expected images are updated.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/alt_false_source_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "image-tag": {
+                "alt": False,
+                "source": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -470,8 +478,11 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_hover_true_not_provided(self):
         '''Tests to ensure that correct error is raised when hover text is required and not provided.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/image-tag/hover_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "image-tag": {
+                "hover-text": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules

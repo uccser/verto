@@ -1,8 +1,5 @@
 import markdown
 from unittest.mock import Mock
-from collections import OrderedDict
-import json
-import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
@@ -179,8 +176,11 @@ class VideoTest(ProcessorTest):
     def test_url_false_custom_argument_rules(self):
         '''Tests to ensure that video tag is rendered correctly when url argument is not required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/video/url_false_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "video": {
+                "url": False
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules

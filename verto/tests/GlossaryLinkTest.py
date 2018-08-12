@@ -1,9 +1,6 @@
 import markdown
 import re
 from unittest.mock import Mock
-from collections import OrderedDict
-import json
-import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GlossaryLinkPattern import GlossaryLinkPattern
@@ -201,8 +198,11 @@ class GlossaryLinkTest(ProcessorTest):
     def test_custom_arguments_reference_text_true_not_provided(self):
         '''Tests to ensure that correct error is raised when reference text is required and not provided.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/glossary-link/reference_text_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "glossary-link": {
+                "reference-text": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules

@@ -1,8 +1,6 @@
 import markdown
 from unittest.mock import Mock
-from collections import defaultdict, OrderedDict
-import json
-import pkg_resources
+from collections import defaultdict
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
@@ -231,8 +229,11 @@ class InteractiveTest(ProcessorTest):
     def test_custom_arguments_text_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when text argument is not required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/interactive/text_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "interactive": {
+                "text": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -250,8 +251,11 @@ class InteractiveTest(ProcessorTest):
     def test_custom_arguments_parameters_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when parameters argument is not required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/interactive/parameters_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "interactive": {
+                "parameters": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -269,8 +273,11 @@ class InteractiveTest(ProcessorTest):
     def test_custom_arguments_thumbnail_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when thumbnail argument is not required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/interactive/thumbnail_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "interactive": {
+                "thumbnail": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -288,8 +295,11 @@ class InteractiveTest(ProcessorTest):
     def test_custom_arguments_text_true_not_provided(self):
         '''Tests to ensure that correct error is raised when text is required and not provided.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/interactive/text_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "interactive": {
+                "text": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -305,8 +315,12 @@ class InteractiveTest(ProcessorTest):
     def test_custom_arguments_text_and_thumbnail_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when text and thumbnail arguments are required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/interactive/text_and_thumbnail_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "interactive": {
+                "text": True,
+                "thumbnail": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules

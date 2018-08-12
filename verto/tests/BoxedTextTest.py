@@ -1,8 +1,5 @@
 import markdown
 from unittest.mock import Mock
-from collections import OrderedDict
-import json
-import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
@@ -126,8 +123,12 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_required(self):
         '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_required_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "boxed-text": {
+                "indented": True
+            }
+        }
+
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -145,8 +146,11 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_type_required(self):
         '''Tests to ensure that boxed text tag is rendered correctly when type argument is required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/type_required_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "boxed-text": {
+                "type": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -164,8 +168,12 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_and_type_required(self):
         '''Tests to ensure that boxed text tag is rendered correctly when both indented and type arguments are required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_and_type_required_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "boxed-text": {
+                "indented": True,
+                "type": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -183,8 +191,11 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_required_not_provided(self):
         '''Tests to ensure that error is raised when indented argument is required and not given.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_required_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "boxed-text": {
+                "indented": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -200,8 +211,12 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_and_type_required_type_not_provided(self):
         '''Tests to ensure that error is raised when indented and type arguments are required and type is not given.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/boxed-text/indented_and_type_required_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "boxed-text": {
+                "indented": True,
+                "type": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules

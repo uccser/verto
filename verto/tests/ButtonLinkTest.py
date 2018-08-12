@@ -1,8 +1,5 @@
 import markdown
 from unittest.mock import Mock
-from collections import OrderedDict
-import json
-import pkg_resources
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.GenericTagBlockProcessor import GenericTagBlockProcessor
@@ -91,8 +88,11 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_link_false(self):
         '''Tests to ensure that button link tag is rendered correctly when link argument is required.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/link_false_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "button-link": {
+                "link": False
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -110,8 +110,11 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_text_false(self):
         '''Tests to ensure that button link tag is rendered correctly when text argument is false.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/text_false_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "button-link": {
+                "text": False
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -129,8 +132,11 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_file_true(self):
         '''Tests to ensure that button link tag is rendered correctly when file argument is true.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/file_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "button-link": {
+                "file": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -148,8 +154,12 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_text_false_file_true(self):
         '''Tests to ensure that button link tag is rendered correctly when text argument is false and file argument is true.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/text_false_file_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "button-link": {
+                "file": True,
+                "text": False
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
@@ -167,8 +177,11 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_file_true_not_provided(self):
         '''Tests to ensure that error is raised when file argument is required and not given.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/button-link/file_true_custom_argument_rules.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "button-link": {
+                "file": True
+            }
+        }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
             custom_argument_rules=custom_argument_rules
