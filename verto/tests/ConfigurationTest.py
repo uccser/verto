@@ -1,7 +1,4 @@
 import markdown
-from collections import OrderedDict
-import json
-import pkg_resources
 
 from verto.Verto import Verto, VertoResult
 from verto.VertoExtension import VertoExtension
@@ -401,8 +398,14 @@ class ConfigurationTest(BaseTest):
     def test_custom_argument_rules_for_multiple_tags_error(self):
         '''Checks that error is raised when a tag's custom argument rules are not followed.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/configuration/custom_argument_rules_image_panel.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "panel": {
+                "subtitle": True
+            },
+            "image-tag": {
+                "alt": False
+            }
+        }
         processors = {'image-tag', 'panel', 'comment'}
         verto = VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules)
 
@@ -412,8 +415,14 @@ class ConfigurationTest(BaseTest):
     def test_custom_argument_rules_incorrect_processor_error(self):
         '''Checks that error is raised when a processor given in custom argument rules does not exist.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/configuration/custom_argument_rules_incorrect_processor.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "panel": {
+                "totallyrealargument": True
+            },
+            "image-tag": {
+                "alt": False
+            }
+        }
         processors = {'image-tag', 'panel', 'comment'}
 
         self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules))
@@ -421,8 +430,14 @@ class ConfigurationTest(BaseTest):
     def test_custom_argument_rules_incorrect_processor_argument_error(self):
         '''Checks that error is raised when a processor given in custom argument rules does not exist.
         '''
-        json_data = pkg_resources.resource_string('verto', 'tests/assets/configuration/custom_argument_rules_incorrect_processor_argument.json').decode('utf-8')
-        custom_argument_rules = json.loads(json_data, object_pairs_hook=OrderedDict)
+        custom_argument_rules = {
+            "panl": {
+                "subtitle": True
+            },
+            "image-tag": {
+                "alt": False
+            }
+        }
         processors = {'image-tag', 'panel', 'comment'}
 
         self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules))
