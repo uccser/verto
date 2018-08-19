@@ -4,6 +4,7 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from verto.tests.ProcessorTest import ProcessorTest
 
+
 class RemoveTitleTest(ProcessorTest):
     '''Tests to check the 'remove-title' preprocesser works as intended.
     '''

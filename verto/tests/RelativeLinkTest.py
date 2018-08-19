@@ -1,9 +1,9 @@
 import markdown
 import re
 from unittest.mock import Mock
-from verto.VertoExtension import VertoExtension
 from verto.processors.RelativeLinkPattern import RelativeLinkPattern
 from verto.tests.ProcessorTest import ProcessorTest
+
 
 class RelativeLinkTest(ProcessorTest):
     '''Tests to check the 'relative-link' pattern works as intended.
@@ -215,7 +215,6 @@ class RelativeLinkTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'mailto_text_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
-
 
     def test_ignore_news_schema(self):
         '''Tests that non-relative links are not matched.
