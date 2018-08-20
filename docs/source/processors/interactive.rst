@@ -50,7 +50,7 @@ Optional Tag Parameters
 - ``text`` - Boolean flag to indicate whether the interactive has custom text to dispaly.
 
     -  If given as ``true``, the the subtitle is the first block of text with the interactive block.
-    -  This is only use with the ``whole-page`` value
+    -  This is only use with the ``whole-page`` value.
     -  If no text is given, the link uses the text ``Click to load {{ slug }}``.
 
 - ``parameters`` (used with ``whole-page`` and ``iframe`` values) - Adds the parameters
