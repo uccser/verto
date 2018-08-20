@@ -1,11 +1,9 @@
 import markdown
-from unittest.mock import Mock
-from collections import defaultdict
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.ScratchTreeprocessor import ScratchImageMetaData
-from verto.processors.ScratchInlineTreeprocessor import ScratchInlineTreeprocessor
 from verto.tests.ProcessorTest import ProcessorTest
+
 
 class ScratchInlineTest(ProcessorTest):
     '''Scratch blocks are unique in that they override behaviour in markdown.

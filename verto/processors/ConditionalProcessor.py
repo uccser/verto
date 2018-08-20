@@ -1,6 +1,6 @@
 from markdown.blockprocessors import BlockProcessor
 from verto.errors.TagNotMatchedError import TagNotMatchedError
-from verto.processors.utils import etree, parse_arguments, parse_flag, blocks_to_string
+from verto.processors.utils import etree, parse_arguments, blocks_to_string
 from verto.utils.HtmlParser import HtmlParser
 from verto.utils.HtmlSerializer import HtmlSerializer
 from collections import OrderedDict
@@ -57,14 +57,20 @@ class ConditionalProcessor(BlockProcessor):
         context = dict()
 
         start_tag = self.pattern.search(block)
-        is_if = parse_flag('if', start_tag.group('args'))
+        is_if = tag_starts_with('if', start_tag.group('args'))
 
         # elif or else before an if conditional
         if not is_if:
-            is_elif = parse_flag('elif', start_tag.group('args'))
-            is_else = parse_flag('else', start_tag.group('args'))
-            is_end = parse_flag('end', start_tag.group('args'))
-            string = 'elif' if is_elif else 'else' if is_else else 'end' if is_end else 'unrecognised'
+            string = ''
+            if tag_starts_with('elif', start_tag.group('args')):
+                string = 'elif'
+            elif tag_starts_with('else', start_tag.group('args')):
+                string = 'else'
+            elif tag_starts_with('end', start_tag.group('args')):
+                'end'
+            else:
+                string = 'unrecognised'
+
             msg = '{} conditional found before if'.format(string)
             raise TagNotMatchedError(self.processor, block, msg)
 
@@ -85,7 +91,7 @@ class ConditionalProcessor(BlockProcessor):
 
         # Process elif statements
         elifs = OrderedDict()
-        while next_tag is not None and parse_flag('elif', next_tag.group('args')):
+        while next_tag is not None and tag_starts_with('elif', next_tag.group('args')):
             argument_values = parse_arguments(self.processor, next_tag.group('args'), self.arguments)
             elif_expression = argument_values['condition']
             next_tag, block, content_blocks = self.get_content(blocks)
@@ -94,7 +100,7 @@ class ConditionalProcessor(BlockProcessor):
         context['elifs'] = elifs
 
         # Process else statement
-        has_else = next_tag is not None and parse_flag('else', next_tag.group('args'))
+        has_else = next_tag is not None and tag_starts_with('else', next_tag.group('args'))
         else_content = ''
         if has_else:
             argument_values = parse_arguments(self.processor, next_tag.group('args'), self.arguments)
@@ -103,7 +109,7 @@ class ConditionalProcessor(BlockProcessor):
         context['has_else'] = has_else
         context['else_content'] = else_content
 
-        if (next_tag is None or (next_tag is not None and not parse_flag('end', next_tag.group('args')))):
+        if (next_tag is None or (next_tag is not None and not tag_starts_with('end', next_tag.group('args')))):
             msg = 'end conditional not found'
             raise TagNotMatchedError(self.processor, block, msg)
 
@@ -143,10 +149,10 @@ class ConditionalProcessor(BlockProcessor):
             # Do we have either a start or end tag
             next_tag = self.pattern.search(block)
 
-            is_if = next_tag is not None and parse_flag('if', next_tag.group('args'))
-            is_elif = next_tag is not None and parse_flag('elif', next_tag.group('args'))
-            is_else = next_tag is not None and parse_flag('else', next_tag.group('args'))
-            is_end = next_tag is not None and parse_flag('end', next_tag.group('args'))
+            is_if = next_tag is not None and tag_starts_with('if', next_tag.group('args'))
+            is_elif = next_tag is not None and tag_starts_with('elif', next_tag.group('args'))
+            is_else = next_tag is not None and tag_starts_with('else', next_tag.group('args'))
+            is_end = next_tag is not None and tag_starts_with('end', next_tag.group('args'))
 
             # Keep track of how many inner boxed-text start tags we have seen
             if is_if:
@@ -189,3 +195,21 @@ class ConditionalProcessor(BlockProcessor):
         for child in content_tree:
             content += HtmlSerializer.tostring(child)
         return content
+
+
+def tag_starts_with(argument_key, arguments, default=False):
+    '''Search for the given argument in a string of all arguments,
+    treating the argument as a flag only.
+
+    Args:
+        argument_key: the name of the argument.
+        arguments: a string of the argument inputs.
+        default: the default value if not found.
+    Returns:
+        True if argument is found, otherwise None.
+    '''
+    result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
+    if result:
+        return True
+    else:
+        return default

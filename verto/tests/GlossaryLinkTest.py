@@ -1,8 +1,10 @@
 import markdown
 import re
 from unittest.mock import Mock
+
 from verto.VertoExtension import VertoExtension
 from verto.processors.GlossaryLinkPattern import GlossaryLinkPattern
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.tests.ProcessorTest import ProcessorTest
 
 
@@ -22,8 +24,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
 
     def test_single_word_term(self):
-        '''Tests that a single glossary link functions
-        as expected.
+        '''Tests that a single glossary link functions as expected.
         '''
         test_string = self.read_test_file(self.processor_name, 'single_word_term.md')
 
@@ -59,8 +60,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_reference_text_given(self):
-        '''Tests that the reference argument is processed
-        and that details are stored in the final result.
+        '''Tests that the reference argument is processed and that details are stored in the final result.
         '''
         test_string = self.read_test_file(self.processor_name, 'reference_text_given.md')
 
@@ -79,8 +79,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_leading_inline_text(self):
-        '''Tests that glossary links are matched and processed
-        even when there is text before the tag.
+        '''Tests that glossary links are matched and processed even when there is text before the tag.
         '''
         test_string = self.read_test_file(self.processor_name, 'leading_inline_text.md')
 
@@ -98,8 +97,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_trailing_inline_text(self):
-        '''Tests that glossary links are matched and processed
-        even when there is text after the tag.
+        '''Tests that glossary links are matched and processed even when there is text after the tag.
         '''
         test_string = self.read_test_file(self.processor_name, 'trailing_inline_text.md')
 
@@ -117,8 +115,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_leading_and_trailing_inline_text(self):
-        '''Tests that glossary links are matched and processed
-        even when there is text before and after the tag.
+        '''Tests that glossary links are matched and processed even when there is text before and after the tag.
         '''
         test_string = self.read_test_file(self.processor_name, 'leading_and_trailing_inline_text.md')
 
@@ -136,9 +133,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_multiple_terms(self):
-        '''Tests that multiple glossary tags are matched and
-        that tags with the reference argument store information
-        for the final result.
+        '''Tests that multiple glossary tags are matched and that tags with the reference argument store information for the final result.
         '''
         test_string = self.read_test_file(self.processor_name, 'multiple_terms.md')
 
@@ -159,9 +154,7 @@ class GlossaryLinkTest(ProcessorTest):
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
     def test_multiple_reference_text(self):
-        '''Tests that when the reference argument is used in
-        multiple tags that all references are stored for the
-        final verto result.
+        '''Tests that when the reference argument is used in multiple tags that all references are stored for the final verto result.
         '''
         test_string = self.read_test_file(self.processor_name, 'multiple_reference_text.md')
 
@@ -183,9 +176,47 @@ class GlossaryLinkTest(ProcessorTest):
         }
         self.assertDictEqual(expected_glossary_terms, glossary_terms)
 
-    #~
+    def test_custom_arguments_reference_text_true(self):
+        '''Tests that glossary tag is rendered correctly when reference text is required.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'reference_text_true.md')
+
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'reference_text_true_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
+
+        glossary_terms = self.verto_extension.glossary_terms
+        expected_glossary_terms = {
+            'chomsky-hierarchy':
+                [('Formal languages', 'glossary-chomsky-hierarchy')]
+        }
+        self.assertDictEqual(expected_glossary_terms, glossary_terms)
+
+    def test_custom_arguments_reference_text_true_not_provided(self):
+        '''Tests to ensure that correct error is raised when reference text is required and not provided.
+        '''
+        custom_argument_rules = {
+            "glossary-link": {
+                "reference-text": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'reference_text_true_not_provided.md')
+        processor = GlossaryLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
+
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''A basic example of common useage.

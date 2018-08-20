@@ -23,9 +23,10 @@ class TableOfContentsTest(ProcessorTest):
         self.ext.jinja_templates = {self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name)}
         self.block_processor = GenericTagBlockProcessor(self.processor_name, self.ext, Mock())
 
-    #~
+    # ~
     # Doc Tests
-    #~
+    # ~
+
     def test_doc_example_basic(self):
         '''A generic example of common usage.
         '''

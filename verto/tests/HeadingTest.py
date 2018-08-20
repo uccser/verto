@@ -1,4 +1,3 @@
-import unittest
 import markdown
 from unittest.mock import Mock
 
@@ -6,6 +5,7 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.HeadingBlockProcessor import HeadingBlockProcessor
 from verto.tests.ProcessorTest import ProcessorTest
 from verto.utils.HeadingNode import HeadingNode
+
 
 class HeadingTest(ProcessorTest):
     '''The heading processor is a unique processor that replaces the
@@ -157,9 +157,9 @@ class HeadingTest(ProcessorTest):
                     )
         self.assertTupleEqual(tree, expected_tree)
 
-    #~
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''An example of simplistic usage.

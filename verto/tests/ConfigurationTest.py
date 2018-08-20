@@ -1,7 +1,12 @@
+import markdown
+
 from verto.Verto import Verto, VertoResult
+from verto.VertoExtension import VertoExtension
 from verto.processors.ScratchTreeprocessor import ScratchImageMetaData
 from verto.utils.HeadingNode import HeadingNode
 from verto.tests.BaseTest import BaseTest
+from verto.errors.ArgumentMissingError import ArgumentMissingError
+from verto.errors.CustomArgumentRulesError import CustomArgumentRulesError
 
 
 class ConfigurationTest(BaseTest):
@@ -23,7 +28,7 @@ class ConfigurationTest(BaseTest):
         self.test_name = 'configuration'
         self.maxDiff = None
         self.custom_templates = {
-            'image': '<img class=\'test\'/>',
+            'image': '<img alt=\'test\' class=\'test\'/>',
             'boxed-text': '<div class=\'box\'>{% autoescape false %}{{ text }}{% endautoescape %}</div>',
             'video-youtube': 'https://www.youtube.com/embed/{{ identifier  }}?rel=0'
         }
@@ -360,3 +365,79 @@ class ConfigurationTest(BaseTest):
         converted_test_string = verto.convert(test_string).html_string
         expected_string = self.read_test_file(self.test_name, 'multiline_templates_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_rules_on_creation(self):
+        '''Checks if tag arguments are updated.
+        '''
+        custom_argument_rules = {
+            "image-tag": {
+                "alt": False
+            }
+        }
+        verto = Verto(custom_argument_rules=custom_argument_rules)
+        self.assertEqual(verto.verto_extension.custom_argument_rules, dict(custom_argument_rules))
+
+    def test_custom_argument_rules_for_multiple_tags(self):
+        '''Checks that md file is correctly parsed when multiple tags have custom argument rules.
+        '''
+        custom_argument_rules = {
+            "image-tag": {
+                "alt": False
+            },
+            "panel": {
+                "subtitle": True
+            }
+        }
+        verto = Verto(custom_argument_rules=custom_argument_rules)
+        self.assertEqual(verto.verto_extension.custom_argument_rules, dict(custom_argument_rules))
+        test_string = self.read_test_file(self.test_name, 'all_processors.md')
+        converted_test_string = verto.convert(test_string).html_string
+        expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_argument_rules_for_multiple_tags_error(self):
+        '''Checks that error is raised when a tag's custom argument rules are not followed.
+        '''
+        custom_argument_rules = {
+            "panel": {
+                "subtitle": True
+            },
+            "image-tag": {
+                "alt": False
+            }
+        }
+        processors = {'image-tag', 'panel', 'comment'}
+        verto = VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules)
+
+        test_string = self.read_test_file(self.test_name, 'custom_argument_rules_multiple_tags_error.md')
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto]), test_string)
+
+    def test_custom_argument_rules_incorrect_processor_error(self):
+        '''Checks that error is raised when a processor given in custom argument rules does not exist.
+        '''
+        custom_argument_rules = {
+            "panel": {
+                "totallyrealargument": True
+            },
+            "image-tag": {
+                "alt": False
+            }
+        }
+        processors = {'image-tag', 'panel', 'comment'}
+
+        self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules))
+
+    def test_custom_argument_rules_incorrect_processor_argument_error(self):
+        '''Checks that error is raised when a processor given in custom argument rules does not exist.
+        '''
+        custom_argument_rules = {
+            "panl": {
+                "subtitle": True
+            },
+            "image-tag": {
+                "alt": False
+            }
+        }
+        processors = {'image-tag', 'panel', 'comment'}
+
+        self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_argument_rules=custom_argument_rules))

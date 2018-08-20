@@ -129,6 +129,73 @@ class InteractiveTagTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
+    def test_custom_arguments_parameters_true(self):
+        '''Tests to ensure that interactive tag is rendered correctly when parameters argument is required.
+        '''
+        custom_argument_rules = {
+            "interactive-tag": {
+                "parameters": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'parameters_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'parameters_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_thumbnail_true(self):
+        '''Tests to ensure that interactive tag is rendered correctly when thumbnail argument is required.
+        '''
+        custom_argument_rules = {
+            "interactive-tag": {
+                "thumbnail": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'thumbnail_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'thumbnail_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_parameters_and_thumbnail_true(self):
+        '''Tests to ensure that interactive tag is rendered correctly when type argument is not required and parameters argument is required.
+        '''
+        custom_argument_rules = {
+            "interactive-tag": {
+                "parameters": True,
+                "thumbnail": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'parameters_and_thumbnail_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False], [InteractiveTagBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'parameters_and_thumbnail_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     # ~
     # Doc Tests
     # ~
