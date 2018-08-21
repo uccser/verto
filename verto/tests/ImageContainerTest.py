@@ -6,8 +6,8 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.ImageContainerBlockProcessor import ImageContainerBlockProcessor
 from verto.errors.ImageMissingCaptionError import ImageMissingCaptionError
 from verto.errors.ImageCaptionContainsImageError import ImageCaptionContainsImageError
-from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.tests.ProcessorTest import ProcessorTest
 

@@ -14,7 +14,8 @@ from verto.tests.ImageInlineTest import ImageInlineTest
 from verto.tests.ImageTagTest import ImageTagTest
 from verto.tests.ImageContainerTest import ImageContainerTest
 from verto.tests.JinjaTest import JinjaTest
-from verto.tests.InteractiveTest import InteractiveTest
+from verto.tests.InteractiveTagTest import InteractiveTagTest
+from verto.tests.InteractiveContainerTest import InteractiveContainerTest
 from verto.tests.PanelTest import PanelTest
 from verto.tests.RelativeLinkTest import RelativeLinkTest
 from verto.tests.RemoveTest import RemoveTest
@@ -95,7 +96,8 @@ def unit_suite():
         unittest.makeSuite(ImageInlineTest),
         unittest.makeSuite(ImageTagTest),
         unittest.makeSuite(ImageContainerTest),
-        unittest.makeSuite(InteractiveTest),
+        unittest.makeSuite(InteractiveTagTest),
+        unittest.makeSuite(InteractiveContainerTest),
         unittest.makeSuite(JinjaTest),
         unittest.makeSuite(PanelTest),
         unittest.makeSuite(SaveTitleTest),

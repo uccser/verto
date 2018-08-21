@@ -18,7 +18,7 @@ interactive as requested.
 
 You can include an interactive using the following text tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_in_page_usage.md
     :language: none
 
 Required Tag Parameters
@@ -47,9 +47,12 @@ Required Tag Parameters
 Optional Tag Parameters
 ***************************************
 
-- ``text`` (used with ``whole-page`` value) - Sets the text for the interactive
-  link. If no text is given, the link uses the text ``Click to load
-  {{ slug }}``.
+- ``text`` - Boolean flag to indicate whether the interactive has custom text to dispaly.
+
+    -  If given as ``true``, the the subtitle is the first block of text with the interactive block.
+    -  This is only use with the ``whole-page`` value.
+    -  If no text is given, the link uses the text ``Click to load {{ slug }}``.
+
 - ``parameters`` (used with ``whole-page`` and ``iframe`` values) - Adds the parameters
   to interactive link. 
   For example: ``digits=5&start=BBBBB``.
@@ -90,36 +93,36 @@ Examples
 
 Using the following example tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_in_page_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_in_page_usage_expected.html
     :language: html
 
 **whole-page example**
 
 Using the following example tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_whole_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_whole_page_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_whole_page_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_whole_page_usage_expected.html
     :language: html
 
 **iframe example**
 
 Using the following example tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_iframe_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_iframe_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_iframe_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_iframe_usage_expected.html
     :language: html
 
 Overriding HTML for Interactives
@@ -142,17 +145,17 @@ thumbnail.
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_override_html_template.html
    :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_override_html_expected.html
    :language: html
 
 
