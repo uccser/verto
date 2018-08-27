@@ -1,6 +1,17 @@
 Changelog
 #######################################
 
+0.8.0
+=======================================
+
+- Modify :doc:`processors/interactive` processor for translating text, by required text between start and end tags for whole page interactives.
+- Modify Verto parameters available on creation to allow modification of default required parameters for each processor.
+- Dependency updates:
+
+  - Update ``setuptools`` to 40.2.0.
+  - Update ``sphinx`` to 1.7.7.
+  - Update ``sphinx_rtx_theme`` to 0.4.1.
+
 0.7.4
 =======================================
 
