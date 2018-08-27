@@ -1,6 +1,31 @@
 Changelog
 #######################################
 
+0.8.0
+=======================================
+
+- Modify :doc:`processors/interactive` processor for translating text, by required text between start and end tags for whole page interactives.
+- Modify Verto parameters available on creation to allow modification of default required parameters for each processor.
+- Dependency updates:
+
+  - Update ``setuptools`` to 40.2.0.
+  - Update ``sphinx`` to 1.7.7.
+  - Update ``sphinx_rtx_theme`` to 0.4.1.
+
+0.7.4
+=======================================
+
+- Modify :doc:`processors/interactive` processor to use ``slug`` rather than ``name`` to identify interactives
+- Modify :doc:`processors/video` processor template for youtube videos
+- Modify :doc:`processors/boxed-text` processor to have optional type parameter
+- Update style error message to inclue line numbers
+- Dependency updates:
+
+  - Update ``python-slugify`` to 1.2.5.
+  - Update ``setuptools`` to 39.1.0.
+  - Update ``sphinx`` to 1.6.6.
+  - Update ``sphinx_rtx_theme`` to 0.3.0.
+
 0.7.3
 =======================================
 

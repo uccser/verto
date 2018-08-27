@@ -1,4 +1,4 @@
-<div class='boxed-text{% if indented %} boxed-text-indented{% endif %}'>
+<div class='boxed-text{% if indented == "yes" %} boxed-text-indented{% endif %}{% if type %} boxed-text-{{ type }}{% endif %}'>
 {% autoescape false -%}
 {{ text }}
 {% endautoescape -%}

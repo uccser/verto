@@ -1,6 +1,6 @@
 Imagine we have the following simple black and white image.
 
-{image file-path="the-first-image.png" caption="false"}
+{image file-path="the-first-image.png" caption="false" alt="alt text"}
 
 {image file-path="Lipsum.png" caption="false" alt="A diamond shape made out of pixels"}
 

@@ -1,0 +1,21 @@
+{% if type == 'in-page' -%}
+<div>
+{{ "{{% include 'interactive/" }}{{ slug }}{{ "/index.html' %}}" }}
+</div>
+{% elif type == 'iframe' -%}
+<iframe src="{{ "{% url 'interactive' slug='" }}{{ slug }}{{ "' %}" }}{% if parameters %}?{{ parameters }}{% endif %}">
+<p>Your browser does not support iframes.</p>
+</iframe>
+{% elif type == 'whole-page' -%}
+<a
+   href="{{ "{% url 'interactive' slug='" }}{{ slug }}{{ "' %}" }}{% if parameters %}?{{ parameters }}{% endif %}"
+   class="btn btn-interactive-link">
+<div class="btn-interactive-whole-page-text">
+{% if text -%}
+{{ text }}
+{% else -%}
+Click to load {{ slug }}
+{% endif -%}
+</div>
+</a>
+{%- endif -%}

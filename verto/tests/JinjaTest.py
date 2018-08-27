@@ -1,6 +1,6 @@
 import markdown
-from verto.VertoExtension import VertoExtension
 from verto.tests.ProcessorTest import ProcessorTest
+
 
 class JinjaTest(ProcessorTest):
     '''Unescape special characters within Django blocks.
@@ -13,7 +13,7 @@ class JinjaTest(ProcessorTest):
         self.processor_name = 'jinja'
 
     def test_doc_example_basic(self):
-        '''Checks that basic usecase works as expected.
+        '''Checks that basic use case works as expected.
         '''
         test_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage.md')
 

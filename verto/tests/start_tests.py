@@ -1,7 +1,8 @@
-import sys, unittest, optparse
+import sys
+import unittest
+import optparse
 from verto.tests.ConfigurationTest import ConfigurationTest
 from verto.tests.SmokeTests import SmokeFileTest, SmokeDocsTest
-
 from verto.tests.BoxedTextTest import BoxedTextTest
 from verto.tests.ButtonLinkTest import ButtonLinkTest
 from verto.tests.CommentTest import CommentTest
@@ -13,7 +14,8 @@ from verto.tests.ImageInlineTest import ImageInlineTest
 from verto.tests.ImageTagTest import ImageTagTest
 from verto.tests.ImageContainerTest import ImageContainerTest
 from verto.tests.JinjaTest import JinjaTest
-from verto.tests.InteractiveTest import InteractiveTest
+from verto.tests.InteractiveTagTest import InteractiveTagTest
+from verto.tests.InteractiveContainerTest import InteractiveContainerTest
 from verto.tests.PanelTest import PanelTest
 from verto.tests.RelativeLinkTest import RelativeLinkTest
 from verto.tests.RemoveTest import RemoveTest
@@ -24,7 +26,6 @@ from verto.tests.ScratchInlineTest import ScratchInlineTest
 from verto.tests.StyleTest import StyleTest
 from verto.tests.TableOfContentsTest import TableOfContentsTest
 from verto.tests.VideoTest import VideoTest
-
 from verto.tests.HtmlParserTest import HtmlParserTest
 from verto.tests.MarkdownOverrideTest import MarkdownOverrideTest
 
@@ -34,15 +35,31 @@ def parse_args():
     useful for developing when parts of verto are known to fail.
     '''
     opts = optparse.OptionParser(
-        usage='Run the command `python -m verto.tests.start_tests` from the level above the verto directory.', description='Verifies that Verto is functional compared to the testing suite.')
-    opts.add_option('--travis',
-        action='store_true', help='Enables skipping suites on failure. To be used by continuous integration system.', default=False)
-    opts.add_option('--no_smoke',
-        action='store_true', help='Skips smoke tests, should be used for local development only.', default=False)
-    opts.add_option('--no_system',
-        action='store_true', help='Skips system tests, should be used for local development only.', default=False)
-    opts.add_option('--no_unit',
-        action='store_true', help='Skips unit tests, should be used for local development only.', default=False)
+        usage='Run the command `python -m verto.tests.start_tests` from the level above the verto directory.',
+        description='Verifies that Verto is functional compared to the testing suite.')
+    opts.add_option(
+        '--travis',
+        action='store_true',
+        help='Enables skipping suites on failure. To be used by continuous integration system.',
+        default=False
+    )
+    opts.add_option(
+        '--no_smoke',
+        action='store_true',
+        help='Skips smoke tests, should be used for local development only.',
+        default=False
+    )
+    opts.add_option(
+        '--no_system',
+        action='store_true', help='Skips system tests, should be used for local development only.',
+        default=False
+    )
+    opts.add_option(
+        '--no_unit',
+        action='store_true',
+        help='Skips unit tests, should be used for local development only.',
+        default=False
+    )
     options, arguments = opts.parse_args()
 
     return options, arguments
@@ -79,7 +96,8 @@ def unit_suite():
         unittest.makeSuite(ImageInlineTest),
         unittest.makeSuite(ImageTagTest),
         unittest.makeSuite(ImageContainerTest),
-        unittest.makeSuite(InteractiveTest),
+        unittest.makeSuite(InteractiveTagTest),
+        unittest.makeSuite(InteractiveContainerTest),
         unittest.makeSuite(JinjaTest),
         unittest.makeSuite(PanelTest),
         unittest.makeSuite(SaveTitleTest),

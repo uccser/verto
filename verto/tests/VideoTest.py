@@ -3,7 +3,6 @@ from unittest.mock import Mock
 
 from verto.VertoExtension import VertoExtension
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
-from verto.errors.NoSourceLinkError import NoSourceLinkError
 from verto.errors.NoVideoIdentifierError import NoVideoIdentifierError
 from verto.errors.UnsupportedVideoPlayerError import UnsupportedVideoPlayerError
 from verto.tests.ProcessorTest import ProcessorTest
@@ -23,10 +22,10 @@ class VideoTest(ProcessorTest):
         self.processor_name = 'video'
         self.ext = Mock()
         self.ext.jinja_templates = {
-                self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name),
-                'video-youtube': ProcessorTest.loadJinjaTemplate(self, 'video-youtube'),
-                'video-vimeo': ProcessorTest.loadJinjaTemplate(self, 'video-vimeo')
-                }
+            self.processor_name: ProcessorTest.loadJinjaTemplate(self, self.processor_name),
+            'video-youtube': ProcessorTest.loadJinjaTemplate(self, 'video-youtube'),
+            'video-vimeo': ProcessorTest.loadJinjaTemplate(self, 'video-vimeo')
+        }
         self.ext.processor_info = ProcessorTest.loadProcessorInfo(self)
 
     def test_contains_no_video(self):
@@ -173,9 +172,33 @@ class VideoTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_file_string = self.read_test_file(self.processor_name, 'contains_multiple_videos_expected.html', strip=True)
         self.assertEqual(converted_test_string, expected_file_string)
-    #~
+
+    def test_url_false_custom_argument_rules(self):
+        '''Tests to ensure that video tag is rendered correctly when url argument is not required.
+        '''
+        custom_argument_rules = {
+            "video": {
+                "url": False
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'url_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, False], [VideoBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'url_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    # ~
     # Doc Tests
-    #~
+    # ~
+
     def test_doc_example_basic(self):
         '''A generic example of common usage.
         '''

@@ -6,7 +6,8 @@ from verto.processors.VideoBlockProcessor import VideoBlockProcessor
 from verto.processors.ImageInlinePattern import ImageInlinePattern
 from verto.processors.ImageTagBlockProcessor import ImageTagBlockProcessor
 from verto.processors.ImageContainerBlockProcessor import ImageContainerBlockProcessor
-from verto.processors.InteractiveBlockProcessor import InteractiveBlockProcessor
+from verto.processors.InteractiveTagBlockProcessor import InteractiveTagBlockProcessor
+from verto.processors.InteractiveContainerBlockProcessor import InteractiveContainerBlockProcessor
 from verto.processors.RelativeLinkPattern import RelativeLinkPattern
 from verto.processors.RemoveTitlePreprocessor import RemoveTitlePreprocessor
 from verto.processors.SaveTitlePreprocessor import SaveTitlePreprocessor
@@ -30,6 +31,8 @@ from verto.utils.overrides import BLOCK_LEVEL_ELEMENTS, is_block_level
 from verto.utils.overrides import OListProcessor
 from verto.utils.overrides import UListProcessor
 
+from verto.errors.CustomArgumentRulesError import CustomArgumentRulesError
+
 from collections import defaultdict, OrderedDict
 from os import listdir
 import os.path
@@ -46,7 +49,7 @@ class VertoExtension(Extension):
     the Verto converter.
     '''
 
-    def __init__(self, processors=[], html_templates={}, extensions=[], *args, **kwargs):
+    def __init__(self, processors=[], html_templates={}, extensions=[], custom_argument_rules={}, *args, **kwargs):
         '''
         Args:
             processors: A set of processor names given as strings for which
@@ -61,8 +64,9 @@ class VertoExtension(Extension):
         '''
         super().__init__(*args, **kwargs)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
-        self.processor_info = self.loadProcessorInfo()
         self.processors = processors
+        self.custom_argument_rules = custom_argument_rules
+        self.processor_info = self.loadProcessorInfo()
         self.title = None
         self.heading_tree = None
         self.custom_slugify = UniqueSlugify()
@@ -144,9 +148,9 @@ class VertoExtension(Extension):
         '''
         templates = {}
         env = Environment(
-                loader=PackageLoader('verto', 'html-templates'),
-                autoescape=select_autoescape(['html'])
-                )
+            loader=PackageLoader('verto', 'html-templates'),
+            autoescape=select_autoescape(['html'])
+        )
         for file in listdir(os.path.join(os.path.dirname(__file__), 'html-templates')):
             html_file = re.search(r'(.*?).html$', file)
             if html_file:
@@ -174,7 +178,8 @@ class VertoExtension(Extension):
             # Markdown overrides
             ['heading', HeadingBlockProcessor(self, md.parser), '<hashheader'],
             # Single line (in increasing complexity)
-            ['interactive', InteractiveBlockProcessor(self, md.parser), '<paragraph'],
+            ['interactive-tag', InteractiveTagBlockProcessor(self, md.parser), '<paragraph'],
+            ['interactive-container', InteractiveContainerBlockProcessor(self, md.parser), '<paragraph'],
             ['image-container', ImageContainerBlockProcessor(self, md.parser), '<paragraph'],
             ['image-tag', ImageTagBlockProcessor(self, md.parser), '<paragraph'],
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
@@ -218,7 +223,10 @@ class VertoExtension(Extension):
             The json object of the file where objects are ordered dictionaries.
         '''
         json_data = pkg_resources.resource_string('verto', 'processor-info.json').decode('utf-8')
-        return json.loads(json_data, object_pairs_hook=OrderedDict)
+        json_data = json.loads(json_data, object_pairs_hook=OrderedDict)
+        if len(self.custom_argument_rules) != 0:
+            self.modify_rules(json_data)
+        return json_data
 
     def get_heading_tree(self):
         '''
@@ -240,3 +248,26 @@ class VertoExtension(Extension):
         assert isinstance(tree, tuple)
         assert all(isinstance(child, HeadingNode) for child in tree)
         self.heading_tree = tree
+
+    def modify_rules(self, json_data):
+        '''
+        Modify the default tag argument rules using given custom rules.
+
+        Args:
+            json_data: dictionary of rules for processors parsing tags
+        Return:
+            json_data: dictionary of rules for processors parsing tags,
+                with modified rules arcording to custom rules given.
+        '''
+        for processor, arguments_to_modify in self.custom_argument_rules.items():
+            if processor not in self.processors:
+                msg = '\'{}\' is not a valid processor.'.format(processor)
+                raise CustomArgumentRulesError(processor, msg)
+            for argument in arguments_to_modify.items():
+                new_required = argument[1]
+                try:
+                    json_data[processor]['arguments'][argument[0]]['required'] = new_required
+                except KeyError:
+                    msg = '\'{}\' is not a valid argument for the \'{}\' processor.'.format(argument[0], processor)
+                    raise CustomArgumentRulesError(argument[0], msg)
+        return json_data

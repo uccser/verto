@@ -10,6 +10,11 @@ from verto.tests.ProcessorTest import ProcessorTest
 class ConditionalTest(ProcessorTest):
     '''Conditionals expect complex output and need to match
     many possible conditions.
+
+    Note:
+        - No tests for custom argument rules because it doesn't
+          make sense to require one or more of these arguments
+          to be given.
     '''
 
     def __init__(self, *args, **kwargs):

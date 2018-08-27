@@ -18,13 +18,14 @@ interactive as requested.
 
 You can include an interactive using the following text tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_in_page_usage.md
     :language: none
 
 Required Tag Parameters
 ***************************************
 
-- ``name`` - The name to the interactive to include/link to.
+- ``slug`` - The slug to the interactive to include/link to.
+  This slug is added to the list of interactives in ``required_files``.
 - ``type`` - Sets the way the interactive is included in the page. Must be set
   to one of the following values:
 
@@ -33,27 +34,33 @@ Required Tag Parameters
       page).
     - ``whole-page`` - Creates a link to the interactive displayed on a
       separate page (this is the preferred method for including an interactive
-      on a separate page). The link shows a thumbnail of the interactive with
-      text (the text is set using the ``text`` parameter).
+      on a separate page).
+      The link shows a thumbnail of the interactive with text (the text is set using the
+      ``text`` parameter).
       By default, the thumbnail should be a ``thumbnail.png`` file found
       within the interactive's img folder.
     - ``iframe`` - The interactive is included in the page by embedding using
-      an iframe. This is used if the interactive is included multiple times on
+      an iframe.
+      This is used if the interactive is included multiple times on
       the page to avoid conflicts in JavaScript/CSS.
 
 Optional Tag Parameters
 ***************************************
 
-- ``text`` (used with ``whole-page`` value) - Sets the text for the interactive
-  link. If no text is given, the link uses the text ``Click to load
-  {{ name }}``.
+- ``text`` - Boolean flag to indicate whether the interactive has custom text to dispaly.
+
+    -  If given as ``true``, the the subtitle is the first block of text with the interactive block.
+    -  This is only use with the ``whole-page`` value.
+    -  If no text is given, the link uses the text ``Click to load {{ slug }}``.
+
 - ``parameters`` (used with ``whole-page`` and ``iframe`` values) - Adds the parameters
-  to interactive link. For example: ``digits=5&start=BBBBB``. Do not include
-  the ``?`` at the start, as this is already included in the output.
+  to interactive link. 
+  For example: ``digits=5&start=BBBBB``.
+  Do not include the ``?`` at the start, as this is already included in the output.
 - ``thumbnail`` (optional - used with ``whole-page`` value) - Displays an
   alternative thumbnail for the interactive. When not provided, it defaults to
-  ``interactives/interactive-name/img/thumbnail.png``, where ``interactive-name`` is the
-  value given for the ``name`` tag parameter (see above).
+  ``interactives/interactive-slug/img/thumbnail.png``, where ``interactive-slug`` is the
+  value given for the ``slug`` tag parameter (see above).
 
   - If the ``thumbnail`` value provided is a relative link (a link that
     doesn't start with ``http:``), the link will be rendered with a Django
@@ -86,36 +93,36 @@ Examples
 
 Using the following example tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_in_page_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_in_page_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_in_page_usage_expected.html
     :language: html
 
 **whole-page example**
 
 Using the following example tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_whole_page_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_whole_page_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_whole_page_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_whole_page_usage_expected.html
     :language: html
 
 **iframe example**
 
 Using the following example tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_iframe_usage.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_iframe_usage.md
     :language: none
 
 The resulting HTML would be:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_iframe_usage_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-tag/doc_example_iframe_usage_expected.html
     :language: html
 
 Overriding HTML for Interactives
@@ -124,7 +131,7 @@ Overriding HTML for Interactives
 When overriding the HTML for interactives, the following Jinja2 placeholders are available:
 
 - ``{{ type }}`` - The type of the interactive.
-- ``{{ name }}`` - The slug name of the interactive to include/link to.
+- ``{{ slug }}`` - The slug of the interactive to include/link to.
 - ``{{ text }}`` - The text to to display to a link to a ``whole-page``
   interactive.
 - ``{{ parameters }}`` - GET parameters to append to the interactive link.
@@ -138,17 +145,17 @@ thumbnail.
 
 For example, providing the following HTML:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_template.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_override_html_template.html
    :language: css+jinja
 
 with the following tag:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html.md
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_override_html.md
    :language: none
 
 would result in:
 
-.. literalinclude:: ../../../verto/tests/assets/interactive/doc_example_override_html_expected.html
+.. literalinclude:: ../../../verto/tests/assets/interactive-container/doc_example_override_html_expected.html
    :language: html
 
 

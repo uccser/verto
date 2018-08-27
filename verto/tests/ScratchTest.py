@@ -1,10 +1,9 @@
 import markdown
-from unittest.mock import Mock
-from collections import defaultdict
 
 from verto.VertoExtension import VertoExtension
-from verto.processors.ScratchTreeprocessor import ScratchTreeprocessor, ScratchImageMetaData
+from verto.processors.ScratchTreeprocessor import ScratchImageMetaData
 from verto.tests.ProcessorTest import ProcessorTest
+
 
 class ScratchTest(ProcessorTest):
     '''Scratch blocks are unique in that they override behaviour in
@@ -23,9 +22,10 @@ class ScratchTest(ProcessorTest):
         '''
         self.verto_extension = VertoExtension([self.processor_name], {}, ['markdown.extensions.fenced_code'])
 
-    #~
+    # ~
     # Doc Tests
-    #~
+    # ~
+
     def test_doc_example_basic(self):
         '''An example of common useage.
         '''

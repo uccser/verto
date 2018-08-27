@@ -28,9 +28,9 @@ def parse_argument(argument_key, arguments, default=None):
 
     if result:
         argument_value = result.group(2).replace(r'\"', r'"')
+        return argument_value
     else:
-        argument_value = default
-    return argument_value
+        return default
 
 
 def parse_flag(argument_key, arguments, default=False):
@@ -44,12 +44,11 @@ def parse_flag(argument_key, arguments, default=False):
     Returns:
         True if argument is found, otherwise None.
     '''
-    result = re.search(r'(^|\s+){}($|\s)'.format(argument_key), arguments)
+    result = re.search(r'(^|\s+){}(.+?".*?")'.format(argument_key), arguments)
     if result:
-        argument_value = True
+        return True
     else:
-        argument_value = default
-    return argument_value
+        return default
 
 
 def parse_arguments(processor, inputs, arguments):
@@ -69,12 +68,11 @@ def parse_arguments(processor, inputs, arguments):
     argument_values = defaultdict(None)
     for argument, argument_info in arguments.items():
         is_required = argument_info['required']
-        is_arg = parse_argument(argument, inputs, None) is not None
-        is_flag = parse_flag(argument, inputs)
+        is_arg = parse_argument(argument, inputs, None) is not None  # True if in line
 
-        if is_required and not (is_arg or is_flag):
+        if is_required and not is_arg:  # required argument and not in line
             raise ArgumentMissingError(processor, argument, '{} is a required argument.'.format(argument))
-        elif not is_required and (is_arg or is_flag):
+        elif not is_required and is_arg:
             dependencies = argument_info.get('dependencies', [])
             for other_argument in dependencies:
                 if (parse_argument(other_argument, inputs, None) is None and
@@ -82,9 +80,7 @@ def parse_arguments(processor, inputs, arguments):
                         message = '{} is a required argument because {} exists.'.format(other_argument, argument)
                         raise ArgumentMissingError(processor, argument, message)
 
-        if is_flag:
-            argument_values[argument] = True
-        elif is_arg:
+        if is_arg:
             value = parse_argument(argument, inputs, None)
             if value and value.strip() == '':
                 message = '{} cannot be blank.'.format(argument)

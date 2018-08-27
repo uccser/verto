@@ -6,8 +6,8 @@ from verto.VertoExtension import VertoExtension
 from verto.processors.ImageContainerBlockProcessor import ImageContainerBlockProcessor
 from verto.errors.ImageMissingCaptionError import ImageMissingCaptionError
 from verto.errors.ImageCaptionContainsImageError import ImageCaptionContainsImageError
-from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.ArgumentValueError import ArgumentValueError
+from verto.errors.ArgumentMissingError import ArgumentMissingError
 from verto.errors.TagNotMatchedError import TagNotMatchedError
 from verto.tests.ProcessorTest import ProcessorTest
 
@@ -134,6 +134,16 @@ class ImageContainerTest(ProcessorTest):
         self.assertListEqual([False, False, False, True, False, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_missing_alt_parameter(self):
+        '''Tests that missing alt argument produces correct error.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_alt_parameter.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_image_in_image_tag(self):
         '''Test that ImageCaptionContainsImageError is raised when the first line in an image container block is another image container block.
@@ -438,9 +448,114 @@ class ImageContainerTest(ProcessorTest):
         expected_images = set()
         self.assertSetEqual(expected_images, images)
 
-    #~
+    def test_custom_arguments_alt_false(self):
+        '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
+        '''
+        custom_argument_rules = {
+            "image-container": {
+                "alt": False
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alt_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False, True, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'alt_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'cats.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_hover_true(self):
+        '''Tests to ensure that image tag is rendered correctly when hover argument is required and expected images are updated.
+        '''
+        custom_argument_rules = {
+            "image-container": {
+                "hover-text": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'hover_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'hover_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'computer-studying-turing-test.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_alt_false_source_true(self):
+        '''Tests to ensure that image tag is rendered correctly when alt argument is not required and source argument is true and expected images are updated.
+        '''
+        custom_argument_rules = {
+            "image-container": {
+                "alt": False,
+                "source": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alt_false_source_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, True, False, True, False], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'alt_false_source_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+        images = verto_extension_custom_rules.required_files['images']
+        expected_images = {
+            'cats.png'
+        }
+        self.assertSetEqual(expected_images, images)
+
+    def test_custom_arguments_hover_true_not_provided(self):
+        '''Tests to ensure that correct error is raised when hover text is required and not provided.
+        '''
+        custom_argument_rules = {
+            "image-container": {
+                "hover-text": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'hover_true_not_provided.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [ImageContainerBlockProcessor(self.ext, self.md.parser).test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
+
+    # ~
     # Doc Tests
-    #~
+    # ~
 
     def test_doc_example_basic(self):
         '''Basic example of common usage.

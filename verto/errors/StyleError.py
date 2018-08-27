@@ -1,5 +1,10 @@
 from verto.errors.Error import Error
 
+MESSAGE_TEMPLATE = '''{}
+The error occured in the following line(s):
+{}
+'''
+
 
 class StyleError(Error):
     '''Exception raised when a Style rule is broken.
@@ -15,3 +20,15 @@ class StyleError(Error):
         self.line_nums = line_nums
         self.lines = lines
         self.message = message
+
+    def __str__(self):
+        '''Overried default error string.
+
+        Returns:
+            Error message for incorrect style, including offending lines.
+
+        '''
+        error_lines = ''
+        for index, line in enumerate(self.lines):
+            error_lines += '{}: {}\n'.format(self.line_nums[index], line)
+        return MESSAGE_TEMPLATE.format(self.message, error_lines)

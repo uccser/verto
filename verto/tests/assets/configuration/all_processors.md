@@ -18,13 +18,13 @@ This text is the panel's contents.
 
 {panel end}
 
-{image file-path="http://placehold.it/350x150" caption="true" source="https://placehold.it/" hover-text="This is hover text" alignment="left"}
+{image file-path="http://placehold.it/350x150" caption="true" source="https://placehold.it/" hover-text="This is hover text" alignment="left" alt="This is alt text"}
 
 Dancing with our hands tied.
 
 {image end}
 
-{image file-path="http://placehold.it/250x50" caption="false" source="https://placehold.it/" hover-text="This is hover text" alignment="left"}
+{image file-path="http://placehold.it/250x50" caption="false" source="https://placehold.it/" hover-text="This is hover text" alignment="left" alt="This is alt text"}
 
 {boxed-text}
 
@@ -46,7 +46,7 @@ It's worth considering which {glossary-link term="algorithm"}algorithms{glossary
 
 {iframe link="https://github.com/"}
 
-{interactive name="binary-cards" type="iframe" parameters="digits=5&start=BBBBB"}
+{interactive slug="binary-cards" type="iframe" parameters="digits=5&start=BBBBB"}
 
     scratch
     when flag clicked
