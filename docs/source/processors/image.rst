@@ -1,7 +1,7 @@
 Image
 #######################################
 
-**Processor name:** ``image-tag`` and ``image-container`` (see also :doc:`processors/image-inline`)
+**Processor name:** ``image-tag`` and ``image-container`` (see also :doc:`image-inline`)
 
 You can include an image using the following text tag:
 
