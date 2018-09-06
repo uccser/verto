@@ -1,7 +1,7 @@
 Inline Image
 #######################################
 
-**Processor name:** ``image-inline``
+**Processor name:** ``image-inline`` (see also :doc:`processors/image`)
 
 .. note::
 
