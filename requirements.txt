@@ -7,3 +7,6 @@ setuptools==40.2.0
 # Required dependencies for building documentation
 sphinx==1.7.9
 sphinx_rtd_theme==0.4.1
+
+# Coverage Tools
+coverage==4.5.1

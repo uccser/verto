@@ -1,0 +1,7 @@
+[run]
+branch = True
+source =
+    verto
+omit =
+    # Omit test files
+    */tests/*
