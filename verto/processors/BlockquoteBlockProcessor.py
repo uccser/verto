@@ -1,6 +1,5 @@
 from verto.processors.GenericContainerBlockProcessor import GenericContainerBlockProcessor
 from verto.errors.BlockquoteMissingFooterError import BlockquoteMissingFooterError
-import re
 
 BLOCKQUOTE_FOOTER_PREFIX = "- "
 
