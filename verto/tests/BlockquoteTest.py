@@ -156,7 +156,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_missing_start_tag(self):
-        '''Tests that a TagNotMatchedError is thrown when an start tag is missing.
+        '''Tests that a TagNotMatchedError is thrown when a start tag is missing.
         '''
         test_string = self.read_test_file(self.processor_name, 'missing_start_tag.md')
         blocks = self.to_blocks(test_string)
