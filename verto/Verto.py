@@ -2,6 +2,7 @@ import markdown
 from verto.VertoExtension import VertoExtension
 
 DEFAULT_PROCESSORS = frozenset({
+    'blockquote',
     'boxed-text',
     'button-link',
     'comment',

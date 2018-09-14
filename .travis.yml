@@ -16,6 +16,11 @@ install:
 script:
   - flake8
   - python -m verto.tests.start_tests --travis
+  - coverage run --rcfile=.coveragerc -m verto.tests.start_tests --travis
+after_success:
+  - coverage xml -i
+  - coverage report -m --skip-covered
+  - bash <(curl -s https://codecov.io/bash)
 
 # Stop email notifications but post to organisation Slack channel
 notifications:
