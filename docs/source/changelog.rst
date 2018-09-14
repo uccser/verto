@@ -1,6 +1,16 @@
 Changelog
 #######################################
 
+0.9.0
+=======================================
+
+- Add :doc:`processors/blockquote` processor for customising block quote style.
+- Added CodeCov to repo
+- Dependency updates:
+
+  - Update ``python-slugify`` to 1.2.6
+  - Update ``sphinx`` to 1.8.0
+
 0.8.0
 =======================================
 
