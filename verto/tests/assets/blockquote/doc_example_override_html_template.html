@@ -1,0 +1,11 @@
+<blockquote class="blockquote grey-text{% if alignment == 'left' %} float-left{% elif alignment =='center' %} float-center{% elif alignment =='right' %} float-right{% endif %}"
+{%- if source %} cite="{{ source }}"{% endif %}>
+{% autoescape false -%}
+{{ content }}
+{%- endautoescape -%}
+{% if footer %}
+<footer class="blockquote-footer">
+{{ footer }}
+</footer>
+{% endif %}
+</blockquote>

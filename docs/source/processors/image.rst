@@ -42,7 +42,7 @@ Optional Tag Parameters
 
 - ``caption-link`` (requires caption parameter) - Converts the caption text into a link to the given caption link URL.
 
-- ``source`` (optional) - Adds the text 'Source' under the image with a link to the given source URL. Displays after the caption if a caption is given.
+- ``source`` - Adds the text 'Source' under the image with a link to the given source URL. Displays after the caption if a caption is given.
 
 - ``alignment`` - Valid values are 'left', 'center', or 'right'. Providing one of these values Will add CSS classes to the image for alignment.
 
@@ -73,8 +73,8 @@ When overriding the HTML for images, the following Jinja2 placeholders are avail
 - ``{{ hover_text }}`` - The text to display when the user hovers over the image (see `image title attribute <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title>`_).
 - ``{{ alignment }}`` - The location to add extra CSS classes for alignment.
 - ``{{ caption }}`` - The text for the image caption.
-- ``{{ caption_link }}`` - The URL for the caption link .
-- ``{{ source_link }}`` - The URL for the source .
+- ``{{ caption_link }}`` - The URL for the caption link.
+- ``{{ source_link }}`` - The URL for the source.
 - ``{{ file_relative }}`` - If the ``full_file_path`` is a relative link, this is the boolean value ``True``, otherwise ``False``.
 
     If ``{{ file_relative }}`` is ``True``, the following placeholders are also available to allow finer control of output of relative images (see *Example 2* below):

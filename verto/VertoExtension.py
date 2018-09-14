@@ -2,6 +2,7 @@ from markdown.extensions import Extension
 import markdown.util as utils
 
 from verto.processors.CommentPreprocessor import CommentPreprocessor
+from verto.processors.BlockquoteBlockProcessor import BlockquoteBlockProcessor
 from verto.processors.VideoBlockProcessor import VideoBlockProcessor
 from verto.processors.ImageInlinePattern import ImageInlinePattern
 from verto.processors.ImageTagBlockProcessor import ImageTagBlockProcessor
@@ -185,6 +186,7 @@ class VertoExtension(Extension):
             ['video', VideoBlockProcessor(self, md.parser), '<paragraph'],
             ['conditional', ConditionalProcessor(self, md.parser), '<paragraph'],
             ['panel', PanelBlockProcessor(self, md.parser), '<paragraph'],
+            ['blockquote', BlockquoteBlockProcessor(self, md.parser), '<paragraph'],
             # Multiline
         ]
         self.inlinepatterns = [  # A special treeprocessor

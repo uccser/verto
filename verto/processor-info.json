@@ -1,4 +1,36 @@
 {
+    "blockquote": {
+        "class": "custom",
+        "arguments": {
+          "alignment": {
+            "required": false,
+            "dependencies": [],
+            "values": ["left", "center", "right"]
+          },
+          "source": {
+            "required": false,
+            "dependencies": []
+          },
+          "footer": {
+            "required": false,
+            "values": ["true", "false"]
+          }
+        },
+        "template_parameters": {
+          "content": {
+            "argument": "content"
+          },
+          "footer": {
+            "argument": "footer"
+          },
+          "alignment": {
+            "argument": "alignment"
+          },
+          "source": {
+            "argument": "source"
+          }
+        }
+    },
     "boxed-text": {
         "class": "generic_container",
         "arguments": {
