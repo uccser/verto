@@ -54,6 +54,18 @@ class BlockquoteTest(ProcessorTest):
         expected_string = self.read_test_file(self.processor_name, 'footer_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
 
+    def test_footer_false(self):
+        '''Tests that a blockquote with footer argument set to false
+        '''
+        test_string = self.read_test_file(self.processor_name, 'footer_false.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'footer_false_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
     def test_footer_no_content(self):
         '''Tests that a blockquote with a footer but no content raises an error
         '''
