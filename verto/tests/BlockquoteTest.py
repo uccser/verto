@@ -31,7 +31,7 @@ class BlockquoteTest(ProcessorTest):
         self.block_processor = BlockquoteBlockProcessor(self.ext, Mock())
 
     def test_no_footer(self):
-        '''Tests that a blockquote without a footer
+        '''Tests that a blockquote without a footer renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'no_footer.md')
         blocks = self.to_blocks(test_string)
@@ -43,7 +43,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_footer(self):
-        '''Tests that a blockquote with a footer
+        '''Tests that a blockquote with a footer renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer.md')
         blocks = self.to_blocks(test_string)
@@ -55,7 +55,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_footer_false(self):
-        '''Tests that a blockquote with footer argument set to false
+        '''Tests that a blockquote with footer argument set to false renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer_false.md')
         blocks = self.to_blocks(test_string)
@@ -67,7 +67,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_footer_no_content(self):
-        '''Tests that a blockquote with a footer but no content raises an error
+        '''Tests that a blockquote with a footer but no content raises an error renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer_no_content.md')
         blocks = self.to_blocks(test_string)
@@ -77,7 +77,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_footer_with_markdown_formatting(self):
-        '''Tests that a blockquote with a footer with Markdown formatting (bold and italics)
+        '''Tests that a blockquote with a footer with Markdown formatting (bold and italics) renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer_with_markdown_formatting.md')
         blocks = self.to_blocks(test_string)
@@ -89,7 +89,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_footer_with_link(self):
-        '''Tests that a blockquote with a footer with Markdown link
+        '''Tests that a blockquote with a footer with Markdown link renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer_with_link.md')
         blocks = self.to_blocks(test_string)
@@ -101,7 +101,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_footer_with_multiple_dash_prefix(self):
-        '''Tests that a blockquote with a footer with multiple dashes prefix
+        '''Tests that a blockquote with a footer with multiple dashes prefix renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer_with_multiple_dash_prefix.md')
         blocks = self.to_blocks(test_string)
@@ -113,7 +113,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_footer_missing_content(self):
-        '''Tests that correct error raised when footer is missing
+        '''Tests that correct error raised when footer is missing renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer_missing_content.md')
         blocks = self.to_blocks(test_string)
@@ -123,7 +123,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertRaises(BlockquoteMissingFooterError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_footer_invalid_prefix(self):
-        '''Tests that correct error raised when footer prefix is invalid
+        '''Tests that correct error raised when footer prefix is invalid renders correctly.
         '''
         test_string = self.read_test_file(self.processor_name, 'footer_invalid_prefix.md')
         blocks = self.to_blocks(test_string)
@@ -156,8 +156,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertEqual(expected_string, converted_test_string)
 
     def test_missing_start_tag(self):
-        '''Tests that TagNotMatchedErrors are thown when an end tag is
-        encountered alone.
+        '''Tests that a TagNotMatchedError is thrown when an start tag is missing.
         '''
         test_string = self.read_test_file(self.processor_name, 'missing_start_tag.md')
         blocks = self.to_blocks(test_string)
@@ -167,8 +166,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_missing_end_tag(self):
-        '''Tests that TagNotMatchedErrors are thown when an end tag is
-        encountered alone.
+        '''Tests that a TagNotMatchedError is thrown when an end tag is missing.
         '''
         test_string = self.read_test_file(self.processor_name, 'missing_end_tag.md')
         blocks = self.to_blocks(test_string)
