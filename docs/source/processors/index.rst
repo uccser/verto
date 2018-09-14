@@ -13,6 +13,7 @@ The following pages covers how to use the available processors within Markdown t
 .. toctree::
     :maxdepth: 1
 
+    blockquote
     boxed-text
     button-link
     comment

@@ -49,7 +49,7 @@ The resulting HTML would be:
 Overriding HTML for Panels
 ***************************************
 
-When overriding the HTML for images, the following Jinja2 placeholders are available:
+When overriding the HTML for panels, the following Jinja2 placeholders are available:
 
 - ``{{ type }}`` - The type of panel to be created.
 - ``{{ expanded }}`` - Text either set to 'true' or 'always' to state if the panel should be expanded. See parameter description above.
