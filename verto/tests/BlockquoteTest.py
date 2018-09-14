@@ -121,7 +121,7 @@ class BlockquoteTest(ProcessorTest):
         self.assertRaises(BlockquoteMissingFooterError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
 
     def test_parses_blank(self):
-        '''Tests that a blank panel is processed with empty content.
+        '''Tests that a blank blockquotes is processed with empty content.
         '''
         test_string = self.read_test_file(self.processor_name, 'parses_blank.md')
         blocks = self.to_blocks(test_string)
@@ -129,6 +129,125 @@ class BlockquoteTest(ProcessorTest):
         self.assertListEqual([True, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
 
         self.assertRaises(ArgumentValueError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+
+    def test_multiple_blockquotes(self):
+        '''Tests that multiple blockquotes are processed correctly.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'multiple_blockquotes.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True, True, False, True, True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'multiple_blockquotes_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_missing_start_tag(self):
+        '''Tests that TagNotMatchedErrors are thown when an end tag is
+        encountered alone.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_start_tag.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([False, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_missing_end_tag(self):
+        '''Tests that TagNotMatchedErrors are thown when an end tag is
+        encountered alone.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'missing_end_tag.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, False], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(TagNotMatchedError, lambda x: markdown.markdown(x, extensions=[self.verto_extension]), test_string)
+
+    def test_custom_arguments_source_true(self):
+        '''Tests to ensure that blockquote tag is rendered correctly when source argument is required.
+        '''
+        custom_argument_rules = {
+            "blockquote": {
+                "source": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'source_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'source_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_source_true_missing_argument(self):
+        '''Tests to ensure that blockquote tag raises errors when source argument is required and not given.
+        '''
+        custom_argument_rules = {
+            "blockquote": {
+                "source": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'source_true_missing_argument.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
+
+    def test_custom_arguments_alignment_true(self):
+        '''Tests to ensure that blockquote tag is rendered correctly when alignment argument is required.
+        '''
+        custom_argument_rules = {
+            "blockquote": {
+                "alignment": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alignment_true.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_rules])
+        expected_string = self.read_test_file(self.processor_name, 'alignment_true_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_custom_arguments_alignment_true_missing_argument(self):
+        '''Tests to ensure that blockquote tag raises errors when alignment argument is required and not given.
+        '''
+        custom_argument_rules = {
+            "blockquote": {
+                "alignment": True
+            }
+        }
+        verto_extension_custom_rules = VertoExtension(
+            processors=[self.processor_name],
+            custom_argument_rules=custom_argument_rules
+        )
+
+        test_string = self.read_test_file(self.processor_name, 'alignment_true_missing_argument.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto_extension_custom_rules]), test_string)
 
     # ~
     # Doc Tests
@@ -144,4 +263,19 @@ class BlockquoteTest(ProcessorTest):
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'doc_example_basic_usage_expected.html', strip=True)
+        self.assertEqual(expected_string, converted_test_string)
+
+    def test_doc_example_override_html(self):
+        '''Example of overriding the html-template.
+        '''
+        test_string = self.read_test_file(self.processor_name, 'doc_example_override_html.md')
+        blocks = self.to_blocks(test_string)
+
+        self.assertListEqual([True, False, True], [self.block_processor.test(blocks, block) for block in blocks], msg='"{}"'.format(test_string))
+
+        html_template = self.read_test_file(self.processor_name, 'doc_example_override_html_template.html', strip=True)
+        verto_extension = VertoExtension([self.processor_name], html_templates={self.processor_name: html_template})
+
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'doc_example_override_html_expected.html', strip=True)
         self.assertEqual(expected_string, converted_test_string)
