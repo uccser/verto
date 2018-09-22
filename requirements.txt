@@ -5,7 +5,7 @@ python-slugify==1.2.6
 setuptools==40.2.0
 
 # Required dependencies for building documentation
-sphinx==1.8.0
+sphinx==1.8.1
 sphinx_rtd_theme==0.4.1
 
 # Coverage Tools
