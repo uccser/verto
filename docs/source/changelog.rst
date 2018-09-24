@@ -1,14 +1,18 @@
 Changelog
 #######################################
 
+0.9.3
+=======================================
+- Resolve issues of broken package due to unpinned dependencies.
+- Remove automated deployment to PyPI.
 
 0.9.2
 =======================================
-- Resolve issues with deployment to PyPI.
+- Broken release, removed from PyPI.
 
 0.9.1
 =======================================
-- Redeploy Verto to PyPI due to bug in 0.9.0.
+- Broken release, removed from PyPI.
 
 0.9.0
 =======================================
