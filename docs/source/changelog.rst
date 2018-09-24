@@ -2,10 +2,13 @@ Changelog
 #######################################
 
 
+0.9.2
+=======================================
+- Resolve issues with deployment to PyPI.
+
 0.9.1
 =======================================
-- A re-release of 0.9.0 to resolve issues with filename clashes in pypi
-
+- Redeploy Verto to PyPI due to bug in 0.9.0.
 
 0.9.0
 =======================================
