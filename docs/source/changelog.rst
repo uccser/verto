@@ -1,11 +1,18 @@
 Changelog
 #######################################
 
+0.9.3
+=======================================
+- Resolve issues of broken package due to unpinned dependencies.
+- Remove automated deployment to PyPI.
+
+0.9.2
+=======================================
+- Broken release, removed from PyPI.
 
 0.9.1
 =======================================
-- A re-release of 0.9.0 to resolve issues with filename clashes in pypi
-
+- Broken release, removed from PyPI.
 
 0.9.0
 =======================================
