@@ -3,7 +3,7 @@ Contributing to Verto
 
 Welcome to the Verto developer community! We have spent many months developing this project, and we would love for you to get involved! The following documentation has been written to help you get a grasp on how Verto is pieced together to make contributing as simple and straight forward as possible. Please feel free to fix bugs and/or suggest new features and improvements to the system (or the docs) by making a pull request.
 
-Verto was created to be used by two much larger projects (the `CS Unplugged`_ and `CS Field Guide`_ websites) as the markdown-to-html converter. The tags we chose are designed to allow authors of these two projects to easily write material without technical elements getting in the way. It is therefore important to us that Verto remains as simple and robust as possible, please keep this in mind if you decide to work on Verto with us.
+Verto was created to be used by two much larger projects (the `CS Unplugged`_ and `CS Field Guide`_ websites) as the Markdown to HTML converter. The tags we chose are designed to allow authors of these two projects to easily write material without technical elements getting in the way. It is therefore important to us that Verto remains as simple and robust as possible, please keep this in mind if you decide to work on Verto with us.
 
 The git repository for Verto can be found `here`_, jump in and take a look around!
 
@@ -19,7 +19,7 @@ The git repository for Verto can be found `here`_, jump in and take a look aroun
        <img alt="Lipsum" class="" src="{% static 'computer-studying-turing-test.png' %}"/>
       </div>
 
-  This does not mean that Verto is only suitable for Django projects, as it's just a matter of customising the relevant HTMl templates.
+  This does not mean that Verto is only suitable for Django projects, as it's just a matter of customising the relevant HTML templates.
 
 
 Issue Reporting and Bug Fixes
@@ -84,6 +84,7 @@ Below is a basic overview of the project structure:
   │   ├── tests/
   │   └── utils/
   ├── requirements.txt
+  ├── requirements-dev.txt
   └── setup.py
 
 The items of interest are:
@@ -390,8 +391,21 @@ can only be performed by repository administrators
 6. Create the release on `GitHub`_ on the tagged commit.
 7. Upload a new version of Verto to PyPI.
 
-.. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed, and also used during the documentation build to number the version of Verto it was built from.
+Other notes
+=======================================
 
+Why are requirements split across two files?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ``requirements.txt`` file is used to specify required dependencies for Verto (and are automatically installed as dependencies when installed via ``pip``).
+The ``requirements-dev.txt`` file is used to specify dependencies for developing Verto (for example, documentation generators).
+
+Why are all dependency versions pinned?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Yes, this is not considered the best practice by the Python Software Foundation in their `packaging guide <https://packaging.python.org/discussions/install-requires-vs-requirements/#install-requires>`_.
+However pinning dependencies ensure we control over each Verto release, following the logic of `Vincent Driessen <https://nvie.com/posts/pin-your-packages/>`_.
+
+.. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed, and also used during the documentation build to number the version of Verto it was built from.
 
 .. _CS Unplugged: https://github.com/uccser/cs-unplugged/
 .. _CS Field Guide: https://github.com/uccser/cs-field-guide/
