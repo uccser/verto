@@ -15,7 +15,6 @@ install:
 # Runs test suite
 script:
   - flake8
-  - python -m verto.tests.start_tests --travis
   - coverage run --rcfile=.coveragerc -m verto.tests.start_tests --travis
 after_success:
   - coverage xml -i
