@@ -395,7 +395,7 @@ Other notes
 =======================================
 
 Why are requirements split across two files?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The ``requirements.txt`` file is used to specify required dependencies for Verto (and are automatically installed as dependencies when installed via ``pip``).
 The ``requirements-dev.txt`` file is used to specify dependencies for developing Verto (for example, documentation generators).
