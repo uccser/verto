@@ -1,6 +1,15 @@
 Changelog
 #######################################
 
+0.10.0
+=======================================
+
+- Add title parameter to :doc:`processors/video` processor for translations.
+- Dependency updates:
+  
+  - Update ``setuptools`` to 40.4.3
+  - Update ``sphinx`` to 1.8.1
+
 0.9.3
 =======================================
 - Resolve issues of broken package due to unpinned dependencies.
@@ -8,10 +17,12 @@ Changelog
 
 0.9.2
 =======================================
+
 - Broken release, removed from PyPI.
 
 0.9.1
 =======================================
+
 - Broken release, removed from PyPI.
 
 0.9.0
