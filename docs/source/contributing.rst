@@ -381,15 +381,52 @@ Creating a release
 =======================================
 
 This is our current process for creating and publishing a Verto release. This
-can only be performed by repository administrators
+can only be performed by repository administrators.
 
 1. `Create a release branch`_. Checkout to this branch.
+  
+  .. code-block:: bash
+
+    $ git checkout develop
+    $ git pull
+    $ git checkout -b release/0.7.0
+
 2. Update the version number [1]_ within ``verto/__init__.py``.
 3. Check test suite for errors, and fix any issues that arise, or `log an issue`_.
 4. Detail the changes in ``docs/source/changelog.rst``.
 5. `Complete the release branch`_. Be sure to tag the release with the version number for creating the release on GitHub.
-6. Create the release on `GitHub`_ on the tagged commit.
-7. Upload a new version of Verto to PyPI.
+
+  .. code-block:: bash
+
+    $ git checkout master
+    $ git pull 
+    $ git merge --no-ff release/0.7.0
+    $ git tag -a 0.7.0
+    $ git push
+    $ git push --tags
+
+
+6. `Upload the release to PyPI`_
+
+  .. code-block:: bash
+
+    $ rm -r dist/
+    $ python3 -m pip install --user --upgrade setuptools wheel
+    $ python3 setup.py sdist bdist_wheel
+    $ python3 -m pip install --user --upgrade twine
+    $ twine upload dist/*
+
+7. Merge the release into develop
+
+  .. code-block:: bash
+
+    $ git checkout develop
+    $ git pull
+    $ git merge --no-ff release/0.7.0
+
+8. Create the release on `GitHub`_ on the tagged commit.
+9. Delete the release branch.
+
 
 Other notes
 =======================================
@@ -418,4 +455,5 @@ However pinning dependencies ensure we control over each Verto release, followin
 .. _Create a release branch: http://nvie.com/posts/a-successful-git-branching-model/#creating-a-release-branch
 .. _log an issue: https://github.com/uccser/cs-field-guide/issues/new
 .. _Complete the release branch: http://nvie.com/posts/a-successful-git-branching-model/#finishing-a-release-branch
+.. _Upload the release to PyPI: https://packaging.python.org/tutorials/packaging-projects/
 .. _GitHub: https://github.com/uccser/verto/releases/
