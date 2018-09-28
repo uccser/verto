@@ -24,6 +24,12 @@ Required Tag Parameters
     - ``https://vimeo.com/94502406`` - Standard URL
     - ``https://player.vimeo.com/video/94502406``- Embed URL
 
+Optional Tag Parameters
+***************************************
+
+- ``title`` - The title text for the video.
+
+
 The default HTML for a video is:
 
 .. literalinclude:: ../../../verto/html-templates/video.html
@@ -57,6 +63,7 @@ Overriding HTML for Videos
 When overriding the HTML for videos, the following Jinja2 placeholders are available:
 
 - ``{{ video_url }}`` - The URL of the video to be embedded.
+- ``{{ title }}`` - The title of the video.
 
 In the ``video-youtube.html``, the following Jinja2 placeholders are available:
 

@@ -5,11 +5,17 @@ from verto import __version__
 if not sys.version_info[0] == 3:
     sys.exit('Sorry, currently only Python 3 is supported.')
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
+with open('README.rst') as f:
+    long_description = f.read()
+
 setup(
     name='verto',
     version=__version__,
     description='Verto is an extension of the Python Markdown package, which allows authors to include complex HTML elements with simple text tags in their Markdown.',
-    long_description=open('README.rst').read(),
+    long_description=long_description,
     url='https://github.com/uccser/verto',
     author='University of Canterbury Computer Science Education Research Group',
     author_email='csse-education-research@canterbury.ac.nz',
@@ -29,9 +35,5 @@ setup(
     keywords='markdown verto development textbook converter media richtext interactive education html book author extension',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[
-        'markdown>=2.6.8',
-        'Jinja2>=2.9.6',
-        'python-slugify>=1.2.4'
-    ]
+    install_requires=requirements
 )
