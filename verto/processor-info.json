@@ -509,6 +509,14 @@
         "arguments": {
           "url": {
             "required": true
+          },
+          "title": {
+            "required": false
+          }
+        },
+        "template_parameters": {
+          "title": {
+            "argument": "title"
           }
         }
     }
