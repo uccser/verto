@@ -1,3 +1,6 @@
 <div>
+{% if title %}
+<div class="video-title">{{ title }}</div>
+{% endif %}
 <iframe allowfullscreen='allowfullscreen' frameborder='0' src='{{ video_url }}'></iframe>
 </div>

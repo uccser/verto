@@ -64,7 +64,7 @@ class VideoBlockProcessor(GenericTagBlockProcessor):
         if not identifier:
             raise NoVideoIdentifierError(block, url, 'missing video identifier')
 
-        context = dict()
+        context = self.process_parameters(self.processor, self.template_parameters, argument_values)
         context['identifier'] = identifier
         context['video_url'] = ''
 
