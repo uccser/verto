@@ -1,4 +1,4 @@
-setuptools==40.4.3
+setuptools==40.5.0
 sphinx==1.8.1
 sphinx_rtd_theme==0.4.1
 coverage==4.5.1
