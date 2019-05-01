@@ -51,37 +51,41 @@ Once the module is imported, you can create a Verto converter creating an Verto 
 
 - ``extensions`` -  A list of extra Markdown extensions to run in the converter. Details on how to use this parameter can be found on the :doc:`extensions` page.
 
-- ``custom_argument_rules`` - A dictionary to modify the default argument rules for each tag. The default rules can found by reading the documentation for each tag.
+- ``settings`` - A dictionary of settings to override default Verto settings. The following settings are available:
 
-  - *For example:* By default, the ``image-inline`` tag requires alt text to be given, to change this, the following custom argument rules would be used:
+  - ``ADD_INTERACTIVE_THUMBNAIL_TO_REQUIRED_FILES`` - Boolean stating whether interactive thumbnails should be added to the required files set of images. Default is ``True``.
+
+  - ``PROCESSOR_ARGUMENT_OVERRIDES`` - A dictionary to modify the default argument rules for each tag. The default rules can found by reading the documentation for each tag.
+
+    - *For example:* By default, the ``image-inline`` tag requires alt text to be given, to change this, the following custom argument rules would be used:
+
+      .. code-block:: python
+
+        {
+          "image-inline": {
+            "alt": False
+          }
+        }
+
+  .. warning::
+
+    Some tags have multiple processors behind them (for example, the ``image-inline``, ``image-container`` and ``image-tag`` processors are all used for images).
+    This means that if you would like to change the default rules of one or more of their arguments, this will need to be done for each of the processors
+    individually. For example, to set the ``alt`` argument as ``False`` for all images, the custom argument rules would look as follows:
 
     .. code-block:: python
 
-      {
-        "image-inline": {
-          "alt": False
+        {
+          "image-inline": {
+            "alt": False
+          },
+          "image-tag": {
+            "alt": False
+          },
+          "image-container": {
+            "alt": False
+          }
         }
-      }
-
- .. warning::
-
-   Some tags have multiple processors behind them (for example, the ``image-inline``, ``image-container`` and ``image-tag`` processors are all used for images).
-   This means that if you would like to change the default rules of one or more of their arguments, this will need to be done for each of the processors
-   individually. For example, to set the ``alt`` argument as ``False`` for all images, the custom argument rules would look as follows:
-
-   .. code-block:: python
-
-      {
-        "image-inline": {
-          "alt": False
-        },
-        "image-tag": {
-          "alt": False
-        },
-        "image-container": {
-          "alt": False
-        }
-      }
 
 
 Step 3: Convert Markdown with converter

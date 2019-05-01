@@ -15,6 +15,7 @@ class GenericTagBlockProcessor(BlockProcessor):
         '''
         super().__init__(*args, **kwargs)
         self.processor = processor
+        self.settings = ext.settings
         tag_argument = ext.processor_info[self.processor].get('tag_argument', self.processor)
         self.pattern = re.compile(r'(^|\n) *\{{{0} ?(?P<args>[^\}}]*)(?<! end)\}} *(\n|$)'.format(tag_argument))
         self.arguments = ext.processor_info[self.processor]['arguments']

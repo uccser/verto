@@ -132,14 +132,16 @@ class InteractiveTagTest(ProcessorTest):
     def test_custom_arguments_parameters_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when parameters argument is required.
         '''
-        custom_argument_rules = {
-            "interactive-tag": {
-                "parameters": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'interactive-tag': {
+                    'parameters': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'parameters_true.md')
@@ -154,15 +156,18 @@ class InteractiveTagTest(ProcessorTest):
     def test_custom_arguments_thumbnail_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when thumbnail argument is required.
         '''
-        custom_argument_rules = {
-            "interactive-tag": {
-                "thumbnail": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'interactive-tag': {
+                    'thumbnail': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
+
 
         test_string = self.read_test_file(self.processor_name, 'thumbnail_true.md')
         blocks = self.to_blocks(test_string)
@@ -176,15 +181,17 @@ class InteractiveTagTest(ProcessorTest):
     def test_custom_arguments_parameters_and_thumbnail_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when type argument is not required and parameters argument is required.
         '''
-        custom_argument_rules = {
-            "interactive-tag": {
-                "parameters": True,
-                "thumbnail": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'interactive-tag': {
+                    'parameters': True,
+                    'thumbnail': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'parameters_and_thumbnail_true.md')

@@ -123,15 +123,16 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_required(self):
         '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
         '''
-        custom_argument_rules = {
-            "boxed-text": {
-                "indented": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'boxed-text': {
+                    'indented': True,
+                }
             }
         }
-
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'indented_required.md')
@@ -146,14 +147,16 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_type_required(self):
         '''Tests to ensure that boxed text tag is rendered correctly when type argument is required.
         '''
-        custom_argument_rules = {
-            "boxed-text": {
-                "type": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'boxed-text': {
+                    'type': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'type_required.md')
@@ -168,15 +171,17 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_and_type_required(self):
         '''Tests to ensure that boxed text tag is rendered correctly when both indented and type arguments are required.
         '''
-        custom_argument_rules = {
-            "boxed-text": {
-                "indented": True,
-                "type": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'boxed-text': {
+                    'indented': True,
+                    'type': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'indented_and_type_required.md')
@@ -191,14 +196,16 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_required_not_provided(self):
         '''Tests to ensure that error is raised when indented argument is required and not given.
         '''
-        custom_argument_rules = {
-            "boxed-text": {
-                "indented": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'boxed-text': {
+                    'indented': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'indented_required_not_provided.md')
@@ -211,15 +218,17 @@ class BoxedTextTest(ProcessorTest):
     def test_custom_arguments_indented_and_type_required_type_not_provided(self):
         '''Tests to ensure that error is raised when indented and type arguments are required and type is not given.
         '''
-        custom_argument_rules = {
-            "boxed-text": {
-                "indented": True,
-                "type": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'boxed-text': {
+                    'indented': True,
+                    'type': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'indented_and_type_required_type_not_provided.md')

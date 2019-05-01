@@ -318,14 +318,16 @@ class InteractiveContainerTest(ProcessorTest):
     def test_custom_arguments_parameters_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when parameters argument is not required.
         '''
-        custom_argument_rules = {
-            "interactive-container": {
-                "parameters": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'interactive-container': {
+                    'parameters': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'parameters_true.md')
@@ -340,14 +342,16 @@ class InteractiveContainerTest(ProcessorTest):
     def test_custom_arguments_thumbnail_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when thumbnail argument is not required.
         '''
-        custom_argument_rules = {
-            "interactive-container": {
-                "thumbnail": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'interactive-container': {
+                    'thumbnail': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'thumbnail_true.md')
@@ -362,14 +366,16 @@ class InteractiveContainerTest(ProcessorTest):
     def test_custom_arguments_text_true_not_provided(self):
         '''Tests to ensure that correct error is raised when text is required and not provided.
         '''
-        custom_argument_rules = {
-            "interactive-container": {
-                "text": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'interactive-container': {
+                    'text': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'text_true_not_provided.md')
@@ -382,15 +388,17 @@ class InteractiveContainerTest(ProcessorTest):
     def test_custom_arguments_parameters_and_thumbnail_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when text and thumbnail arguments are required.
         '''
-        custom_argument_rules = {
-            "interactive-container": {
-                "parameters": True,
-                "thumbnail": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'interactive-container': {
+                    'parameters': True,
+                    'thumbnail': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'parameters_and_thumbnail_true.md')

@@ -178,14 +178,16 @@ class BlockquoteTest(ProcessorTest):
     def test_custom_arguments_source_true(self):
         '''Tests to ensure that blockquote tag is rendered correctly when source argument is required.
         '''
-        custom_argument_rules = {
-            "blockquote": {
-                "source": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'blockquote': {
+                    'source': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'source_true.md')
@@ -200,14 +202,16 @@ class BlockquoteTest(ProcessorTest):
     def test_custom_arguments_source_true_missing_argument(self):
         '''Tests to ensure that blockquote tag raises errors when source argument is required and not given.
         '''
-        custom_argument_rules = {
-            "blockquote": {
-                "source": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'blockquote': {
+                    'source': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'source_true_missing_argument.md')
@@ -220,14 +224,16 @@ class BlockquoteTest(ProcessorTest):
     def test_custom_arguments_alignment_true(self):
         '''Tests to ensure that blockquote tag is rendered correctly when alignment argument is required.
         '''
-        custom_argument_rules = {
-            "blockquote": {
-                "alignment": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'blockquote': {
+                    'alignment': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alignment_true.md')
@@ -242,14 +248,16 @@ class BlockquoteTest(ProcessorTest):
     def test_custom_arguments_alignment_true_missing_argument(self):
         '''Tests to ensure that blockquote tag raises errors when alignment argument is required and not given.
         '''
-        custom_argument_rules = {
-            "blockquote": {
-                "alignment": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'blockquote': {
+                    'alignment': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alignment_true_missing_argument.md')

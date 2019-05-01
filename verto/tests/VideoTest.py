@@ -189,14 +189,16 @@ class VideoTest(ProcessorTest):
     def test_url_false_custom_argument_rules(self):
         '''Tests to ensure that video tag is rendered correctly when url argument is not required.
         '''
-        custom_argument_rules = {
-            "video": {
-                "url": False
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'video': {
+                    'url': False
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'url_false.md')
@@ -211,14 +213,16 @@ class VideoTest(ProcessorTest):
     def test_custom_argument_rules_title_true_not_provided(self):
         '''Tests to ensure that error is raised when title argument is required but not provided.
         '''
-        custom_argument_rules = {
-            "video": {
-                "title": True
+        settings = {
+            'PROCESSOR_ARGUMENT_OVERRIDES': {
+                'video': {
+                    'title': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'title_true_not_provided.md')
