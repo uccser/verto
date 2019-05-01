@@ -129,6 +129,22 @@ class InteractiveTagTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
+    def test_default_thumbnail_not_in_required_files_with_override(self):
+        '''Test the thumbnail for a whole page interactive is not required.'''
+        verto_extension_default_thumbnail_override = VertoExtension(
+            processors=[self.processor_name],
+            custom_settings={'ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': False}
+        )
+
+        test_string = self.read_test_file(
+            self.processor_name, 'whole_page_without_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(
+            test_string, extensions=[verto_extension_default_thumbnail_override])
+        self.assertEqual(
+            self.verto_extension.required_files['images'],
+            set()
+        )
+
     def test_custom_arguments_parameters_true(self):
         '''Tests to ensure that interactive tag is rendered correctly when parameters argument is required.
         '''

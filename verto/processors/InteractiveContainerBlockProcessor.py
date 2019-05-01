@@ -4,6 +4,9 @@ from verto.errors.InteractiveMissingTextError import InteractiveMissingTextError
 
 import re
 
+DEFAULT_THUMBNAIL = 'default'
+CUSTOM_THUMBNAIL = 'custom'
+
 
 class InteractiveContainerBlockProcessor(GenericContainerBlockProcessor):
     ''' Searches a Document for interactive tags e.g.
@@ -74,13 +77,16 @@ class InteractiveContainerBlockProcessor(GenericContainerBlockProcessor):
 
             if thumbnail_file_path is not None:
                 del argument_values[argument]
+                thumbnail_type = CUSTOM_THUMBNAIL
             else:
                 thumbnail_file_path = 'interactives/{}/img/thumbnail.png'.format(slug)
+                thumbnail_type = DEFAULT_THUMBNAIL
 
             external_path_match = re.search(r'^http', thumbnail_file_path)
             if external_path_match is None:  # internal image
                 thumbnail_file_relative = True
-                if self.settings['ADD_INTERACTIVE_THUMBNAIL_TO_REQUIRED_FILES']:
+                if (thumbnail_type == DEFAULT_THUMBNAIL and self.settings['ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES']) or \
+                   (thumbnail_type == CUSTOM_THUMBNAIL and self.settings['ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES']):
                     self.required_images.add(thumbnail_file_path)
             else:
                 thumbnail_file_relative = False

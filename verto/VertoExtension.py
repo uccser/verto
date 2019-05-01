@@ -287,7 +287,8 @@ class VertoExtension(Extension):
             Dictionary of settings.
         '''
         settings = {
-            'ADD_INTERACTIVE_THUMBNAIL_TO_REQUIRED_FILES': True,
+            'ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': True,
+            'ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': True,
             'PROCESSOR_ARGUMENT_OVERRIDES': dict(),
         }
         settings.update(user_settings)
