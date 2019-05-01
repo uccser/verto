@@ -129,19 +129,61 @@ class InteractiveTagTest(ProcessorTest):
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
+    def test_default_thumbnail_in_required_files(self):
+        '''Test the thumbnail for a whole page interactive is required.'''
+        verto_extension_default = VertoExtension(
+            processors=[self.processor_name],
+        )
+        test_string = self.read_test_file(
+            self.processor_name, 'whole_page_without_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(
+            test_string, extensions=[verto_extension_default])
+        self.assertEqual(
+            verto_extension_default.required_files['images'],
+            set(['interactives/binary-cards/img/thumbnail.png'])
+        )
+
     def test_default_thumbnail_not_in_required_files_with_override(self):
-        '''Test the thumbnail for a whole page interactive is not required.'''
+        '''Test the thumbnail for a whole page interactive is not required when overriden.'''
         verto_extension_default_thumbnail_override = VertoExtension(
             processors=[self.processor_name],
             custom_settings={'ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': False}
         )
-
         test_string = self.read_test_file(
             self.processor_name, 'whole_page_without_thumbnail_parameter.md')
         converted_test_string = markdown.markdown(
             test_string, extensions=[verto_extension_default_thumbnail_override])
         self.assertEqual(
-            self.verto_extension.required_files['images'],
+            verto_extension_default_thumbnail_override.required_files['images'],
+            set()
+        )
+
+    def test_custom_thumbnail_in_required_files(self):
+        '''Test the custom thumbnail for a whole page interactive is required.'''
+        verto_extension_default = VertoExtension(
+            processors=[self.processor_name],
+        )
+        test_string = self.read_test_file(
+            self.processor_name, 'whole_page_with_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(
+            test_string, extensions=[verto_extension_default])
+        self.assertEqual(
+            verto_extension_default.required_files['images'],
+            set(['binarycards.png'])
+        )
+
+    def test_custom_thumbnail_not_in_required_files_with_override(self):
+        '''Test the custom thumbnail for a whole page interactive is not required when overriden.'''
+        verto_extension_custom_thumbnail_override = VertoExtension(
+            processors=[self.processor_name],
+            custom_settings={'ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': False}
+        )
+        test_string = self.read_test_file(
+            self.processor_name, 'whole_page_with_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(
+            test_string, extensions=[verto_extension_custom_thumbnail_override])
+        self.assertEqual(
+            verto_extension_custom_thumbnail_override.required_files['images'],
             set()
         )
 
