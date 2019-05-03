@@ -88,14 +88,16 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_link_false(self):
         '''Tests to ensure that button link tag is rendered correctly when link argument is required.
         '''
-        custom_argument_rules = {
-            "button-link": {
-                "link": False
+        settings = {
+            'processor_argument_overrides': {
+                'button-link': {
+                    'link': False,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'link_false.md')
@@ -110,14 +112,16 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_text_false(self):
         '''Tests to ensure that button link tag is rendered correctly when text argument is false.
         '''
-        custom_argument_rules = {
-            "button-link": {
-                "text": False
+        settings = {
+            'processor_argument_overrides': {
+                'button-link': {
+                    'text': False,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'text_false.md')
@@ -132,14 +136,16 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_file_true(self):
         '''Tests to ensure that button link tag is rendered correctly when file argument is true.
         '''
-        custom_argument_rules = {
-            "button-link": {
-                "file": True
+        settings = {
+            'processor_argument_overrides': {
+                'button-link': {
+                    'file': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'file_true.md')
@@ -154,15 +160,17 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_text_false_file_true(self):
         '''Tests to ensure that button link tag is rendered correctly when text argument is false and file argument is true.
         '''
-        custom_argument_rules = {
-            "button-link": {
-                "file": True,
-                "text": False
+        settings = {
+            'processor_argument_overrides': {
+                'button-link': {
+                    'file': True,
+                    'text': False,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'text_false_file_true.md')
@@ -177,14 +185,16 @@ class ButtonLinkTest(ProcessorTest):
     def test_custom_arguments_file_true_not_provided(self):
         '''Tests to ensure that error is raised when file argument is required and not given.
         '''
-        custom_argument_rules = {
-            "button-link": {
-                "file": True
+        settings = {
+            'processor_argument_overrides': {
+                'button-link': {
+                    'file': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'file_true_not_provided.md')

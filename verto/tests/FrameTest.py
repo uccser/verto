@@ -51,14 +51,16 @@ class FrameTest(ProcessorTest):
     def test_custom_argument_rules_link_false(self):
         '''Tests to ensure that iframe tag is rendered correctly when link argument is not required.
         '''
-        custom_argument_rules = {
-            "iframe": {
-                "link": False
+        settings = {
+            'processor_argument_overrides': {
+                'iframe': {
+                    'link': False
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'link_false.md')

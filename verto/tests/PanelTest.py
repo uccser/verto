@@ -371,14 +371,16 @@ class PanelTest(ProcessorTest):
     def test_custom_arguments_type_false(self):
         '''Tests to ensure that panel tag is rendered correctly when type argument is not required.
         '''
-        custom_argument_rules = {
-            "panel": {
-                "type": False
+        settings = {
+            'processor_argument_overrides': {
+                'panel': {
+                    'type': False
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'type_false.md')
@@ -393,14 +395,16 @@ class PanelTest(ProcessorTest):
     def test_custom_arguments_subtitle_true(self):
         '''Tests to ensure that panel tag is rendered correctly when subtitle argument is required.
         '''
-        custom_argument_rules = {
-            "panel": {
-                "subtitle": True
+        settings = {
+            'processor_argument_overrides': {
+                'panel': {
+                    'subtitle': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'subtitle_true.md')
@@ -415,14 +419,16 @@ class PanelTest(ProcessorTest):
     def test_custom_arguments_expanded_true(self):
         '''Tests to ensure that panel tag is rendered correctly when expanded argument is required.
         '''
-        custom_argument_rules = {
-            "panel": {
-                "expanded": True
+        settings = {
+            'processor_argument_overrides': {
+                'panel': {
+                    'expanded': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'expanded_true.md')
@@ -437,14 +443,16 @@ class PanelTest(ProcessorTest):
     def test_custom_arguments_subtitle_true_not_provided(self):
         '''Tests to ensure that correct error is raised when subtitle is required and not provided.
         '''
-        custom_argument_rules = {
-            "panel": {
-                "subtitle": True
+        settings = {
+            'processor_argument_overrides': {
+                'panel': {
+                    'subtitle': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'subtitle_true_not_provided.md')
