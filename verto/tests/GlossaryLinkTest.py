@@ -198,14 +198,16 @@ class GlossaryLinkTest(ProcessorTest):
     def test_custom_arguments_reference_text_true_not_provided(self):
         '''Tests to ensure that correct error is raised when reference text is required and not provided.
         '''
-        custom_argument_rules = {
-            "glossary-link": {
-                "reference-text": True
+        settings = {
+            'processor_argument_overrides': {
+                'glossary-link': {
+                    'reference-text': True
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'reference_text_true_not_provided.md')

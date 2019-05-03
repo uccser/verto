@@ -392,14 +392,16 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_alt_false(self):
         '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
         '''
-        custom_argument_rules = {
-            "image-tag": {
-                "alt": False
+        settings = {
+            'processor_argument_overrides': {
+                'image-tag': {
+                    'alt': False,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alt_false.md')
@@ -420,14 +422,16 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_hover_true(self):
         '''Tests to ensure that image tag is rendered correctly when hover argument is required and expected images are updated.
         '''
-        custom_argument_rules = {
-            "image-tag": {
-                "hover-text": True
+        settings = {
+            'processor_argument_overrides': {
+                'image-tag': {
+                    'hover-text': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'hover_true.md')
@@ -448,15 +452,17 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_alt_false_source_true(self):
         '''Tests to ensure that image tag is rendered correctly when alt argument is not required and source argument is required and expected images are updated.
         '''
-        custom_argument_rules = {
-            "image-tag": {
-                "alt": False,
-                "source": True
+        settings = {
+            'processor_argument_overrides': {
+                'image-tag': {
+                    'alt': False,
+                    'source': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alt_false_source_true.md')
@@ -478,14 +484,16 @@ class ImageTagTest(ProcessorTest):
     def test_custom_arguments_hover_true_not_provided(self):
         '''Tests to ensure that correct error is raised when hover text is required and not provided.
         '''
-        custom_argument_rules = {
-            "image-tag": {
-                "hover-text": True
+        settings = {
+            'processor_argument_overrides': {
+                'image-tag': {
+                    'hover-text': True,
+                }
             }
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_argument_rules=custom_argument_rules
+            custom_settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'hover_true_not_provided.md')

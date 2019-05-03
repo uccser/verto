@@ -50,7 +50,7 @@ class VertoExtension(Extension):
     the Verto converter.
     '''
 
-    def __init__(self, processors=[], html_templates={}, extensions=[], custom_argument_rules={}, *args, **kwargs):
+    def __init__(self, processors=[], html_templates={}, extensions=[], custom_settings={}, *args, **kwargs):
         '''
         Args:
             processors: A set of processor names given as strings for which
@@ -62,11 +62,12 @@ class VertoExtension(Extension):
                 as values.
                 eg: {'image': '<img src={{ source }}>'}
             extensions: A list of extra extensions for compatibility.
+            custom_settings: A dictionary of user settings to override defaults.
         '''
         super().__init__(*args, **kwargs)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.processors = processors
-        self.custom_argument_rules = custom_argument_rules
+        self.settings = self.get_settings(custom_settings)
         self.processor_info = self.loadProcessorInfo()
         self.title = None
         self.heading_tree = None
@@ -226,7 +227,7 @@ class VertoExtension(Extension):
         '''
         json_data = pkg_resources.resource_string('verto', 'processor-info.json').decode('utf-8')
         json_data = json.loads(json_data, object_pairs_hook=OrderedDict)
-        if len(self.custom_argument_rules) != 0:
+        if len(self.settings['processor_argument_overrides']) != 0:
             self.modify_rules(json_data)
         return json_data
 
@@ -261,7 +262,7 @@ class VertoExtension(Extension):
             json_data: dictionary of rules for processors parsing tags,
                 with modified rules arcording to custom rules given.
         '''
-        for processor, arguments_to_modify in self.custom_argument_rules.items():
+        for processor, arguments_to_modify in self.settings['processor_argument_overrides'].items():
             if processor not in self.processors:
                 msg = '\'{}\' is not a valid processor.'.format(processor)
                 raise CustomArgumentRulesError(processor, msg)
@@ -273,3 +274,22 @@ class VertoExtension(Extension):
                     msg = '\'{}\' is not a valid argument for the \'{}\' processor.'.format(argument[0], processor)
                     raise CustomArgumentRulesError(argument[0], msg)
         return json_data
+
+    def get_settings(self, user_settings):
+        '''Return the settings for the Verto extension.
+
+        Any provided user settings override the default settings.
+
+        Args:
+            user_settings (dict): User overrides of settings.
+
+        Returns:
+            Dictionary of settings.
+        '''
+        settings = {
+            'add_default_interactive_thumbnails_to_required_files': True,
+            'add_custom_interactive_thumbnails_to_required_files': True,
+            'processor_argument_overrides': dict(),
+        }
+        settings.update(user_settings)
+        return settings
