@@ -377,7 +377,10 @@ class ConfigurationTest(BaseTest):
             }
         }
         verto = Verto(custom_settings=settings)
-        self.assertEqual(verto.verto_extension.settings['processor_argument_overrides'], dict(settings['processor_argument_overrides']))
+        self.assertEqual(
+            verto.verto_extension.settings['processor_argument_overrides'],
+            dict(settings['processor_argument_overrides'])
+        )
 
     def test_custom_argument_rules_for_multiple_tags(self):
         '''Checks that md file is correctly parsed when multiple tags have custom argument rules.
@@ -393,7 +396,10 @@ class ConfigurationTest(BaseTest):
             }
         }
         verto = Verto(custom_settings=settings)
-        self.assertEqual(verto.verto_extension.settings['processor_argument_overrides'], dict(settings['processor_argument_overrides']))
+        self.assertEqual(
+            verto.verto_extension.settings['processor_argument_overrides'],
+            dict(settings['processor_argument_overrides'])
+        )
         test_string = self.read_test_file(self.test_name, 'all_processors.md')
         converted_test_string = verto.convert(test_string).html_string
         expected_string = self.read_test_file(self.test_name, 'all_processors_expected.html', strip=True)
@@ -433,7 +439,10 @@ class ConfigurationTest(BaseTest):
         }
         processors = {'image-tag', 'panel', 'comment'}
 
-        self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_settings=settings))
+        self.assertRaises(
+            CustomArgumentRulesError,
+            lambda: VertoExtension(processors=processors, custom_settings=settings)
+        )
 
     def test_custom_argument_rules_incorrect_processor_argument_error(self):
         '''Checks that error is raised when a processor given in custom argument rules does not exist.
@@ -450,4 +459,7 @@ class ConfigurationTest(BaseTest):
         }
         processors = {'image-tag', 'panel', 'comment'}
 
-        self.assertRaises(CustomArgumentRulesError, lambda: VertoExtension(processors=processors, custom_settings=settings))
+        self.assertRaises(
+            CustomArgumentRulesError,
+            lambda: VertoExtension(processors=processors, custom_settings=settings)
+        )

@@ -134,10 +134,8 @@ class InteractiveTagTest(ProcessorTest):
         verto_extension_default = VertoExtension(
             processors=[self.processor_name],
         )
-        test_string = self.read_test_file(
-            self.processor_name, 'whole_page_without_thumbnail_parameter.md')
-        converted_test_string = markdown.markdown(
-            test_string, extensions=[verto_extension_default])
+        test_string = self.read_test_file(self.processor_name, 'whole_page_without_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_default])
         self.assertEqual(
             verto_extension_default.required_files['images'],
             set(['interactives/binary-cards/img/thumbnail.png'])
@@ -149,10 +147,8 @@ class InteractiveTagTest(ProcessorTest):
             processors=[self.processor_name],
             custom_settings={'add_default_interactive_thumbnails_to_required_files': False}
         )
-        test_string = self.read_test_file(
-            self.processor_name, 'whole_page_without_thumbnail_parameter.md')
-        converted_test_string = markdown.markdown(
-            test_string, extensions=[verto_extension_default_thumbnail_override])
+        test_string = self.read_test_file(self.processor_name, 'whole_page_without_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_default_thumbnail_override])
         self.assertEqual(
             verto_extension_default_thumbnail_override.required_files['images'],
             set()
@@ -163,10 +159,8 @@ class InteractiveTagTest(ProcessorTest):
         verto_extension_default = VertoExtension(
             processors=[self.processor_name],
         )
-        test_string = self.read_test_file(
-            self.processor_name, 'whole_page_with_thumbnail_parameter.md')
-        converted_test_string = markdown.markdown(
-            test_string, extensions=[verto_extension_default])
+        test_string = self.read_test_file(self.processor_name, 'whole_page_with_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_default])
         self.assertEqual(
             verto_extension_default.required_files['images'],
             set(['binarycards.png'])
@@ -178,10 +172,8 @@ class InteractiveTagTest(ProcessorTest):
             processors=[self.processor_name],
             custom_settings={'add_custom_interactive_thumbnails_to_required_files': False}
         )
-        test_string = self.read_test_file(
-            self.processor_name, 'whole_page_with_thumbnail_parameter.md')
-        converted_test_string = markdown.markdown(
-            test_string, extensions=[verto_extension_custom_thumbnail_override])
+        test_string = self.read_test_file(self.processor_name, 'whole_page_with_thumbnail_parameter.md')
+        converted_test_string = markdown.markdown(test_string, extensions=[verto_extension_custom_thumbnail_override])
         self.assertEqual(
             verto_extension_custom_thumbnail_override.required_files['images'],
             set()
