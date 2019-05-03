@@ -227,7 +227,7 @@ class VertoExtension(Extension):
         '''
         json_data = pkg_resources.resource_string('verto', 'processor-info.json').decode('utf-8')
         json_data = json.loads(json_data, object_pairs_hook=OrderedDict)
-        if len(self.settings['PROCESSOR_ARGUMENT_OVERRIDES']) != 0:
+        if len(self.settings['processor_argument_overrides']) != 0:
             self.modify_rules(json_data)
         return json_data
 
@@ -262,7 +262,7 @@ class VertoExtension(Extension):
             json_data: dictionary of rules for processors parsing tags,
                 with modified rules arcording to custom rules given.
         '''
-        for processor, arguments_to_modify in self.settings['PROCESSOR_ARGUMENT_OVERRIDES'].items():
+        for processor, arguments_to_modify in self.settings['processor_argument_overrides'].items():
             if processor not in self.processors:
                 msg = '\'{}\' is not a valid processor.'.format(processor)
                 raise CustomArgumentRulesError(processor, msg)
@@ -287,9 +287,9 @@ class VertoExtension(Extension):
             Dictionary of settings.
         '''
         settings = {
-            'ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': True,
-            'ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': True,
-            'PROCESSOR_ARGUMENT_OVERRIDES': dict(),
+            'add_default_interactive_thumbnails_to_required_files': True,
+            'add_custom_interactive_thumbnails_to_required_files': True,
+            'processor_argument_overrides': dict(),
         }
         settings.update(user_settings)
         return settings

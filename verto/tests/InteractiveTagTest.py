@@ -147,7 +147,7 @@ class InteractiveTagTest(ProcessorTest):
         '''Test the thumbnail for a whole page interactive is not required when overriden.'''
         verto_extension_default_thumbnail_override = VertoExtension(
             processors=[self.processor_name],
-            custom_settings={'ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': False}
+            custom_settings={'add_default_interactive_thumbnails_to_required_files': False}
         )
         test_string = self.read_test_file(
             self.processor_name, 'whole_page_without_thumbnail_parameter.md')
@@ -176,7 +176,7 @@ class InteractiveTagTest(ProcessorTest):
         '''Test the custom thumbnail for a whole page interactive is not required when overriden.'''
         verto_extension_custom_thumbnail_override = VertoExtension(
             processors=[self.processor_name],
-            custom_settings={'ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': False}
+            custom_settings={'add_custom_interactive_thumbnails_to_required_files': False}
         )
         test_string = self.read_test_file(
             self.processor_name, 'whole_page_with_thumbnail_parameter.md')
@@ -191,7 +191,7 @@ class InteractiveTagTest(ProcessorTest):
         '''Tests to ensure that interactive tag is rendered correctly when parameters argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'interactive-tag': {
                     'parameters': True
                 }
@@ -215,7 +215,7 @@ class InteractiveTagTest(ProcessorTest):
         '''Tests to ensure that interactive tag is rendered correctly when thumbnail argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'interactive-tag': {
                     'thumbnail': True
                 }
@@ -240,7 +240,7 @@ class InteractiveTagTest(ProcessorTest):
         '''Tests to ensure that interactive tag is rendered correctly when type argument is not required and parameters argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'interactive-tag': {
                     'parameters': True,
                     'thumbnail': True

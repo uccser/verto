@@ -372,7 +372,7 @@ class PanelTest(ProcessorTest):
         '''Tests to ensure that panel tag is rendered correctly when type argument is not required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'panel': {
                     'type': False
                 }
@@ -396,7 +396,7 @@ class PanelTest(ProcessorTest):
         '''Tests to ensure that panel tag is rendered correctly when subtitle argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'panel': {
                     'subtitle': True
                 }
@@ -420,7 +420,7 @@ class PanelTest(ProcessorTest):
         '''Tests to ensure that panel tag is rendered correctly when expanded argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'panel': {
                     'expanded': True
                 }
@@ -444,7 +444,7 @@ class PanelTest(ProcessorTest):
         '''Tests to ensure that correct error is raised when subtitle is required and not provided.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'panel': {
                     'subtitle': True
                 }

@@ -179,7 +179,7 @@ class BlockquoteTest(ProcessorTest):
         '''Tests to ensure that blockquote tag is rendered correctly when source argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'blockquote': {
                     'source': True
                 }
@@ -203,7 +203,7 @@ class BlockquoteTest(ProcessorTest):
         '''Tests to ensure that blockquote tag raises errors when source argument is required and not given.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'blockquote': {
                     'source': True
                 }
@@ -225,7 +225,7 @@ class BlockquoteTest(ProcessorTest):
         '''Tests to ensure that blockquote tag is rendered correctly when alignment argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'blockquote': {
                     'alignment': True
                 }
@@ -249,7 +249,7 @@ class BlockquoteTest(ProcessorTest):
         '''Tests to ensure that blockquote tag raises errors when alignment argument is required and not given.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'blockquote': {
                     'alignment': True
                 }

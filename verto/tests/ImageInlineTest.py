@@ -325,7 +325,7 @@ class ImageInlineTest(ProcessorTest):
         '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-inline': {
                     'alt': False,
                 }
@@ -354,7 +354,7 @@ class ImageInlineTest(ProcessorTest):
         '''Tests to ensure that image tag is rendered correctly when hover argument is required and expected images are updated.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-inline': {
                     'hover-text': True,
                 }
@@ -384,7 +384,7 @@ class ImageInlineTest(ProcessorTest):
         '''Tests to ensure that image tag is rendered correctly when alt argument is not required and source argument is required and expected images are updated.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-inline': {
                     'alt': False,
                     'source': True,
@@ -414,7 +414,7 @@ class ImageInlineTest(ProcessorTest):
         '''Tests to ensure that correct error is raised when hover text is required and not provided.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-inline': {
                     'hover-text': True,
                 }

@@ -67,8 +67,8 @@ class InteractiveTagBlockProcessor(GenericTagBlockProcessor):
             external_path_match = re.search(r'^http', thumbnail_file_path)
             if external_path_match is None:  # internal image
                 thumbnail_file_relative = True
-                add_default = self.settings['ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES']
-                add_custom = self.settings['ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES']
+                add_default = self.settings['add_default_interactive_thumbnails_to_required_files']
+                add_custom = self.settings['add_custom_interactive_thumbnails_to_required_files']
                 if (thumbnail_type == DEFAULT_THUMBNAIL and add_default) or \
                    (thumbnail_type == CUSTOM_THUMBNAIL and add_custom):
                     self.required_images.add(thumbnail_file_path)

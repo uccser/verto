@@ -53,11 +53,11 @@ Once the module is imported, you can create a Verto converter creating an Verto 
 
 - ``settings`` - A dictionary of settings to override default Verto settings. The following settings are available:
 
-  - ``ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES`` - Boolean stating whether default interactive thumbnail filepaths should be added to the required files set of images. Default is ``True``.
+  - ``add_default_interactive_thumbnails_to_required_files`` - Boolean stating whether default interactive thumbnail filepaths should be added to the required files set of images. Default is ``True``.
 
-  - ``ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES`` - Boolean stating whether custom interactive thumbnail filepaths provided as tag arguments should be added to the required files set of images. External images are never added. Default is ``True``.
+  - ``add_custom_interactive_thumbnails_to_required_files`` - Boolean stating whether custom interactive thumbnail filepaths provided as tag arguments should be added to the required files set of images. External images are never added. Default is ``True``.
 
-  - ``PROCESSOR_ARGUMENT_OVERRIDES`` - A dictionary to modify the default argument rules for each tag. The default rules can found by reading the documentation for each tag.
+  - ``processor_argument_overrides`` - A dictionary to modify the default argument rules for each tag. The default rules can found by reading the documentation for each tag.
 
     - *For example:* By default, the ``image-inline`` tag requires alt text to be given, to change this, the following custom argument rules would be used:
 

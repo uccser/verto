@@ -89,7 +89,7 @@ class ButtonLinkTest(ProcessorTest):
         '''Tests to ensure that button link tag is rendered correctly when link argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'button-link': {
                     'link': False,
                 }
@@ -113,7 +113,7 @@ class ButtonLinkTest(ProcessorTest):
         '''Tests to ensure that button link tag is rendered correctly when text argument is false.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'button-link': {
                     'text': False,
                 }
@@ -137,7 +137,7 @@ class ButtonLinkTest(ProcessorTest):
         '''Tests to ensure that button link tag is rendered correctly when file argument is true.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'button-link': {
                     'file': True,
                 }
@@ -161,7 +161,7 @@ class ButtonLinkTest(ProcessorTest):
         '''Tests to ensure that button link tag is rendered correctly when text argument is false and file argument is true.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'button-link': {
                     'file': True,
                     'text': False,
@@ -186,7 +186,7 @@ class ButtonLinkTest(ProcessorTest):
         '''Tests to ensure that error is raised when file argument is required and not given.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'button-link': {
                     'file': True,
                 }

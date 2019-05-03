@@ -190,7 +190,7 @@ class VideoTest(ProcessorTest):
         '''Tests to ensure that video tag is rendered correctly when url argument is not required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'video': {
                     'url': False
                 }
@@ -214,7 +214,7 @@ class VideoTest(ProcessorTest):
         '''Tests to ensure that error is raised when title argument is required but not provided.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'video': {
                     'title': True
                 }

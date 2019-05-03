@@ -452,7 +452,7 @@ class ImageContainerTest(ProcessorTest):
         '''Tests to ensure that image tag is rendered correctly when alt tag is not required and expected images are updated.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-container': {
                     'alt': False,
                 }
@@ -482,7 +482,7 @@ class ImageContainerTest(ProcessorTest):
         '''Tests to ensure that image tag is rendered correctly when hover argument is required and expected images are updated.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-container': {
                     'hover-text': True,
                 }
@@ -512,7 +512,7 @@ class ImageContainerTest(ProcessorTest):
         '''Tests to ensure that image tag is rendered correctly when alt argument is not required and source argument is true and expected images are updated.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-container': {
                     'alt': False,
                     'source': True,
@@ -543,7 +543,7 @@ class ImageContainerTest(ProcessorTest):
         '''Tests to ensure that correct error is raised when hover text is required and not provided.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'image-container': {
                     'hover-text': True,
                 }

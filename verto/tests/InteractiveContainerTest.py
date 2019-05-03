@@ -319,7 +319,7 @@ class InteractiveContainerTest(ProcessorTest):
         '''Tests to ensure that interactive tag is rendered correctly when parameters argument is not required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'interactive-container': {
                     'parameters': True,
                 }
@@ -343,7 +343,7 @@ class InteractiveContainerTest(ProcessorTest):
         '''Tests to ensure that interactive tag is rendered correctly when thumbnail argument is not required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'interactive-container': {
                     'thumbnail': True,
                 }
@@ -367,7 +367,7 @@ class InteractiveContainerTest(ProcessorTest):
         '''Tests to ensure that correct error is raised when text is required and not provided.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'interactive-container': {
                     'text': True,
                 }
@@ -389,7 +389,7 @@ class InteractiveContainerTest(ProcessorTest):
         '''Tests to ensure that interactive tag is rendered correctly when text and thumbnail arguments are required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'interactive-container': {
                     'parameters': True,
                     'thumbnail': True,
@@ -429,7 +429,7 @@ class InteractiveContainerTest(ProcessorTest):
         verto_extension_default_thumbnail_override = VertoExtension(
             processors=[self.processor_name],
             custom_settings={
-                'ADD_DEFAULT_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': False}
+                'add_default_interactive_thumbnails_to_required_files': False}
         )
         test_string = self.read_test_file(
             self.processor_name, 'whole_page_without_thumbnail_parameter.md')
@@ -459,7 +459,7 @@ class InteractiveContainerTest(ProcessorTest):
         verto_extension_custom_thumbnail_override = VertoExtension(
             processors=[self.processor_name],
             custom_settings={
-                'ADD_CUSTOM_INTERACTIVE_THUMBNAILS_TO_REQUIRED_FILES': False}
+                'add_custom_interactive_thumbnails_to_required_files': False}
         )
         test_string = self.read_test_file(
             self.processor_name, 'whole_page_with_thumbnail_parameter.md')

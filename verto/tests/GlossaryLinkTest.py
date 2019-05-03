@@ -199,7 +199,7 @@ class GlossaryLinkTest(ProcessorTest):
         '''Tests to ensure that correct error is raised when reference text is required and not provided.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'glossary-link': {
                     'reference-text': True
                 }

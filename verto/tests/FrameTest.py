@@ -52,7 +52,7 @@ class FrameTest(ProcessorTest):
         '''Tests to ensure that iframe tag is rendered correctly when link argument is not required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'iframe': {
                     'link': False
                 }

@@ -124,7 +124,7 @@ class BoxedTextTest(ProcessorTest):
         '''Tests to ensure that boxed text tag is rendered correctly when indented argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'boxed-text': {
                     'indented': True,
                 }
@@ -148,7 +148,7 @@ class BoxedTextTest(ProcessorTest):
         '''Tests to ensure that boxed text tag is rendered correctly when type argument is required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'boxed-text': {
                     'type': True,
                 }
@@ -172,7 +172,7 @@ class BoxedTextTest(ProcessorTest):
         '''Tests to ensure that boxed text tag is rendered correctly when both indented and type arguments are required.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'boxed-text': {
                     'indented': True,
                     'type': True,
@@ -197,7 +197,7 @@ class BoxedTextTest(ProcessorTest):
         '''Tests to ensure that error is raised when indented argument is required and not given.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'boxed-text': {
                     'indented': True,
                 }
@@ -219,7 +219,7 @@ class BoxedTextTest(ProcessorTest):
         '''Tests to ensure that error is raised when indented and type arguments are required and type is not given.
         '''
         settings = {
-            'PROCESSOR_ARGUMENT_OVERRIDES': {
+            'processor_argument_overrides': {
                 'boxed-text': {
                     'indented': True,
                     'type': True,
