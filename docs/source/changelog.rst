@@ -1,12 +1,25 @@
 Changelog
 #######################################
 
+0.11.0
+=======================================
+
+- Replaces ``custom_argument_rules`` configuration parameter with ``settings`` parameter. The ``custom_argument_rules`` parameter is now set within ``settings`` under a new name. The settings also allow configuring if thumbnail images for interactives are added to the required images set. More information on these settings can be found in the :doc:`usage` documentation.
+- Improve documentation on how to create a release.
+- Dependency updates:
+
+  - Update ``setuptools`` from 40.4.3 to 41.0.1
+  - Update ``sphinx_rtd_theme`` from 0.4.1 to 0.4.3.
+  - Update ``coverage`` from 4.5.1 to 4.5.3.
+  - Update ``Jinja2`` from 2.10 to 2.10.1.
+  - Update ``python-slugify`` from 1.2.6 to 3.0.2.
+
 0.10.0
 =======================================
 
 - Add title parameter to :doc:`processors/video` processor for translations.
 - Dependency updates:
-  
+
   - Update ``setuptools`` to 40.4.3
   - Update ``sphinx`` to 1.8.1
 
