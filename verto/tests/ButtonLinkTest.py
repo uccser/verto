@@ -97,7 +97,7 @@ class ButtonLinkTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'link_false.md')
@@ -121,7 +121,7 @@ class ButtonLinkTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'text_false.md')
@@ -145,7 +145,7 @@ class ButtonLinkTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'file_true.md')
@@ -170,7 +170,7 @@ class ButtonLinkTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'text_false_file_true.md')
@@ -194,7 +194,7 @@ class ButtonLinkTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'file_true_not_provided.md')
