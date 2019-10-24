@@ -333,7 +333,7 @@ class ImageInlineTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alt_false.md')
@@ -362,7 +362,7 @@ class ImageInlineTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
 
@@ -393,7 +393,7 @@ class ImageInlineTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alt_false_source_true.md')
@@ -422,7 +422,7 @@ class ImageInlineTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'hover_true_not_provided.md')
