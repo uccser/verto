@@ -87,7 +87,7 @@ class VideoBlockProcessor(GenericTagBlockProcessor):
             A tuple of the service and video identifier.
         '''
 
-        if re.match('.*?youtu\.{0,1}be(.com){0,1}', video_url) is not None:  # is a youtube url
+        if re.match(r'.*?youtu\.{0,1}be(.com){0,1}', video_url) is not None:  # is a youtube url
             video_url = re.sub(r'(.*?)(\?rel=0)', r'\g<1>', video_url)
             if 'youtu.be' in video_url or 'youtube.com/embed' in video_url:
                 video_query = video_url.split('/')[-1]

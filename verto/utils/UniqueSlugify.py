@@ -10,21 +10,21 @@ class UniqueSlugify(object):
     def __init__(self, uids=set(), occurance_separator='-', entities=True,
                  decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
                  separator='-', save_order=False, stopwords=()):
-                    '''
-                    Args:
-                        uids: A set of strings which are already taken as slugs.
-                        Others: Passed directly to slugify.
-                    '''
-                    self.uids = set(uids)
-                    self.occurance_separator = str(occurance_separator)
-                    self.entities = bool(entities)
-                    self.decimal = bool(decimal)
-                    self.hexadecimal = bool(hexadecimal)
-                    self.max_length = int(max_length)
-                    self.word_boundary = bool(word_boundary)
-                    self.separator = str(separator)
-                    self.save_order = bool(save_order)
-                    self.stopwords = tuple(stopwords)
+        '''
+        Args:
+            uids: A set of strings which are already taken as slugs.
+            Others: Passed directly to slugify.
+        '''
+        self.uids = set(uids)
+        self.occurance_separator = str(occurance_separator)
+        self.entities = bool(entities)
+        self.decimal = bool(decimal)
+        self.hexadecimal = bool(hexadecimal)
+        self.max_length = int(max_length)
+        self.word_boundary = bool(word_boundary)
+        self.separator = str(separator)
+        self.save_order = bool(save_order)
+        self.stopwords = tuple(stopwords)
 
     def __call__(self, text):
         '''
