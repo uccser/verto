@@ -187,7 +187,7 @@ class BlockquoteTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'source_true.md')
@@ -211,7 +211,7 @@ class BlockquoteTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'source_true_missing_argument.md')
@@ -233,7 +233,7 @@ class BlockquoteTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alignment_true.md')
@@ -257,7 +257,7 @@ class BlockquoteTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'alignment_true_missing_argument.md')

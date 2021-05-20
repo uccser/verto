@@ -376,7 +376,7 @@ class ConfigurationTest(BaseTest):
                 }
             }
         }
-        verto = Verto(custom_settings=settings)
+        verto = Verto(settings=settings)
         self.assertEqual(
             verto.verto_extension.settings['processor_argument_overrides'],
             dict(settings['processor_argument_overrides'])
@@ -395,7 +395,7 @@ class ConfigurationTest(BaseTest):
                 },
             }
         }
-        verto = Verto(custom_settings=settings)
+        verto = Verto(settings=settings)
         self.assertEqual(
             verto.verto_extension.settings['processor_argument_overrides'],
             dict(settings['processor_argument_overrides'])
@@ -419,7 +419,7 @@ class ConfigurationTest(BaseTest):
             }
         }
         processors = {'image-tag', 'panel', 'comment'}
-        verto = VertoExtension(processors=processors, custom_settings=settings)
+        verto = VertoExtension(processors=processors, settings=settings)
 
         test_string = self.read_test_file(self.test_name, 'custom_argument_rules_multiple_tags_error.md')
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto]), test_string)
@@ -441,7 +441,7 @@ class ConfigurationTest(BaseTest):
 
         self.assertRaises(
             CustomArgumentRulesError,
-            lambda: VertoExtension(processors=processors, custom_settings=settings)
+            lambda: VertoExtension(processors=processors, settings=settings)
         )
 
     def test_custom_argument_rules_incorrect_processor_argument_error(self):
@@ -461,5 +461,5 @@ class ConfigurationTest(BaseTest):
 
         self.assertRaises(
             CustomArgumentRulesError,
-            lambda: VertoExtension(processors=processors, custom_settings=settings)
+            lambda: VertoExtension(processors=processors, settings=settings)
         )

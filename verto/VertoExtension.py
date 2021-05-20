@@ -51,7 +51,7 @@ class VertoExtension(Extension):
     the Verto converter.
     '''
 
-    def __init__(self, processors=[], html_templates={}, extensions=[], custom_settings={}, *args, **kwargs):
+    def __init__(self, processors=[], html_templates={}, extensions=[], settings={}, *args, **kwargs):
         '''
         Args:
             processors: A set of processor names given as strings for which
@@ -63,12 +63,12 @@ class VertoExtension(Extension):
                 as values.
                 eg: {'image': '<img src={{ source }}>'}
             extensions: A list of extra extensions for compatibility.
-            custom_settings: A dictionary of user settings to override defaults.
+            settings: A dictionary of user settings to override defaults.
         '''
         super().__init__(*args, **kwargs)
         self.jinja_templates = self.loadJinjaTemplates(html_templates)
         self.processors = processors
-        self.settings = self.get_settings(custom_settings)
+        self.settings = self.get_settings(settings)
         self.processor_info = self.loadProcessorInfo()
         self.title = None
         self.heading_tree = None

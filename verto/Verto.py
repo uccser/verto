@@ -32,7 +32,7 @@ class Verto(object):
     to HTML.
     '''
 
-    def __init__(self, processors=DEFAULT_PROCESSORS, html_templates={}, extensions=[], custom_settings={}):
+    def __init__(self, processors=DEFAULT_PROCESSORS, html_templates={}, extensions=[], settings={}):
         '''Creates a Verto object.
 
         Args:
@@ -46,12 +46,12 @@ class Verto(object):
                 eg: {'image': '<img src={{ source }}>'}
             extensions: A list of extra extensions to run on the
                 markdown package.
-            custom_settings: A dictionary of settings to override default settings.
+            settings: A dictionary of settings to override default settings.
         '''
         self.processors = set(processors)
         self.html_templates = dict(html_templates)
         self.extensions = list(extensions)
-        self.custom_settings = custom_settings
+        self.settings = settings
         self.create_converter()
 
     def create_converter(self):
@@ -60,7 +60,7 @@ class Verto(object):
             processors=self.processors,
             html_templates=self.html_templates,
             extensions=self.extensions,
-            custom_settings=self.custom_settings,
+            settings=self.settings,
         )
         all_extensions = self.extensions + [self.verto_extension]
         self.converter = markdown.Markdown(extensions=all_extensions)
