@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 from verto import __version__
 
 
-# -- General configuration ------------------------------------------------
+# -- General configuration ------------------------------------------------``
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
@@ -49,7 +49,7 @@ master_doc = 'index'
 # General information about the project.
 project = 'Verto'
 copyright = '2017 University of Canterbury Computer Science Education Research Group'
-author = 'Hayley vas Waas, Jack Morgan, Hayden Jackson, Jordan Griffiths'
+author = 'UCCSER: Hayley vas Waas, Jack Morgan, Hayden Jackson, Jordan Griffiths'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -131,7 +131,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Verto.tex', 'Verto Documentation',
-     'Hayley vas Waas, Jack Morgan', 'manual'),
+     'UCCSER', 'manual'),
 ]
 
 
