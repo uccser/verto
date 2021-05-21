@@ -1,6 +1,41 @@
 Changelog
 #######################################
 
+1.0.0
+=======================================
+
+This is the first official release of Verto, after over four years of use in production systems.
+There are several changes in this release that may break existing pipelines and require changes.
+
+- Add new :doc:`processors/external-link` processor that modifies hyperlinks to open in a new tab.
+- Modify :doc:`processors/scratch` and :doc:`processors/scratch-inline` processors to set Scratch code to be rendered by a JavaScript library.
+
+    - This replaces the previous method of creating images.
+    - The ``split`` option has been removed as it is no longer relevant to the new method.
+    - The ``random`` option has been removed to improve consistency in rendered material.
+
+        - Randomising the blocks can be achieved after rendering the code.
+
+- Use GitHub Actions for automated builds and publishing to PyPI.
+- Use new declarative setup.cfg file for packaging configuration.
+- Removed CodeClimate configuration file.
+- Use GitHub Actions for automated testing (instead of Travis CI) and code analysis.
+- Switch dependency tracking from PyUp to Dependabot.
+- Move changelog outside of documentation to homepage for inclusion on PyPI homepage.
+- Correct argument ``custom_settings`` to ``settings``.
+- Update images for Scratch examples to use Scratch 3.
+- Update regular expression strings in Python code to use raw strings.
+- Updated authors to state UCCSER as primary owner.
+- Dependency updates:
+
+  - Update ``setuptools`` from 41.0.1 to 56.2.0.
+  - Update ``sphinx`` from 1.8.1 to 4.0.2.
+  - Update ``sphinx_rtd_theme`` from 0.4.3 to 0.5.2.
+  - Update ``coverage`` from 4.5.3 to 5.5.
+  - Update ``flake8`` from 3.5.0 to 3.9.2.
+  - Update ``Jinja2`` from 2.10.1 to 3.0.1.
+  - Update ``python-slugify`` from 3.0.2 to 5.0.2.
+
 0.11.0
 =======================================
 
