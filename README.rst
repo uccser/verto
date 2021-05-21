@@ -36,7 +36,7 @@ output to stdout:
 
   from verto import Verto
 
-  text = open('example.md', 'r')
+  text = open('example.md', 'r').read()
   converter = Verto()
   result = converter.convert(text)
 
