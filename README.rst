@@ -67,7 +67,7 @@ FAQ
 
 **Where is the changelog?**
 
-The changelog is available within the `documentation`_.
+The changelog is available within the `CHANGELOG`_ file.
 
 **How do I install the development version as local package?**
 
@@ -76,7 +76,7 @@ The changelog is available within the `documentation`_.
 3. ``$ pip3 install .``
 
 .. _ReadTheDocs: http://verto.readthedocs.io/en/latest/
-.. _documentation: http://verto.readthedocs.io/en/latest/changelog.html
+.. _CHANGELOG: CHANGELOG.md
 .. _license file: LICENSE.md
 .. _existing and closed issues: https://github.com/uccser/verto/issues
 .. _open a new issue: https://github.com/uccser/verto/issues/new
