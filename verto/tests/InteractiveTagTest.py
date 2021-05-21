@@ -45,7 +45,6 @@ class InteractiveTagTest(ProcessorTest):
             'interactives': set(),
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -67,7 +66,6 @@ class InteractiveTagTest(ProcessorTest):
             },
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -125,7 +123,6 @@ class InteractiveTagTest(ProcessorTest):
             'page_scripts': {
                 'interactive/flying-boxes/scripts.html'
             },
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -277,7 +274,6 @@ class InteractiveTagTest(ProcessorTest):
             'page_scripts': {
                 'interactive/binary-cards/scripts.html'
             },
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -299,7 +295,6 @@ class InteractiveTagTest(ProcessorTest):
             },
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -326,6 +321,5 @@ class InteractiveTagTest(ProcessorTest):
                 'binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(verto_extension.required_files, required_files)

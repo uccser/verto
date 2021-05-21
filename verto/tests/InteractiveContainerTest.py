@@ -50,7 +50,6 @@ class InteractiveContainerTest(ProcessorTest):
             },
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -98,7 +97,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/flying-boxes/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
 
         self.assertEqual(self.verto_extension.required_files, required_files)
@@ -123,7 +121,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -143,7 +140,6 @@ class InteractiveContainerTest(ProcessorTest):
             'interactives': set(),
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -163,7 +159,6 @@ class InteractiveContainerTest(ProcessorTest):
             'interactives': set(),
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -197,7 +192,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/binary-cards/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -221,7 +215,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/binary-cards/img/binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -245,7 +238,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -265,7 +257,6 @@ class InteractiveContainerTest(ProcessorTest):
             'interactives': set(),
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -311,7 +302,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/flying-boxes/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -486,7 +476,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/binary-cards/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -514,6 +503,5 @@ class InteractiveContainerTest(ProcessorTest):
                 'binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(verto_extension.required_files, required_files)

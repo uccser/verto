@@ -31,17 +31,14 @@ set at the start.
     This processor also works with syntax introduced by the `fenced_blocks`
     and/or `codehilite` extensions.
 
-You can test the output of your Scratch block text at
-`scratchblocks.github.io`_.
-You can also generate Scratch block text from a published Scratch project at
-`scratchblocks.github.io/generator/`_.
+You can test the output of your Scratch block text (and create PNG
+or SVG images) at `scratchblocks.github.io`_.
 
 .. warning::
 
-    Verto doesn't create the Scratch images, but saves data for another system
-    (for example: Django) to create the images.
-    See :ref:`accessing-scratch-image-data` section below.
-
+    Verto doesn't create the Scratch images itself, but prepares it for a
+    JavaScript library to render these in the user's browser.
+    See :ref:`rendering-scratch-images` section below.
 
 The default HTML for scratch blocks is:
 
@@ -58,68 +55,22 @@ The resulting HTML would be:
 .. literalinclude:: ../../../verto/tests/assets/scratch/doc_example_basic_usage_expected.html
     :language: html
 
-.. _scratch_options:
+.. _rendering-scratch-images:
 
-Options
-***************************************
-Options that change the output behaviour can be specified by appending them after the language separated by ``:``. The options avaliable are:
-
-- ``split`` - This option turns separate Scratch blocks (which are dictated by an empty line) into separate images.
-- ``random`` - This parameter randomises the order of separate Scratch blocks (which are dictated by an empty line).
-
-
-For example options can be used like:
-
-.. literalinclude:: ../../../verto/tests/assets/scratch/example_split_codeblocks.md
-    :language: none
-
-Or for more than one option:
-
-.. literalinclude:: ../../../verto/tests/assets/scratch/example_random_split_codeblocks.md
-    :language: none
-
-.. _accessing-scratch-image-data:
-
-Accessing Scratch image data
+Rendering Scratch blocks as images
 ***************************************
 
 When Verto encounters a code block with the Scratch language (see example
-above), it doesn't not generate the image but saves the enclosed text and hash
-of the text in the ``required_files`` attribute under the key
-``scratch_images``.
-
-The following is an example of the result of required files after the parsing
-two Scratch blocks, where the ``scratch_images`` key points to a set of
-``namedtuple`` objects containing a ``hash`` (string) and ``text`` (string):
-
-.. code-block:: python
-
-    required_files = {
-        "scratch_images": [
-            ScratchImageMetaData(
-              hash="a3b77ed3c3fa57e43c830e338dc39d292c7def676e0e8f7545972b7da20275da",
-              text="when flag clicked\nsay [Hi]\n"
-            ),
-            ScratchImageMetaData(
-              hash="a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576",
-              text="when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees\n"
-            )
-        ]
-    }
-
-The processor replaces the text with an image linked to the expected location
-of the image.
-
-After Verto has completed a conversion, you will need to retrieve this data
-from ``required_files`` and render it to an image in the expected location.
-The `scratchblocks`_ renderer on GitHub allows of rendering to an SVG or PNG.
+above), it doesn't not generate the image but renders the block code inside an
+element for the `scratchblocks package`_ to render in the user's browser.
+View the package website for more information on how to use it.
 
 Overriding HTML for Scratch
 ***************************************
 
 When overriding the HTML for Scratch code, the following Jinja2 placeholders are available:
 
-- ``{{ images }}`` - A list of hashes of the Scratch code-blocks used in the expected filename(s).
+- ``{{ scratch_blocks }}`` - The text of the Scratch blocks notation.
 
 **Example**
 
@@ -139,6 +90,5 @@ would result in:
     :language: html
 
 .. _Scratch Block Plugin notation: https://wiki.scratch.mit.edu/wiki/Block_Plugin
-.. _scratchblocks.github.io: https://scratchblocks.github.io/#when%20flag%20clicked%0Aclear%0Aforever%0Apen%20down%0Aif%20%3C%3Cmouse%20down%3F%3E%20and%20%3Ctouching%20%5Bmouse-pointer%20v%5D%3F%3E%3E%20then%0Aswitch%20costume%20to%20%5Bbutton%20v%5D%0Aelse%0Aadd%20(x%20position)%20to%20%5Blist%20v%5D%0Aend%0Amove%20(foo)%20steps%0Aturn%20ccw%20(9)%20degrees
-.. _scratchblocks.github.io/generator/: https://scratchblocks.github.io/generator/
-.. _scratchblocks: https://github.com/scratchblocks/scratchblocks
+.. _scratchblocks.github.io: https://scratchblocks.github.io/#?style=scratch3&script=when%20flag%20clicked%0Aclear%0Aforever%0Apen%20down%0Aif%20%3C%3Cmouse%20down%3F%3E%20and%20%3Ctouching%20%5Bmouse-pointer%20v%5D%3F%3E%3E%20then%0Aswitch%20costume%20to%20%5Bbutton%20v%5D%0Aelse%0Aadd%20(x%20position)%20to%20%5Blist%20v%5D%0Aend%0Amove%20(foo)%20steps%0Aturn%20ccw%20(9)%20degrees
+.. _scratchblocks package: https://github.com/scratchblocks/scratchblocks#readme

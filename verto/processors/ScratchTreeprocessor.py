@@ -3,9 +3,6 @@ from verto.processors.utils import etree
 from verto.utils.HtmlParser import HtmlParser
 from verto.utils.HtmlSerializer import HtmlSerializer
 from collections import namedtuple
-from functools import reduce
-from hashlib import sha256
-from random import shuffle
 import re
 
 
@@ -34,7 +31,6 @@ class ScratchTreeprocessor(Treeprocessor):
         self.processor = 'scratch'
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.template = ext.jinja_templates[self.processor]
-        self.scratch_images = ext.required_files['scratch_images']
         self.fenced_compatibility = 'fenced_code_block' in ext.compatibility
 
     def run(self, root):
@@ -68,7 +64,8 @@ class ScratchTreeprocessor(Treeprocessor):
                 self.markdown.htmlStash.rawHtmlBlocks[i] = html_string, safe
 
     def process_html(self, node):
-        ''' Checks if given node is a scratch code tag and replaces
+        '''
+        Checks if given node is a scratch code tag and replaces
         with the given html template.
 
         Args:
@@ -76,29 +73,19 @@ class ScratchTreeprocessor(Treeprocessor):
         '''
         children = list(node)
         if (len(children) == 1 and children[0].tag == 'code'):
-            content = children[0].text.strip()
-            language = children[0].attrib.get('class', content)
-            language_in_content = 'class' not in children[0].attrib.keys()
+            scratch_blocks = children[0].text.strip()
+            language = children[0].attrib.get('class', scratch_blocks)
+            # Boolean if scratch language is not defined in class attribute
+            language_in_scratch_blocks = 'class' not in children[0].attrib.keys()
 
             match = self.pattern.search(language)
             if match is not None:
-                options = list(filter(None, match.group('options').split(':')))
-                if language_in_content:
-                    content = content[match.end():]
+                if language_in_scratch_blocks:
+                    scratch_blocks = scratch_blocks[match.end():]
 
-                content_blocks = list(filter(None, content.split('\n\n')))
-                if 'random' in options:
-                    shuffle(content_blocks)
-                if 'split' not in options:
-                    content_blocks = [reduce(lambda x, y: '\n\n'.join([x, y]), content_blocks)]
-
-                images = []
-                for block in content_blocks:
-                    content_hash = ScratchTreeprocessor.hash_content(block)
-                    self.update_required_images(content_hash, block)
-                    images.append(content_hash)
-
-                html_string = self.template.render({'images': images})
+                html_string = self.template.render({
+                    'scratch_blocks': scratch_blocks,
+                })
                 parser = HtmlParser()
                 new_node = parser.feed(html_string).close().get_root()
 
@@ -106,23 +93,3 @@ class ScratchTreeprocessor(Treeprocessor):
                 node.text = ''
                 node.append(new_node)
                 node.remove(children[0])
-
-    @staticmethod
-    def hash_content(text):
-        '''Finds the hash of the given text for image retrieval.
-
-        Args:
-            text: The text to hash.
-        Returns:
-            The hash of the text for image retrieval.
-        '''
-        return sha256(text.encode('utf8')).hexdigest()
-
-    def update_required_images(self, content_hash, text):
-        '''Adds the scratch code and hash to the verto result.
-
-        Args:
-            content_hash: The image hash.
-            text: The source text of the image.
-        '''
-        self.scratch_images.add(ScratchImageMetaData(hash=content_hash, text=text))
