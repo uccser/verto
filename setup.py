@@ -3,7 +3,7 @@ import sys
 from verto import __version__
 
 if not sys.version_info[0] == 3:
-    sys.exit('Sorry, currently only Python 3 is supported.')
+    sys.exit('Sorry, only Python 3 is supported.')
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
