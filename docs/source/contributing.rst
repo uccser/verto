@@ -397,8 +397,6 @@ Why are all dependency versions pinned?
 Yes, this is not considered the best practice by the Python Software Foundation in their `packaging guide <https://packaging.python.org/discussions/install-requires-vs-requirements/#install-requires>`_.
 However pinning dependencies ensure we control over each Verto release, following the logic of `Vincent Driessen <https://nvie.com/posts/pin-your-packages/>`_.
 
-.. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed, and also used during the documentation build to number the version of Verto it was built from.
-
 .. _CS Unplugged: https://github.com/uccser/cs-unplugged/
 .. _CS Field Guide: https://github.com/uccser/cs-field-guide/
 .. _here: https://github.com/uccser/verto

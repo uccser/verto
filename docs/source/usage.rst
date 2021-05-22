@@ -170,8 +170,10 @@ Changing processors
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automethod:: verto.Verto.update_processors(processors)
+  :noindex:
 
 .. automethod:: verto.Verto.processor_defaults(processors)
+  :noindex:
 
   This function is useful if you want to make minor changes to the default used processors. For example: You wish to still use all default processors but skip video tags:
 
@@ -193,8 +195,10 @@ Changing HTML templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automethod:: verto.Verto.update_templates(html_templates)
+  :noindex:
 
 .. automethod:: verto.Verto.clear_templates()
+  :noindex:
 
 Full list of package methods
 =======================================
