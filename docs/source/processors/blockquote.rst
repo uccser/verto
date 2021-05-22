@@ -13,7 +13,7 @@ Optional Tag Parameters
 
 - ``footer`` - Boolean flag to indicate whether the blockquote contains a footer.
 
-    - If given as ``true``, then the last line should start with ``- `` to show it's the footer.
+    - If given as ``true``, then the last line should start with a dash (``-``) followed by a space to show it's the footer.
 
 - ``source`` - Sets the ``cite`` parameter of the ``blockquote`` element.
 

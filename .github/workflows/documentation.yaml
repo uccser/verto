@@ -22,6 +22,4 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Build documentation
-        uses: ammaraskar/sphinx-action@master
-        with:
-          docs-folder: "docs/"
+        run: sphinx-build -a -W -b html docs/source/ docs/build/
