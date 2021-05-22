@@ -77,8 +77,8 @@ def parse_arguments(processor, inputs, arguments):
             for other_argument in dependencies:
                 if (parse_argument(other_argument, inputs, None) is None and
                    parse_flag(other_argument, inputs, None) is None):
-                        message = '{} is a required argument because {} exists.'.format(other_argument, argument)
-                        raise ArgumentMissingError(processor, argument, message)
+                    message = '{} is a required argument because {} exists.'.format(other_argument, argument)
+                    raise ArgumentMissingError(processor, argument, message)
 
         if is_arg:
             value = parse_argument(argument, inputs, None)

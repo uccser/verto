@@ -481,7 +481,7 @@
     },
     "scratch": {
         "class": "custom",
-        "pattern": "^scratch(?P<options>(:[^:\\n$]+)*) *($|\\n)",
+        "pattern": "^scratch",
         "scratch-compatibility": {
           "pattern": "(?P<fence>^(?:~{3,}|`{3,}))[ ]*scratch(?P<options>(:[^:\\n$]+)*)[ ]*(hl_lines=(?P<quot>\"|')(?P<hl_lines>.*?)(?P=quot))?[ ]*}?[ ]*\n(?P<code>.*?)(?<=\n)(?P=fence)[ ]*$"
         }
@@ -519,5 +519,9 @@
             "argument": "title"
           }
         }
+    },
+    "external-link": {
+      "class": "custom",
+      "pattern": "\\[(?P<link_text>[^\\]]+)\\]\\((?=(https?|ftps?|mailto|news):)(?P<link_url>[^\\?\\)]+)(?P<link_query>\\?[^\\)]*)?\\)"
     }
 }

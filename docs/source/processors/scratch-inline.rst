@@ -28,18 +28,14 @@ to produce the following image with the ``scratch:`` stripped:
 
 which is inserted between the paragraph text.
 
-
-You can test the output of your Scratch block text at
-`scratchblocks.github.io`_.
-You can also generate Scratch block text from a published Scratch project at
-`scratchblocks.github.io/generator/`_.
+You can test the output of your Scratch block text (and create PNG
+or SVG images) at `scratchblocks.github.io`_.
 
 .. warning::
 
-    Verto doesn't create the Scratch images, but saves data for another system
-    (for example: Django) to create the images.
-    See :ref:`accessing-scratch-image-data` section in the scratch documentation.
-
+    Verto doesn't create the Scratch images itself, but prepares it for a
+    JavaScript library to render these in the user's browser.
+    See :ref:`rendering-scratch-images` section below.
 
 The default HTML for scratch blocks is:
 
@@ -62,7 +58,7 @@ Overriding HTML for Scratch
 
 When overriding the HTML for Scratch code, the following Jinja2 placeholders are available:
 
-- ``{{ hash }}`` - The hash of the Scratch code-blocks used in the expected filename.
+- ``{{ scratch_block }}`` - The text of the Scratch blocks notation.
 
 **Example**
 
@@ -82,6 +78,4 @@ would result in:
     :language: html
 
 .. _Scratch Block Plugin notation: https://wiki.scratch.mit.edu/wiki/Block_Plugin
-.. _scratchblocks.github.io: https://scratchblocks.github.io/#when%20flag%20clicked%0Aclear%0Aforever%0Apen%20down%0Aif%20%3C%3Cmouse%20down%3F%3E%20and%20%3Ctouching%20%5Bmouse-pointer%20v%5D%3F%3E%3E%20then%0Aswitch%20costume%20to%20%5Bbutton%20v%5D%0Aelse%0Aadd%20(x%20position)%20to%20%5Blist%20v%5D%0Aend%0Amove%20(foo)%20steps%0Aturn%20ccw%20(9)%20degrees
-.. _scratchblocks.github.io/generator/: https://scratchblocks.github.io/generator/
-.. _scratchblocks: https://github.com/scratchblocks/scratchblocks
+.. _scratchblocks.github.io: https://scratchblocks.github.io/#?style=scratch3&script=say%20%5Bhi%5D%20for%20(2)%20secs

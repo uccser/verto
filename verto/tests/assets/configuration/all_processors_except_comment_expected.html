@@ -44,10 +44,19 @@ Example Title 2
 <iframe src="{% url 'interactive' slug='binary-cards' %}?digits=5&amp;start=BBBBB">
 <p>Your browser does not support iframes.</p>
 </iframe>
-<div class="scratch-inline-images">
-<object data="{% static 'scratch-blocks-a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576.svg' %}" type="image/svg+xml">
-</object>
-</div>{{ table_of_contents }}
+<pre class="scratch-blocks"><code>
+when flag clicked
+clear
+forever
+pen down
+if &lt;&lt;mouse down?&gt; and &lt;touching [mouse-pointer v]?&gt;&gt; then
+switch costume to [button v]
+else
+add (x position) to [list v]
+end
+move (foo) steps
+turn ccw (9) degrees
+</code></pre>{{ table_of_contents }}
 <div>
 <iframe allowfullscreen="allowfullscreen" frameborder="0" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
 </div>

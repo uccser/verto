@@ -150,7 +150,7 @@ class OListProcessor(DefaultOListProcessor):
                 match = self.CHILD_RE.match(line)
                 if match is not None:
                     if not item_groups and self.TAG == 'ol':
-                        INTEGER_RE = re.compile('(\d+)')
+                        INTEGER_RE = re.compile(r'(\d+)')
                         self.STARTSWITH = INTEGER_RE.match(match.group(1)).group()
                     item_groups.append([match.group(3)])
                 elif (self.INDENT_RE.match(line) and not self.INDENT_CONT_RE.match(item_groups[-1][-1])):

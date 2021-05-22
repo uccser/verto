@@ -47,12 +47,6 @@ class ConfigurationTest(BaseTest):
                     },
                     'images': set(),
                     'page_scripts': set(),
-                    'scratch_images': {
-                        ScratchImageMetaData(
-                            hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
-                            text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
-                        ),
-                    }
                 },
                 heading_tree=(
                     HeadingNode(
@@ -81,7 +75,6 @@ class ConfigurationTest(BaseTest):
                     'interactives': set(),
                     'images': {'totally-legit-image.png'},
                     'page_scripts': set(),
-                    'scratch_images': set()
                 },
                 heading_tree=(HeadingNode(
                     title='Another Example Title',
@@ -113,7 +106,6 @@ class ConfigurationTest(BaseTest):
                         'finite-state-automata-trap-added-extreme-example.png',
                     },
                     'page_scripts': set(),
-                    'scratch_images': set()
                 },
                 heading_tree=(HeadingNode(
                     title='Another Example Title',
@@ -157,12 +149,6 @@ class ConfigurationTest(BaseTest):
                 },
                 'images': set(),
                 'page_scripts': set(),
-                'scratch_images': {
-                    ScratchImageMetaData(
-                        hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
-                        text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
-                    ),
-                }
             },
             heading_tree=(
                 HeadingNode(
@@ -193,16 +179,6 @@ class ConfigurationTest(BaseTest):
                     'pixel-diamond.png'
                 },
                 'page_scripts': set(),
-                'scratch_images': {
-                    ScratchImageMetaData(
-                        hash='a0f8fcad796864abfacac8bda6e0719813833fd1fca348700abbd040557c1576',
-                        text='when flag clicked\nclear\nforever\npen down\nif <<mouse down?> and <touching [mouse-pointer v]?>> then\nswitch costume to [button v]\nelse\nadd (x position) to [list v]\nend\nmove (foo) steps\nturn ccw (9) degrees'
-                    ),
-                    ScratchImageMetaData(
-                        hash='b78bff524e54a18116e1e898a93e360827f874a8b0b508e1edc47d21516495ad',
-                        text='never\ngoing\nto\ngive\nyou\nup'
-                    ),
-                }
             },
             heading_tree=(HeadingNode(
                 title='Example Title',
@@ -376,7 +352,7 @@ class ConfigurationTest(BaseTest):
                 }
             }
         }
-        verto = Verto(custom_settings=settings)
+        verto = Verto(settings=settings)
         self.assertEqual(
             verto.verto_extension.settings['processor_argument_overrides'],
             dict(settings['processor_argument_overrides'])
@@ -395,7 +371,7 @@ class ConfigurationTest(BaseTest):
                 },
             }
         }
-        verto = Verto(custom_settings=settings)
+        verto = Verto(settings=settings)
         self.assertEqual(
             verto.verto_extension.settings['processor_argument_overrides'],
             dict(settings['processor_argument_overrides'])
@@ -419,7 +395,7 @@ class ConfigurationTest(BaseTest):
             }
         }
         processors = {'image-tag', 'panel', 'comment'}
-        verto = VertoExtension(processors=processors, custom_settings=settings)
+        verto = VertoExtension(processors=processors, settings=settings)
 
         test_string = self.read_test_file(self.test_name, 'custom_argument_rules_multiple_tags_error.md')
         self.assertRaises(ArgumentMissingError, lambda x: markdown.markdown(x, extensions=[verto]), test_string)
@@ -441,7 +417,7 @@ class ConfigurationTest(BaseTest):
 
         self.assertRaises(
             CustomArgumentRulesError,
-            lambda: VertoExtension(processors=processors, custom_settings=settings)
+            lambda: VertoExtension(processors=processors, settings=settings)
         )
 
     def test_custom_argument_rules_incorrect_processor_argument_error(self):
@@ -461,5 +437,5 @@ class ConfigurationTest(BaseTest):
 
         self.assertRaises(
             CustomArgumentRulesError,
-            lambda: VertoExtension(processors=processors, custom_settings=settings)
+            lambda: VertoExtension(processors=processors, settings=settings)
         )

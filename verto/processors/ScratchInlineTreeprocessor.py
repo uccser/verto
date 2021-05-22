@@ -19,7 +19,6 @@ class ScratchInlineTreeprocessor(ScratchTreeprocessor):
         self.processor = 'scratch-inline'
         self.pattern = re.compile(ext.processor_info[self.processor]['pattern'])
         self.template = ext.jinja_templates[self.processor]
-        self.scratch_images = ext.required_files['scratch_images']
         self.fenced_compatibility = 'fenced_code_block' in ext.compatibility
 
     def run(self, root):
@@ -50,12 +49,10 @@ class ScratchInlineTreeprocessor(ScratchTreeprocessor):
         match = self.pattern.match(content)
 
         if match is not None:
-            block = content[match.end():]
-            content_hash = self.hash_content(block)
-            self.update_required_images(content_hash, block)
+            scratch_block = content[match.end():]
 
             parser = HtmlParser()
-            html_string = self.template.render({'hash': content_hash})
+            html_string = self.template.render({'scratch_block': scratch_block})
             new_node = parser.feed(html_string).close().get_root()
 
             node.tag = 'remove'

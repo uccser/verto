@@ -380,53 +380,8 @@ For example:
 Creating a release
 =======================================
 
-This is our current process for creating and publishing a Verto release. This
-can only be performed by repository administrators.
-
-1. `Create a release branch`_. Checkout to this branch.
-  
-  .. code-block:: bash
-
-    $ git checkout develop
-    $ git pull
-    $ git checkout -b release/0.7.0
-
-2. Update the version number [1]_ within ``verto/__init__.py``.
-3. Check test suite for errors, and fix any issues that arise, or `log an issue`_.
-4. Detail the changes in ``docs/source/changelog.rst``.
-5. `Complete the release branch`_. Be sure to tag the release with the version number for creating the release on GitHub.
-
-  .. code-block:: bash
-
-    $ git checkout master
-    $ git pull 
-    $ git merge --no-ff release/0.7.0
-    $ git tag -a 0.7.0
-    $ git push
-    $ git push --tags
-
-
-6. `Upload the release to PyPI`_
-
-  .. code-block:: bash
-
-    $ rm -r dist/
-    $ python3 -m pip install --user --upgrade setuptools wheel
-    $ python3 setup.py sdist bdist_wheel
-    $ python3 -m pip install --user --upgrade twine
-    $ twine upload dist/*
-
-7. Merge the release into develop
-
-  .. code-block:: bash
-
-    $ git checkout develop
-    $ git pull
-    $ git merge --no-ff release/0.7.0
-
-8. Create the release on `GitHub`_ on the tagged commit.
-9. Delete the release branch.
-
+Releases are built and published automatically to PyPI by a GitHub actions workflow.
+See ``.github/workflows/publish-to-pypi.yml``.
 
 Other notes
 =======================================
@@ -441,8 +396,6 @@ Why are all dependency versions pinned?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Yes, this is not considered the best practice by the Python Software Foundation in their `packaging guide <https://packaging.python.org/discussions/install-requires-vs-requirements/#install-requires>`_.
 However pinning dependencies ensure we control over each Verto release, following the logic of `Vincent Driessen <https://nvie.com/posts/pin-your-packages/>`_.
-
-.. [1] We follow `Semantic Versioning <http://semver.org/>`_ for our numbering system. The number is used by ``setup.py`` to tell PyPI which version is being uploaded or ``pip`` which version is installed, and also used during the documentation build to number the version of Verto it was built from.
 
 .. _CS Unplugged: https://github.com/uccser/cs-unplugged/
 .. _CS Field Guide: https://github.com/uccser/cs-field-guide/

@@ -198,7 +198,7 @@ class VideoTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'url_false.md')
@@ -222,7 +222,7 @@ class VideoTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'title_true_not_provided.md')

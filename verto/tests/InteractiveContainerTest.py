@@ -50,7 +50,6 @@ class InteractiveContainerTest(ProcessorTest):
             },
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -98,7 +97,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/flying-boxes/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
 
         self.assertEqual(self.verto_extension.required_files, required_files)
@@ -123,7 +121,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -143,7 +140,6 @@ class InteractiveContainerTest(ProcessorTest):
             'interactives': set(),
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -163,7 +159,6 @@ class InteractiveContainerTest(ProcessorTest):
             'interactives': set(),
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -197,7 +192,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/binary-cards/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -221,7 +215,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/binary-cards/img/binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -245,7 +238,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -265,7 +257,6 @@ class InteractiveContainerTest(ProcessorTest):
             'interactives': set(),
             'images': set(),
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -311,7 +302,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/flying-boxes/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -327,7 +317,7 @@ class InteractiveContainerTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'parameters_true.md')
@@ -351,7 +341,7 @@ class InteractiveContainerTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'thumbnail_true.md')
@@ -375,7 +365,7 @@ class InteractiveContainerTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'text_true_not_provided.md')
@@ -398,7 +388,7 @@ class InteractiveContainerTest(ProcessorTest):
         }
         verto_extension_custom_rules = VertoExtension(
             processors=[self.processor_name],
-            custom_settings=settings
+            settings=settings
         )
 
         test_string = self.read_test_file(self.processor_name, 'parameters_and_thumbnail_true.md')
@@ -426,7 +416,7 @@ class InteractiveContainerTest(ProcessorTest):
         '''Test the thumbnail for a whole page interactive is not required when overriden.'''
         verto_extension_default_thumbnail_override = VertoExtension(
             processors=[self.processor_name],
-            custom_settings={
+            settings={
                 'add_default_interactive_thumbnails_to_required_files': False}
         )
         test_string = self.read_test_file(self.processor_name, 'whole_page_without_thumbnail_parameter.md')
@@ -452,7 +442,7 @@ class InteractiveContainerTest(ProcessorTest):
         '''Test the custom thumbnail for a whole page interactive is not required when overriden.'''
         verto_extension_custom_thumbnail_override = VertoExtension(
             processors=[self.processor_name],
-            custom_settings={
+            settings={
                 'add_custom_interactive_thumbnails_to_required_files': False}
         )
         test_string = self.read_test_file(self.processor_name, 'whole_page_with_thumbnail_parameter.md')
@@ -486,7 +476,6 @@ class InteractiveContainerTest(ProcessorTest):
                 'interactives/binary-cards/img/thumbnail.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(self.verto_extension.required_files, required_files)
 
@@ -514,6 +503,5 @@ class InteractiveContainerTest(ProcessorTest):
                 'binarycards.png'
             },
             'page_scripts': set(),
-            'scratch_images': set()
         }
         self.assertEqual(verto_extension.required_files, required_files)
