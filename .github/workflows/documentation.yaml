@@ -22,4 +22,4 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Build documentation
-        run: sphinx-build -a -W -b html docs/source/ docs/build/
+        run: sphinx-build -a -W -E -b html docs/source/ docs/build/
