@@ -145,6 +145,7 @@ class VertoExtension(Extension):
         Args:
             custom_templates: a dictionary of names to custom templates
                 which are used to override default templates.
+
         Returns:
             A dictionary of tuples containing template-names to
             compiled jinja templated.
