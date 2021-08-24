@@ -35,4 +35,4 @@ jobs:
           coverage report -m --skip-covered
 
       - name: Code Coverage
-        uses: codecov/codecov-action@v1.5.0
+        uses: codecov/codecov-action@v2.0.3
