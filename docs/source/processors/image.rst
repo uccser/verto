@@ -7,7 +7,7 @@ You can include an image using the following text tag:
 
 .. code-block:: none
 
-    {image file-path="http://placehold.it/350x150" caption="true" alt="placeholder 350x150"}
+    {image file-path="https://via.placeholder.com/350x150" caption="true" alt="placeholder 350x150"}
 
     This is the caption text.
 
@@ -20,7 +20,7 @@ If a caption is not needed, an end tag is not required (see example below).
 
 .. code-block:: none
 
-    {image file-path="http://placehold.it/350x150" caption="false" alt="placeholder 350x150"}
+    {image file-path="http://via.placeholder.com/350x150" caption="false" alt="placeholder 350x150"}
 
 
 Required Tag Parameters
