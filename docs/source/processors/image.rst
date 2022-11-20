@@ -7,7 +7,7 @@ You can include an image using the following text tag:
 
 .. code-block:: none
 
-    {image file-path="http://placehold.it/350x150" caption="true"}
+    {image file-path="http://placehold.it/350x150" caption="true" alt="placeholder 350x150"}
 
     This is the caption text.
 
@@ -20,7 +20,7 @@ If a caption is not needed, an end tag is not required (see example below).
 
 .. code-block:: none
 
-    {image file-path="http://placehold.it/350x150" caption="false"}
+    {image file-path="http://placehold.it/350x150" caption="false" alt="placeholder 350x150"}
 
 
 Required Tag Parameters
@@ -31,10 +31,10 @@ Required Tag Parameters
     - Each file-path provided is added to the ``images`` set in required files stored by Verto. The set of filepaths can be accessed after conversion, see :ref:`accessing_verto_data`.
     - **Note:** If the given link is a relative (a link that doesn't start with ``http:``), the link will be rendered with a Django static command. For example, the link ``images/example.png`` would be rendered as ``{% static 'images/example.png' %}`` This can be overriden, see the override section below.
 
+- ``alt`` - Description text of the image used when an image is not displayed, or can be read when using a screen reader (for those with reading difficulties).
+
 Optional Tag Parameters
 ***************************************
-
-- ``alt`` - Description text of the image used when an image is not displayed, or can be read when using a screen reader (for those with reading difficulties).
 
 - ``caption`` - Boolean flag to indicate whether the image should display a caption.
 
