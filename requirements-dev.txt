@@ -3,3 +3,4 @@ sphinx==4.0.2
 sphinx_rtd_theme==0.5.2
 coverage==5.5
 flake8==3.9.2
+importlib-metadata==4.13.0
