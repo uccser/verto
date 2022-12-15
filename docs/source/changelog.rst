@@ -1,6 +1,14 @@
 Changelog
 #######################################
 
+1.1.0
+=======================================
+
+- Update documentation to say that alt tags are required for images.
+- Update old examples in the documentation
+- Update minimum Python version to 3.8, as 3.7 was causing issues with our linter.
+- Update sphinx from 4.0.2 to 4.2.0.
+
 1.0.1
 =======================================
 
