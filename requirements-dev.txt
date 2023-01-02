@@ -1,5 +1,5 @@
 setuptools==56.2.0
 sphinx==4.2.0
 sphinx_rtd_theme==0.5.2
-coverage==5.5
+coverage==7.0.2
 flake8==3.9.2
