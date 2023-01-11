@@ -1,6 +1,24 @@
 Changelog
 #######################################
 
+1.1.1
+=======================================
+
+- Add ``parse_dependabot.py`` script to get dependency update information
+  from dependabot commits.
+- Add readthedocs configuration and set to use python 3.9.
+- Dependency updates:
+  - Update actions/checkout from 2 to 3.1.0.
+  - Update actions/setup-python from 2.2.2 to 4.4.0.
+  - Update codecov/codecov-action from 1.5.0 to 3.1.1.
+  - Update coverage from 5.5 to 7.0.5.
+  - Update flake8 from 3.9.2 to 6.0.0.
+  - Pin gh-action-pypi-publish to release/v1.
+  - Update github/codeql-action from 1 to 2.
+  - Update setuptools from 56.2.0 to 65.6.3.
+  - Update sphinx from 4.2.0 to 5.3.0.
+  - Update sphinx-rtd-theme from 0.5.2 to 1.1.1.
+
 1.1.0
 =======================================
 
