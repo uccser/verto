@@ -60,7 +60,7 @@ class ImageContainerBlockProcessor(GenericContainerBlockProcessor):
         extra_args[argument] = content_blocks[0]
 
         file_path = argument_values['file-path']
-        del(argument_values['file-path'])
+        del (argument_values['file-path'])
         external_path_match = re.search(r'^http', file_path)
         if external_path_match is None:  # internal image
             self.required.add(file_path)

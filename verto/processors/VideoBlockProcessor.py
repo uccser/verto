@@ -96,7 +96,7 @@ class VideoBlockProcessor(GenericTagBlockProcessor):
                 if end_pos == -1:
                     end_pos = len(video_url)
                 video_query = video_url[start_pos:end_pos]
-            return('youtube', video_query)
+            return ('youtube', video_query)
         elif 'vimeo' in video_url:
             video_query = video_url.split('/')[-1]
             return ('vimeo', video_query)
