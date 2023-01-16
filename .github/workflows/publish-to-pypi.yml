@@ -28,6 +28,9 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
+          # This secret needs to be added as both an Actions secret 
+          # and a Dependabot secret so that this workflow works for
+          # user pushes and dependabot pushes
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
           skip_existing: true
