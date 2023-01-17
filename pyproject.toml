@@ -6,8 +6,52 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
+name = "verto"
+description = "Verto is an extension of the Python Markdown package, which allows authors to include complex HTML elements with simple text tags in their Markdown."
+readme = "README.rst"
+requires-python=">=3.8"
+keywords = [
+    "markdown",
+    "verto",
+    "development",
+    "textbook",
+    "converter",
+    "media",
+    "richtext",
+    "interactive",
+    "education",
+    "html",
+    "book",
+    "author",
+    "extension",
+]
+license = {file = "LICENSE.rst"}
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
 dependencies = [
     "markdown==2.6.11",
     "Jinja2==3.0.1",
     "python-slugify==5.0.2",
 ]
+
+[[project.authors]]
+name = "University of Canterbury Computer Science Education Research Group"
+email = "csse-=education-research@canterbury.ac.nz"
+
+[project.urls]
+    "Issue Tracker" = "https://github.com/uccser/verto/issues"
+    "Documentation" = "https://verto.readthedocs.io/en/latest/"
+    "Changelog" = "http://verto.readthedocs.io/en/latest/changelog.html"
+    "Source Code" = "https://github.com/uccser/verto"
+
+[options]
+find = {}
