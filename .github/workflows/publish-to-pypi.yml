@@ -20,6 +20,12 @@ jobs:
         run: |
           pip install -U setuptools wheel build
 
+      - name: Add hash for Test PyPI
+        if: ${{ !(github.event_name == 'push' && startsWith(github.ref, 'refs/tags')) }}
+        run: |
+          sed -i "\$s/\$/'\-dev$(date +%s)'/" verto/__init__.py
+          cat verto/__init__.py
+
       - name: Build distribution files
         run: |
           python -m build .
@@ -28,7 +34,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
-          # This secret needs to be added as both an Actions secret 
+          # This secret needs to be added as both an Actions secret
           # and a Dependabot secret so that this workflow works for
           # user pushes and dependabot pushes
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
