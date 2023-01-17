@@ -42,6 +42,7 @@ dependencies = [
     "Jinja2==3.0.1",
     "python-slugify==5.0.2",
 ]
+dynamic = ["version"]
 
 [[project.authors]]
 name = "University of Canterbury Computer Science Education Research Group"
@@ -55,3 +56,6 @@ email = "csse-=education-research@canterbury.ac.nz"
 
 [options]
 find = {}
+
+[tool.setuptools.dynamic]
+version = {attr = "verto.__version__"}
