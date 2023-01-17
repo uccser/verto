@@ -38,7 +38,7 @@ classifiers = [
     "Topic :: Text Processing :: Markup :: HTML",
 ]
 dependencies = [
-    "markdown==2.6.11",
+    "markdown>=3, <3.4",
     "Jinja2==3.0.1",
     "python-slugify==5.0.2",
 ]
