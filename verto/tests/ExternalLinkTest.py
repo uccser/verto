@@ -205,6 +205,17 @@ class ExternalLinkTest(ProcessorTest):
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'trailing_question_mark_expected.html', strip=True).strip()
         self.assertEqual(expected_string, converted_test_string)
+    
+    def test_angle_brackets(self):
+        '''Tests paths with brackets_in_link, inside angle brackets.'''
+        test_string = self.read_test_file(self.processor_name, 'angle_brackets.md')
+
+        # processor = ExternalLinkPattern(self.ext, self.md.parser)
+        # self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+
+        converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
+        expected_string = self.read_test_file(self.processor_name, 'angle_brackets_expected.html', strip=True).strip()
+        self.assertEqual(expected_string, converted_test_string)
 
     def test_multiple_links(self):
         '''Tests that multiple links are processed.'''
