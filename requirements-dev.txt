@@ -2,4 +2,4 @@ setuptools==69.2.0
 sphinx==5.3.0
 sphinx_rtd_theme==2.0.0
 coverage==7.4.4
-flake8==6.0.0
+flake8==7.0.0
