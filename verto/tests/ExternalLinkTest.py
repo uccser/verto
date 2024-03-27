@@ -210,8 +210,8 @@ class ExternalLinkTest(ProcessorTest):
         '''Tests paths with brackets_in_link, inside angle brackets.'''
         test_string = self.read_test_file(self.processor_name, 'angle_brackets.md')
 
-        # processor = ExternalLinkPattern(self.ext, self.md.parser)
-        # self.assertIsNotNone(re.search(processor.compiled_re, test_string))
+        processor = ExternalLinkPattern(self.ext, self.md.parser)
+        self.assertIsNotNone(re.search(processor.compiled_re, test_string))
 
         converted_test_string = markdown.markdown(test_string, extensions=[self.verto_extension])
         expected_string = self.read_test_file(self.processor_name, 'angle_brackets_expected.html', strip=True).strip()
