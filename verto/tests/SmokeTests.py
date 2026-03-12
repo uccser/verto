@@ -1,5 +1,5 @@
 import unittest, os, subprocess
-import pkg_resources
+import importlib.resources
 from verto import Verto
 
 class SmokeDocsTest(unittest.TestCase):
@@ -10,7 +10,7 @@ class SmokeDocsTest(unittest.TestCase):
         self.maxDiff = None
         self.build_path = 'docs/build'
 
-    @unittest.skipIf(not pkg_resources.resource_isdir('verto', 'docs') and os.name not in ['nt', 'posix'], 'Docs are not present')
+    @unittest.skipIf(not importlib.resources.files('verto').joinpath('docs').is_dir() and os.name not in ['nt', 'posix'], 'Docs are not present')
     def test_compile_docs(self):
         '''This test is skipped if the docs directory is not found.
         '''
@@ -59,7 +59,8 @@ class SmokeFileTest(unittest.TestCase):
         '''Tests that some example files are converted.
         '''
         for chapter in ['algorithms.md', 'introduction.md']:
-            text = pkg_resources.resource_string('verto', self.assets_template.format(chapter)).decode('utf-8')
+
+            text = importlib.resources.files('verto').joinpath(self.assets_template.format(chapter)).read_text('utf-8')
             result = self.verto.convert(text)
 
             self.assertIsNot(result, None)
@@ -78,7 +79,7 @@ class SmokeFileTest(unittest.TestCase):
 
         verto = Verto(html_templates=custom_templates)
         for chapter in ['algorithms.md', 'introduction.md']:
-            text = pkg_resources.resource_string('verto', self.assets_template.format(chapter)).decode('utf-8')
+            text = importlib.resources.files('verto').joinpath(self.assets_template.format(chapter)).read_text('utf-8')
             result = verto.convert(text)
 
             self.assertIsNot(result, None)

@@ -42,7 +42,7 @@ import re
 import json
 
 from jinja2 import Environment, PackageLoader, select_autoescape
-import pkg_resources
+import importlib.resources
 
 
 class VertoExtension(Extension):
@@ -228,7 +228,7 @@ class VertoExtension(Extension):
         Returns:
             The json object of the file where objects are ordered dictionaries.
         '''
-        json_data = pkg_resources.resource_string('verto', 'processor-info.json').decode('utf-8')
+        json_data = importlib.resources.files('verto').joinpath('processor-info.json').read_text('utf-8')
         json_data = json.loads(json_data, object_pairs_hook=OrderedDict)
         if len(self.settings['processor_argument_overrides']) != 0:
             self.modify_rules(json_data)

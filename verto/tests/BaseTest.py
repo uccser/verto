@@ -1,5 +1,5 @@
 import unittest
-import pkg_resources
+import importlib.resources
 
 
 class BaseTest(unittest.TestCase):
@@ -22,7 +22,7 @@ class BaseTest(unittest.TestCase):
         This function reads a file from a given filename in UTF-8 encoding.
         '''
         file_path = self.test_file_path.format(test_type=test_type, filename=filename)
-        text = pkg_resources.resource_string('verto', file_path).decode('utf-8')
+        text = importlib.resources.files('verto').joinpath(file_path).read_text('utf-8')
         if strip:
             text = text.rstrip('\r\n')
         return text
