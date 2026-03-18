@@ -71,8 +71,8 @@ def smoke_suite():
     '''Builds the smoke tests.
     '''
     return unittest.TestSuite((
-        unittest.makeSuite(SmokeDocsTest),
-        unittest.makeSuite(SmokeFileTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(SmokeDocsTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(SmokeFileTest),
     ))
 
 
@@ -80,7 +80,7 @@ def system_suite():
     '''Builds specific system tests.
     '''
     return unittest.TestSuite((
-        unittest.makeSuite(ConfigurationTest)
+        unittest.defaultTestLoader.loadTestsFromTestCase(ConfigurationTest)
     ))
 
 
@@ -88,34 +88,34 @@ def unit_suite():
     '''Builds unittests. (Not really unittests).
     '''
     return unittest.TestSuite((
-        unittest.makeSuite(BlockquoteTest),
-        unittest.makeSuite(BoxedTextTest),
-        unittest.makeSuite(ButtonLinkTest),
-        unittest.makeSuite(CommentTest),
-        unittest.makeSuite(ConditionalTest),
-        unittest.makeSuite(FrameTest),
-        unittest.makeSuite(GlossaryLinkTest),
-        unittest.makeSuite(HeadingTest),
-        unittest.makeSuite(ImageInlineTest),
-        unittest.makeSuite(ImageTagTest),
-        unittest.makeSuite(ImageContainerTest),
-        unittest.makeSuite(InteractiveTagTest),
-        unittest.makeSuite(InteractiveContainerTest),
-        unittest.makeSuite(JinjaTest),
-        unittest.makeSuite(PanelTest),
-        unittest.makeSuite(SaveTitleTest),
-        unittest.makeSuite(ScratchTest),
-        unittest.makeSuite(ScratchInlineTest),
-        unittest.makeSuite(StyleTest),
-        unittest.makeSuite(RelativeLinkTest),
-        unittest.makeSuite(ExternalLinkTest),
-        unittest.makeSuite(RemoveTest),
-        unittest.makeSuite(RemoveTitleTest),
-        unittest.makeSuite(TableOfContentsTest),
-        unittest.makeSuite(VideoTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(BlockquoteTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(BoxedTextTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ButtonLinkTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(CommentTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ConditionalTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(FrameTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(GlossaryLinkTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(HeadingTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ImageInlineTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ImageTagTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ImageContainerTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(InteractiveTagTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(InteractiveContainerTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(JinjaTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(PanelTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(SaveTitleTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ScratchTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ScratchInlineTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(StyleTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(RelativeLinkTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(ExternalLinkTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(RemoveTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(RemoveTitleTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(TableOfContentsTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(VideoTest),
 
-        unittest.makeSuite(HtmlParserTest),
-        unittest.makeSuite(MarkdownOverrideTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(HtmlParserTest),
+        unittest.defaultTestLoader.loadTestsFromTestCase(MarkdownOverrideTest),
     ))
 
 

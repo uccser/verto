@@ -1,4 +1,4 @@
-import pkg_resources
+import importlib.resources
 import json
 import markdown
 from verto.VertoExtension import VertoExtension
@@ -36,7 +36,7 @@ class ProcessorTest(BaseTest):
     def loadProcessorInfo(self):
         '''Loads the processor info similar to the verto extension.
         '''
-        pattern_data = pkg_resources.resource_string('verto', 'processor-info.json').decode('utf-8')
+        pattern_data = importlib.resources.files('verto').joinpath('processor-info.json').read_text('utf-8')
         return json.loads(pattern_data)
 
     def to_blocks(self, string):

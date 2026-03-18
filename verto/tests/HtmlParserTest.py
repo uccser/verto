@@ -2,7 +2,7 @@ from verto.tests.BaseTest import BaseTest
 from verto.utils.HtmlParser import HtmlParser
 from verto.utils.HtmlSerializer import HtmlSerializer
 from verto.errors.HtmlParseError import HtmlParseError
-from markdown.util import etree
+import xml.etree.ElementTree as etree
 
 
 class HtmlParserTest(BaseTest):
@@ -38,32 +38,32 @@ class HtmlParserTest(BaseTest):
         parser = HtmlParser()
         parser.feed(input_text).close()
         root = parser.get_root()
-        self.assertEquals('html', root.tag)
+        self.assertEqual('html', root.tag)
 
         elements = list(root)
-        self.assertEquals(1, len(elements))
-        self.assertEquals('body', elements[0].tag)
+        self.assertEqual(1, len(elements))
+        self.assertEqual('body', elements[0].tag)
 
         elements = list(elements[0])  # Open Body
-        self.assertEquals(3, len(elements))
-        self.assertEquals('h1', elements[0].tag)
-        self.assertEquals('p', elements[1].tag)
-        self.assertEquals('div', elements[2].tag)
+        self.assertEqual(3, len(elements))
+        self.assertEqual('h1', elements[0].tag)
+        self.assertEqual('p', elements[1].tag)
+        self.assertEqual('div', elements[2].tag)
 
         elements = list(elements[2])  # Open Div
-        self.assertEquals(2, len(elements))
-        self.assertEquals('img', elements[0].tag)
-        self.assertEquals('a', elements[1].tag)
+        self.assertEqual(2, len(elements))
+        self.assertEqual('img', elements[0].tag)
+        self.assertEqual('a', elements[1].tag)
 
         img = elements[0]
-        self.assertEquals('Example text.', img.get('alt'))
-        self.assertEquals('example.com/example.jpg', img.get('src'))
+        self.assertEqual('Example text.', img.get('alt'))
+        self.assertEqual('example.com/example.jpg', img.get('src'))
 
         a = elements[1]
-        self.assertEquals('https://www.example.com', a.get('href'))
+        self.assertEqual('https://www.example.com', a.get('href'))
 
         root_string = HtmlSerializer.tostring(root)
-        self.assertEquals(input_text, root_string)
+        self.assertEqual(input_text, root_string)
 
     def test_example_simple_void_tag(self):
         '''Checks that a simple (unclosed) void tag is created without
@@ -74,12 +74,12 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        self.assertEquals('img', root.tag)
-        self.assertEquals('Example text.', root.get('alt'))
-        self.assertEquals('example.com/example.jpg', root.get('src'))
+        self.assertEqual('img', root.tag)
+        self.assertEqual('Example text.', root.get('alt'))
+        self.assertEqual('example.com/example.jpg', root.get('src'))
 
         root_string = HtmlSerializer.tostring(root)
-        self.assertEquals(input_text, root_string)
+        self.assertEqual(input_text, root_string)
 
     def test_example_simple_closed_void_tag(self):
         '''Checks that a simple void tag with closing '\' is created
@@ -90,13 +90,13 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        self.assertEquals('img', root.tag)
-        self.assertEquals('Example text.', root.get('alt'))
-        self.assertEquals('example.com/example.jpg', root.get('src'))
+        self.assertEqual('img', root.tag)
+        self.assertEqual('Example text.', root.get('alt'))
+        self.assertEqual('example.com/example.jpg', root.get('src'))
 
         root_string = HtmlSerializer.tostring(root)
         expected_text = self.read_test_file('example_simple_void_tag.html')
-        self.assertEquals(expected_text, root_string)
+        self.assertEqual(expected_text, root_string)
 
     def test_example_comment(self):
         '''Checks that comments are added unchanged.
@@ -106,10 +106,10 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        self.assertEquals(etree.Comment, root.tag)
+        self.assertEqual(etree.Comment, root.tag)
 
         root_string = HtmlSerializer.tostring(root)
-        self.assertEquals(input_text, root_string)
+        self.assertEqual(input_text, root_string)
 
     def test_example_comment_ie(self):
         '''Checks that ie comments are added unchanged.
@@ -119,10 +119,10 @@ class HtmlParserTest(BaseTest):
         parser.feed(input_text).close()
         root = parser.get_root()
 
-        self.assertEquals(etree.Comment, root.tag)
+        self.assertEqual(etree.Comment, root.tag)
 
         root_string = HtmlSerializer.tostring(root)
-        self.assertEquals(input_text, root_string)
+        self.assertEqual(input_text, root_string)
 
     def test_example_data_and_subelements(self):
         '''Checks that data and subelements work together.
@@ -131,25 +131,25 @@ class HtmlParserTest(BaseTest):
         parser = HtmlParser()
         parser.feed(input_text).close()
         root = parser.get_root()
-        self.assertEquals('html', root.tag)
+        self.assertEqual('html', root.tag)
 
         elements = list(root)
-        self.assertEquals(1, len(elements))
-        self.assertEquals('body', elements[0].tag)
+        self.assertEqual(1, len(elements))
+        self.assertEqual('body', elements[0].tag)
 
         elements = list(elements[0])  # Open Body
-        self.assertEquals(2, len(elements))
-        self.assertEquals('h1', elements[0].tag)
-        self.assertEquals('p', elements[1].tag)
+        self.assertEqual(2, len(elements))
+        self.assertEqual('h1', elements[0].tag)
+        self.assertEqual('p', elements[1].tag)
 
         elements = list(elements[1])  # Open p
-        self.assertEquals(3, len(elements))
-        self.assertEquals('em', elements[0].tag)
-        self.assertEquals('b', elements[1].tag)
-        self.assertEquals('a', elements[2].tag)
+        self.assertEqual(3, len(elements))
+        self.assertEqual('em', elements[0].tag)
+        self.assertEqual('b', elements[1].tag)
+        self.assertEqual('a', elements[2].tag)
 
         root_string = HtmlSerializer.tostring(root)
-        self.assertEquals(input_text, root_string)
+        self.assertEqual(input_text, root_string)
 
     # ~
     # Invalid Examples
