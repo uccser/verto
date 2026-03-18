@@ -1,6 +1,31 @@
 Changelog
 #######################################
 
+1.2.0
+=======================================
+- Replace pkg_resources with importlib.resources to fix crashes on newer versions of python 3.10 and 3.11
+- Drop support for python 3.8
+- Add support for python 3.12, 3.13 and 3.14
+- Switch from setup.cfg to pyproject.toml (except for dev dependencies)
+- Dependency updates:
+  - Update actions/checkout from 3 to 4.
+  - Update actions/setup-python from 4.4.0 to 5.1.0.
+  - Update actions/setup-python from 5.1.0 to 5.1.1.
+  - Update codecov/codecov-action from 3.1.1 to 3.1.2.
+  - Update codecov/codecov-action from 3.1.2 to 4.1.1.
+  - Update codecov/codecov-action from 4.1.1 to 4.3.0.
+  - Update coverage from 7.0.5 to 7.4.4.
+  - Update coverage from 7.4.4 to 7.6.0.
+  - Update github/codeql-action from 2 to 3.
+  - Update jinja2 from 3.0.1 to 3.1.3.
+  - Update jinja2 from 3.1.3 to 3.1.4.
+  - Update jinja2 from 3.1.4 to 3.1.6.
+  - Update python-slugify from 5.0.2 to 8.0.4.
+  - Update setuptools from 65.6.3 to 69.2.0.
+  - Update setuptools from 69.2.0 to 70.3.0.
+  - Update sphinx from 5.3.0 to 7.4.5.
+  - Update sphinx-rtd-theme from 1.1.1 to 2.0.0.
+
 1.1.1
 =======================================
 
